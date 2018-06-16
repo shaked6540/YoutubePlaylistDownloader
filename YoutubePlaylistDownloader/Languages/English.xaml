@@ -1,0 +1,46 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:s="clr-namespace:System;assembly=mscorlib"
+                    xml:space="preserve">
+    
+    <s:String x:Key="Title">YouTube Playlist Downloader</s:String>
+    <FlowDirection x:Key="FlowDirection">LeftToRight</FlowDirection>
+    <s:String x:Key="InsertYoutubePlaylistLinkHere">Insert a youtube playlist link here</s:String>
+    <s:String x:Key="Exit">Exit</s:String>
+    <s:String x:Key="ExitMessage">Are you sure you want to exit?</s:String>
+    <s:String x:Key="Yes">Yes</s:String>
+    <s:String x:Key="No">No</s:String>
+    <s:String x:Key="Error">Error</s:String>
+    <s:String x:Key="ErrorMessage">An unexpected error occurred while performing the action, please contact your administrator to handle the error</s:String>
+    <s:String x:Key="Settings">Settings</s:String>
+    <s:String x:Key="Preferences">Preferences</s:String>
+    <s:String x:Key="Theme">Theme</s:String>
+    <s:String x:Key="Language">Language</s:String>
+    <s:String x:Key="Back">Back</s:String>
+    <s:String x:Key="SaveAndBackToDownload">Save and back to main menu</s:String>
+    <s:String x:Key="DarkTheme">Dark Theme</s:String>
+    <s:String x:Key="Name">Name: </s:String>
+    <s:String x:Key="Description">Description: </s:String>
+    <s:String x:Key="Views">Views: </s:String>
+    <s:String x:Key="SaveDirectory">Save vidoes to: </s:String>
+    <s:String x:Key="CurrentlyDownlading">Currently downloading: </s:String>
+    <s:String x:Key="TotalProgress">Downloaded so far: </s:String>
+    <s:String x:Key="AllDone">All Done.</s:String>
+    <s:String x:Key="Canceling">Caneling your downloads, please wait..</s:String>
+    <s:String x:Key="Videos">Videos</s:String>
+    <s:String x:Key="Download">Download</s:String>
+    <s:String x:Key="ConvertToMp3">Convert videos to </s:String>
+    <s:String x:Key="StillConverting">Still converting</s:String>
+    <s:String x:Key="files">files</s:String>
+    <s:String x:Key="Author">Author: </s:String>
+    <s:String x:Key="PlaylistTitle">Title: </s:String>
+    <s:String x:Key="Loading">Loading..</s:String>
+    <HorizontalAlignment x:Key="LeftAlignment">Left</HorizontalAlignment>
+    <s:String x:Key="About">About</s:String>
+    <s:String x:Key="Home">Home</s:String>
+    <s:String x:Key="Prefer">Prefer vidoes with a resolution of </s:String>
+    <s:String x:Key="AreYouSureExit">Are you sure you want to exit?</s:String>
+    <s:String x:Key="AboutTheProgram">This program was developed by Shaked Dahan and it is completely free to use without limitation.
+However, I am not responsible for any legal trouble that this program will cause you, 
+as far as I know, YouTube does not permit downloading videos from their website. </s:String>
+</ResourceDictionary>

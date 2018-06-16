@@ -1,0 +1,25 @@
+﻿<UserControl x:Class="YoutubePlaylistDownloader.About"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+             Margin="5"
+             Width="{Binding ActualWidth, ElementName=SkeletonWindow}"
+             FlowDirection="{DynamicResource FlowDirection}">
+    
+    
+    <Controls:MetroTabControl HorizontalAlignment="Center">
+        <Controls:MetroTabItem Header="{DynamicResource About}">
+            <RichTextBox MaxWidth="1200" Width="600" BorderThickness="0" Cursor="Arrow" IsReadOnly="True" IsReadOnlyCaretVisible="False"  >
+                <FlowDocument>
+                    <Paragraph>
+                        <Run Text="{DynamicResource AboutTheProgram}" ></Run>
+                    </Paragraph>
+                </FlowDocument>
+            </RichTextBox>
+        </Controls:MetroTabItem>
+
+
+    </Controls:MetroTabControl>
+
+</UserControl>

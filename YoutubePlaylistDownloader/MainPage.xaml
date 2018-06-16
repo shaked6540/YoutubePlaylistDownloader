@@ -1,0 +1,67 @@
+﻿<UserControl x:Class="YoutubePlaylistDownloader.MainPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+             Margin="5"
+             Width="{Binding ActualWidth, ElementName=Skeleton}"
+             FlowDirection="{DynamicResource FlowDirection}">
+
+    <StackPanel>
+
+        <StackPanel x:Name="SearchPlaylistStackPanel" Width="1200">
+            <TextBlock HorizontalAlignment="Center" Text="{DynamicResource Title}" FontSize="24" Foreground="{DynamicResource AccentColorBrush}" Margin="5" />
+
+            <TextBox HorizontalAlignment="Stretch" x:Name="PlaylistLinkTextBox" Margin="5" FontSize="18" TextChanged="TextBox_TextChanged" Style="{StaticResource SeachBarPlaceHolder}" Tag="{DynamicResource InsertYoutubePlaylistLinkHere}" RenderTransformOrigin="0.59,2.4" />
+
+            <Grid HorizontalAlignment="Center" Visibility="Collapsed" x:Name="PlaylistInfoGrid">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <!--Col 0-->
+
+                <TextBlock Text="{DynamicResource PlaylistTitle}"   Grid.Row="0" Grid.Column="0"/>
+                <TextBlock Text="{DynamicResource Description}"     Grid.Row="1" Grid.Column="0"/>
+                <TextBlock Text="{DynamicResource Author}"          Grid.Row="2" Grid.Column="0"/>
+                <TextBlock Text="{DynamicResource Views}"           Grid.Row="3" Grid.Column="0"/>
+
+                <!--Col 1-->
+                <TextBlock x:Name="PlaylistTitleTextBlock"       Grid.Row="0" Grid.Column="1" />
+                <TextBlock x:Name="PlaylistDescriptionTextBlock" Grid.Row="1" Grid.Column="1"/>
+                <TextBlock x:Name="PlaylistAuthorTextBlock"      Grid.Row="2" Grid.Column="1"/>
+                <TextBlock x:Name="PlaylistViewsTextBlock"       Grid.Row="3" Grid.Column="1"/>
+
+
+            </Grid>
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <CheckBox Content="{DynamicResource Prefer}" Margin="7" x:Name="PreferCheckBox" HorizontalAlignment="Center" IsChecked="False" />
+                <Controls:SplitButton HorizontalContentAlignment="Left" HorizontalAlignment="Center" VerticalContentAlignment="Center" SelectedIndex="0" Width="Auto" x:Name="ResulotionDropDown" VerticalAlignment="Center"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <CheckBox Content="{DynamicResource ConvertToMp3}" Margin="7" x:Name="ConvertCheckBox" HorizontalAlignment="Center" IsChecked="False" />
+                <Controls:SplitButton HorizontalContentAlignment="Left" HorizontalAlignment="Center" VerticalContentAlignment="Center" SelectedIndex="0" Width="Auto" x:Name="ExtensionsDropDown" VerticalAlignment="Center"/>
+            </StackPanel>
+            <Controls:Tile Style="{DynamicResource SmallTileStyle}" x:Name="DownloadButton" Title="{DynamicResource Download}" IsEnabled="False" Click="DownloadButton_Click">
+                <iconPacks:PackIconModern Width="40" Height="40" Kind="ArrowDown" />
+            </Controls:Tile>
+
+        </StackPanel>
+
+
+
+
+    </StackPanel>
+
+
+
+
+</UserControl>

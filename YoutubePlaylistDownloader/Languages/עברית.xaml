@@ -1,0 +1,45 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:s="clr-namespace:System;assembly=mscorlib"
+                    xml:space="preserve">
+    
+    <s:String x:Key="Title">הורדת פליילסט מיוטיוב</s:String>
+    <FlowDirection x:Key="FlowDirection">RightToLeft</FlowDirection>
+    <s:String x:Key="InsertYoutubePlaylistLinkHere">הכנס קישור פלייליסט כאן</s:String>
+    <s:String x:Key="Exit">יציאה</s:String>
+    <s:String x:Key="ExitMessage">האם אתה בטוח שאתה רוצה לצאת?</s:String>
+    <s:String x:Key="Yes">כן</s:String>
+    <s:String x:Key="No">לא</s:String>
+    <s:String x:Key="Error">שגיאה</s:String>
+    <s:String x:Key="ErrorMessage">אירעה שגיאה בלתי צפויה במהלך ביצוע הפעולה, פנה למנהל המערכת כדי לטפל בשגיאה</s:String>
+    <s:String x:Key="Settings">הגדרות</s:String>
+    <s:String x:Key="Preferences">העדפות</s:String>
+    <s:String x:Key="Theme">ערכת נושא</s:String>
+    <s:String x:Key="Language">שפה</s:String>
+    <s:String x:Key="Back">חזרה</s:String>
+    <s:String x:Key="DarkTheme">מצב לילה</s:String>
+    <s:String x:Key="Name">שם: </s:String>
+    <s:String x:Key="Description">תיאור: </s:String>
+    <s:String x:Key="Views">צפיות: </s:String>
+    <s:String x:Key="SaveDirectory">שמור סרטונים למיקום: </s:String>
+    <s:String x:Key="CurrentlyDownlading">כרגע מוריד: </s:String>
+    <s:String x:Key="TotalProgress">סך הכל הורדות: </s:String>
+    <s:String x:Key="AllDone">הכל בוצע</s:String>
+    <s:String x:Key="Canceling">מבטל את ההורדת, אנא המתן..</s:String>
+    <s:String x:Key="Videos">סרטונים</s:String>
+    <s:String x:Key="Download">הורד</s:String>
+    <s:String x:Key="ConvertToMp3">המר את הסרטונים ל </s:String>
+    <s:String x:Key="StillConverting">עדיין ממיר</s:String>
+    <s:String x:Key="files">קבצים</s:String>
+    <s:String x:Key="Author">בעלים: </s:String>
+    <s:String x:Key="PlaylistTitle">כותרת: </s:String>
+    <s:String x:Key="Loading">טוען..</s:String>
+    <HorizontalAlignment x:Key="LeftAlignment">Left</HorizontalAlignment>
+    <s:String x:Key="About">אודות</s:String>
+    <s:String x:Key="Home">בית</s:String>
+    <s:String x:Key="Prefer">העדף סרטונים ברזולוציה </s:String>
+    <s:String x:Key="AreYouSureExit">האם אתה בטוח שברצונך לצאת?</s:String>
+    <s:String x:Key="AboutTheProgram">תוכנית זו פותחה על ידי שקד דהן והיא חופשית לחלוטין לשימוש ללא הגבלה.
+עם זאת, אינני אחראי לכל בעיה משפטית שתכנית זו תגרום לך,
+עד כמה שידוע לי, YouTube אינו מתיר הורדת סרטונים מהאתר שלהם. </s:String>
+</ResourceDictionary>
