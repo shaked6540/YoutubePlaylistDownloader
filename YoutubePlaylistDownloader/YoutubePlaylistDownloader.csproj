@@ -130,6 +130,7 @@
       <DependentUpon>DownloadPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="GlobalConsts.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>

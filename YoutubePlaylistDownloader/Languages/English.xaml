@@ -40,6 +40,7 @@
     <s:String x:Key="Home">Home</s:String>
     <s:String x:Key="Prefer">Prefer vidoes with a resolution of </s:String>
     <s:String x:Key="AreYouSureExit">Are you sure you want to exit?</s:String>
+    <s:String x:Key="TotalVideos">Total videos</s:String>
     <s:String x:Key="AboutTheProgram">This program was developed by Shaked Dahan and it is completely free to use without limitation.
 However, I am not responsible for any legal trouble that this program will cause you, 
 as far as I know, YouTube does not permit downloading videos from their website. </s:String>

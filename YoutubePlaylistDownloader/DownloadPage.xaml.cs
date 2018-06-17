@@ -8,19 +8,17 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media.Animation;
 using YoutubeExplode;
 using YoutubeExplode.Models;
 using YoutubeExplode.Models.MediaStreams;
 using YoutubePlaylistDownloader.Objects;
-using System.Runtime.CompilerServices;
 
 namespace YoutubePlaylistDownloader
 {
     /// <summary>
     /// Interaction logic for DownloadPage.xaml
     /// </summary>
-    public partial class DownloadPage : UserControl
+    public partial class DownloadPage : UserControl, IDisposable
     {
         private Playlist Playlist;
         private string FileType;
@@ -29,7 +27,7 @@ namespace YoutubePlaylistDownloader
         private CancellationTokenSource cts;
         private VideoQuality Quality;
 
-        public DownloadPage(Playlist playlist, bool convert, VideoQuality quality = VideoQuality.High720, string fileType = "aac")
+        public DownloadPage(Playlist playlist, bool convert, VideoQuality quality = VideoQuality.High720, string fileType = "mp3")
         {
             InitializeComponent();
             GlobalConsts.HideSettingsButton();
@@ -57,14 +55,7 @@ namespace YoutubePlaylistDownloader
             {
                 try
                 {
-                    Dispatcher.Invoke(() =>
-                    {
-                        CurrentDownloadProgressBar.Value = 0;
-                        HeadlineTextBlock.Text = (string)FindResource("CurrentlyDownlading") + video.Title;
-                        CurrentDownloadProgressBarTextBlock.Text = $"0%";
-                        TotalDownloadsProgressBarTextBlock.Text = $"{DownloadedCount}\\{Playlist.Videos.Count}";
-                        DownloadedVideosProgressBar.Value = DownloadedCount;
-                    });
+                    Dispatcher.Invoke(() => Update(0, video));
 
 
                     var streamInfoSet = await client.GetVideoMediaStreamInfosAsync(video.Id);
@@ -81,10 +72,7 @@ namespace YoutubePlaylistDownloader
                             Dispatcher.Invoke(() =>
                             {
                                 CurrentDownloadProgressBar.Value = precent;
-                                HeadlineTextBlock.Text = (string)FindResource("CurrentlyDownlading") + video.Title;
                                 CurrentDownloadProgressBarTextBlock.Text = $"{precent}%";
-                                TotalDownloadsProgressBarTextBlock.Text = $"{DownloadedCount}\\{Playlist.Videos.Count}";
-                                DownloadedVideosProgressBar.Value = DownloadedCount;
                             });
                         };
                         await client.DownloadMediaStreamAsync(bestQuality, stream, cancellationToken: token);
@@ -133,6 +121,7 @@ namespace YoutubePlaylistDownloader
                     TotalDownloadsProgressBarTextBlock.Text = $"({DownloadedCount}\\{Playlist.Videos.Count})";
                     DownloadedVideosProgressBar.Value = Playlist.Videos.Count;
                     ConvertingTextBlock.Text = $"{FindResource("StillConverting")} {ffmpegList.Count} {FindResource("files")}";
+                    CurrentDownloadProgressBarTextBlock.Visibility = Visibility.Collapsed;
                 });
                 await Task.Delay(1000);
             }
@@ -146,15 +135,7 @@ namespace YoutubePlaylistDownloader
             var client = new YoutubeClient();
             foreach (var video in Playlist.Videos)
             {
-                Dispatcher.Invoke(() =>
-                {
-                    CurrentDownloadProgressBar.Value = 0;
-                    HeadlineTextBlock.Text = (string)FindResource("CurrentlyDownlading") + video.Title;
-                    CurrentDownloadProgressBarTextBlock.Text = $"0%";
-                    TotalDownloadsProgressBarTextBlock.Text = $"{DownloadedCount}\\{Playlist.Videos.Count}";
-                    DownloadedVideosProgressBar.Value = DownloadedCount;
-                });
-
+                Dispatcher.Invoke(() => Update(0, video));
                 try
                 {
                     var streamInfoSet = await client.GetVideoMediaStreamInfosAsync(video.Id);
@@ -165,14 +146,11 @@ namespace YoutubePlaylistDownloader
                     {
                         stream.BytesWritten += (sender, args) =>
                         {
-                            var precent = args.StreamLength * 100 / bestQuality.Size;
+                            var precent = Convert.ToInt32(args.StreamLength * 100 / bestQuality.Size);
                             Dispatcher.Invoke(() =>
                             {
                                 CurrentDownloadProgressBar.Value = precent;
-                                HeadlineTextBlock.Text = (string)FindResource("CurrentlyDownlading") + video.Title;
                                 CurrentDownloadProgressBarTextBlock.Text = $"{precent}%";
-                                TotalDownloadsProgressBarTextBlock.Text = $"{DownloadedCount}\\{Playlist.Videos.Count}";
-                                DownloadedVideosProgressBar.Value = DownloadedCount;
                             });
                         };
                         await client.DownloadMediaStreamAsync(bestQuality, stream, cancellationToken: token);
@@ -194,6 +172,15 @@ namespace YoutubePlaylistDownloader
             TotalDownloadedGrid.Visibility = Visibility.Collapsed;
         }
 
+        private void Update(int precent, Video video)
+        {
+            CurrentDownloadProgressBar.Value = precent;
+            HeadlineTextBlock.Text = (string)FindResource("CurrentlyDownlading") + video.Title;
+            CurrentDownloadProgressBarTextBlock.Text = $"{precent}%";
+            TotalDownloadsProgressBarTextBlock.Text = $"{DownloadedCount}\\{Playlist.Videos.Count}";
+            DownloadedVideosProgressBar.Value = DownloadedCount;
+        }
+
         private async void Exit_Click(object sender, RoutedEventArgs e)
         {
             cts.Cancel(true);
@@ -206,5 +193,29 @@ namespace YoutubePlaylistDownloader
             ffmpegList.ForEach(x => { try { x.Kill(); } catch { } });
             GlobalConsts.LoadPage(new MainPage());
         }
+
+        #region IDisposable Support
+        private bool disposedValue = false;
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    cts.Dispose();
+                    ffmpegList.Clear();
+                    
+                }
+
+                Playlist = null;
+                ffmpegList = null;
+                disposedValue = true;
+            }
+        }
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+        #endregion
     }
 }

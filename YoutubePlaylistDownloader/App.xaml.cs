@@ -34,7 +34,7 @@ namespace YoutubePlaylistDownloader
             var frame = new StackTrace(e.Exception).GetFrame(0);
             var file = frame.GetFileName();
             var line = frame.GetFileLineNumber();
-            await GlobalConsts.Log($"{e.Exception.Message}\tFile: {file}, Line: {line}", "App.xaml.cs");
+            await GlobalConsts.Log($"{e.Exception}", "Unhandled exception");
             await GlobalConsts.ShowMessage((string)FindResource("Error"), (string)FindResource("ErrorMessage"));
 
             // Don't crash at the moment of truth >.<

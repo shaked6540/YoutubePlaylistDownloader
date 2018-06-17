@@ -12,7 +12,6 @@ namespace YoutubePlaylistDownloader
     public partial class MainPage : UserControl
     {
         private Playlist list;
-        private bool convert = false;
         private readonly Dictionary<string, VideoQuality> Resolutions = new Dictionary<string, VideoQuality>()
         {
             { "144p", VideoQuality.Low144 },
@@ -38,6 +37,7 @@ namespace YoutubePlaylistDownloader
             GlobalConsts.HideHomeButton();
             ExtensionsDropDown.ItemsSource = FileTypes;
             ResulotionDropDown.ItemsSource = Resolutions.Keys;
+            ResulotionDropDown.SelectedIndex = 4;
         }
 
         private async void TextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -57,6 +57,7 @@ namespace YoutubePlaylistDownloader
                             PlaylistDescriptionTextBlock.Text = list.Description;
                             PlaylistAuthorTextBlock.Text = list.Author;
                             PlaylistViewsTextBlock.Text = list.Statistics.ViewCount.ToString();
+                            PlaylistTotalVideosTextBlock.Text = list.Videos.Count.ToString();
                             DownloadButton.IsEnabled = true;
                         });
 
@@ -70,6 +71,7 @@ namespace YoutubePlaylistDownloader
                     PlaylistDescriptionTextBlock.Text = string.Empty;
                     PlaylistAuthorTextBlock.Text = string.Empty;
                     PlaylistViewsTextBlock.Text = string.Empty;
+                    PlaylistTotalVideosTextBlock.Text = string.Empty;
                     DownloadButton.IsEnabled = false;
                 }
             }
@@ -84,7 +86,7 @@ namespace YoutubePlaylistDownloader
         {
             var convert = ConvertCheckBox.IsChecked.Value;
             var vq = VideoQuality.High720;
-            var type = "aac";
+            var type = "mp3";
 
             if (PreferCheckBox.IsChecked.Value)
                 vq = Resolutions[(string)ResulotionDropDown.SelectedValue];

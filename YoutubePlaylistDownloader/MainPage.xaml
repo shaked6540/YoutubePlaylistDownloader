@@ -20,6 +20,7 @@
                     <RowDefinition/>
                     <RowDefinition/>
                     <RowDefinition/>
+                    <RowDefinition/>
                 </Grid.RowDefinitions>
 
                 <Grid.ColumnDefinitions>
@@ -33,22 +34,24 @@
                 <TextBlock Text="{DynamicResource Description}"     Grid.Row="1" Grid.Column="0"/>
                 <TextBlock Text="{DynamicResource Author}"          Grid.Row="2" Grid.Column="0"/>
                 <TextBlock Text="{DynamicResource Views}"           Grid.Row="3" Grid.Column="0"/>
+                <TextBlock Text="{DynamicResource TotalVideos}"     Grid.Row="4" Grid.Column="0"/>
 
                 <!--Col 1-->
-                <TextBlock x:Name="PlaylistTitleTextBlock"       Grid.Row="0" Grid.Column="1" />
+                <TextBlock x:Name="PlaylistTitleTextBlock"       Grid.Row="0" Grid.Column="1"/>
                 <TextBlock x:Name="PlaylistDescriptionTextBlock" Grid.Row="1" Grid.Column="1"/>
                 <TextBlock x:Name="PlaylistAuthorTextBlock"      Grid.Row="2" Grid.Column="1"/>
                 <TextBlock x:Name="PlaylistViewsTextBlock"       Grid.Row="3" Grid.Column="1"/>
+                <TextBlock x:Name="PlaylistTotalVideosTextBlock" Grid.Row="4" Grid.Column="1"/>
 
 
             </Grid>
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
                 <CheckBox Content="{DynamicResource Prefer}" Margin="7" x:Name="PreferCheckBox" HorizontalAlignment="Center" IsChecked="False" />
-                <Controls:SplitButton HorizontalContentAlignment="Left" HorizontalAlignment="Center" VerticalContentAlignment="Center" SelectedIndex="0" Width="Auto" x:Name="ResulotionDropDown" VerticalAlignment="Center"/>
+                <ComboBox HorizontalContentAlignment="Left" HorizontalAlignment="Center" VerticalContentAlignment="Center" SelectedIndex="0" Width="Auto" x:Name="ResulotionDropDown" VerticalAlignment="Center"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
                 <CheckBox Content="{DynamicResource ConvertToMp3}" Margin="7" x:Name="ConvertCheckBox" HorizontalAlignment="Center" IsChecked="False" />
-                <Controls:SplitButton HorizontalContentAlignment="Left" HorizontalAlignment="Center" VerticalContentAlignment="Center" SelectedIndex="0" Width="Auto" x:Name="ExtensionsDropDown" VerticalAlignment="Center"/>
+                <ComboBox HorizontalContentAlignment="Left" HorizontalAlignment="Center" VerticalContentAlignment="Center" SelectedIndex="0" Width="Auto" x:Name="ExtensionsDropDown" VerticalAlignment="Center"/>
             </StackPanel>
             <Controls:Tile Style="{DynamicResource SmallTileStyle}" x:Name="DownloadButton" Title="{DynamicResource Download}" IsEnabled="False" Click="DownloadButton_Click">
                 <iconPacks:PackIconModern Width="40" Height="40" Kind="ArrowDown" />
