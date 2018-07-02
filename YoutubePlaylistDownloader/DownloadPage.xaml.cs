@@ -12,6 +12,8 @@ using YoutubeExplode;
 using YoutubeExplode.Models;
 using YoutubeExplode.Models.MediaStreams;
 using YoutubePlaylistDownloader.Objects;
+using System.Net;
+using System.Text.RegularExpressions;
 
 namespace YoutubePlaylistDownloader
 {
@@ -51,6 +53,7 @@ namespace YoutubePlaylistDownloader
         {
 
             var client = new YoutubeClient();
+            var indexes = Playlist.Videos.Index().ToDictionary(kvp => kvp.Value.Title, kvp => kvp.Key);
             foreach (var video in Playlist.Videos)
             {
                 try
@@ -60,9 +63,9 @@ namespace YoutubePlaylistDownloader
 
                     var streamInfoSet = await client.GetVideoMediaStreamInfosAsync(video.Id);
                     var bestQuality = streamInfoSet.Muxed.MaxBy(x => x.AudioEncoding);
-                    var fileLoc = $"{GlobalConsts.TempFolderPath}{video.Title}";
-                    var outputFileLoc = $"{GlobalConsts.TempFolderPath}{video.Title}.{FileType}";
-                    var copyFileLoc = $"{GlobalConsts.SaveDirectory}\\{video.Title}.{FileType}";
+                    var fileLoc = $"{GlobalConsts.TempFolderPath}{CleanFileName(video.Title)}";
+                    var outputFileLoc = $"{GlobalConsts.TempFolderPath}{CleanFileName(video.Title)}.{FileType}";
+                    var copyFileLoc = $"{GlobalConsts.SaveDirectory}\\{CleanFileName(video.Title)}.{FileType}";
 
                     using (var stream = new ProgressStream(File.Create(fileLoc)))
                     {
@@ -89,9 +92,11 @@ namespace YoutubePlaylistDownloader
                         };
 
                         token.ThrowIfCancellationRequested();
-                        ffmpeg.Exited += (x, y) =>
+                        ffmpeg.Exited += async (x, y) =>
                         {
                             ffmpegList.Remove(ffmpeg);
+                            await TagFile(video, indexes[video.Title] + 1, outputFileLoc).ConfigureAwait(false);
+
                             File.Copy(outputFileLoc, copyFileLoc, true);
                             File.Delete(outputFileLoc);
                         };
@@ -104,9 +109,10 @@ namespace YoutubePlaylistDownloader
                 {
                     goto exit;
                 }
-                catch(Exception)
+                catch (Exception e)
                 {
-
+                    using (var sw = File.AppendText("log.log"))
+                        await sw.WriteLineAsync($"Exception in {video.Title}\n{e}");
                 }
             }
 
@@ -192,6 +198,98 @@ namespace YoutubePlaylistDownloader
             }
             ffmpegList.ForEach(x => { try { x.Kill(); } catch { } });
             GlobalConsts.LoadPage(new MainPage());
+        }
+
+        private string CleanFileName(string filename)
+        {
+            var invalidChars = Regex.Escape(new string(Path.GetInvalidFileNameChars()));
+            var invalidReStr = string.Format(@"[{0}]+", invalidChars);
+
+            var reservedWords = new[]
+            {
+                "CON", "PRN", "AUX", "CLOCK$", "NUL", "COM0", "COM1", "COM2", "COM3", "COM4",
+                "COM5", "COM6", "COM7", "COM8", "COM9", "LPT0", "LPT1", "LPT2", "LPT3", "LPT4",
+                "LPT5", "LPT6", "LPT7", "LPT8", "LPT9"
+            };
+
+            var sanitisedNamePart = Regex.Replace(filename, invalidReStr, "_");
+            foreach (var reservedWord in reservedWords)
+            {
+                var reservedWordPattern = string.Format("^{0}\\.", reservedWord);
+                sanitisedNamePart = Regex.Replace(sanitisedNamePart, reservedWordPattern, "_reservedWord_.", RegexOptions.IgnoreCase);
+            }
+
+            return sanitisedNamePart;
+        }
+
+        private async Task TagFile(Video video, int vIndex, string file)
+        {
+#if DEBUG
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+#endif
+            var genre = video.Title.Split('[', ']').ElementAtOrDefault(1);
+
+
+            if (genre == null)
+                genre = string.Empty;
+
+            else if (genre.Length >= video.Title.Length)
+                genre = string.Empty;
+
+
+            var title = video.Title;
+
+            if (!string.IsNullOrWhiteSpace(genre))
+            {
+                title = video.Title.Replace($"[{genre}]", string.Empty);
+                var rm = title.Split('[', ']').ElementAtOrDefault(1);
+                if (!string.IsNullOrWhiteSpace(rm))
+                    title = title.Replace($"[{rm}]", string.Empty);
+            }
+            title = title.TrimStart(' ', '-', '[', ']');
+
+            var t = TagLib.File.Create(file);
+
+            t.Tag.Album = Playlist.Title;
+            t.Tag.Track = (uint)vIndex;
+            t.Tag.Year = (uint)video.UploadDate.Year;
+            t.Tag.DateTagged = video.UploadDate.UtcDateTime;
+            t.Tag.AlbumArtists = new [] { Playlist.Author };
+            t.Tag.Genres = new [] { genre };
+            try
+            {
+                TagLib.Id3v2.Tag.DefaultVersion = 3;
+                TagLib.Id3v2.Tag.ForceDefaultVersion = true;
+                var frame = TagLib.Id3v2.PopularimeterFrame.Get((TagLib.Id3v2.Tag)t.GetTag(TagLib.TagTypes.Id3v2, true), "WindowsUser", true);
+                frame.Rating = Convert.ToByte((video.Statistics.LikeCount * 255) / (video.Statistics.LikeCount + video.Statistics.DislikeCount));
+            }
+            catch
+            {
+
+            }
+
+            var index = title.LastIndexOf('-');
+            if (index > 0)
+            {
+                t.Tag.Title = title.Substring(index + 1).Trim();
+                t.Tag.Performers = new[] { title.Substring(0, index - 1).Trim() };
+            }
+
+            var picLoc = $"{GlobalConsts.TempFolderPath}{CleanFileName(video.Title)}.jpg";
+            using (var wb = new WebClient())
+                File.WriteAllBytes(picLoc, await wb.DownloadDataTaskAsync($"https://img.youtube.com/vi/{video.Id}/0.jpg").ConfigureAwait(false));
+
+            t.Tag.Pictures = new TagLib.IPicture[] { new TagLib.Picture(picLoc) };
+
+            t.Save();
+#if DEBUG
+            sw.Stop();
+            using (var swriter = File.AppendText("log.log"))
+
+                await swriter.WriteLineAsync($"Tag writing for {title} took {sw.Elapsed.TotalSeconds} seconds");
+            
+#endif
         }
 
         #region IDisposable Support
