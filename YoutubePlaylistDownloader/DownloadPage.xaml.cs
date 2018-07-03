@@ -109,10 +109,8 @@ namespace YoutubePlaylistDownloader
                 {
                     goto exit;
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
-                    using (var sw = File.AppendText("log.log"))
-                        await sw.WriteLineAsync($"Exception in {video.Title}\n{e}");
                 }
             }
 
@@ -224,10 +222,6 @@ namespace YoutubePlaylistDownloader
 
         private async Task TagFile(Video video, int vIndex, string file)
         {
-#if DEBUG
-            Stopwatch sw = new Stopwatch();
-            sw.Start();
-#endif
             var genre = video.Title.Split('[', ']').ElementAtOrDefault(1);
 
 
@@ -276,20 +270,17 @@ namespace YoutubePlaylistDownloader
                 t.Tag.Performers = new[] { title.Substring(0, index - 1).Trim() };
             }
 
-            var picLoc = $"{GlobalConsts.TempFolderPath}{CleanFileName(video.Title)}.jpg";
-            using (var wb = new WebClient())
-                File.WriteAllBytes(picLoc, await wb.DownloadDataTaskAsync($"https://img.youtube.com/vi/{video.Id}/0.jpg").ConfigureAwait(false));
+            try
+            {
+                var picLoc = $"{GlobalConsts.TempFolderPath}{CleanFileName(video.Title)}.jpg";
+                using (var wb = new WebClient())
+                    File.WriteAllBytes(picLoc, await wb.DownloadDataTaskAsync($"https://img.youtube.com/vi/{video.Id}/0.jpg").ConfigureAwait(false));
 
-            t.Tag.Pictures = new TagLib.IPicture[] { new TagLib.Picture(picLoc) };
+                t.Tag.Pictures = new TagLib.IPicture[] { new TagLib.Picture(picLoc) };
+            }
+            catch { }
 
             t.Save();
-#if DEBUG
-            sw.Stop();
-            using (var swriter = File.AppendText("log.log"))
-
-                await swriter.WriteLineAsync($"Tag writing for {title} took {sw.Elapsed.TotalSeconds} seconds");
-            
-#endif
         }
 
         #region IDisposable Support
