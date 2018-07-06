@@ -29,7 +29,6 @@
                 </Grid.ColumnDefinitions>
 
                 <!--Col 0-->
-
                 <TextBlock Text="{DynamicResource PlaylistTitle}"   Grid.Row="0" Grid.Column="0"/>
                 <TextBlock Text="{DynamicResource Description}"     Grid.Row="1" Grid.Column="0"/>
                 <TextBlock Text="{DynamicResource Author}"          Grid.Row="2" Grid.Column="0"/>
@@ -37,6 +36,7 @@
                 <TextBlock Text="{DynamicResource TotalVideos}"     Grid.Row="4" Grid.Column="0"/>
 
                 <!--Col 1-->
+                
                 <TextBlock x:Name="PlaylistTitleTextBlock"       Grid.Row="0" Grid.Column="1"/>
                 <TextBlock x:Name="PlaylistDescriptionTextBlock" Grid.Row="1" Grid.Column="1"/>
                 <TextBlock x:Name="PlaylistAuthorTextBlock"      Grid.Row="2" Grid.Column="1"/>

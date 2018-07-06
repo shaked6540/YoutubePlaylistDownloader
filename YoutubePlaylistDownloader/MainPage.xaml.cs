@@ -1,17 +1,19 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using YoutubeExplode;
 using YoutubeExplode.Models;
-using System.Collections.Generic;
 using YoutubeExplode.Models.MediaStreams;
+
 namespace YoutubePlaylistDownloader
 {
     public partial class MainPage : UserControl
     {
-        private Playlist list;
+        private Playlist list = null;
+        private Video video = null;
         private readonly Dictionary<string, VideoQuality> Resolutions = new Dictionary<string, VideoQuality>()
         {
             { "144p", VideoQuality.Low144 },
@@ -50,6 +52,7 @@ namespace YoutubePlaylistDownloader
                     _ = Task.Run(async () =>
                     {
                         list = await client.GetPlaylistAsync(playlistId).ConfigureAwait(false);
+                        video = null;
                         Dispatcher.Invoke(() =>
                         {
                             PlaylistInfoGrid.Visibility = Visibility.Visible;
@@ -63,6 +66,23 @@ namespace YoutubePlaylistDownloader
 
                     }).ConfigureAwait(false);
 
+                }
+                else if (YoutubeClient.TryParseVideoId(PlaylistLinkTextBox.Text, out string videoId))
+                {
+                    _ = Task.Run(async () =>
+                    {
+                        video = await client.GetVideoAsync(videoId);
+                        list = null;
+                        Dispatcher.Invoke(() =>
+                        {
+                            PlaylistInfoGrid.Visibility = Visibility.Visible;
+                            PlaylistTitleTextBlock.Text = video.Title;
+                            PlaylistDescriptionTextBlock.Text = video.Description.Substring(0, Math.Min(64, video.Description.Length));
+                            PlaylistAuthorTextBlock.Text = video.Author;
+                            PlaylistViewsTextBlock.Text = video.Statistics.ViewCount.ToString();
+                            DownloadButton.IsEnabled = true;
+                        });
+                    }).ConfigureAwait(false);
                 }
                 else
                 {
@@ -94,7 +114,11 @@ namespace YoutubePlaylistDownloader
             if (convert)
                 type = (string)ExtensionsDropDown.SelectedItem;
 
-            GlobalConsts.LoadPage(new DownloadPage(list, convert, vq, type));
+            if (list != null && video == null)
+                GlobalConsts.LoadPage(new DownloadPage(list, convert, vq, type));
+
+            else if (list == null && video != null)
+                GlobalConsts.LoadPage(new DownloadVideo(video, convert, vq, type));
         }
 
         private string CleanFileName(string file)
