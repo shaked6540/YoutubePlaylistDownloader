@@ -12,8 +12,6 @@ using YoutubeExplode;
 using YoutubeExplode.Models;
 using YoutubeExplode.Models.MediaStreams;
 using YoutubePlaylistDownloader.Objects;
-using System.Net;
-using System.Text.RegularExpressions;
 
 namespace YoutubePlaylistDownloader
 {

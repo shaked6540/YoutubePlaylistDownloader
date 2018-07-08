@@ -25,7 +25,7 @@ namespace YoutubePlaylistDownloader.Objects
             }
             else
             {
-                throw new ArgumentNullException("streamToReportOn");
+                throw new ArgumentNullException(nameof(streamToReportOn));
             }
         }
         #endregion
@@ -34,17 +34,17 @@ namespace YoutubePlaylistDownloader.Objects
         /// <summary>
         /// Raised when bytes are read from the stream.
         /// </summary>
-        public event ProgressStreamReportDelegate BytesRead;
+        public event ProgressStreamReportEventHandler BytesRead;
 
         /// <summary>
         /// Raised when bytes are written to the stream.
         /// </summary>
-        public event ProgressStreamReportDelegate BytesWritten;
+        public event ProgressStreamReportEventHandler BytesWritten;
 
         /// <summary>
         /// Raised when bytes are either read or written to the stream.
         /// </summary>
-        public event ProgressStreamReportDelegate BytesMoved;
+        public event ProgressStreamReportEventHandler BytesMoved;
 
         protected virtual void OnBytesRead(int bytesMoved)
         {
@@ -193,7 +193,7 @@ namespace YoutubePlaylistDownloader.Objects
             this.BytesMoved = bytesMoved;
             this.StreamLength = streamLength;
             this.StreamPosition = streamPosition;
-            this.WasRead = WasRead;
+            this.WasRead = wasRead;
         }
     }
 
@@ -202,5 +202,5 @@ namespace YoutubePlaylistDownloader.Objects
     /// </summary>
     /// <param name="sender">The object that raised the event, should be a ProgressStream.</param>
     /// <param name="args">The arguments raised with the event.</param>
-    public delegate void ProgressStreamReportDelegate(object sender, ProgressStreamReportEventArgs args);
+    public delegate void ProgressStreamReportEventHandler(object sender, ProgressStreamReportEventArgs args);
 }

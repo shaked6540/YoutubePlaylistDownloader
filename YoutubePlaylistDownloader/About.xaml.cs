@@ -27,10 +27,5 @@ namespace YoutubePlaylistDownloader
             GlobalConsts.ShowHomeButton();
             GlobalConsts.ShowSettingsButton();
         }
-
-        private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
-        {
-
-        }
     }
 }

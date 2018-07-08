@@ -25,7 +25,6 @@ namespace YoutubePlaylistDownloader
         public static Accent Accent;
         public static Brush ErrorBrush;
         public static string Language;
-        public static readonly string ApplicationName;
         public static readonly string TempFolderPath;
         public static string SaveDirectory;
         public static readonly string CurrentDir;
@@ -45,7 +44,6 @@ namespace YoutubePlaylistDownloader
             ErrorFilePath = CurrentDir + $"\\{Assembly.GetExecutingAssembly().GetName().Name}.log";
             ErrorBrush = Brushes.Crimson;
             Language = "English";
-            ApplicationName = "YoutubePlaylistDownloader";
             SaveDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos);
             TempFolderPath = Path.GetTempPath() + "YoutubePlaylistDownloader\\";
         }
@@ -244,7 +242,7 @@ namespace YoutubePlaylistDownloader
             t.Tag.Year = (uint)video.UploadDate.Year;
             t.Tag.DateTagged = video.UploadDate.UtcDateTime;
             t.Tag.AlbumArtists = new[] { playlist?.Author };
-            t.Tag.Genres = new[] { genre };
+            t.Tag.Genres = genre.Split('/', '\\');
             try
             {
                 TagLib.Id3v2.Tag.DefaultVersion = 3;
@@ -266,7 +264,7 @@ namespace YoutubePlaylistDownloader
 
             try
             {
-                var picLoc = $"{GlobalConsts.TempFolderPath}{CleanFileName(video.Title)}.jpg";
+                var picLoc = $"{TempFolderPath}{CleanFileName(video.Title)}.jpg";
                 using (var wb = new WebClient())
                     File.WriteAllBytes(picLoc, await wb.DownloadDataTaskAsync($"https://img.youtube.com/vi/{video.Id}/0.jpg").ConfigureAwait(false));
 

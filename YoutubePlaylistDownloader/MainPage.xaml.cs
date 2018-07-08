@@ -120,15 +120,6 @@ namespace YoutubePlaylistDownloader
             else if (list == null && video != null)
                 GlobalConsts.LoadPage(new DownloadVideo(video, convert, vq, type));
         }
-
-        private string CleanFileName(string file)
-        {
-            var s = Path.GetInvalidFileNameChars();
-            foreach (var c in s)
-                file = file.Replace(c.ToString(), string.Empty);
-
-            return file;
-        }
      
     }
 }
