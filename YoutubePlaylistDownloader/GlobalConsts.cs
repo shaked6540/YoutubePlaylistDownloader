@@ -229,7 +229,7 @@ namespace YoutubePlaylistDownloader
             if (!string.IsNullOrWhiteSpace(genre))
             {
                 title = video.Title.Replace($"[{genre}]", string.Empty);
-                var rm = title.Split('[', ']').ElementAtOrDefault(1);
+                var rm = title.Split('[', ']', '【', '】').ElementAtOrDefault(1);
                 if (!string.IsNullOrWhiteSpace(rm))
                     title = title.Replace($"[{rm}]", string.Empty);
             }
@@ -259,7 +259,7 @@ namespace YoutubePlaylistDownloader
             if (index > 0)
             {
                 t.Tag.Title = title.Substring(index + 1).Trim();
-                t.Tag.Performers = title.Substring(0, index - 1).Trim().Split('&');
+                t.Tag.Performers = title.Substring(0, index - 1).Trim().Split(new string[] { "&", "feat.", "feat", "ft.", " ft " }, StringSplitOptions.RemoveEmptyEntries);
             }
 
             try
