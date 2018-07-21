@@ -55,23 +55,11 @@ namespace YoutubePlaylistDownloader.Objects
             }
         }
 
-        protected virtual void OnBytesWritten(int bytesMoved)
-        {
-            if (BytesWritten != null)
-            {
-                var args = new ProgressStreamReportEventArgs(bytesMoved, innerStream.Length, innerStream.Position, false);
-                BytesWritten(this, args);
-            }
-        }
+        protected virtual void OnBytesWritten(int bytesMoved) => BytesWritten?.Invoke(this, new ProgressStreamReportEventArgs(bytesMoved, innerStream.Length, innerStream.Position, false));
 
-        protected virtual void OnBytesMoved(int bytesMoved, bool isRead)
-        {
-            if (BytesMoved != null)
-            {
-                var args = new ProgressStreamReportEventArgs(bytesMoved, innerStream.Length, innerStream.Position, isRead);
-                BytesMoved(this, args);
-            }
-        }
+
+        protected virtual void OnBytesMoved(int bytesMoved, bool isRead) => BytesMoved?.Invoke(this, new ProgressStreamReportEventArgs(bytesMoved, innerStream.Length, innerStream.Position, isRead));
+        
         #endregion
 
         #region Stream Members

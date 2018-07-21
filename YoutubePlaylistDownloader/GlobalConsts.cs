@@ -242,7 +242,12 @@ namespace YoutubePlaylistDownloader
             t.Tag.Year = (uint)video.UploadDate.Year;
             t.Tag.DateTagged = video.UploadDate.UtcDateTime;
             t.Tag.AlbumArtists = new[] { playlist?.Author };
-            t.Tag.Genres = genre.Split('/', '\\');
+            var lowerGenre = genre.ToLower();
+            if (new[] { "download", "out now", "mostercat", "video", "lyric", "release", "ncs" }.Any(x => lowerGenre.Contains(x)))
+                genre = string.Empty;
+            else
+                t.Tag.Genres = genre.Split('/', '\\');
+            
             try
             {
                 TagLib.Id3v2.Tag.DefaultVersion = 3;
