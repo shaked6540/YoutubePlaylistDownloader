@@ -26,8 +26,9 @@ namespace YoutubePlaylistDownloader
         private List<Process> ffmpegList;
         private CancellationTokenSource cts;
         private VideoQuality Quality;
+        private string Bitrate;
 
-        public DownloadPage(Playlist playlist, bool convert, VideoQuality quality = VideoQuality.High720, string fileType = "mp3")
+        public DownloadPage(Playlist playlist, bool convert, VideoQuality quality = VideoQuality.High720, string fileType = "mp3", string bitrate = null)
         {
             InitializeComponent();
             GlobalConsts.HideSettingsButton();
@@ -40,6 +41,11 @@ namespace YoutubePlaylistDownloader
             FileType = fileType;
             DownloadedCount = 0;
             Quality = quality;
+            if (bitrate != null)
+                Bitrate = $"-b:a {bitrate}k";
+            else
+                Bitrate = string.Empty;
+
             if (convert)
                 StartDownloadingWithConverting(cts.Token).ConfigureAwait(false);
             else
@@ -83,7 +89,7 @@ namespace YoutubePlaylistDownloader
                             StartInfo = new ProcessStartInfo()
                             {
                                 FileName = $"{GlobalConsts.CurrentDir}\\ffmpeg.exe",
-                                Arguments = $"-i \"{fileLoc}\" -vn -y \"{outputFileLoc}\"",
+                                Arguments = $"-i \"{fileLoc}\" -y {Bitrate} \"{outputFileLoc}\"",
                                 CreateNoWindow = true,
                                 UseShellExecute = false
                             }
@@ -93,7 +99,7 @@ namespace YoutubePlaylistDownloader
                         ffmpeg.Exited += async (x, y) =>
                         {
                             ffmpegList.Remove(ffmpeg);
-                            await GlobalConsts.TagFile(video, indexes[video.Title] + 1, outputFileLoc, Playlist).ConfigureAwait(false);
+                            await GlobalConsts.TagFile(video, indexes[video.Title] + 1, outputFileLoc, Playlist);
 
                             File.Copy(outputFileLoc, copyFileLoc, true);
                             File.Delete(outputFileLoc);
@@ -141,9 +147,21 @@ namespace YoutubePlaylistDownloader
                 try
                 {
                     var streamInfoSet = await client.GetVideoMediaStreamInfosAsync(video.Id);
-                    var bestQuality = streamInfoSet.Muxed.OrderBy(x => x.VideoQuality == Quality).ThenBy(x => x.VideoQuality > Quality).ThenByDescending(x=> x.VideoQuality).FirstOrDefault();
-                    var fileLoc = $"{GlobalConsts.SaveDirectory}\\{video.Title}.{bestQuality.Container.GetFileExtension()}";
-
+                    MediaStreamInfo bestQuality, bestAudio = null;
+                    if (streamInfoSet.Muxed.Any(x => x.VideoQuality == Quality))
+                    {
+                        bestQuality = streamInfoSet.Muxed.FirstOrDefault(x => x.VideoQuality == Quality);
+                    }
+                    else
+                    {
+                        bestQuality = streamInfoSet.Video.OrderByDescending(x => x.VideoQuality == Quality).ThenByDescending(x => x.VideoQuality > Quality).ThenByDescending(x => x.VideoQuality).FirstOrDefault();
+                        bestAudio = streamInfoSet.Audio.OrderByDescending(x => x.AudioEncoding).FirstOrDefault();
+                    }
+                    var cleanVideoName = GlobalConsts.CleanFileName(video.Title);//.Replace("$","S")
+                    var fileLoc = $"{GlobalConsts.TempFolderPath}{cleanVideoName}";
+                    var outputFileLoc = $"{GlobalConsts.TempFolderPath}{cleanVideoName}.mkv";
+                    var copyFileLoc = $"{GlobalConsts.SaveDirectory}\\{cleanVideoName}.mkv";
+                    var audioLoc = $"{GlobalConsts.TempFolderPath}{cleanVideoName}.{bestAudio.Container.GetFileExtension()}";
                     using (var stream = new ProgressStream(File.Create(fileLoc)))
                     {
                         stream.BytesWritten += (sender, args) =>
@@ -155,14 +173,52 @@ namespace YoutubePlaylistDownloader
                                 CurrentDownloadProgressBarTextBlock.Text = $"{precent}%";
                             });
                         };
-                        await client.DownloadMediaStreamAsync(bestQuality, stream, cancellationToken: token);
+                        var videoTask = client.DownloadMediaStreamAsync(bestQuality, stream, cancellationToken: token);
+                        if (bestAudio != null)
+                        {
+                            using (var audioStream = File.Create(audioLoc))
+                            {
+                                var audioTask = client.DownloadMediaStreamAsync(bestAudio, audioStream);
+                                await Task.WhenAll(videoTask, audioTask);
+                            }
+                            var ffmpeg = new Process()
+                            {
+                                EnableRaisingEvents = true,
+                                StartInfo = new ProcessStartInfo()
+                                {
+                                    FileName = $"{GlobalConsts.CurrentDir}\\ffmpeg.exe",
+                                    Arguments = $"-i \"{fileLoc}\" -i \"{audioLoc}\" -y -c copy \"{outputFileLoc}\"",
+                                    CreateNoWindow = true,
+                                    UseShellExecute = false,
+                                }
+                            };
+
+
+                            token.ThrowIfCancellationRequested();
+                            ffmpeg.Exited += (x, y) =>
+                            {
+                                ffmpegList.Remove(ffmpeg);
+                                File.Copy(outputFileLoc, copyFileLoc, true);
+                                File.Delete(outputFileLoc);
+                                File.Delete(audioLoc);
+                                File.Delete(fileLoc);
+                            };
+                            ffmpeg.Start();
+                            ffmpegList.Add(ffmpeg);
+                        }
+                        else
+                        {
+                            await videoTask;
+                            File.Copy(outputFileLoc, copyFileLoc, true);
+                            File.Delete(outputFileLoc);
+                        }
                         token.ThrowIfCancellationRequested();
                         DownloadedCount++;
                     }
                 }
                 catch (OperationCanceledException)
                 {
-                    return;
+                    goto exit;
                 }
                 catch (Exception)
                 {
@@ -170,6 +226,21 @@ namespace YoutubePlaylistDownloader
                 }
             }
 
+            exit:
+            while (ffmpegList.Count > 0)
+            {
+                Dispatcher.Invoke(() =>
+                {
+                    HeadlineTextBlock.Text = (string)FindResource("AllDone");
+                    CurrentDownloadProgressBar.IsIndeterminate = true;
+                    TotalDownloadedGrid.Visibility = Visibility.Collapsed;
+                    TotalDownloadsProgressBarTextBlock.Text = $"({DownloadedCount}\\{Playlist.Videos.Count})";
+                    DownloadedVideosProgressBar.Value = Playlist.Videos.Count;
+                    ConvertingTextBlock.Text = $"{FindResource("StillConverting")} {ffmpegList.Count} {FindResource("files")}";
+                    CurrentDownloadProgressBarTextBlock.Visibility = Visibility.Collapsed;
+                });
+                await Task.Delay(1000);
+            }
             CurrentDownloadGrid.Visibility = Visibility.Collapsed;
             TotalDownloadedGrid.Visibility = Visibility.Collapsed;
         }

@@ -26,8 +26,9 @@ namespace YoutubePlaylistDownloader
         private List<Process> ffmpegList;
         private CancellationTokenSource cts;
         private VideoQuality Quality;
+        private string Bitrate;
 
-        public DownloadVideo(Video video, bool convert, VideoQuality quality = VideoQuality.High720, string fileType = "mp3")
+        public DownloadVideo(Video video, bool convert, VideoQuality quality = VideoQuality.High720, string fileType = "mp3", string bitrate = null)
         {
             InitializeComponent();
             GlobalConsts.HideSettingsButton();
@@ -39,6 +40,11 @@ namespace YoutubePlaylistDownloader
             FileType = fileType;
             DownloadedCount = 0;
             Quality = quality;
+            if (bitrate != null)
+                Bitrate = $"-b:a {bitrate}k";
+            else
+                Bitrate = string.Empty;
+
             if (convert)
                 StartDownloadingWithConverting(cts.Token).ConfigureAwait(false);
             else
@@ -50,62 +56,63 @@ namespace YoutubePlaylistDownloader
         {
 
             var client = new YoutubeClient();
-                try
+            try
+            {
+                Dispatcher.Invoke(() => Update(0, Video));
+
+                var streamInfoSet = await client.GetVideoMediaStreamInfosAsync(Video.Id);
+                var cleanFileName = GlobalConsts.CleanFileName(Video.Title).Replace("$", "S");
+                var bestQuality = streamInfoSet.Muxed.MaxBy(x => x.AudioEncoding);
+                var fileLoc = $"{GlobalConsts.TempFolderPath}{cleanFileName}";
+                var outputFileLoc = $"{GlobalConsts.TempFolderPath}{cleanFileName}.{FileType}";
+                var copyFileLoc = $"{GlobalConsts.SaveDirectory}\\{cleanFileName}.{FileType}";
+
+                using (var stream = new ProgressStream(File.Create(fileLoc)))
                 {
-                    Dispatcher.Invoke(() => Update(0, Video));
-
-
-                    var streamInfoSet = await client.GetVideoMediaStreamInfosAsync(Video.Id);
-                    var bestQuality = streamInfoSet.Muxed.MaxBy(x => x.AudioEncoding);
-                    var fileLoc = $"{GlobalConsts.TempFolderPath}{GlobalConsts.CleanFileName(Video.Title)}";
-                    var outputFileLoc = $"{GlobalConsts.TempFolderPath}{GlobalConsts.CleanFileName(Video.Title)}.{FileType}";
-                    var copyFileLoc = $"{GlobalConsts.SaveDirectory}\\{GlobalConsts.CleanFileName(Video.Title)}.{FileType}";
-
-                    using (var stream = new ProgressStream(File.Create(fileLoc)))
+                    stream.BytesWritten += (sender, args) =>
                     {
-                        stream.BytesWritten += (sender, args) =>
+                        var precent = args.StreamLength * 100 / bestQuality.Size;
+                        Dispatcher.Invoke(() =>
                         {
-                            var precent = args.StreamLength * 100 / bestQuality.Size;
-                            Dispatcher.Invoke(() =>
-                            {
-                                CurrentDownloadProgressBar.Value = precent;
-                                CurrentDownloadProgressBarTextBlock.Text = $"{precent}%";
-                            });
-                        };
-                        await client.DownloadMediaStreamAsync(bestQuality, stream, cancellationToken: token);
-                        var ffmpeg = new Process()
+                            CurrentDownloadProgressBar.Value = precent;
+                            CurrentDownloadProgressBarTextBlock.Text = $"{precent}%";
+                        });
+                    };
+                    await client.DownloadMediaStreamAsync(bestQuality, stream, cancellationToken: token);
+                    var ffmpeg = new Process()
+                    {
+                        EnableRaisingEvents = true,
+                        StartInfo = new ProcessStartInfo()
                         {
-                            EnableRaisingEvents = true,
-                            StartInfo = new ProcessStartInfo()
-                            {
-                                FileName = $"{GlobalConsts.CurrentDir}\\ffmpeg.exe",
-                                Arguments = $"-i \"{fileLoc}\" -vn -y \"{outputFileLoc}\"",
-                                CreateNoWindow = true,
-                                UseShellExecute = false
-                            }
-                        };
+                            FileName = $"{GlobalConsts.CurrentDir}\\ffmpeg.exe",
+                            Arguments = $"-i \"{fileLoc}\" -vn -y {Bitrate} \"{outputFileLoc}\"",
+                            CreateNoWindow = true,
+                            UseShellExecute = false
+                        }
+                    };
 
-                        token.ThrowIfCancellationRequested();
-                        ffmpeg.Exited += async (x, y) =>
-                        {
-                            ffmpegList.Remove(ffmpeg);
-                            await GlobalConsts.TagFile(Video, 0, outputFileLoc).ConfigureAwait(false);
+                    token.ThrowIfCancellationRequested();
+                    ffmpeg.Exited += async (x, y) =>
+                    {
+                        ffmpegList.Remove(ffmpeg);
+                        await GlobalConsts.TagFile(Video, 0, outputFileLoc);
 
-                            File.Copy(outputFileLoc, copyFileLoc, true);
-                            File.Delete(outputFileLoc);
-                        };
-                        ffmpeg.Start();
-                        ffmpegList.Add(ffmpeg);
-                        DownloadedCount++;
-                    }
+                        File.Copy(outputFileLoc, copyFileLoc, true);
+                        File.Delete(outputFileLoc);
+                        File.Delete(fileLoc);
+                    };
+                    ffmpeg.Start();
+                    ffmpegList.Add(ffmpeg);
+                    DownloadedCount++;
                 }
-                catch (OperationCanceledException)
-                {
-                    goto exit;
-                }
-                catch (Exception)
-                {
-                }
+            }
+            catch (OperationCanceledException)
+            {
+                goto exit;
+            }
+            catch (Exception)
+            {
+            }
 
             exit:
             while (ffmpegList.Count > 0)
@@ -131,9 +138,21 @@ namespace YoutubePlaylistDownloader
             try
             {
                 var streamInfoSet = await client.GetVideoMediaStreamInfosAsync(Video.Id);
-                var bestQuality = streamInfoSet.Muxed.OrderBy(x => x.VideoQuality == Quality).ThenBy(x => x.VideoQuality > Quality).ThenByDescending(x => x.VideoQuality).FirstOrDefault();
-                var fileLoc = $"{GlobalConsts.SaveDirectory}\\{Video.Title}.{bestQuality.Container.GetFileExtension()}";
-
+                MediaStreamInfo bestQuality, bestAudio = null;
+                if (streamInfoSet.Muxed.Any(x => x.VideoQuality == Quality))
+                {
+                    bestQuality = streamInfoSet.Muxed.FirstOrDefault(x => x.VideoQuality == Quality);
+                }
+                else
+                {
+                    bestQuality = streamInfoSet.Video.OrderByDescending(x => x.VideoQuality == Quality).ThenByDescending(x => x.VideoQuality > Quality).ThenByDescending(x => x.VideoQuality).FirstOrDefault();
+                    bestAudio = streamInfoSet.Audio.OrderByDescending(x => x.AudioEncoding).FirstOrDefault();
+                }
+                var cleanVideoName = GlobalConsts.CleanFileName(Video.Title);//.Replace("$","S")
+                var fileLoc = $"{GlobalConsts.TempFolderPath}{cleanVideoName}";
+                var outputFileLoc = $"{GlobalConsts.TempFolderPath}{cleanVideoName}.mkv";
+                var copyFileLoc = $"{GlobalConsts.SaveDirectory}\\{cleanVideoName}.mkv";
+                var audioLoc = $"{GlobalConsts.TempFolderPath}{cleanVideoName}.{bestAudio.Container.GetFileExtension()}";
                 using (var stream = new ProgressStream(File.Create(fileLoc)))
                 {
                     stream.BytesWritten += (sender, args) =>
@@ -145,20 +164,74 @@ namespace YoutubePlaylistDownloader
                             CurrentDownloadProgressBarTextBlock.Text = $"{precent}%";
                         });
                     };
-                    await client.DownloadMediaStreamAsync(bestQuality, stream, cancellationToken: token);
+                    var videoTask = client.DownloadMediaStreamAsync(bestQuality, stream, cancellationToken: token);
+                    if (bestAudio != null)
+                    {
+                        using (var audioStream = File.Create(audioLoc))
+                        {
+                            var audioTask = client.DownloadMediaStreamAsync(bestAudio, audioStream);
+                            await Task.WhenAll(videoTask, audioTask);
+                        }
+                            var ffmpeg = new Process()
+                            {
+                                EnableRaisingEvents = true,
+                                StartInfo = new ProcessStartInfo()
+                                {
+                                    FileName = $"{GlobalConsts.CurrentDir}\\ffmpeg.exe",
+                                    Arguments = $"-i \"{fileLoc}\" -i \"{audioLoc}\" -y -c copy \"{outputFileLoc}\"",
+                                    CreateNoWindow = true,
+                                    UseShellExecute = false,
+                                }
+                            };
+
+                        
+                        token.ThrowIfCancellationRequested();
+                        ffmpeg.Exited += (x, y) =>
+                        {
+                            ffmpegList.Remove(ffmpeg);
+                            File.Copy(outputFileLoc, copyFileLoc, true);
+                            File.Delete(outputFileLoc);
+                            File.Delete(audioLoc);
+                            File.Delete(fileLoc);
+                        };
+                        ffmpeg.Start();
+                        ffmpegList.Add(ffmpeg);
+                    }
+                    else
+                    {
+                        await videoTask;
+                        File.Copy(outputFileLoc, copyFileLoc, true);
+                        File.Delete(outputFileLoc);
+                    }
                     token.ThrowIfCancellationRequested();
                     DownloadedCount++;
                 }
+
             }
             catch (OperationCanceledException)
             {
-                return;
+                goto exit;
             }
             catch (Exception)
             {
 
             }
+
+            exit:
+            while (ffmpegList.Count > 0)
+            {
+                Dispatcher.Invoke(() =>
+                {
+                    HeadlineTextBlock.Text = (string)FindResource("AllDone");
+                    CurrentDownloadProgressBar.IsIndeterminate = true;
+                    ConvertingTextBlock.Text = $"{FindResource("StillConverting")} {ffmpegList.Count} {FindResource("files")}";
+                    CurrentDownloadProgressBarTextBlock.Visibility = Visibility.Collapsed;
+                });
+                await Task.Delay(1000);
+            }
+
             CurrentDownloadGrid.Visibility = Visibility.Collapsed;
+            ConvertingTextBlock.Visibility = Visibility.Collapsed;
         }
 
         private void Update(int precent, Video video)

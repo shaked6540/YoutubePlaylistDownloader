@@ -52,6 +52,9 @@
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
                 <CheckBox Content="{DynamicResource ConvertToMp3}" Margin="7" x:Name="ConvertCheckBox" HorizontalAlignment="Center" IsChecked="False" />
                 <ComboBox HorizontalContentAlignment="Left" HorizontalAlignment="Center" VerticalContentAlignment="Center" SelectedIndex="0" Width="Auto" x:Name="ExtensionsDropDown" VerticalAlignment="Center"/>
+                <CheckBox Content="{DynamicResource BitRate}" Margin="7" x:Name="BitrateCheckBox" />
+                <TextBox Margin="0,7" Text="192" x:Name="BitRateTextBox"/>
+                <Label Content="kb\s" Margin="7" />
             </StackPanel>
             <Controls:Tile Style="{DynamicResource SmallTileStyle}" x:Name="DownloadButton" Title="{DynamicResource Download}" IsEnabled="False" Click="DownloadButton_Click">
                 <iconPacks:PackIconModern Width="40" Height="40" Kind="ArrowDown" />

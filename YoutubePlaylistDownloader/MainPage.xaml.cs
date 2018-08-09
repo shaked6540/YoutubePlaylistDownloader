@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -107,6 +108,10 @@ namespace YoutubePlaylistDownloader
             var convert = ConvertCheckBox.IsChecked.Value;
             var vq = VideoQuality.High720;
             var type = "mp3";
+            string bitrate = null;
+
+            if (BitrateCheckBox.IsChecked.Value)
+                bitrate = string.IsNullOrWhiteSpace(BitRateTextBox.Text) && BitRateTextBox.Text.All(c => c >= '0' && c <= '9') ? "192" : BitRateTextBox.Text;
 
             if (PreferCheckBox.IsChecked.Value)
                 vq = Resolutions[(string)ResulotionDropDown.SelectedValue];
@@ -115,10 +120,10 @@ namespace YoutubePlaylistDownloader
                 type = (string)ExtensionsDropDown.SelectedItem;
 
             if (list != null && video == null)
-                GlobalConsts.LoadPage(new DownloadPage(list, convert, vq, type));
+                GlobalConsts.LoadPage(new DownloadPage(list, convert, vq, type, bitrate));
 
             else if (list == null && video != null)
-                GlobalConsts.LoadPage(new DownloadVideo(video, convert, vq, type));
+                GlobalConsts.LoadPage(new DownloadVideo(video, convert, vq, type, bitrate));
         }
      
     }

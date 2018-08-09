@@ -44,4 +44,5 @@
     <s:String x:Key="AboutTheProgram">This program was developed by Shaked Dahan and it is completely free to use without limitation.
 However, I am not responsible for any legal trouble that this program will cause you, 
 as far as I know, YouTube does not permit downloading videos from their website. </s:String>
+    <s:String x:Key="BitRate">and set the bitrate to</s:String>
 </ResourceDictionary>

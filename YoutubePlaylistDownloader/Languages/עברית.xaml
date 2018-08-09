@@ -42,4 +42,6 @@
     <s:String x:Key="AboutTheProgram">תוכנית זו פותחה על ידי שקד דהן והיא חופשית לחלוטין לשימוש ללא הגבלה.
 עם זאת, אינני אחראי לכל בעיה משפטית שתכנית זו תגרום לך,
 עד כמה שידוע לי, YouTube אינו מתיר הורדת סרטונים מהאתר שלהם. </s:String>
+    <s:String x:Key="SaveAndBackToDownload">שמור וחזור לתפריט הראשי</s:String>
+    <s:String x:Key="BitRate">קבע את קצב הביטים ל</s:String>
 </ResourceDictionary>

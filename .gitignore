@@ -299,3 +299,4 @@ __pycache__/
 *.xsd.cs
 
 YoutubePlaylistDownloader/ffmpeg.exe
+YoutubePlaylistDownloader/taglib-sharp.dll
