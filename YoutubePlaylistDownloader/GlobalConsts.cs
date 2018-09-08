@@ -264,7 +264,7 @@ namespace YoutubePlaylistDownloader
             if (index > 0)
             {
                 t.Tag.Title = title.Substring(index + 1).Trim();
-                t.Tag.Performers = title.Substring(0, index - 1).Trim().Split(new string[] { "&", "feat.", "feat", "ft.", " ft " }, StringSplitOptions.RemoveEmptyEntries);
+                t.Tag.Performers = title.Substring(0, index - 1).Trim().Split(new string[] { "&", "feat.", "feat", "ft.", " ft ", "Feat.", " x ", " X " }, StringSplitOptions.RemoveEmptyEntries);
             }
 
             try

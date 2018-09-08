@@ -15,6 +15,7 @@ namespace YoutubePlaylistDownloader
     {
         private Playlist list = null;
         private Video video = null;
+        private Channel channel = null;
         private readonly Dictionary<string, VideoQuality> Resolutions = new Dictionary<string, VideoQuality>()
         {
             { "144p", VideoQuality.Low144 },
@@ -47,6 +48,7 @@ namespace YoutubePlaylistDownloader
         {
             try
             {
+                
                 var client = new YoutubeClient();
                 if (YoutubeClient.TryParsePlaylistId(PlaylistLinkTextBox.Text, out string playlistId))
                 {
@@ -67,6 +69,26 @@ namespace YoutubePlaylistDownloader
 
                     }).ConfigureAwait(false);
 
+                }
+                else if (YoutubeClient.TryParseChannelId(PlaylistLinkTextBox.Text, out string channelId))
+                {
+                    _ = Task.Run(async () =>
+                    {
+                        channel = await client.GetChannelAsync(channelId).ConfigureAwait(false);
+                        list = await client.GetPlaylistAsync(channel.GetChannelVideosPlaylistId());
+                        video = null;
+                        Dispatcher.Invoke(() =>
+                        {
+                            PlaylistInfoGrid.Visibility = Visibility.Visible;
+                            PlaylistTitleTextBlock.Text = channel.Title;
+                            PlaylistDescriptionTextBlock.Text = list.Description;
+                            PlaylistAuthorTextBlock.Text = list.Author;
+                            PlaylistViewsTextBlock.Text = list.Statistics.ViewCount.ToString();
+                            PlaylistTotalVideosTextBlock.Text = list.Videos.Count.ToString();
+                            DownloadButton.IsEnabled = true;
+                        });
+
+                    }).ConfigureAwait(false);
                 }
                 else if (YoutubeClient.TryParseVideoId(PlaylistLinkTextBox.Text, out string videoId))
                 {
