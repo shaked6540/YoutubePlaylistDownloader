@@ -58,21 +58,21 @@ namespace YoutubePlaylistDownloader
             var client = new YoutubeClient();
             try
             {
-                Dispatcher.Invoke(() => Update(0, Video));
+                await Dispatcher.InvokeAsync(() => Update(0, Video));
 
                 var streamInfoSet = await client.GetVideoMediaStreamInfosAsync(Video.Id);
                 var cleanFileName = GlobalConsts.CleanFileName(Video.Title).Replace("$", "S");
-                var bestQuality = streamInfoSet.Muxed.MaxBy(x => x.AudioEncoding);
+                var bestQuality = streamInfoSet.Audio.MaxBy(x => x.AudioEncoding);
                 var fileLoc = $"{GlobalConsts.TempFolderPath}{cleanFileName}";
                 var outputFileLoc = $"{GlobalConsts.TempFolderPath}{cleanFileName}.{FileType}";
                 var copyFileLoc = $"{GlobalConsts.SaveDirectory}\\{cleanFileName}.{FileType}";
 
                 using (var stream = new ProgressStream(File.Create(fileLoc)))
                 {
-                    stream.BytesWritten += (sender, args) =>
+                    stream.BytesWritten += async (sender, args) =>
                     {
                         var precent = args.StreamLength * 100 / bestQuality.Size;
-                        Dispatcher.Invoke(() =>
+                        await Dispatcher.InvokeAsync(() =>
                         {
                             CurrentDownloadProgressBar.Value = precent;
                             CurrentDownloadProgressBarTextBlock.Text = $"{precent}%";
@@ -117,7 +117,7 @@ namespace YoutubePlaylistDownloader
             exit:
             while (ffmpegList.Count > 0)
             {
-                Dispatcher.Invoke(() =>
+                await Dispatcher.InvokeAsync(() =>
                 {
                     HeadlineTextBlock.Text = (string)FindResource("AllDone");
                     CurrentDownloadProgressBar.IsIndeterminate = true;
@@ -134,76 +134,63 @@ namespace YoutubePlaylistDownloader
         public async Task StartDownloading(CancellationToken token)
         {
             var client = new YoutubeClient();
-            Dispatcher.Invoke(() => Update(0, Video));
+            await Dispatcher.InvokeAsync(() => Update(0, Video));
             try
             {
                 var streamInfoSet = await client.GetVideoMediaStreamInfosAsync(Video.Id);
                 MediaStreamInfo bestQuality, bestAudio = null;
-                if (streamInfoSet.Muxed.Any(x => x.VideoQuality == Quality))
-                {
-                    bestQuality = streamInfoSet.Muxed.FirstOrDefault(x => x.VideoQuality == Quality);
-                }
-                else
-                {
-                    bestQuality = streamInfoSet.Video.OrderByDescending(x => x.VideoQuality == Quality).ThenByDescending(x => x.VideoQuality > Quality).ThenByDescending(x => x.VideoQuality).FirstOrDefault();
-                    bestAudio = streamInfoSet.Audio.OrderByDescending(x => x.AudioEncoding).FirstOrDefault();
-                }
+                bestQuality = streamInfoSet.Video.OrderByDescending(x => x.VideoQuality == Quality).ThenByDescending(x => x.VideoQuality > Quality).ThenByDescending(x => x.VideoQuality).FirstOrDefault();
+                bestAudio = streamInfoSet.Audio.OrderByDescending(x => x.AudioEncoding).FirstOrDefault();
                 var cleanVideoName = GlobalConsts.CleanFileName(Video.Title);//.Replace("$","S")
                 var fileLoc = $"{GlobalConsts.TempFolderPath}{cleanVideoName}";
                 var outputFileLoc = $"{GlobalConsts.TempFolderPath}{cleanVideoName}.mkv";
                 var copyFileLoc = $"{GlobalConsts.SaveDirectory}\\{cleanVideoName}.mkv";
-                var audioLoc = $"{GlobalConsts.TempFolderPath}{cleanVideoName}.{bestAudio.Container.GetFileExtension()}";
+
+                string audioLoc = null;
+                if (bestAudio != null)
+                    audioLoc = $"{GlobalConsts.TempFolderPath}{cleanVideoName}.{bestAudio.Container.GetFileExtension()}";
+
                 using (var stream = new ProgressStream(File.Create(fileLoc)))
                 {
-                    stream.BytesWritten += (sender, args) =>
+                    stream.BytesWritten += async (sender, args) =>
                     {
                         var precent = Convert.ToInt32(args.StreamLength * 100 / bestQuality.Size);
-                        Dispatcher.Invoke(() =>
+                        await Dispatcher.InvokeAsync(() =>
                         {
                             CurrentDownloadProgressBar.Value = precent;
                             CurrentDownloadProgressBarTextBlock.Text = $"{precent}%";
                         });
                     };
                     var videoTask = client.DownloadMediaStreamAsync(bestQuality, stream, cancellationToken: token);
-                    if (bestAudio != null)
-                    {
-                        using (var audioStream = File.Create(audioLoc))
-                        {
-                            var audioTask = client.DownloadMediaStreamAsync(bestAudio, audioStream);
-                            await Task.WhenAll(videoTask, audioTask);
-                        }
-                            var ffmpeg = new Process()
-                            {
-                                EnableRaisingEvents = true,
-                                StartInfo = new ProcessStartInfo()
-                                {
-                                    FileName = $"{GlobalConsts.CurrentDir}\\ffmpeg.exe",
-                                    Arguments = $"-i \"{fileLoc}\" -i \"{audioLoc}\" -y -c copy \"{outputFileLoc}\"",
-                                    CreateNoWindow = true,
-                                    UseShellExecute = false,
-                                }
-                            };
 
-                        
-                        token.ThrowIfCancellationRequested();
-                        ffmpeg.Exited += (x, y) =>
-                        {
-                            ffmpegList.Remove(ffmpeg);
-                            File.Copy(outputFileLoc, copyFileLoc, true);
-                            File.Delete(outputFileLoc);
-                            File.Delete(audioLoc);
-                            File.Delete(fileLoc);
-                        };
-                        ffmpeg.Start();
-                        ffmpegList.Add(ffmpeg);
-                    }
-                    else
+                    using (var audioStream = File.Create(audioLoc))
                     {
-                        await videoTask;
+                        var audioTask = client.DownloadMediaStreamAsync(bestAudio, audioStream);
+                        await Task.WhenAll(videoTask, audioTask);
+                    }
+                    var ffmpeg = new Process()
+                    {
+                        EnableRaisingEvents = true,
+                        StartInfo = new ProcessStartInfo()
+                        {
+                            FileName = $"{GlobalConsts.CurrentDir}\\ffmpeg.exe",
+                            Arguments = $"-i \"{fileLoc}\" -i \"{audioLoc}\" -y -c copy \"{outputFileLoc}\"",
+                            CreateNoWindow = true,
+                            UseShellExecute = false,
+                        }
+                    };
+
+                    token.ThrowIfCancellationRequested();
+                    ffmpeg.Exited += (x, y) =>
+                    {
+                        ffmpegList.Remove(ffmpeg);
                         File.Copy(outputFileLoc, copyFileLoc, true);
                         File.Delete(outputFileLoc);
-                    }
-                    token.ThrowIfCancellationRequested();
+                        File.Delete(audioLoc);
+                        File.Delete(fileLoc);
+                    };
+                    ffmpeg.Start();
+                    ffmpegList.Add(ffmpeg);
                     DownloadedCount++;
                 }
 
@@ -220,7 +207,7 @@ namespace YoutubePlaylistDownloader
             exit:
             while (ffmpegList.Count > 0)
             {
-                Dispatcher.Invoke(() =>
+                await Dispatcher.InvokeAsync(() =>
                 {
                     HeadlineTextBlock.Text = (string)FindResource("AllDone");
                     CurrentDownloadProgressBar.IsIndeterminate = true;

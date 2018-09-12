@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -13,6 +12,7 @@ namespace YoutubePlaylistDownloader
 {
     public partial class MainPage : UserControl
     {
+        private YoutubeClient client;
         private Playlist list = null;
         private Video video = null;
         private Channel channel = null;
@@ -31,7 +31,7 @@ namespace YoutubePlaylistDownloader
             { "4320p", VideoQuality.High4320 }
         };
 
-        private readonly string[] FileTypes = { "mp3", "aac", "opus", "wav" };
+        private readonly string[] FileTypes = { "mp3", "aac", "opus", "wav", "flac", "m4a", "ogg", "webm" };
 
         public MainPage()
         {
@@ -42,33 +42,21 @@ namespace YoutubePlaylistDownloader
             ExtensionsDropDown.ItemsSource = FileTypes;
             ResulotionDropDown.ItemsSource = Resolutions.Keys;
             ResulotionDropDown.SelectedIndex = 4;
+            client = new YoutubeClient();
         }
 
         private async void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             try
             {
-                
-                var client = new YoutubeClient();
                 if (YoutubeClient.TryParsePlaylistId(PlaylistLinkTextBox.Text, out string playlistId))
                 {
                     _ = Task.Run(async () =>
                     {
                         list = await client.GetPlaylistAsync(playlistId).ConfigureAwait(false);
                         video = null;
-                        Dispatcher.Invoke(() =>
-                        {
-                            PlaylistInfoGrid.Visibility = Visibility.Visible;
-                            PlaylistTitleTextBlock.Text = list.Title;
-                            PlaylistDescriptionTextBlock.Text = list.Description;
-                            PlaylistAuthorTextBlock.Text = list.Author;
-                            PlaylistViewsTextBlock.Text = list.Statistics.ViewCount.ToString();
-                            PlaylistTotalVideosTextBlock.Text = list.Videos.Count.ToString();
-                            DownloadButton.IsEnabled = true;
-                        });
-
+                        await UpdatePlaylistInfo(Visibility.Visible, list.Title, list.Description, list.Author, list.Statistics.ViewCount.ToString(), list.Videos.Count.ToString(), true);
                     }).ConfigureAwait(false);
-
                 }
                 else if (YoutubeClient.TryParseChannelId(PlaylistLinkTextBox.Text, out string channelId))
                 {
@@ -77,46 +65,19 @@ namespace YoutubePlaylistDownloader
                         channel = await client.GetChannelAsync(channelId).ConfigureAwait(false);
                         list = await client.GetPlaylistAsync(channel.GetChannelVideosPlaylistId());
                         video = null;
-                        Dispatcher.Invoke(() =>
-                        {
-                            PlaylistInfoGrid.Visibility = Visibility.Visible;
-                            PlaylistTitleTextBlock.Text = channel.Title;
-                            PlaylistDescriptionTextBlock.Text = list.Description;
-                            PlaylistAuthorTextBlock.Text = list.Author;
-                            PlaylistViewsTextBlock.Text = list.Statistics.ViewCount.ToString();
-                            PlaylistTotalVideosTextBlock.Text = list.Videos.Count.ToString();
-                            DownloadButton.IsEnabled = true;
-                        });
-
+                        await UpdatePlaylistInfo(Visibility.Visible, channel.Title, list.Description, list.Author, list.Statistics.ViewCount.ToString(), list.Videos.Count.ToString(), true);
                     }).ConfigureAwait(false);
                 }
                 else if (YoutubeClient.TryParseVideoId(PlaylistLinkTextBox.Text, out string videoId))
-                {
                     _ = Task.Run(async () =>
                     {
                         video = await client.GetVideoAsync(videoId);
                         list = null;
-                        Dispatcher.Invoke(() =>
-                        {
-                            PlaylistInfoGrid.Visibility = Visibility.Visible;
-                            PlaylistTitleTextBlock.Text = video.Title;
-                            PlaylistDescriptionTextBlock.Text = video.Description.Substring(0, Math.Min(64, video.Description.Length));
-                            PlaylistAuthorTextBlock.Text = video.Author;
-                            PlaylistViewsTextBlock.Text = video.Statistics.ViewCount.ToString();
-                            DownloadButton.IsEnabled = true;
-                        });
+                        await UpdatePlaylistInfo(Visibility.Visible, video.Title, video.Description.Substring(0, Math.Min(64, video.Description.Length)), video.Author, video.Statistics.ViewCount.ToString(), string.Empty, true);
                     }).ConfigureAwait(false);
-                }
+
                 else
-                {
-                    PlaylistInfoGrid.Visibility = Visibility.Collapsed;
-                    PlaylistTitleTextBlock.Text = string.Empty;
-                    PlaylistDescriptionTextBlock.Text = string.Empty;
-                    PlaylistAuthorTextBlock.Text = string.Empty;
-                    PlaylistViewsTextBlock.Text = string.Empty;
-                    PlaylistTotalVideosTextBlock.Text = string.Empty;
-                    DownloadButton.IsEnabled = false;
-                }
+                    await UpdatePlaylistInfo().ConfigureAwait(false);
             }
 
             catch (Exception ex)
@@ -147,6 +108,19 @@ namespace YoutubePlaylistDownloader
             else if (list == null && video != null)
                 GlobalConsts.LoadPage(new DownloadVideo(video, convert, vq, type, bitrate));
         }
+
+        private async Task UpdatePlaylistInfo(Visibility vis = Visibility.Collapsed, string title = "", string description = "", string author = "", string views = "", string totalVideos = "", bool downloadEnabled = false)
+            => await Dispatcher.InvokeAsync(() =>
+            {
+                PlaylistInfoGrid.Visibility = vis;
+                PlaylistTitleTextBlock.Text = title;
+                PlaylistDescriptionTextBlock.Text = description;
+                PlaylistAuthorTextBlock.Text = author;
+                PlaylistViewsTextBlock.Text = views;
+                PlaylistTotalVideosTextBlock.Text = totalVideos;
+                DownloadButton.IsEnabled = downloadEnabled;
+            });
+        
      
     }
 }

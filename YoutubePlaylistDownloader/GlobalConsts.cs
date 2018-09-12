@@ -54,46 +54,38 @@ namespace YoutubePlaylistDownloader
         {
             Current.SettingsButton.Visibility = Visibility.Collapsed;
         }
-
         public static void ShowSettingsButton()
         {
             Current.SettingsButton.Visibility = Visibility.Visible;
         }
-
         public static void HideAboutButton()
         {
             Current.AboutButton.Visibility = Visibility.Collapsed;
         }
-
         public static void ShowAboutButton()
         {
             Current.AboutButton.Visibility = Visibility.Visible;
         }
-
         public static void HideHomeButton()
         {
             Current.HomeButton.Visibility = Visibility.Collapsed;
         }
-
         public static void ShowHomeButton()
         {
             Current.HomeButton.Visibility = Visibility.Visible;
         }
-
         public static async Task ShowMessage(string title, string message)
         {
             if (Current.DefaultFlyout.IsOpen)
                 Current.DefaultFlyout.IsOpen = false;
             await Current.ShowMessage(title, message).ConfigureAwait(false);
         }
-
         public static async Task<MessageDialogResult> ShowYesNoDialog(string title, string message)
         {
             if (Current.DefaultFlyout.IsOpen)
                 Current.DefaultFlyout.IsOpen = false;
             return await Current.ShowYesNoDialog(title, message).ConfigureAwait(false);
         }
-
         public static void LoadPage(UserControl page) => Current.CurrentPage.Content = page;
         public static void SaveConsts()
         {
@@ -136,7 +128,6 @@ namespace YoutubePlaylistDownloader
             UpdateLanguage();
 
         }
-
         public static void CreateTempFolder()
         {
             if (!Directory.Exists(Path.GetTempPath() + "YoutubePlaylistDownloader"))
@@ -189,7 +180,6 @@ namespace YoutubePlaylistDownloader
                 await sw.WriteLineAsync($"[{DateTime.Now.ToString()}], [{sender}]:\t{message}");
             }
         }
-
         public static string CleanFileName(string filename)
         {
             var invalidChars = Regex.Escape(new string(Path.GetInvalidFileNameChars()));
@@ -211,7 +201,6 @@ namespace YoutubePlaylistDownloader
 
             return sanitisedNamePart;
         }
-
         public static async Task TagFile(Video video, int vIndex, string file, Playlist playlist = null)
         {
             var genre = video.Title.Split('[', ']').ElementAtOrDefault(1);
@@ -263,7 +252,14 @@ namespace YoutubePlaylistDownloader
             var index = title.LastIndexOf('-');
             if (index > 0)
             {
-                t.Tag.Title = title.Substring(index + 1).Trim();
+                var vTitle = title.Substring(index + 1).Trim(' ', '-');
+                if (string.IsNullOrWhiteSpace(vTitle))
+                {
+                    index = title.IndexOf('-');
+                    if (index > 0)
+                        vTitle = title.Substring(index + 1).Trim(' ', '-');
+                }
+                t.Tag.Title = vTitle;
                 t.Tag.Performers = title.Substring(0, index - 1).Trim().Split(new string[] { "&", "feat.", "feat", "ft.", " ft ", "Feat.", " x ", " X " }, StringSplitOptions.RemoveEmptyEntries);
             }
 
