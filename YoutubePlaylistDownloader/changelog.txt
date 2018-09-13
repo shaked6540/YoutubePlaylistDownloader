@@ -1,1 +1,1 @@
-﻿- Update test
+﻿- The program will now check for updates when its opened

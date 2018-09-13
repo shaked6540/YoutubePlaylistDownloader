@@ -34,7 +34,7 @@ namespace YoutubePlaylistDownloader
         private async Task StartUpdate()
         {
             await Dispatcher.InvokeAsync(() => HeadlineTextBlock.Text = $"{FindResource("DownloadingUpdateSetup")}");
-            var downloadLink = await webClient.DownloadStringTaskAsync("https://raw.githubusercontent.com/shaked6540/YoutubePlaylistDownloader/master/latestVersionLink.txt");
+            var downloadLink = await webClient.DownloadStringTaskAsync("https://raw.githubusercontent.com/shaked6540/YoutubePlaylistDownloader/master/YoutubePlaylistDownloader/latestVersionLink.txt");
 
             webClient.DownloadProgressChanged += async (s, e) =>
             {

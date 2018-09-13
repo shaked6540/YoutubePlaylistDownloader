@@ -7,8 +7,8 @@
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
 AppId={{444538EE-4F35-4245-AEAE-6C149BB852B8}
 AppName=YouTube Playlist Downloader
-AppVersion=0.91
-AppVerName=YouTube Playlist Downloader 0.91
+AppVersion=0.92
+AppVerName=YouTube Playlist Downloader 0.92
 AppPublisher=shaked6540
 AppPublisherURL=https://github.com/shaked6540/YoutubePlaylistDownloader
 AppSupportURL=https://github.com/shaked6540/YoutubePlaylistDownloader
@@ -17,7 +17,7 @@ DefaultDirName={pf}\YouTube Playlist Downloader
 DefaultGroupName=YouTube Playlist Downloader
 AllowNoIcons=yes
 LicenseFile=C:\Users\Shaked\OneDrive\Documents\Visual Studio 2017\Projects\YoutubePlaylistDownloader\YoutubePlaylistDownloader\bin\Release\License.txt
-OutputDir=D:\Inno output\0.9a
+OutputDir=D:\Inno output\0.92
 OutputBaseFilename=YPDSetup
 SetupIconFile=C:\Users\Shaked\OneDrive\Documents\Visual Studio 2017\Projects\YoutubePlaylistDownloader\YoutubePlaylistDownloader\finalIcon.ico
 Compression=lzma

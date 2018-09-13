@@ -1,1 +1,1 @@
-﻿https://github.com/shaked6540/YoutubePlaylistDownloader/releases/download/0.91/YPDSetup.exe
+﻿https://github.com/shaked6540/YoutubePlaylistDownloader/releases/download/0.92/YPDSetup.exe

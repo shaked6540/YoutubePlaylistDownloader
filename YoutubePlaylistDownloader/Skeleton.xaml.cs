@@ -1,5 +1,6 @@
 ﻿using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
+using System.Net;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -19,6 +20,29 @@ namespace YoutubePlaylistDownloader
 
             //Go to main menu
             GlobalConsts.LoadPage(new MainPage());
+
+            CheckForUpdates().ConfigureAwait(false);
+
+        }
+
+        private async Task CheckForUpdates()
+        {
+            try
+            {
+                using (var wc = new WebClient())
+                {
+                    var latestVersion = double.Parse(await wc.DownloadStringTaskAsync("https://raw.githubusercontent.com/shaked6540/YoutubePlaylistDownloader/master/YoutubePlaylistDownloader/latestVersion.txt"));
+
+                    if (latestVersion > GlobalConsts.VERSION)
+                    {
+                        var changelog = await wc.DownloadStringTaskAsync("https://raw.githubusercontent.com/shaked6540/YoutubePlaylistDownloader/master/YoutubePlaylistDownloader/changelog.txt");
+                        var update = await GlobalConsts.ShowYesNoDialog($"{FindResource("NewVersionAvailable")}", $"{FindResource("DoYouWantToUpdate")}\n{changelog}");
+                        if (update == MessageDialogResult.Affirmative)
+                            GlobalConsts.LoadPage(new DownloadUpdate(latestVersion));
+                    }
+                }
+            }
+            catch { }
         }
 
         private bool exit = false;
