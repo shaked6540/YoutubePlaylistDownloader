@@ -12,6 +12,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		License.txt = License.txt
 	EndProjectSection
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "YPDSetup", "YPDSetup\YPDSetup.vdproj", "{EBB1D188-B523-4943-A38B-378DD8A90879}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,6 +28,8 @@ Global
 		{8BA96D10-80F6-42A3-938D-29E83EAE99BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8BA96D10-80F6-42A3-938D-29E83EAE99BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8BA96D10-80F6-42A3-938D-29E83EAE99BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EBB1D188-B523-4943-A38B-378DD8A90879}.Debug|Any CPU.ActiveCfg = Debug
+		{EBB1D188-B523-4943-A38B-378DD8A90879}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
