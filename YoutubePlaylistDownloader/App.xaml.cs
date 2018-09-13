@@ -9,6 +9,7 @@ namespace YoutubePlaylistDownloader
     /// </summary>
     public partial class App : Application
     {
+
         public App()
         {
             DispatcherUnhandledException += App_DispatcherUnhandledException;
@@ -23,9 +24,17 @@ namespace YoutubePlaylistDownloader
 
         protected override void OnExit(ExitEventArgs e)
         {
-            GlobalConsts.SaveConsts();
-            GlobalConsts.CleanTempFolder();
-            base.OnExit(e);
+            if (GlobalConsts.UpdateOnExit && !string.IsNullOrWhiteSpace(GlobalConsts.UpdateSetupLocation))
+            {
+                Process.Start(GlobalConsts.UpdateSetupLocation);
+                base.OnExit(e);
+            }
+            else
+            {
+                GlobalConsts.SaveConsts();
+                GlobalConsts.CleanTempFolder();
+                base.OnExit(e);
+            }
         }
 
         async void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)

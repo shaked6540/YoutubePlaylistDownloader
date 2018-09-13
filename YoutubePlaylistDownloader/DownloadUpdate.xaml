@@ -1,0 +1,29 @@
+﻿<UserControl x:Class="YoutubePlaylistDownloader.DownloadUpdate"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+             Margin="5"
+             Width="{Binding ActualWidth, ElementName=Skeleton}"
+             FlowDirection="{DynamicResource FlowDirection}">
+    <StackPanel x:Name="DownloadProgressStackPanel" Width="1200" MaxWidth="1280">
+
+        <TextBlock x:Name="HeadlineTextBlock" HorizontalAlignment="Center" Text="{DynamicResource Loading}" FontSize="24" Foreground="{DynamicResource AccentColorBrush}" Margin="5" />
+        <Grid x:Name="CurrentDownloadGrid">
+            <Controls:MetroProgressBar Margin="10" Height="30" x:Name="CurrentDownloadProgressBar" Minimum="0" Maximum="100"/>
+            <TextBlock x:Name="CurrentDownloadProgressBarTextBlock" VerticalAlignment="Center" HorizontalAlignment="Center" />
+        </Grid>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <Controls:Tile Click="Exit_Click" x:Name="UpdateNowButton" Visibility="Collapsed" HorizontalAlignment="Center" Title="{DynamicResource UpdateAndExit}" Margin="5" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Controls:ControlsHelper.MouseOverBorderBrush="{DynamicResource BlackBrush}"  HorizontalTitleAlignment="Right" Style="{StaticResource LargeTileStyle}">
+                <iconPacks:PackIconModern Width="40" Height="40" Kind="CabinetIn" />
+            </Controls:Tile>
+            <Controls:Tile Click="Exit_Click" x:Name="BackButton" HorizontalAlignment="Center" Title="{DynamicResource Back}" Margin="5" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Controls:ControlsHelper.MouseOverBorderBrush="{DynamicResource BlackBrush}"  HorizontalTitleAlignment="Right" Style="{StaticResource LargeTileStyle}">
+                <iconPacks:PackIconModern Width="40" Height="40" Kind="ArrowLeft" />
+            </Controls:Tile>
+            <Controls:Tile Click="ExitLater_Click" x:Name="UpdateLaterButton" Visibility="Collapsed" HorizontalAlignment="Center" Title="{DynamicResource UpdateWhenIExit}" Margin="5" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Controls:ControlsHelper.MouseOverBorderBrush="{DynamicResource BlackBrush}"  HorizontalTitleAlignment="Right" Style="{StaticResource LargeTileStyle}">
+                <iconPacks:PackIconModern Width="40" Height="40" Kind="ArrowLeft" />
+            </Controls:Tile>
+        </StackPanel>
+
+    </StackPanel>
+</UserControl>

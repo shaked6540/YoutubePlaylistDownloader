@@ -1,6 +1,8 @@
-﻿using System;
+﻿using MahApps.Metro.Controls.Dialogs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -43,7 +45,34 @@ namespace YoutubePlaylistDownloader
             ResulotionDropDown.ItemsSource = Resolutions.Keys;
             ResulotionDropDown.SelectedIndex = 4;
             client = new YoutubeClient();
+            Loaded += MainPage_Loaded;
         }
+
+        private async void MainPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            await CheckForUpdates().ConfigureAwait(false);
+        }
+
+        private async Task CheckForUpdates()
+        {
+            try
+            {
+                using (var wc = new WebClient())
+                {
+                    var latestVersion = double.Parse(await wc.DownloadStringTaskAsync("https://raw.githubusercontent.com/shaked6540/YoutubePlaylistDownloader/master/latestVersion.txt"));
+
+                    if (latestVersion > GlobalConsts.VERSION)
+                    {
+                        var changelog = wc.DownloadStringTaskAsync("https://raw.githubusercontent.com/shaked6540/YoutubePlaylistDownloader/master/changelog.txt");
+                        var update = await GlobalConsts.ShowYesNoDialog($"{FindResource("NewVersionAvailable")}", $"{FindResource("DoYouWantToUpdate")}\n{changelog}");
+                        if (update == MessageDialogResult.Affirmative)
+                            GlobalConsts.LoadPage(new DownloadUpdate(latestVersion));
+                    }
+                }
+            }
+            catch { }
+        }
+        
 
         private async void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {

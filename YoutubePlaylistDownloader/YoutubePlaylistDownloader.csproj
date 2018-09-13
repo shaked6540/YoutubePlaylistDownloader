@@ -136,6 +136,9 @@
     <Compile Include="DownloadPage.xaml.cs">
       <DependentUpon>DownloadPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DownloadUpdate.xaml.cs">
+      <DependentUpon>DownloadUpdate.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DownloadVideo.xaml.cs">
       <DependentUpon>DownloadVideo.xaml</DependentUpon>
     </Compile>
@@ -156,6 +159,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="DownloadPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DownloadUpdate.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -249,6 +256,9 @@
     <Resource Include="finalIcon.ico" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="changelog.txt" />
+    <Resource Include="latestVersion.txt" />
+    <Resource Include="latestVersionLink.txt" />
     <Content Include="License.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
