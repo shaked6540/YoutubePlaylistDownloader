@@ -44,7 +44,20 @@
 עד כמה שידוע לי, YouTube אינו מתיר הורדת סרטונים מהאתר שלהם. 
 קוד המקור המלא של התכונה זמין בלינק הבא: https://github.com/shaked6540/YoutubePlaylistDownloader
     
-ההתקנה נוצרה בעזרת Inno Setup (http://www.jrsoftware.org/isinfo.php)</s:String>
+ההתקנה נוצרה בעזרת Inno Setup (http://www.jrsoftware.org/isinfo.php)
+
+
+YouTube Playlist Downloader v</s:String>
     <s:String x:Key="SaveAndBackToDownload">שמור וחזור לתפריט הראשי</s:String>
     <s:String x:Key="BitRate">קבע את קצב הביטים ל</s:String>
+        <s:String x:Key="NewVersionAvailable">גרסה חדשה זמינה</s:String>
+    <s:String x:Key="DoYouWantToUpdate">גרסה חדשה זמינה, האם אתה רוצה לעדכן?
+הנה מה שחדש: </s:String>
+    <s:String x:Key="DownloadingUpdateSetup">כרגע מוריד: Update Setup</s:String>
+    <s:String x:Key="UpdateCancelled">העדכון בוטל.</s:String>
+    <s:String x:Key="ErrorWhileUpdating">אירעה שגיאה בעת הורדת קובץ העדכון, וודא כי אתה מחובר לאינטרנט
+אם אתה מחובר לאינטרנט, נסה שוב מאוחר יותר או בדוק באתר https://github.com/shaked6540/YoutubePlaylistDownloader/issues כדי לבדוק אם יש תקלות בשרת ההורדה</s:String>
+    <s:String x:Key="UpdateComplete">ההורדה הושלמה</s:String>
+    <s:String x:Key="UpdateWhenIExit">עדכן אחרי שאני יוצא</s:String>
+    <s:String x:Key="UpdateAndExit">סגור את התוכנה ועדכן עכשיו</s:String>
 </ResourceDictionary>

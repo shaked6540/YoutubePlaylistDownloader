@@ -1,1 +1,2 @@
-﻿- The program will now check for updates when its opened
+﻿- Translation to Hebrew is now complete
+- "Update when I exit" now works as intended

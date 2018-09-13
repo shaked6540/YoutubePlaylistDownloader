@@ -105,7 +105,9 @@ namespace YoutubePlaylistDownloader
 
         private void ExitLater_Click(object sender, RoutedEventArgs e)
         {
-            
+            GlobalConsts.UpdateOnExit = true;
+            GlobalConsts.UpdateSetupLocation = $"{GlobalConsts.TempFolderPath}Setup{latestVersion}.exe";
+            GlobalConsts.LoadPage(new MainPage());
         }
     }
 }
