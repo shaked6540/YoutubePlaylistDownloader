@@ -31,7 +31,7 @@
 
 
         <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" Height="Auto">
-            <Grid Width="{Binding Width, ElementName=SkeletonWindow}" VerticalAlignment="Bottom">
+            <Grid Width="{Binding ActualWidth, ElementName=SkeletonWindow}" VerticalAlignment="Bottom">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                     <ColumnDefinition/>

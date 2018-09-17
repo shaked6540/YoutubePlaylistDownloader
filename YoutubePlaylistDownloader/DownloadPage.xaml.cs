@@ -27,6 +27,7 @@ namespace YoutubePlaylistDownloader
         private CancellationTokenSource cts;
         private VideoQuality Quality;
         private string Bitrate;
+        private List<Tuple<string, string>> NotDownloaded;
 
         public DownloadPage(Playlist playlist, bool convert, VideoQuality quality = VideoQuality.High720, string fileType = "mp3", string bitrate = null)
         {
@@ -36,6 +37,7 @@ namespace YoutubePlaylistDownloader
             GlobalConsts.HideHomeButton();
             cts = new CancellationTokenSource();
             ffmpegList = new List<Process>();
+            NotDownloaded = new List<Tuple<string, string>>();
             DownloadedVideosProgressBar.Maximum = playlist.Videos.Count;
             Playlist = playlist;
             FileType = fileType;
@@ -112,12 +114,17 @@ namespace YoutubePlaylistDownloader
                 {
                     goto exit;
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    NotDownloaded.Add(new Tuple<string, string>(video.Title, ex.Message));
                 }
             }
 
             exit:
+
+            if (NotDownloaded.Any())
+                await GlobalConsts.ShowMessage($"{FindResource("CouldntDownload")}", string.Concat($"{FindResource("ListOfNotDownloadedVideos")}\n", string.Join("\n", NotDownloaded.Select(x => string.Concat(x.Item1, " Reason: ", x.Item2)))));
+
             while (ffmpegList.Count > 0)
             {
                 await Dispatcher.InvokeAsync(() =>
@@ -208,13 +215,15 @@ namespace YoutubePlaylistDownloader
                 }
                 catch (Exception ex)
                 {
-#if DEBUG
-                    await GlobalConsts.ShowMessage("Error", ex.Message);
-#endif
+                    NotDownloaded.Add(new Tuple<string, string>(video.Title, ex.Message));
                 }
             }
 
             exit:
+
+            if (NotDownloaded.Any())
+                await GlobalConsts.ShowMessage($"{FindResource("CouldntDownload")}", string.Concat($"{FindResource("ListOfNotDownloadedVideos")}\n", string.Join("\n", NotDownloaded.Select(x => string.Concat(x.Item1, " Reason: ", x.Item2)))));
+
             while (ffmpegList.Count > 0)
             {
                 await Dispatcher.InvokeAsync(() =>

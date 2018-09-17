@@ -24,15 +24,17 @@ namespace YoutubePlaylistDownloader
         public static AppTheme Theme;
         public static Accent Accent;
         public static Brush ErrorBrush;
+        public static readonly WebClient WebClient;
         public static string Language;
         public static readonly string TempFolderPath;
         public static string SaveDirectory;
         public static readonly string CurrentDir;
         private static readonly string ConfigFilePath;
         private static readonly string ErrorFilePath;
-        public const double VERSION = 1;
+        public const double VERSION = 1.1;
         public static bool UpdateOnExit;
         public static string UpdateSetupLocation;
+        public static bool OptionExpanderIsExpanded;
 
 
         public static AppTheme Opposite { get { return Theme.Name == "BaseLight" ? ThemeManager.GetAppTheme("BaseDark") : ThemeManager.GetAppTheme("BaseLight"); } }
@@ -50,6 +52,7 @@ namespace YoutubePlaylistDownloader
             TempFolderPath = Path.GetTempPath() + "YoutubePlaylistDownloader\\";
             UpdateOnExit = false;
             UpdateSetupLocation = string.Empty;
+            WebClient = new WebClient();
         }
 
         //The const methods are used mainly for saving/loading consts, and handling page\menu management.
@@ -100,16 +103,22 @@ namespace YoutubePlaylistDownloader
                 sw.WriteLine(Accent.Name.Encrypt());
                 sw.WriteLine(Language.Encrypt());
                 sw.WriteLine(SaveDirectory.Encrypt());
+                sw.WriteLine(OptionExpanderIsExpanded.ToString().Encrypt());
             }
 
         }
-        private static void RestoreDefualts()
+        public static void RestoreDefualts()
         {
-            Theme = ThemeManager.GetAppTheme("BaseLight");
-            Accent = ThemeManager.GetAccent("Cobalt");
+            Theme = ThemeManager.GetAppTheme("BaseDark");
+            Accent = ThemeManager.GetAccent("Red");
             Language = "English";
+            OptionExpanderIsExpanded = true;
 
-            SaveConsts();
+            try
+            {
+                SaveConsts();
+            }
+            catch { }
         }
         public static void LoadConsts()
         {
@@ -119,15 +128,20 @@ namespace YoutubePlaylistDownloader
                 return;
             }
 
-
             var lines = File.ReadAllLines(ConfigFilePath);
 
-
-            Theme = ThemeManager.GetAppTheme(lines[0].Decrypt());
-            Accent = ThemeManager.GetAccent(lines[1].Decrypt());
-            Language = lines[2].Decrypt();
-            SaveDirectory = lines[3].Decrypt();
-
+            try
+            {
+                Theme = ThemeManager.GetAppTheme(lines[0].Decrypt());
+                Accent = ThemeManager.GetAccent(lines[1].Decrypt());
+                Language = lines[2].Decrypt();
+                SaveDirectory = lines[3].Decrypt();
+                OptionExpanderIsExpanded = bool.Parse(lines[4].Decrypt());
+            }
+            catch
+            {
+                RestoreDefualts();
+            }
             UpdateTheme();
             UpdateLanguage();
 

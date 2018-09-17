@@ -39,6 +39,7 @@
     <s:String x:Key="Home">בית</s:String>
     <s:String x:Key="Prefer">העדף סרטונים ברזולוציה </s:String>
     <s:String x:Key="AreYouSureExit">האם אתה בטוח שברצונך לצאת?</s:String>
+    <s:String x:Key="TotalVideos">כמות סרטונים</s:String>
     <s:String x:Key="AboutTheProgram">תוכנית זו פותחה על ידי shaked6540 והיא חופשית לחלוטין לשימוש ללא הגבלה.
 עם זאת, אינני אחראי לכל בעיה משפטית שתכנית זו תגרום לך,
 עד כמה שידוע לי, YouTube אינו מתיר הורדת סרטונים מהאתר שלהם. 
@@ -60,4 +61,10 @@ YouTube Playlist Downloader v</s:String>
     <s:String x:Key="UpdateComplete">ההורדה הושלמה</s:String>
     <s:String x:Key="UpdateWhenIExit">עדכן אחרי שאני יוצא</s:String>
     <s:String x:Key="UpdateAndExit">סגור את התוכנה ועדכן עכשיו</s:String>
+    <s:String x:Key="UpdateFailed">העדכון נכשל</s:String>
+    <s:String x:Key="CannotUpdate">לא ניתן לעדכן בשלב זה, נסה להפעיל מחדש את האפליקציה ולוודא שאתה מחובר לאינטרנט.
+הודעת שגיאה: </s:String>
+    <s:String x:Key="CouldntDownload">לא ניתן היה להוריד סרטונים מסוימים</s:String>
+    <s:String x:Key="ListOfNotDownloadedVideos">הנה רשימה של סרטונים שלא ניתן להוריד, והסיבה לכך: </s:String>
+    <s:String x:Key="Options">אפשרויות</s:String>
 </ResourceDictionary>

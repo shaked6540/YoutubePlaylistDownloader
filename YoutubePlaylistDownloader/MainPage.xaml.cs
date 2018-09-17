@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media.Imaging;
 using YoutubeExplode;
 using YoutubeExplode.Models;
 using YoutubeExplode.Models.MediaStreams;
@@ -42,6 +43,7 @@ namespace YoutubePlaylistDownloader
             ExtensionsDropDown.ItemsSource = FileTypes;
             ResulotionDropDown.ItemsSource = Resolutions.Keys;
             ResulotionDropDown.SelectedIndex = 4;
+            OptionsExpander.IsExpanded = GlobalConsts.OptionExpanderIsExpanded;
             client = new YoutubeClient();
         }
 
@@ -55,7 +57,7 @@ namespace YoutubePlaylistDownloader
                     {
                         list = await client.GetPlaylistAsync(playlistId).ConfigureAwait(false);
                         video = null;
-                        await UpdatePlaylistInfo(Visibility.Visible, list.Title, list.Description, list.Author, list.Statistics.ViewCount.ToString(), list.Videos.Count.ToString(), true);
+                        await UpdatePlaylistInfo(Visibility.Visible, list.Title, list.Author, list.Statistics.ViewCount.ToString(), list.Videos.Count.ToString(), $"https://img.youtube.com/vi/{list?.Videos?.FirstOrDefault()?.Id}/0.jpg", true);
                     }).ConfigureAwait(false);
                 }
                 else if (YoutubeClient.TryParseChannelId(PlaylistLinkTextBox.Text, out string channelId))
@@ -65,7 +67,7 @@ namespace YoutubePlaylistDownloader
                         channel = await client.GetChannelAsync(channelId).ConfigureAwait(false);
                         list = await client.GetPlaylistAsync(channel.GetChannelVideosPlaylistId());
                         video = null;
-                        await UpdatePlaylistInfo(Visibility.Visible, channel.Title, list.Description, list.Author, list.Statistics.ViewCount.ToString(), list.Videos.Count.ToString(), true);
+                        await UpdatePlaylistInfo(Visibility.Visible, channel.Title, list.Author, list.Statistics.ViewCount.ToString(), list.Videos.Count.ToString(), $"https://img.youtube.com/vi/{channel.LogoUrl}/0.jpg", true);
                     }).ConfigureAwait(false);
                 }
                 else if (YoutubeClient.TryParseVideoId(PlaylistLinkTextBox.Text, out string videoId))
@@ -73,7 +75,7 @@ namespace YoutubePlaylistDownloader
                     {
                         video = await client.GetVideoAsync(videoId);
                         list = null;
-                        await UpdatePlaylistInfo(Visibility.Visible, video.Title, video.Description.Substring(0, Math.Min(64, video.Description.Length)), video.Author, video.Statistics.ViewCount.ToString(), string.Empty, true);
+                        await UpdatePlaylistInfo(Visibility.Visible, video.Title, video.Author, video.Statistics.ViewCount.ToString(), string.Empty, $"https://img.youtube.com/vi/{video.Id}/0.jpg", true);
                     }).ConfigureAwait(false);
 
                 else
@@ -109,18 +111,40 @@ namespace YoutubePlaylistDownloader
                 GlobalConsts.LoadPage(new DownloadVideo(video, convert, vq, type, bitrate));
         }
 
-        private async Task UpdatePlaylistInfo(Visibility vis = Visibility.Collapsed, string title = "", string description = "", string author = "", string views = "", string totalVideos = "", bool downloadEnabled = false)
+        private async Task UpdatePlaylistInfo(Visibility vis = Visibility.Collapsed, string title = "", string author = "", string views = "", string totalVideos = "", string imageUrl = "", bool downloadEnabled = false)
             => await Dispatcher.InvokeAsync(() =>
             {
+                if (!string.IsNullOrWhiteSpace(imageUrl))
+                {
+                    PlaylistInfoImage.Source = new BitmapImage(new Uri(imageUrl));
+                    PlaylistInfoImage.Visibility = Visibility.Visible;
+                }
+                else
+                    PlaylistInfoImage.Visibility = Visibility.Collapsed;
+
                 PlaylistInfoGrid.Visibility = vis;
                 PlaylistTitleTextBlock.Text = title;
-                PlaylistDescriptionTextBlock.Text = description;
                 PlaylistAuthorTextBlock.Text = author;
                 PlaylistViewsTextBlock.Text = views;
-                PlaylistTotalVideosTextBlock.Text = totalVideos;
+
+                if (!string.IsNullOrWhiteSpace(totalVideos))
+                {
+                    PlaylistTotalVideosTextBlockText.Visibility = Visibility.Visible;
+                    PlaylistTotalVideosTextBlock.Visibility = Visibility.Visible;
+                    PlaylistTotalVideosTextBlock.Text = totalVideos;
+                }
+                else
+                {
+                    PlaylistTotalVideosTextBlockText.Visibility = Visibility.Collapsed;
+                    PlaylistTotalVideosTextBlock.Visibility = Visibility.Collapsed;
+                }
+
                 DownloadButton.IsEnabled = downloadEnabled;
             });
-        
-     
+
+        private void OptionsExpander_Expanded(object sender, RoutedEventArgs e)
+        {
+            GlobalConsts.OptionExpanderIsExpanded = OptionsExpander.IsExpanded;
+        }
     }
 }

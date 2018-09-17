@@ -24,17 +24,16 @@ namespace YoutubePlaylistDownloader
 
         protected override void OnExit(ExitEventArgs e)
         {
+            GlobalConsts.SaveConsts();
             if (GlobalConsts.UpdateOnExit && !string.IsNullOrWhiteSpace(GlobalConsts.UpdateSetupLocation))
             {
                 Process.Start(GlobalConsts.UpdateSetupLocation);
-                base.OnExit(e);
             }
             else
             {
-                GlobalConsts.SaveConsts();
                 GlobalConsts.CleanTempFolder();
-                base.OnExit(e);
             }
+            base.OnExit(e);
         }
 
         async void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)

@@ -1,2 +1,5 @@
-﻿- Translation to Hebrew is now complete
-- "Update when I exit" now works as intended
+﻿- Changes to UI
+- Updated can now be run in the background and you don't have to wait until the update is finished downloading to use the program
+- Changed the default theme to Dark and default accent color to Red. This matches better with how YouTube looks
+- If some videos failed to download you will be notified now
+- Fixed some UI glitches that would occur when the application is started in full screen
