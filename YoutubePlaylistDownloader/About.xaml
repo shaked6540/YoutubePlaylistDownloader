@@ -6,20 +6,26 @@
              Margin="5"
              Width="{Binding ActualWidth, ElementName=SkeletonWindow}"
              FlowDirection="{DynamicResource FlowDirection}">
-    
-    
-    <Controls:MetroTabControl HorizontalAlignment="Center">
-        <Controls:MetroTabItem Header="{DynamicResource About}">
-            <RichTextBox MaxWidth="1200" Width="600" BorderThickness="0" Cursor="Arrow" IsReadOnly="True" IsReadOnlyCaretVisible="False"  >
-                <FlowDocument>
-                    <Paragraph>
-                        <Run x:Name="AboutRun" Text="{DynamicResource AboutTheProgram}" ></Run>
-                    </Paragraph>
-                </FlowDocument>
-            </RichTextBox>
-        </Controls:MetroTabItem>
+    <StackPanel>
 
+        <Controls:MetroTabControl HorizontalAlignment="Center">
 
-    </Controls:MetroTabControl>
+            <Controls:MetroTabItem Header="{DynamicResource About}">
+                <RichTextBox MaxWidth="1200" Width="600" BorderThickness="0" Cursor="Arrow" IsReadOnly="True" IsReadOnlyCaretVisible="False"  >
+                    <FlowDocument>
+                        <Paragraph>
+                            <Run x:Name="AboutRun" Text="{DynamicResource AboutTheProgram}" ></Run>
+                        </Paragraph>
+                    </FlowDocument>
+                </RichTextBox>
+            </Controls:MetroTabItem>
+
+        </Controls:MetroTabControl>
+
+        <Controls:Tile Style="{DynamicResource LargeTileStyle}" x:Name="UpdateButton" Title="{DynamicResource CheckForUpdates}" Click="UpdateButton_Click">
+            <iconPacks:PackIconModern Width="40" Height="40" Kind="Inbox" />
+        </Controls:Tile>
+
+    </StackPanel>
 
 </UserControl>

@@ -67,4 +67,7 @@ YouTube Playlist Downloader v</s:String>
     <s:String x:Key="CouldntDownload">לא ניתן היה להוריד סרטונים מסוימים</s:String>
     <s:String x:Key="ListOfNotDownloadedVideos">הנה רשימה של סרטונים שלא ניתן להוריד, והסיבה לכך: </s:String>
     <s:String x:Key="Options">אפשרויות</s:String>
+        <s:String x:Key="CheckForUpdates">בדוק אם קיים עדכון</s:String>
+    <s:String x:Key="NoUpdates">אין עדכונים זמינים</s:String>
+    <s:String x:Key="NoUpdatesAvailable">אין עדכונים זמינים כרגע, יש לך את הגרסה העדכנית ביותר.</s:String>
 </ResourceDictionary>

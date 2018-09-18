@@ -67,4 +67,7 @@ Error message: </s:String>
     <s:String x:Key="CouldntDownload">Some videos could not be downloaded</s:String>
     <s:String x:Key="ListOfNotDownloadedVideos">Here is a list of the videos that could not be downloaded, and the reason why: </s:String>
     <s:String x:Key="Options">Options</s:String>
+    <s:String x:Key="CheckForUpdates">Check for updates</s:String>
+    <s:String x:Key="NoUpdates">No Updates Available</s:String>
+    <s:String x:Key="NoUpdatesAvailable">There are no updates available at this time, you have the latest version.</s:String>
 </ResourceDictionary>
