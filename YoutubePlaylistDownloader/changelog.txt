@@ -1,1 +1,1 @@
-﻿- Added "Check for updates" button in the About page, to manually check for updates
+﻿- Fixed a bug that happened when a user clicked on "Update when I exit" but the update didn't finish downloading

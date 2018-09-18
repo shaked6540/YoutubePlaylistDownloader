@@ -25,7 +25,7 @@ namespace YoutubePlaylistDownloader
         protected override void OnExit(ExitEventArgs e)
         {
             GlobalConsts.SaveConsts();
-            if (GlobalConsts.UpdateOnExit && !string.IsNullOrWhiteSpace(GlobalConsts.UpdateSetupLocation))
+            if (GlobalConsts.UpdateOnExit && !string.IsNullOrWhiteSpace(GlobalConsts.UpdateSetupLocation) && GlobalConsts.UpdateFinishedDownloading)
             {
                 Process.Start(GlobalConsts.UpdateSetupLocation);
             }

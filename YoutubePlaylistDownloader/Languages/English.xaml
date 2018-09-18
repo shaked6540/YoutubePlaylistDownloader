@@ -53,7 +53,7 @@ YouTube Playlist Downloader v</s:String>
     <s:String x:Key="BitRate">and set the bitrate to</s:String>
     <s:String x:Key="NewVersionAvailable">New version available</s:String>
     <s:String x:Key="DoYouWantToUpdate">A new version is available, do you want to update?
-Here is whats new: </s:String>
+Here's whats new: </s:String>
     <s:String x:Key="DownloadingUpdateSetup">Currently downloading: Update Setup</s:String>
     <s:String x:Key="UpdateCancelled">Update was cancelled.</s:String>
     <s:String x:Key="ErrorWhileUpdating">An error has occured while downloading the update setup, make sure you're connected to the internet
