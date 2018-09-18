@@ -7,8 +7,8 @@
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
 AppId={{444538EE-4F35-4245-AEAE-6C149BB852B8}
 AppName=YouTube Playlist Downloader
-AppVersion=1.1
-AppVerName=YouTube Playlist Downloader 1.1
+AppVersion=1.1.1
+AppVerName=YouTube Playlist Downloader 1.1.1
 AppPublisher=shaked6540
 AppPublisherURL=https://github.com/shaked6540/YoutubePlaylistDownloader
 AppSupportURL=https://github.com/shaked6540/YoutubePlaylistDownloader
@@ -17,7 +17,7 @@ DefaultDirName={pf}\YouTube Playlist Downloader
 DefaultGroupName=YouTube Playlist Downloader
 AllowNoIcons=yes
 LicenseFile=C:\Users\Shaked\OneDrive\Documents\Visual Studio 2017\Projects\YoutubePlaylistDownloader\YoutubePlaylistDownloader\bin\Release\License.txt
-OutputDir=D:\Inno output\1.1
+OutputDir=D:\Inno output\1.1.1
 OutputBaseFilename=YPDSetup
 SetupIconFile=C:\Users\Shaked\OneDrive\Documents\Visual Studio 2017\Projects\YoutubePlaylistDownloader\YoutubePlaylistDownloader\finalIcon.ico
 Compression=lzma
@@ -63,7 +63,6 @@ Source: "C:\Users\Shaked\OneDrive\Documents\Visual Studio 2017\Projects\YoutubeP
 Source: "C:\Users\Shaked\OneDrive\Documents\Visual Studio 2017\Projects\YoutubePlaylistDownloader\YoutubePlaylistDownloader\bin\Release\YoutubeExplode.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\Shaked\OneDrive\Documents\Visual Studio 2017\Projects\YoutubePlaylistDownloader\YoutubePlaylistDownloader\bin\Release\YoutubeExplode.xml"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\Shaked\OneDrive\Documents\Visual Studio 2017\Projects\YoutubePlaylistDownloader\YoutubePlaylistDownloader\bin\Release\YoutubePlaylistDownloader.exe.config"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\Shaked\OneDrive\Documents\Visual Studio 2017\Projects\YoutubePlaylistDownloader\YoutubePlaylistDownloader\bin\Release\YoutubePlaylistDownloader.log"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\Shaked\OneDrive\Documents\Visual Studio 2017\Projects\YoutubePlaylistDownloader\YoutubePlaylistDownloader\bin\Release\YoutubePlaylistDownloader.pdb"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\ffmpeg\bin\ffmpeg.exe"; DestDir: "{app}"; Flags: ignoreversion
 
