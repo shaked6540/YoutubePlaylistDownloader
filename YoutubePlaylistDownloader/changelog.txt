@@ -1,1 +1,2 @@
-﻿- Fixed a bug that happened when a user clicked on "Update when I exit" but the update didn't finish downloading
+﻿- Fixed an app crash when "Update later" finished downloading
+- A new download mirror is now available, no more slow downloads from github servers!

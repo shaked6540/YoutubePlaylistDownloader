@@ -31,11 +31,12 @@ namespace YoutubePlaylistDownloader
         public static readonly string CurrentDir;
         private static readonly string ConfigFilePath;
         private static readonly string ErrorFilePath;
-        public const double VERSION = 1.102;
+        public const double VERSION = 1.103;
         public static bool UpdateOnExit;
         public static string UpdateSetupLocation;
         public static bool OptionExpanderIsExpanded;
         public static bool UpdateFinishedDownloading;
+        public static bool UpdateLater;
         public static DownloadUpdate UpdateControl;
 
         public static AppTheme Opposite { get { return Theme.Name == "BaseLight" ? ThemeManager.GetAppTheme("BaseDark") : ThemeManager.GetAppTheme("BaseLight"); } }
@@ -45,13 +46,19 @@ namespace YoutubePlaylistDownloader
         static GlobalConsts()
         {
             CurrentDir = new FileInfo(Assembly.GetEntryAssembly().Location).Directory.ToString();
-            ConfigFilePath = CurrentDir + "\\TopSecretFile.dll";
+            string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\Youtube Playlist Downloader\\";
+            ConfigFilePath = appDataPath + "TopSecretFile.dll";
             ErrorFilePath = CurrentDir + $"\\{Assembly.GetExecutingAssembly().GetName().Name}.log";
+
+            if (!Directory.Exists(appDataPath))
+                Directory.CreateDirectory(appDataPath);
+
             ErrorBrush = Brushes.Crimson;
             Language = "English";
             SaveDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos);
             TempFolderPath = Path.GetTempPath() + "YoutubePlaylistDownloader\\";
             UpdateOnExit = false;
+            UpdateLater = false;
             UpdateSetupLocation = string.Empty;
             WebClient = new WebClient();
         }

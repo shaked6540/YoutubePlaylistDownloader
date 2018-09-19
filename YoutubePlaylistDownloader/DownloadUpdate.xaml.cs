@@ -17,6 +17,7 @@ namespace YoutubePlaylistDownloader
         private double latestVersion;
         private bool downloadFinished;
         private CancellationTokenSource cts;
+        private string updateSetupLocation;
 
         public DownloadUpdate(double latestVersion)
         {
@@ -27,6 +28,7 @@ namespace YoutubePlaylistDownloader
             cts = new CancellationTokenSource();
             this.latestVersion = latestVersion;
             downloadFinished = false;
+            updateSetupLocation = $"{GlobalConsts.TempFolderPath}Setup {latestVersion}.exe";
             StartUpdate().ConfigureAwait(false);
         }
 
@@ -36,7 +38,7 @@ namespace YoutubePlaylistDownloader
             var downloadLink = await GlobalConsts.WebClient.DownloadStringTaskAsync("https://raw.githubusercontent.com/shaked6540/YoutubePlaylistDownloader/master/YoutubePlaylistDownloader/latestVersionLink.txt");
             GlobalConsts.WebClient.DownloadProgressChanged += DownloadProgressChanged;
             GlobalConsts.WebClient.DownloadFileCompleted += DownloadFileCompleted;
-            GlobalConsts.WebClient.DownloadFileAsync(new Uri(downloadLink), $"{GlobalConsts.TempFolderPath}Setup{latestVersion}.exe");
+            GlobalConsts.WebClient.DownloadFileAsync(new Uri(downloadLink), updateSetupLocation);
         }
 
         private async void DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
@@ -53,9 +55,12 @@ namespace YoutubePlaylistDownloader
             {
                 await Dispatcher.InvokeAsync(() =>
                 {
-                    HeadlineTextBlock.Text = $"{FindResource("ErrorWhileUpdating")}";
+                    UpdateLaterButton.Visibility = Visibility.Collapsed;
                     CurrentDownloadGrid.Visibility = Visibility.Collapsed;
+                    HeadlineTextBlock.Text = $"{FindResource("Error")}";
+
                 });
+                await GlobalConsts.ShowMessage($"{FindResource($"Error")}", $"{FindResource("ErrorWhileUpdating")}");
             }
             else
             {
@@ -85,7 +90,7 @@ namespace YoutubePlaylistDownloader
         {
             if (downloadFinished)
             {
-                Process.Start($"{GlobalConsts.TempFolderPath}Setup{latestVersion}.exe");
+                Process.Start(updateSetupLocation);
                 Environment.Exit(0);
             }
             else
@@ -96,6 +101,7 @@ namespace YoutubePlaylistDownloader
                     GlobalConsts.WebClient.Dispose();
                     GlobalConsts.UpdateOnExit = false;
                     GlobalConsts.UpdateSetupLocation = string.Empty;
+                    GlobalConsts.UpdateLater = false;
                 }
                 finally
                 {
@@ -108,14 +114,16 @@ namespace YoutubePlaylistDownloader
         {
             GlobalConsts.UpdateOnExit = true;
             GlobalConsts.UpdateControl = this;
+            GlobalConsts.UpdateLater = true;
             GlobalConsts.WebClient.DownloadFileCompleted += DownloadCompletedLater;
             GlobalConsts.WebClient.DownloadFileCompleted -= DownloadFileCompleted;
-            GlobalConsts.UpdateSetupLocation = $"{GlobalConsts.TempFolderPath}Setup{latestVersion}.exe";
+            GlobalConsts.UpdateSetupLocation = updateSetupLocation;
             GlobalConsts.LoadPage(new MainPage());
         }
 
         private async void DownloadCompletedLater(object sender, AsyncCompletedEventArgs e)
-        {
+     
+   {
             if (e.Error != null)
             {
                 GlobalConsts.UpdateOnExit = false;
@@ -128,18 +136,24 @@ namespace YoutubePlaylistDownloader
                 GlobalConsts.UpdateSetupLocation = string.Empty;
                 await GlobalConsts.ShowMessage($"{FindResource("UpdateFailed")}", $"{string.Concat(FindResource("UpdateCancelled"), e.Error.Message)}");
             }
-
-            cts.Cancel(true);
-            GlobalConsts.UpdateFinishedDownloading = true;
-        }
-
-        public async Task UpdateTask()
-        {
-            try
+            else
             {
-                await Task.Delay(-1, cts.Token);
+                downloadFinished = true;
+                GlobalConsts.UpdateFinishedDownloading = true;
+                GlobalConsts.UpdateLater = true;
+                UpdateNowButton.Visibility = Visibility.Visible;
+                BackButton.Visibility = Visibility.Collapsed;
             }
-            finally { }
         }
+
+        public DownloadUpdate UpdateLaterStillDownloading()
+        {
+            UpdateLaterButton.Visibility = Visibility.Collapsed;
+            BackButton.Visibility = Visibility.Visible;
+            GlobalConsts.UpdateLater = true;
+
+            return this;
+        }
+
     }
 }

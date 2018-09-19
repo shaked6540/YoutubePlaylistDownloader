@@ -81,14 +81,10 @@ namespace YoutubePlaylistDownloader
                 var res = await ShowYesNoDialog((string)FindResource("Exit"), (string)FindResource("ExitMessage"));
                 if (res == MessageDialogResult.Affirmative)
                 {
-                    if (!GlobalConsts.UpdateFinishedDownloading)
+                    if (GlobalConsts.UpdateLater && !GlobalConsts.UpdateFinishedDownloading)
                     {
-                        GlobalConsts.LoadPage(GlobalConsts.UpdateControl);
-                        try
-                        {
-                            await GlobalConsts.UpdateControl.UpdateTask();
-                        }
-                        catch { }
+                        GlobalConsts.LoadPage(GlobalConsts.UpdateControl?.UpdateLaterStillDownloading());
+                        return;
                     }
                     exit = true;
                     Close();
