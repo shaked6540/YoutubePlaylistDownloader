@@ -16,7 +16,6 @@ namespace YoutubePlaylistDownloader
     {
         private double latestVersion;
         private bool downloadFinished;
-        private CancellationTokenSource cts;
         private string updateSetupLocation;
 
         public DownloadUpdate(double latestVersion)
@@ -25,7 +24,6 @@ namespace YoutubePlaylistDownloader
             GlobalConsts.HideSettingsButton();
             GlobalConsts.HideAboutButton();
             GlobalConsts.HideHomeButton();
-            cts = new CancellationTokenSource();
             this.latestVersion = latestVersion;
             downloadFinished = false;
             updateSetupLocation = $"{GlobalConsts.TempFolderPath}Setup {latestVersion}.exe";

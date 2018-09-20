@@ -5,7 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using YoutubePlaylistDownloader;
 
-namespace Factory
+namespace YoutubePlaylistDownloader
 {
     /// <summary>
     /// Interaction logic for Settings.xaml

@@ -59,8 +59,6 @@ namespace YoutubePlaylistDownloader
             return await this.ShowMessageAsync(title, message, MessageDialogStyle.AffirmativeAndNegative, new MetroDialogSettings() { AffirmativeButtonText = (string)FindResource("Yes"), NegativeButtonText = (string)FindResource("No") });
         }
 
-
-
         private void SetWindow()
         {
 
@@ -71,7 +69,6 @@ namespace YoutubePlaylistDownloader
             Closing += MainWindow_Closing;
 
         }
-
 
         private async void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
@@ -94,7 +91,7 @@ namespace YoutubePlaylistDownloader
 
         private void Settings_Click(object sender, RoutedEventArgs e)
         {
-            GlobalConsts.LoadPage(new Factory.Settings());
+            GlobalConsts.LoadPage(new Settings());
         }
 
         private void About_Click(object sender, RoutedEventArgs e)
