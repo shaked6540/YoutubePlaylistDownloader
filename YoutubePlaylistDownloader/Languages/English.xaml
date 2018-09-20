@@ -70,4 +70,9 @@ Error message: </s:String>
     <s:String x:Key="CheckForUpdates">Check for updates</s:String>
     <s:String x:Key="NoUpdates">No Updates Available</s:String>
     <s:String x:Key="NoUpdatesAvailable">There are no updates available at this time, you have the latest version.</s:String>
+    <s:String x:Key="PlaylistIndex">Download from video number </s:String>
+    <s:String x:Key="UntilIndex">until video number </s:String>
+    <s:String x:Key="LeaveEmptyOrZeroForUntilTheEnd">(leave this empty or enter 0 to download all videos until the end of the playlist)</s:String>
+    <s:String x:Key="NoVideosToDownload">Could not find videos to download</s:String>
+    <s:String x:Key="ThereAreNoVidoesToDownload">There are no videos to download with the parameters you specified</s:String>
 </ResourceDictionary>

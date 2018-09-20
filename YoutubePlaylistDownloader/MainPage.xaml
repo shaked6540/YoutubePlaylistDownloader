@@ -26,6 +26,13 @@
                         <TextBox Margin="0,7" Text="192" x:Name="BitRateTextBox"/>
                         <Label Content="kb\s" Margin="7" />
                     </StackPanel>
+                    <StackPanel Orientation="Horizontal" x:Name="DownloadSubIndexStackPanel" Visibility="Visible">
+                        <CheckBox Content="{DynamicResource PlaylistIndex}" Margin="7" x:Name="DownloadByIndexCheckBox" />
+                        <TextBox Text="1" Margin="0,7" Width="50" x:Name="StartIndexTextBox" />
+                        <TextBlock Text="{DynamicResource UntilIndex}" Margin="7" VerticalAlignment="Center" />
+                        <TextBox x:Name="EndIndexTextBox" Margin="0,7" Width="50" Text="0"/>
+                        <TextBlock VerticalAlignment="Center" Margin="7" Text="{DynamicResource LeaveEmptyOrZeroForUntilTheEnd}" />
+                    </StackPanel>
                 </StackPanel>
             </Expander>
 

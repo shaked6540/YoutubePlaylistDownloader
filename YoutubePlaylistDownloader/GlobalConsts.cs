@@ -31,7 +31,7 @@ namespace YoutubePlaylistDownloader
         public static readonly string CurrentDir;
         private static readonly string ConfigFilePath;
         private static readonly string ErrorFilePath;
-        public const double VERSION = 1.103;
+        public const double VERSION = 1.2;
         public static bool UpdateOnExit;
         public static string UpdateSetupLocation;
         public static bool OptionExpanderIsExpanded;
@@ -60,7 +60,10 @@ namespace YoutubePlaylistDownloader
             UpdateOnExit = false;
             UpdateLater = false;
             UpdateSetupLocation = string.Empty;
-            WebClient = new WebClient();
+            WebClient = new WebClient
+            {
+                CachePolicy = new System.Net.Cache.RequestCachePolicy(System.Net.Cache.RequestCacheLevel.NoCacheNoStore)
+            };
         }
 
         //The const methods are used mainly for saving/loading consts, and handling page\menu management.

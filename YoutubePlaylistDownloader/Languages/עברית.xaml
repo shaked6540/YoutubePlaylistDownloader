@@ -70,4 +70,9 @@ YouTube Playlist Downloader v</s:String>
         <s:String x:Key="CheckForUpdates">בדוק אם קיים עדכון</s:String>
     <s:String x:Key="NoUpdates">אין עדכונים זמינים</s:String>
     <s:String x:Key="NoUpdatesAvailable">אין עדכונים זמינים כרגע, יש לך את הגרסה העדכנית ביותר.</s:String>
+    <s:String x:Key="PlaylistIndex">הורד מסרטון מספר </s:String>
+    <s:String x:Key="UntilIndex">עד סרטון מספר </s:String>
+    <s:String x:Key="LeaveEmptyOrZeroForUntilTheEnd">(השאר ריק או הזן 0 כדי להוריד את כל הסרטונים עד סוף הרשימה)</s:String>
+    <s:String x:Key="NoVideosToDownload">לא ניתן למצוא סרטונים להורדה</s:String>
+    <s:String x:Key="ThereAreNoVidoesToDownload">אין סרטונים להורדה עם הפרמטרים שציינת</s:String>
 </ResourceDictionary>

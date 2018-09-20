@@ -57,7 +57,7 @@ namespace YoutubePlaylistDownloader
                     {
                         list = await client.GetPlaylistAsync(playlistId).ConfigureAwait(false);
                         video = null;
-                        await UpdatePlaylistInfo(Visibility.Visible, list.Title, list.Author, list.Statistics.ViewCount.ToString(), list.Videos.Count.ToString(), $"https://img.youtube.com/vi/{list?.Videos?.FirstOrDefault()?.Id}/0.jpg", true);
+                        await UpdatePlaylistInfo(Visibility.Visible, list.Title, list.Author, list.Statistics.ViewCount.ToString(), list.Videos.Count.ToString(), $"https://img.youtube.com/vi/{list?.Videos?.FirstOrDefault()?.Id}/0.jpg", true, true);
                     }).ConfigureAwait(false);
                 }
                 else if (YoutubeClient.TryParseChannelId(PlaylistLinkTextBox.Text, out string channelId))
@@ -67,19 +67,23 @@ namespace YoutubePlaylistDownloader
                         channel = await client.GetChannelAsync(channelId).ConfigureAwait(false);
                         list = await client.GetPlaylistAsync(channel.GetChannelVideosPlaylistId());
                         video = null;
-                        await UpdatePlaylistInfo(Visibility.Visible, channel.Title, list.Author, list.Statistics.ViewCount.ToString(), list.Videos.Count.ToString(), $"https://img.youtube.com/vi/{channel.LogoUrl}/0.jpg", true);
+                        await UpdatePlaylistInfo(Visibility.Visible, channel.Title, list.Author, list.Statistics.ViewCount.ToString(), list.Videos.Count.ToString(), $"https://img.youtube.com/vi/{channel.LogoUrl}/0.jpg", true, true);
                     }).ConfigureAwait(false);
                 }
                 else if (YoutubeClient.TryParseVideoId(PlaylistLinkTextBox.Text, out string videoId))
+                {
                     _ = Task.Run(async () =>
                     {
                         video = await client.GetVideoAsync(videoId);
                         list = null;
-                        await UpdatePlaylistInfo(Visibility.Visible, video.Title, video.Author, video.Statistics.ViewCount.ToString(), string.Empty, $"https://img.youtube.com/vi/{video.Id}/0.jpg", true);
-                    }).ConfigureAwait(false);
 
+                        await UpdatePlaylistInfo(Visibility.Visible, video.Title, video.Author, video.Statistics.ViewCount.ToString(), string.Empty, $"https://img.youtube.com/vi/{video.Id}/0.jpg", true, false);
+                    }).ConfigureAwait(false);
+                }
                 else
+                {
                     await UpdatePlaylistInfo().ConfigureAwait(false);
+                }
             }
 
             catch (Exception ex)
@@ -94,9 +98,21 @@ namespace YoutubePlaylistDownloader
             var vq = VideoQuality.High720;
             var type = "mp3";
             string bitrate = null;
+            int startIndex = 0, endIndex = 0;
+
+            if (DownloadByIndexCheckBox.IsChecked.Value)
+            {
+                if (!string.IsNullOrWhiteSpace(StartIndexTextBox.Text) && StartIndexTextBox.Text.All(c => char.IsDigit(c)) == true)
+                    startIndex = int.Parse(StartIndexTextBox.Text) - 1;
+
+                if (!string.IsNullOrWhiteSpace(EndIndexTextBox.Text) && EndIndexTextBox.Text.All(c => char.IsDigit(c)) == true)
+                    endIndex = int.Parse(EndIndexTextBox.Text) - 1;
+            }
 
             if (BitrateCheckBox.IsChecked.Value)
-                bitrate = string.IsNullOrWhiteSpace(BitRateTextBox.Text) && BitRateTextBox.Text.All(c => c >= '0' && c <= '9') ? "192" : BitRateTextBox.Text;
+                if (!string.IsNullOrWhiteSpace(BitRateTextBox.Text) && BitRateTextBox.Text.All(c => char.IsDigit(c)))
+                    bitrate = BitRateTextBox.Text;
+
 
             if (PreferCheckBox.IsChecked.Value)
                 vq = Resolutions[(string)ResulotionDropDown.SelectedValue];
@@ -105,13 +121,17 @@ namespace YoutubePlaylistDownloader
                 type = (string)ExtensionsDropDown.SelectedItem;
 
             if (list != null && video == null)
-                GlobalConsts.LoadPage(new DownloadPage(list, convert, vq, type, bitrate));
+            {
+                startIndex = startIndex <= 0 ? 0 : startIndex;
+                endIndex = endIndex <= 0 ? list.Videos.Count - 1 : endIndex;
 
+                GlobalConsts.LoadPage(new DownloadPage(list, convert, vq, type, bitrate, startIndex, endIndex));
+            }
             else if (list == null && video != null)
                 GlobalConsts.LoadPage(new DownloadVideo(video, convert, vq, type, bitrate));
         }
 
-        private async Task UpdatePlaylistInfo(Visibility vis = Visibility.Collapsed, string title = "", string author = "", string views = "", string totalVideos = "", string imageUrl = "", bool downloadEnabled = false)
+        private async Task UpdatePlaylistInfo(Visibility vis = Visibility.Collapsed, string title = "", string author = "", string views = "", string totalVideos = "", string imageUrl = "", bool downloadEnabled = false, bool showIndexes = false)
             => await Dispatcher.InvokeAsync(() =>
             {
                 if (!string.IsNullOrWhiteSpace(imageUrl))
@@ -139,7 +159,13 @@ namespace YoutubePlaylistDownloader
                     PlaylistTotalVideosTextBlock.Visibility = Visibility.Collapsed;
                 }
 
+                if (showIndexes)
+                    DownloadSubIndexStackPanel.Visibility = Visibility.Visible;
+                else
+                    DownloadSubIndexStackPanel.Visibility = Visibility.Collapsed;
+
                 DownloadButton.IsEnabled = downloadEnabled;
+
             });
 
         private void OptionsExpander_Expanded(object sender, RoutedEventArgs e)

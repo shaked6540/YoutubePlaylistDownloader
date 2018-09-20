@@ -40,6 +40,7 @@ namespace YoutubePlaylistDownloader
             NotDownloaded = new List<Tuple<string, string>>();
             Video = video;
             FileType = fileType;
+
             DownloadedCount = 0;
             Quality = quality;
             if (bitrate != null)

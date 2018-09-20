@@ -22,14 +22,14 @@ namespace YoutubePlaylistDownloader
     {
         private Playlist Playlist;
         private string FileType;
-        private int DownloadedCount;
+        private int DownloadedCount, StartIndex, EndIndex, Maximum;
         private List<Process> ffmpegList;
         private CancellationTokenSource cts;
         private VideoQuality Quality;
         private string Bitrate;
         private List<Tuple<string, string>> NotDownloaded;
 
-        public DownloadPage(Playlist playlist, bool convert, VideoQuality quality = VideoQuality.High720, string fileType = "mp3", string bitrate = null)
+        public DownloadPage(Playlist playlist, bool convert, VideoQuality quality = VideoQuality.High720, string fileType = "mp3", string bitrate = null, int startIndex = 0, int endIndex = 0)
         {
             InitializeComponent();
             GlobalConsts.HideSettingsButton();
@@ -37,12 +37,16 @@ namespace YoutubePlaylistDownloader
             GlobalConsts.HideHomeButton();
             cts = new CancellationTokenSource();
             ffmpegList = new List<Process>();
+            StartIndex = startIndex;
+            EndIndex = endIndex;
             NotDownloaded = new List<Tuple<string, string>>();
-            DownloadedVideosProgressBar.Maximum = playlist.Videos.Count;
+            Maximum = EndIndex - StartIndex + 1;
+            DownloadedVideosProgressBar.Maximum = Maximum;
             Playlist = playlist;
             FileType = fileType;
             DownloadedCount = 0;
             Quality = quality;
+
             if (bitrate != null)
                 Bitrate = $"-b:a {bitrate}k";
             else
@@ -58,12 +62,24 @@ namespace YoutubePlaylistDownloader
         public async Task StartDownloadingWithConverting(CancellationToken token)
         {
 
+            if (StartIndex > Playlist.Videos.Count - 1)
+            {
+                await GlobalConsts.ShowMessage($"{FindResource("NoVideosToDownload")}", $"{FindResource("ThereAreNoVidoesToDownload")}");
+                GlobalConsts.LoadPage(new MainPage());
+            }
+
             var client = new YoutubeClient();
             var indexes = Playlist.Videos.Index().ToDictionary(kvp => kvp.Value.Title, kvp => kvp.Key);
-            foreach (var video in Playlist.Videos)
+            for (int i = StartIndex; i <= EndIndex; i++)
             {
+                var video = Playlist.Videos.ElementAtOrDefault(i);
+
+                if (video == default(Video))
+                    goto exit;
+
                 try
                 {
+                    
                     await Dispatcher.InvokeAsync(() => Update(0, video));
 
                     var streamInfoSet = await client.GetVideoMediaStreamInfosAsync(video.Id);
@@ -132,8 +148,8 @@ namespace YoutubePlaylistDownloader
                     HeadlineTextBlock.Text = (string)FindResource("AllDone");
                     CurrentDownloadProgressBar.IsIndeterminate = true;
                     TotalDownloadedGrid.Visibility = Visibility.Collapsed;
-                    TotalDownloadsProgressBarTextBlock.Text = $"({DownloadedCount}\\{Playlist.Videos.Count})";
-                    DownloadedVideosProgressBar.Value = Playlist.Videos.Count;
+                    TotalDownloadsProgressBarTextBlock.Text = $"({DownloadedCount}\\{Maximum})";
+                    DownloadedVideosProgressBar.Value = Maximum;
                     ConvertingTextBlock.Text = $"{FindResource("StillConverting")} {ffmpegList.Count} {FindResource("files")}";
                     CurrentDownloadProgressBarTextBlock.Visibility = Visibility.Collapsed;
                 });
@@ -147,12 +163,24 @@ namespace YoutubePlaylistDownloader
 
         public async Task StartDownloading(CancellationToken token)
         {
-            var client = new YoutubeClient();
-            foreach (var video in Playlist.Videos)
+            if (StartIndex > Playlist.Videos.Count - 1)
             {
-                await Dispatcher.InvokeAsync(() => Update(0, video));
+                await GlobalConsts.ShowMessage($"{FindResource("NoVideosToDownload")}", $"{FindResource("ThereAreNoVidoesToDownload")}");
+                GlobalConsts.LoadPage(new MainPage());
+            }
+
+            var client = new YoutubeClient();
+            for (int i = StartIndex; i <= EndIndex; i++)
+            {
+                var video = Playlist.Videos.ElementAtOrDefault(i);
+
+                if (video == default(Video))
+                    goto exit;
+                
                 try
                 {
+
+                    await Dispatcher.InvokeAsync(() => Update(0, video));
                     var streamInfoSet = await client.GetVideoMediaStreamInfosAsync(video.Id);
                     MediaStreamInfo bestQuality, bestAudio = null;
 
@@ -248,7 +276,7 @@ namespace YoutubePlaylistDownloader
             CurrentDownloadProgressBar.Value = precent;
             HeadlineTextBlock.Text = (string)FindResource("CurrentlyDownlading") + video.Title;
             CurrentDownloadProgressBarTextBlock.Text = $"{precent}%";
-            TotalDownloadsProgressBarTextBlock.Text = $"{DownloadedCount}\\{Playlist.Videos.Count}";
+            TotalDownloadsProgressBarTextBlock.Text = $"{DownloadedCount}\\{Maximum}";
             DownloadedVideosProgressBar.Value = DownloadedCount;
         }
 

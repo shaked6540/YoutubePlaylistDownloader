@@ -1,2 +1,1 @@
-﻿- Fixed an app crash when "Update later" finished downloading
-- A new download mirror is now available, no more slow downloads from github servers!
+﻿- Added ability to download subsets of playlists (e.g. Download from video #3 until video #7)
