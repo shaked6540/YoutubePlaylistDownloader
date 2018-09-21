@@ -30,9 +30,23 @@ namespace YoutubePlaylistDownloader
                     if (latestVersion > GlobalConsts.VERSION)
                     {
                         var changelog = await wc.DownloadStringTaskAsync("https://raw.githubusercontent.com/shaked6540/YoutubePlaylistDownloader/master/YoutubePlaylistDownloader/changelog.txt");
-                        var update = await GlobalConsts.ShowYesNoDialog($"{FindResource("NewVersionAvailable")}", $"{FindResource("DoYouWantToUpdate")}\n{changelog}");
+                        var dialogSettings = new MetroDialogSettings()
+                        {
+                            AffirmativeButtonText = $"{FindResource("UpdateNow")}",
+                            NegativeButtonText = $"{FindResource("No")}",
+                            FirstAuxiliaryButtonText = $"{FindResource("UpdateWhenIExit")}",
+                            ColorScheme = MetroDialogColorScheme.Theme,
+                            DefaultButtonFocus = MessageDialogResult.Affirmative,
+                        };
+                        var update = await GlobalConsts.Current.ShowMessageAsync($"{FindResource("NewVersionAvailable")}", $"{FindResource("DoYouWantToUpdate")}\n{changelog}",
+                            MessageDialogStyle.AffirmativeAndNegativeAndSingleAuxiliary, dialogSettings);
                         if (update == MessageDialogResult.Affirmative)
                             GlobalConsts.LoadPage(new DownloadUpdate(latestVersion));
+
+                        else if (update == MessageDialogResult.FirstAuxiliary)
+                        {
+                            GlobalConsts.UpdateControl = new DownloadUpdate(latestVersion, true).UpdateLaterStillDownloading();
+                        }
                     }
                     else
                         await GlobalConsts.ShowMessage($"{FindResource("NoUpdates")}", $"{FindResource("NoUpdatesAvailable")}");

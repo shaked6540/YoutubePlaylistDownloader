@@ -1,1 +1,1 @@
-﻿- Added ability to download subsets of playlists (e.g. Download from video #3 until video #7)
+﻿- You can now click "Update when I exit" directly from the update dialog
