@@ -75,4 +75,5 @@ Error message: </s:String>
     <s:String x:Key="LeaveEmptyOrZeroForUntilTheEnd">(leave this empty or enter 0 to download all videos until the end of the playlist)</s:String>
     <s:String x:Key="NoVideosToDownload">Could not find videos to download</s:String>
     <s:String x:Key="ThereAreNoVidoesToDownload">There are no videos to download with the parameters you specified</s:String>
+    <s:String x:Key="UpdateNow">Update now</s:String>
 </ResourceDictionary>

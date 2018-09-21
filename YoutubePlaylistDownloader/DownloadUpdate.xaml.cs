@@ -18,12 +18,15 @@ namespace YoutubePlaylistDownloader
         private bool downloadFinished;
         private string updateSetupLocation;
 
-        public DownloadUpdate(double latestVersion)
+        public DownloadUpdate(double latestVersion, bool updateLater = false)
         {
             InitializeComponent();
-            GlobalConsts.HideSettingsButton();
-            GlobalConsts.HideAboutButton();
-            GlobalConsts.HideHomeButton();
+            if (!updateLater)
+            {
+                GlobalConsts.HideSettingsButton();
+                GlobalConsts.HideAboutButton();
+                GlobalConsts.HideHomeButton();
+            }
             this.latestVersion = latestVersion;
             downloadFinished = false;
             updateSetupLocation = $"{GlobalConsts.TempFolderPath}Setup {latestVersion}.exe";
@@ -149,6 +152,7 @@ namespace YoutubePlaylistDownloader
             UpdateLaterButton.Visibility = Visibility.Collapsed;
             BackButton.Visibility = Visibility.Visible;
             GlobalConsts.UpdateLater = true;
+            GlobalConsts.UpdateOnExit = true;
 
             return this;
         }
