@@ -1,1 +1,5 @@
-﻿- You can now click "Update when I exit" directly from the update dialog
+﻿- Subscriptions! You can now subscribe to channels to automatically download their new videos
+- More download options added; you can now download videos with higher fps rate than 30 and you can also choose to not convert audio to any format
+- A new help page that includes more information about the subscriptions system and how it works. There is also information about how to contact me
+
+IMPORTANT NOTE: all your settings (save location, themes and colors) will be reset after this update, this is one time only and will not repeat in the future.

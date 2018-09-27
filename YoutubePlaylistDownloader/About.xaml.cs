@@ -16,6 +16,9 @@ namespace YoutubePlaylistDownloader
             GlobalConsts.HideAboutButton();
             GlobalConsts.ShowHomeButton();
             GlobalConsts.ShowSettingsButton();
+            GlobalConsts.ShowHelpButton();
+            GlobalConsts.ShowSubscriptionsButton();
+
             AboutRun.Text += GlobalConsts.VERSION;
         }
 
@@ -41,11 +44,11 @@ namespace YoutubePlaylistDownloader
                         var update = await GlobalConsts.Current.ShowMessageAsync($"{FindResource("NewVersionAvailable")}", $"{FindResource("DoYouWantToUpdate")}\n{changelog}",
                             MessageDialogStyle.AffirmativeAndNegativeAndSingleAuxiliary, dialogSettings);
                         if (update == MessageDialogResult.Affirmative)
-                            GlobalConsts.LoadPage(new DownloadUpdate(latestVersion));
+                            GlobalConsts.LoadPage(new DownloadUpdate(latestVersion, changelog));
 
                         else if (update == MessageDialogResult.FirstAuxiliary)
                         {
-                            GlobalConsts.UpdateControl = new DownloadUpdate(latestVersion, true).UpdateLaterStillDownloading();
+                            GlobalConsts.UpdateControl = new DownloadUpdate(latestVersion, changelog, true).UpdateLaterStillDownloading();
                         }
                     }
                     else

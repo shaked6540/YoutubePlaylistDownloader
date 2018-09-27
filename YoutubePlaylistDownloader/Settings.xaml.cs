@@ -1,17 +1,26 @@
 ﻿using MahApps.Metro;
+using MahApps.Metro.Controls;
+using MahApps.Metro.IconPacks;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using YoutubePlaylistDownloader;
+using System.Windows.Media.Imaging;
+using YoutubeExplode;
+using YoutubePlaylistDownloader.Objects;
+using static YoutubePlaylistDownloader.SubscriptionManager;
 
 namespace YoutubePlaylistDownloader
 {
+
     /// <summary>
     /// Interaction logic for Settings.xaml
     /// </summary>
     public partial class Settings : UserControl
     {
+
         public Settings()
         {
             InitializeComponent();
@@ -19,7 +28,7 @@ namespace YoutubePlaylistDownloader
             FillLanguages();
 
             if (GlobalConsts.Theme.Name == "BaseDark") NightModeCheckBox.IsChecked = true;
-
+            CheckForUpdatesCheckBox.IsChecked = GlobalConsts.CheckForProgramUpdates;
             SaveDirectoryTextBox.Text = GlobalConsts.SaveDirectory;
 
             NightModeCheckBox.Checked += NightModeCheckBox_Checked;
@@ -28,8 +37,11 @@ namespace YoutubePlaylistDownloader
             GlobalConsts.HideSettingsButton();
             GlobalConsts.ShowHomeButton();
             GlobalConsts.ShowAboutButton();
-
+            GlobalConsts.ShowHelpButton();
+            GlobalConsts.ShowSubscriptionsButton();
         }
+
+
 
         private void FillLanguages()
         {
@@ -108,6 +120,16 @@ namespace YoutubePlaylistDownloader
         private void Tile_Click(object sender, RoutedEventArgs e)
         {
             TextBox_MouseDoubleClick(sender, null);
+        }
+
+        private void CheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            GlobalConsts.CheckForProgramUpdates = CheckForUpdatesCheckBox.IsChecked.Value;
+        }
+
+        private void CheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            GlobalConsts.CheckForProgramUpdates = CheckForUpdatesCheckBox.IsChecked.Value;
         }
     }
 }

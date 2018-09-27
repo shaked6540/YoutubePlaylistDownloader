@@ -144,15 +144,27 @@
     </Compile>
     <Compile Include="GlobalConsts.cs" />
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Help.xaml.cs">
+      <DependentUpon>Help.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Objects\ProgressStream.cs" />
+    <Compile Include="Objects\Settings.cs" />
+    <Compile Include="Objects\Subscription.cs" />
     <Compile Include="Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
     </Compile>
     <Compile Include="Skeleton.xaml.cs">
       <DependentUpon>Skeleton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SubscriptionManager.cs" />
+    <Compile Include="SubscriptionsPage.xaml.cs">
+      <DependentUpon>SubscriptionsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SubscriptionSettings.xaml.cs">
+      <DependentUpon>SubscriptionSettings.xaml</DependentUpon>
     </Compile>
     <Page Include="About.xaml">
       <SubType>Designer</SubType>
@@ -167,6 +179,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="DownloadVideo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Help.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -210,6 +226,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="SubscriptionsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SubscriptionSettings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -245,12 +269,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Entypo-license.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Encryptor\Encryptor.csproj">
-      <Project>{8ba96d10-80f6-42a3-938d-29e83eae99bc}</Project>
-      <Name>Encryptor</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="finalIcon.ico" />

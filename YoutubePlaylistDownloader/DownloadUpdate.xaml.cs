@@ -18,7 +18,7 @@ namespace YoutubePlaylistDownloader
         private bool downloadFinished;
         private string updateSetupLocation;
 
-        public DownloadUpdate(double latestVersion, bool updateLater = false)
+        public DownloadUpdate(double latestVersion, string changelog, bool updateLater = false)
         {
             InitializeComponent();
             if (!updateLater)
@@ -26,8 +26,11 @@ namespace YoutubePlaylistDownloader
                 GlobalConsts.HideSettingsButton();
                 GlobalConsts.HideAboutButton();
                 GlobalConsts.HideHomeButton();
+                GlobalConsts.HideSubscriptionsButton();
+                GlobalConsts.HideHelpButton();
             }
             this.latestVersion = latestVersion;
+            ChangelogRun.Text = changelog;
             downloadFinished = false;
             updateSetupLocation = $"{GlobalConsts.TempFolderPath}Setup {latestVersion}.exe";
             StartUpdate().ConfigureAwait(false);

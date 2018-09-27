@@ -1,5 +1,4 @@
-﻿using Encryptor;
-using MahApps.Metro;
+﻿using MahApps.Metro;
 using MahApps.Metro.Controls.Dialogs;
 using System;
 using System.IO;
@@ -11,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using YoutubeExplode;
 using YoutubeExplode.Models;
 
 namespace YoutubePlaylistDownloader
@@ -31,13 +31,17 @@ namespace YoutubePlaylistDownloader
         public static readonly string CurrentDir;
         private static readonly string ConfigFilePath;
         private static readonly string ErrorFilePath;
-        public const double VERSION = 1.201;
+        public const double VERSION = 1.3;
         public static bool UpdateOnExit;
         public static string UpdateSetupLocation;
         public static bool OptionExpanderIsExpanded;
         public static bool UpdateFinishedDownloading;
         public static bool UpdateLater;
         public static DownloadUpdate UpdateControl;
+        public static readonly string ChannelSubscriptionsFilePath;
+        public static readonly YoutubeClient YoutubeClient;
+        public static bool CheckForSubscriptionUpdates;
+        public static bool CheckForProgramUpdates;
 
         public static AppTheme Opposite { get { return Theme.Name == "BaseLight" ? ThemeManager.GetAppTheme("BaseDark") : ThemeManager.GetAppTheme("BaseLight"); } }
 
@@ -46,9 +50,10 @@ namespace YoutubePlaylistDownloader
         static GlobalConsts()
         {
             CurrentDir = new FileInfo(Assembly.GetEntryAssembly().Location).Directory.ToString();
-            string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\Youtube Playlist Downloader\\";
-            ConfigFilePath = appDataPath + "TopSecretFile.dll";
-            ErrorFilePath = CurrentDir + $"\\{Assembly.GetExecutingAssembly().GetName().Name}.log";
+            string appDataPath = string.Concat(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "\\Youtube Playlist Downloader\\");
+            ConfigFilePath = string.Concat(appDataPath, "Settings.json");
+            ErrorFilePath = string.Concat(appDataPath, "Errors.txt");
+            ChannelSubscriptionsFilePath = string.Concat(appDataPath, "Subscriptions.ypds");
 
             if (!Directory.Exists(appDataPath))
                 Directory.CreateDirectory(appDataPath);
@@ -56,7 +61,7 @@ namespace YoutubePlaylistDownloader
             ErrorBrush = Brushes.Crimson;
             Language = "English";
             SaveDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos);
-            TempFolderPath = Path.GetTempPath() + "YoutubePlaylistDownloader\\";
+            TempFolderPath = string.Concat(Path.GetTempPath(), "YoutubePlaylistDownloader\\");
             UpdateOnExit = false;
             UpdateLater = false;
             UpdateSetupLocation = string.Empty;
@@ -64,10 +69,28 @@ namespace YoutubePlaylistDownloader
             {
                 CachePolicy = new System.Net.Cache.RequestCachePolicy(System.Net.Cache.RequestCacheLevel.NoCacheNoStore)
             };
+            YoutubeClient = new YoutubeClient();
+            CheckForSubscriptionUpdates = false;
         }
 
         //The const methods are used mainly for saving/loading consts, and handling page\menu management.
         #region Const Methods
+        public static void HideSubscriptionsButton()
+        {
+            Current.SubscriptionsButton.Visibility = Visibility.Collapsed;
+        }
+        public static void HideHelpButton()
+        {
+            Current.HelpButton.Visibility = Visibility.Collapsed;
+        }
+        public static void HideHomeButton()
+        {
+            Current.HomeButton.Visibility = Visibility.Collapsed;
+        }
+        public static void HideAboutButton()
+        {
+            Current.AboutButton.Visibility = Visibility.Collapsed;
+        }
         public static void HideSettingsButton()
         {
             Current.SettingsButton.Visibility = Visibility.Collapsed;
@@ -76,21 +99,21 @@ namespace YoutubePlaylistDownloader
         {
             Current.SettingsButton.Visibility = Visibility.Visible;
         }
-        public static void HideAboutButton()
+        public static void ShowHelpButton()
         {
-            Current.AboutButton.Visibility = Visibility.Collapsed;
+            Current.HelpButton.Visibility = Visibility.Visible;
         }
         public static void ShowAboutButton()
         {
             Current.AboutButton.Visibility = Visibility.Visible;
         }
-        public static void HideHomeButton()
-        {
-            Current.HomeButton.Visibility = Visibility.Collapsed;
-        }
         public static void ShowHomeButton()
         {
             Current.HomeButton.Visibility = Visibility.Visible;
+        }
+        public static void ShowSubscriptionsButton()
+        {
+            Current.SubscriptionsButton.Visibility = Visibility.Visible;
         }
         public static async Task ShowMessage(string title, string message)
         {
@@ -107,16 +130,13 @@ namespace YoutubePlaylistDownloader
         public static void LoadPage(UserControl page) => Current.CurrentPage.Content = page;
         public static void SaveConsts()
         {
-            //Save the app settings for next use
-            using (StreamWriter sw = new StreamWriter(ConfigFilePath, false))
+            try
             {
-                sw.WriteLine(Theme.Name.Encrypt());
-                sw.WriteLine(Accent.Name.Encrypt());
-                sw.WriteLine(Language.Encrypt());
-                sw.WriteLine(SaveDirectory.Encrypt());
-                sw.WriteLine(OptionExpanderIsExpanded.ToString().Encrypt());
+                var settings = new Objects.Settings(Theme.Name, Accent.Name, Language, SaveDirectory, OptionExpanderIsExpanded, CheckForSubscriptionUpdates, CheckForProgramUpdates);
+                File.WriteAllText(ConfigFilePath, Newtonsoft.Json.JsonConvert.SerializeObject(settings));
+                SubscriptionManager.SaveSubscriptions();
             }
-
+            catch { }
         }
         public static void RestoreDefualts()
         {
@@ -124,30 +144,30 @@ namespace YoutubePlaylistDownloader
             Accent = ThemeManager.GetAccent("Red");
             Language = "English";
             OptionExpanderIsExpanded = true;
+            CheckForSubscriptionUpdates = false;
+            CheckForProgramUpdates = true;
 
-            try
-            {
-                SaveConsts();
-            }
-            catch { }
+            SaveConsts();
         }
         public static void LoadConsts()
         {
+
             if (!File.Exists(ConfigFilePath))
             {
                 RestoreDefualts();
                 return;
             }
 
-            var lines = File.ReadAllLines(ConfigFilePath);
-
             try
             {
-                Theme = ThemeManager.GetAppTheme(lines[0].Decrypt());
-                Accent = ThemeManager.GetAccent(lines[1].Decrypt());
-                Language = lines[2].Decrypt();
-                SaveDirectory = lines[3].Decrypt();
-                OptionExpanderIsExpanded = bool.Parse(lines[4].Decrypt());
+                var settings = Newtonsoft.Json.JsonConvert.DeserializeObject<Objects.Settings>(File.ReadAllText(ConfigFilePath));
+                Theme = ThemeManager.GetAppTheme(settings.Theme);
+                Accent = ThemeManager.GetAccent(settings.Accent);
+                Language = settings.Language;
+                SaveDirectory = settings.SaveDirectory;
+                OptionExpanderIsExpanded = settings.OptionExpanderIsExpanded;
+                CheckForSubscriptionUpdates = settings.CheckForSubscriptionUpdates;
+                CheckForProgramUpdates = settings.CheckForProgramUpdates;
             }
             catch
             {
@@ -170,10 +190,10 @@ namespace YoutubePlaylistDownloader
                 DirectoryInfo di = new DirectoryInfo(Path.GetTempPath() + "YoutubePlaylistDownloader");
 
                 foreach (FileInfo file in di.GetFiles())
-                    file.Delete();
+                    try { file.Delete(); } catch { };
 
                 foreach (DirectoryInfo dir in di.GetDirectories())
-                    dir.Delete(true);
+                    try { dir.Delete(true); } catch { };
             }
         }
         private static void UpdateTheme()
@@ -303,6 +323,16 @@ namespace YoutubePlaylistDownloader
             catch { }
 
             t.Save();
+        }
+        public static void LoadFlyoutPage(UserControl page)
+        {
+            Current.DefaultFlyoutUserControl.Content = page;
+            Current.DefaultFlyout.IsOpen = true;
+        }
+        public static void CloseFlyout()
+        {
+            Current.DefaultFlyout.IsOpen = false;
+            Current.DefaultFlyoutUserControl.Content = null;
         }
 
         #endregion

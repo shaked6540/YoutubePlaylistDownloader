@@ -37,14 +37,19 @@ namespace YoutubePlaylistDownloader
         public MainPage()
         {
             InitializeComponent();
+
+            GlobalConsts.HideHomeButton();
             GlobalConsts.ShowSettingsButton();
             GlobalConsts.ShowAboutButton();
-            GlobalConsts.HideHomeButton();
+            GlobalConsts.ShowHelpButton();
+            GlobalConsts.ShowSubscriptionsButton();
+
+
             ExtensionsDropDown.ItemsSource = FileTypes;
             ResulotionDropDown.ItemsSource = Resolutions.Keys;
             ResulotionDropDown.SelectedIndex = 4;
             OptionsExpander.IsExpanded = GlobalConsts.OptionExpanderIsExpanded;
-            client = new YoutubeClient();
+            client = GlobalConsts.YoutubeClient;
         }
 
         private async void TextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -99,6 +104,8 @@ namespace YoutubePlaylistDownloader
             var type = "mp3";
             string bitrate = null;
             int startIndex = 0, endIndex = 0;
+            bool audioOnly = AudioOnlyCheckBox.IsChecked.Value;
+            bool preferHighestFPS = PreferHighestFPSCheckBox.IsChecked.Value;
 
             if (DownloadByIndexCheckBox.IsChecked.Value)
             {
@@ -125,10 +132,10 @@ namespace YoutubePlaylistDownloader
                 startIndex = startIndex <= 0 ? 0 : startIndex;
                 endIndex = endIndex <= 0 ? list.Videos.Count - 1 : endIndex;
 
-                GlobalConsts.LoadPage(new DownloadPage(list, convert, vq, type, bitrate, startIndex, endIndex));
+                GlobalConsts.LoadPage(new DownloadPage(list, convert, vq, type, bitrate, startIndex, endIndex, audioOnly, preferHighestFPS));
             }
             else if (list == null && video != null)
-                GlobalConsts.LoadPage(new DownloadVideo(video, convert, vq, type, bitrate));
+                GlobalConsts.LoadPage(new DownloadVideo(video, convert, vq, type, bitrate, audioOnly, preferHighestFPS));
         }
 
         private async Task UpdatePlaylistInfo(Visibility vis = Visibility.Collapsed, string title = "", string author = "", string views = "", string totalVideos = "", string imageUrl = "", bool downloadEnabled = false, bool showIndexes = false)

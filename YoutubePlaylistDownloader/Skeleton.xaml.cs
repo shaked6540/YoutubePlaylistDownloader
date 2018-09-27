@@ -3,6 +3,11 @@ using MahApps.Metro.Controls.Dialogs;
 using System.Net;
 using System.Threading.Tasks;
 using System.Windows;
+using YoutubeExplode;
+using System;
+using System.Linq;
+using System.Threading;
+using MoreLinq;
 
 namespace YoutubePlaylistDownloader
 {
@@ -11,20 +16,44 @@ namespace YoutubePlaylistDownloader
     /// </summary>
     public partial class Skeleton : MetroWindow
     {
+
+        private bool exit = false;
+
         public Skeleton()
         {
             //Initialize the app
             InitializeComponent();
             SetWindow();
             GlobalConsts.Current = this;
-
             //Go to main menu
             GlobalConsts.LoadPage(new MainPage());
 
-            CheckForUpdates().ConfigureAwait(false);
+            if (GlobalConsts.CheckForProgramUpdates)
+                CheckForUpdates().ConfigureAwait(false);
+
+            DownloadSubscriptions().ConfigureAwait(false);
 
         }
 
+        public async Task DownloadSubscriptions()
+        {
+            while (GlobalConsts.CheckForSubscriptionUpdates)
+            {
+                foreach (var sub in SubscriptionManager.Subscriptions)
+                {
+                    try
+                    {
+                        await sub.DownloadMissingVideos();
+                    }
+                    catch (Exception ex)
+                    {
+                        await GlobalConsts.Log(ex.ToString(), "DownloadSubscriptions");
+                        // maybe also inform the user that something failed
+                    }
+                }
+                await Task.Delay(TimeSpan.FromMinutes(5));
+            }
+        }
         private async Task CheckForUpdates()
         {
             try
@@ -46,19 +75,17 @@ namespace YoutubePlaylistDownloader
                         var update = await this.ShowMessageAsync($"{FindResource("NewVersionAvailable")}", $"{FindResource("DoYouWantToUpdate")}\n{changelog}",
                             MessageDialogStyle.AffirmativeAndNegativeAndSingleAuxiliary, dialogSettings);
                         if (update == MessageDialogResult.Affirmative)
-                            GlobalConsts.LoadPage(new DownloadUpdate(latestVersion));
+                            GlobalConsts.LoadPage(new DownloadUpdate(latestVersion, changelog));
 
                         else if (update == MessageDialogResult.FirstAuxiliary)
                         {
-                            GlobalConsts.UpdateControl = new DownloadUpdate(latestVersion, true).UpdateLaterStillDownloading();
+                            GlobalConsts.UpdateControl = new DownloadUpdate(latestVersion, changelog, true).UpdateLaterStillDownloading();
                         }
                     }
                 }
             }
             catch { }
         }
-
-        private bool exit = false;
 
         public async Task ShowMessage(string title, string message)
         {
@@ -88,7 +115,16 @@ namespace YoutubePlaylistDownloader
             if (!exit)
             {
                 e.Cancel = true;
-                var res = await ShowYesNoDialog((string)FindResource("Exit"), (string)FindResource("ExitMessage"));
+
+                var exitMessage = $"{FindResource("ExitMessage")}";
+
+                bool loadSubPage = false;
+                if (SubscriptionManager.Subscriptions.Any(x => x.StillDownloading()))
+                {
+                    exitMessage = $"{FindResource("StillDownloadingSubscriptionsExit")}";
+                    loadSubPage = true;
+                }
+                var res = await ShowYesNoDialog((string)FindResource("Exit"), exitMessage);
                 if (res == MessageDialogResult.Affirmative)
                 {
                     if (GlobalConsts.UpdateLater && !GlobalConsts.UpdateFinishedDownloading)
@@ -99,6 +135,8 @@ namespace YoutubePlaylistDownloader
                     exit = true;
                     Close();
                 }
+                else if (loadSubPage)
+                    GlobalConsts.LoadPage(SubscriptionManager.Subscriptions.FirstOrDefault(x => x.StillDownloading()).GetDownloadPage());
             }
         }
 
@@ -115,6 +153,16 @@ namespace YoutubePlaylistDownloader
         private void Home_Click(object sender, RoutedEventArgs e)
         {
             GlobalConsts.LoadPage(new MainPage());
+        }
+
+        private void Help_Click(object sender, RoutedEventArgs e)
+        {
+            GlobalConsts.LoadPage(new Help());
+        }
+
+        private void SubscriptionsButton_Click(object sender, RoutedEventArgs e)
+        {
+            GlobalConsts.LoadPage(new SubscriptionsPage());
         }
     }
 }

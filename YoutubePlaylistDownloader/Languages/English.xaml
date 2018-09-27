@@ -5,7 +5,7 @@
     
     <s:String x:Key="Title">YouTube Playlist Downloader</s:String>
     <FlowDirection x:Key="FlowDirection">LeftToRight</FlowDirection>
-    <s:String x:Key="InsertYoutubePlaylistLinkHere">Insert a youtube playlist link here</s:String>
+    <s:String x:Key="InsertYoutubePlaylistLinkHere">Insert a youtube link here</s:String>
     <s:String x:Key="Exit">Exit</s:String>
     <s:String x:Key="ExitMessage">Are you sure you want to exit?</s:String>
     <s:String x:Key="Yes">Yes</s:String>
@@ -14,7 +14,7 @@
     <s:String x:Key="ErrorMessage">An unexpected error occurred while performing the action, please contact your administrator to handle the error</s:String>
     <s:String x:Key="Settings">Settings</s:String>
     <s:String x:Key="Preferences">Preferences</s:String>
-    <s:String x:Key="Theme">Theme</s:String>
+    <s:String x:Key="Theme">Accent</s:String>
     <s:String x:Key="Language">Language</s:String>
     <s:String x:Key="Back">Back</s:String>
     <s:String x:Key="SaveAndBackToDownload">Save and back to main menu</s:String>
@@ -22,7 +22,7 @@
     <s:String x:Key="Name">Name: </s:String>
     <s:String x:Key="Description">Description: </s:String>
     <s:String x:Key="Views">Views: </s:String>
-    <s:String x:Key="SaveDirectory">Save vidoes to: </s:String>
+    <s:String x:Key="SaveDirectory">Save videos to: </s:String>
     <s:String x:Key="CurrentlyDownlading">Currently downloading: </s:String>
     <s:String x:Key="TotalProgress">Downloaded so far: </s:String>
     <s:String x:Key="AllDone">All Done.</s:String>
@@ -40,7 +40,7 @@
     <s:String x:Key="Home">Home</s:String>
     <s:String x:Key="Prefer">Prefer vidoes with a resolution of </s:String>
     <s:String x:Key="AreYouSureExit">Are you sure you want to exit?</s:String>
-    <s:String x:Key="TotalVideos">Total videos</s:String>
+    <s:String x:Key="TotalVideos">Total videos: </s:String>
     <s:String x:Key="AboutTheProgram">This program was developed by shaked6540 and it is completely free to use without limitation.
 However, I am not responsible for any legal trouble that this program will cause you, 
 as far as I know, YouTube does not permit downloading videos from their website. 
@@ -76,4 +76,35 @@ Error message: </s:String>
     <s:String x:Key="NoVideosToDownload">Could not find videos to download</s:String>
     <s:String x:Key="ThereAreNoVidoesToDownload">There are no videos to download with the parameters you specified</s:String>
     <s:String x:Key="UpdateNow">Update now</s:String>
+    <s:String x:Key="Subscriptions">Subscriptions</s:String>
+    <s:String x:Key="AutomaticllyDownloadSubscriptions">Automatically download new videos from channels when I start the program</s:String>
+    <s:String x:Key="InsertChannelLink">Insert a channel link here</s:String>
+    <s:String x:Key="Remove">Remove</s:String>
+    <s:String x:Key="Id">ID: </s:String>
+    <s:String x:Key="Save">Save</s:String>
+    <s:String x:Key="PreferFPS">Prefer videos with the highest FPS rate</s:String>
+    <s:String x:Key="AudioOnly">Download clean audio, without converting to any format</s:String>
+    <s:String x:Key="StillDownloadingSubscriptionsExit">The program is still downloading your subscriptions videos, clicking yes will close the program and those videos will not be downloaded until you re-open the program.
+Are you sure you want to exit?</s:String>
+    <s:String x:Key="LastVideoDownloadDate">Last updated at: </s:String>
+    <s:String x:Key="Help">Help</s:String>
+    <s:String x:Key="SubscriptionsHelp">Subscriptions are channels that the program will automatically download any video that comes out after the subscription was added
+        
+For example, if you added a subscription to channel "x" on September 1st and channel "x" has uploaded a video on September 2nd, it will be automatically downloaded. 
+        
+Previous videos will not be downloaded, and videos will not be downloaded twice even if you delete a certain video. 
+        
+All subscriptions are customizable and have their own settings, to access subscription settings click on "Subscriptions" from the main menu and then click on "Settings" for the channel you want
+Please note that if the program is not running, new videos will not be downloaded
+    </s:String>
+    <s:String x:Key="ContactTheDeveloper">Contact</s:String>
+    <s:String x:Key="ContactTheDeveloperHelp">There are several ways to contact me (shaked6540): 
+        
+The first one is Reddit, simply send me a message on Reddit and I will respond as soon as I can, this is my profile link: https://www.reddit.com/user/shaked6540/ 
+        
+The second way to contact me is through discord, I've set up a discord server for this project, feel free to join even if you don't have anything to say to me: https://discord.gg/eXeVCqE 
+        
+The third way to contact me is through GitHub, simply open a new issue and I will try to respond as soon as possible, here is a link: https://github.com/shaked6540/YoutubePlaylistDownloader/issues</s:String>
+    <s:String x:Key="AutomaticallyCheckForUpdates">Automatically check for updates when I start the program</s:String>
+    <s:String x:Key="WhatsNew">What's new?</s:String>
 </ResourceDictionary>

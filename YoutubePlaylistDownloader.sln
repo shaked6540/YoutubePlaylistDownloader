@@ -5,8 +5,6 @@ VisualStudioVersion = 15.0.26730.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YoutubePlaylistDownloader", "YoutubePlaylistDownloader\YoutubePlaylistDownloader.csproj", "{57ADF475-AC13-4912-A26B-100C6535A74D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Encryptor", "Encryptor\Encryptor.csproj", "{8BA96D10-80F6-42A3-938D-29E83EAE99BC}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{2A76AF85-987A-41AE-8D9B-5A510CFB2455}"
 	ProjectSection(SolutionItems) = preProject
 		License.txt = License.txt
@@ -23,10 +21,6 @@ Global
 		{57ADF475-AC13-4912-A26B-100C6535A74D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{57ADF475-AC13-4912-A26B-100C6535A74D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{57ADF475-AC13-4912-A26B-100C6535A74D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8BA96D10-80F6-42A3-938D-29E83EAE99BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8BA96D10-80F6-42A3-938D-29E83EAE99BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8BA96D10-80F6-42A3-938D-29E83EAE99BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8BA96D10-80F6-42A3-938D-29E83EAE99BC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

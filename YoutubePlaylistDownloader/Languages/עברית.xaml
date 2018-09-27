@@ -39,7 +39,7 @@
     <s:String x:Key="Home">בית</s:String>
     <s:String x:Key="Prefer">העדף סרטונים ברזולוציה </s:String>
     <s:String x:Key="AreYouSureExit">האם אתה בטוח שברצונך לצאת?</s:String>
-    <s:String x:Key="TotalVideos">כמות סרטונים</s:String>
+    <s:String x:Key="TotalVideos">כמות סרטונים: </s:String>
     <s:String x:Key="AboutTheProgram">תוכנית זו פותחה על ידי shaked6540 והיא חופשית לחלוטין לשימוש ללא הגבלה.
 עם זאת, אינני אחראי לכל בעיה משפטית שתכנית זו תגרום לך,
 עד כמה שידוע לי, YouTube אינו מתיר הורדת סרטונים מהאתר שלהם. 
@@ -76,4 +76,35 @@ YouTube Playlist Downloader v</s:String>
     <s:String x:Key="NoVideosToDownload">לא ניתן למצוא סרטונים להורדה</s:String>
     <s:String x:Key="ThereAreNoVidoesToDownload">אין סרטונים להורדה עם הפרמטרים שציינת</s:String>
     <s:String x:Key="UpdateNow">עדכן עכשיו</s:String>
+    <s:String x:Key="Subscriptions">הרשמות</s:String>
+    <s:String x:Key="AutomaticllyDownloadSubscriptions">הורד באופן אוטומטי סרטונים חדשים מערוצים כאשר אני מפעיל את התוכנית</s:String>
+    <s:String x:Key="InsertChannelLink">הכנס קישור לערוץ כאן</s:String>
+    <s:String x:Key="Remove">הסר</s:String>
+    <s:String x:Key="Id">מזהה: </s:String>
+    <s:String x:Key="Save">שמור</s:String>
+    <s:String x:Key="PreferFPS">העדף סרטונים עם שיעור FPS הגבוה ביותר</s:String>
+    <s:String x:Key="AudioOnly">הורד אודיו נקי, מבלי להמיר לכל פורמט</s:String>
+    <s:String x:Key="StillDownloadingSubscriptionsExit">התוכנית עדיין מוריד את סרטוני המנויים שלך, לחיצה על כן תסגור את התוכנית וסרטונים אלו לא יורדו עד שתפתח מחדש את התוכנית.
+אתה בטוח שאתה רוצה לצאת?</s:String>
+    <s:String x:Key="LastVideoDownloadDate">עודכן לאחרונה: </s:String>
+    <s:String x:Key="Help">עזרה</s:String>
+    <s:String x:Key="SubscriptionsHelp">המנויים הם ערוצים שהתוכנה תוריד באופן אוטומטי כל סרטון שיופיע לאחר הוספת המינוי
+        
+לדוגמה, אם הוספת מנוי לערוץ "x" ב -1 בספטמבר והערוץ "x" העלה סרטון ב -2 בספטמבר, הוא יוריד באופן אוטומטי.
+        
+הסרטונים הקודמים לא יורדו, וסרטונים לא יורדו פעמיים גם אם תמחק סרטון מסוים.
+        
+כל המינויים ניתנים להתאמה אישית ויש להם הגדרות משלהם, כדי לגשת להגדרות המנויים ללחוץ על "הרשמות" מהתפריט הראשי ולאחר מכן ללחוץ על "הגדרות" עבור הערוץ הרצוי
+שים לב שאם התוכנית אינה פועלת, לא יורדו סרטונים חדשים
+    </s:String>
+    <s:String x:Key="ContactTheDeveloper">צור קשר</s:String>
+    <s:String x:Key="ContactTheDeveloperHelp">ישנן מספר דרכים ליצור עמנו קשר (shaked6540):
+        
+הראשונה היא Reddit, פשוט לשלוח לי הודעה ב Reddit ואני יגיב ברגע שאני יכול, זה קישור הפרופיל שלי: https://www.reddit.com/user/shaked6540/
+        
+הדרך השנייה ליצור איתי קשר היא דרך discord, אני כבר להגדיר שרת discord עבור פרוייקט זה, אל תהסס להצטרף גם אם אין לך מה להגיד לי: https://discord.gg/eXeVCqE
+        
+הדרך השלישית ליצור איתי קשר היא באמצעות GitHub, פשוט לפתוח בעיה חדשה ואני אנסה להגיב בהקדם האפשרי, הנה קישור: https://github.com/shaked6540/YoutubePlaylistDownloader/issues</s:String>
+    <s:String x:Key="AutomaticallyCheckForUpdates">חפש אוטומטית עדכונים כאשר אני מפעיל את התוכנית</s:String>
+    <s:String x:Key="WhatsNew">מה חדש?</s:String>
 </ResourceDictionary>

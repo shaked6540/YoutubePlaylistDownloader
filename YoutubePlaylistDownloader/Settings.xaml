@@ -20,46 +20,46 @@
 
     <DockPanel HorizontalAlignment="Center">
         <TextBlock HorizontalAlignment="Center" Text="{DynamicResource Settings}" DockPanel.Dock="Top" FontSize="24" Foreground="{DynamicResource AccentColorBrush}" Margin="5" />
-        <ScrollViewer VerticalScrollBarVisibility="Auto">
-            <StackPanel CanVerticallyScroll="True">
-                <Controls:MetroAnimatedTabControl HorizontalAlignment="Center">
-                    <Controls:MetroTabItem Header="{DynamicResource Preferences}">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition/>
-                                <RowDefinition/>
-                                <RowDefinition/>
-                                <RowDefinition/>
-                            </Grid.RowDefinitions>
+        <StackPanel>
+            <Controls:MetroAnimatedTabControl HorizontalAlignment="Center">
+                <Controls:MetroTabItem Header="{DynamicResource Preferences}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition/>
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
 
-                            <!--Col 1-->
-                            <Label Content="{DynamicResource Theme}" Margin="5" Grid.Row="0" Grid.Column="0"  />
-                            <CheckBox Margin="5" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" x:Name="NightModeCheckBox" Content="{DynamicResource DarkTheme}"/>
-                            <Label Content="{DynamicResource Language}" Margin="5" Grid.Row="1" Grid.Column="0" />
-                            <Label Content="{DynamicResource SaveDirectory}" Margin="5" Grid.Row="4" Grid.Column="0"  />
+                        <!--Col 1-->
+                        <CheckBox Grid.Row="0" Margin="5" Grid.Column="0"  Grid.ColumnSpan="2" x:Name="NightModeCheckBox" Content="{DynamicResource DarkTheme}"/>
+                        <CheckBox Grid.Row="1" Content="{DynamicResource AutomaticallyCheckForUpdates}" Margin="5" Grid.Column="0" Grid.ColumnSpan="5" x:Name="CheckForUpdatesCheckBox" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" />
+                        <Label    Grid.Row="2" Content="{DynamicResource Theme}" Margin="5" Grid.Column="0"  />
+                        <Label    Grid.Row="3" Content="{DynamicResource Language}" Margin="5"  Grid.Column="0" />
+                        <Label    Grid.Row="4" Content="{DynamicResource SaveDirectory}" Margin="5"  Grid.Column="0"  />
 
-                            <!--Col 2-->
-                            <ComboBox Margin="5" VerticalAlignment="Center" Grid.Row="0" Grid.Column="1" x:Name="comboBox" HorizontalAlignment="Left" MinWidth="120" SelectionChanged="ComboBox_SelectionChanged" />
-                            <ComboBox Margin="5" VerticalAlignment="Center" Grid.Row="1" Grid.Column="1" x:Name="LanguageComboBox" HorizontalAlignment="Left" MinWidth="120" SelectionChanged="LanguageComboBox_SelectionChanged" />
-                            <TextBox Grid.Row="4" x:Name="SaveDirectoryTextBox" Grid.Column="1" Margin="5" TextChanged="SaveDirectoryTextBox_TextChanged" MouseDoubleClick="TextBox_MouseDoubleClick" />
-                            
-                            <!--Col 3-->
-                            <Controls:Tile Grid.Row="4" Grid.Column="3" Width="30" Height="30" Click="Tile_Click" >
-                                <iconPacks:PackIconModern Width="20" Height="20" Kind="FolderOpen" Margin="5" />
-                            </Controls:Tile>
+                        <!--Col 2-->
+                        <ComboBox Grid.Row="2" Margin="5" VerticalAlignment="Center"  Grid.Column="1" x:Name="comboBox" HorizontalAlignment="Left" MinWidth="120" SelectionChanged="ComboBox_SelectionChanged" />
+                        <ComboBox Grid.Row="3"   Margin="5" VerticalAlignment="Center"  Grid.Column="1" x:Name="LanguageComboBox" HorizontalAlignment="Left" MinWidth="120" SelectionChanged="LanguageComboBox_SelectionChanged" />
+                        <TextBox  Grid.Row="4" x:Name="SaveDirectoryTextBox" Grid.Column="1" Margin="5" TextChanged="SaveDirectoryTextBox_TextChanged" MouseDoubleClick="TextBox_MouseDoubleClick" />
 
-                        </Grid>
-                    </Controls:MetroTabItem>
-                </Controls:MetroAnimatedTabControl>
-                <Controls:Tile Click="Exit_Click" HorizontalAlignment="Center" Title="{DynamicResource SaveAndBackToDownload}" Margin="5" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Controls:ControlsHelper.MouseOverBorderBrush="{DynamicResource BlackBrush}"  HorizontalTitleAlignment="Right" Style="{StaticResource LargeTileStyle}">
-                    <iconPacks:PackIconModern Width="40" Height="40" Kind="ArrowLeft" />
-                </Controls:Tile>
-            </StackPanel>
-        </ScrollViewer>
+                        <!--Col 3-->
+                        <Controls:Tile Grid.Row="4" Grid.Column="3" Width="30" Height="30" Click="Tile_Click" HorizontalAlignment="Left" >
+                            <iconPacks:PackIconModern Width="20" Height="20" Kind="FolderOpen" Margin="5" />
+                        </Controls:Tile>
+
+                    </Grid>
+                </Controls:MetroTabItem>
+            </Controls:MetroAnimatedTabControl>
+            <Controls:Tile Click="Exit_Click" HorizontalAlignment="Center" Title="{DynamicResource SaveAndBackToDownload}" Margin="5" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Controls:ControlsHelper.MouseOverBorderBrush="{DynamicResource BlackBrush}"  HorizontalTitleAlignment="Right" Style="{StaticResource LargeTileStyle}">
+                <iconPacks:PackIconModern Width="40" Height="40" Kind="ArrowLeft" />
+            </Controls:Tile>
+        </StackPanel>
     </DockPanel>
 </UserControl>

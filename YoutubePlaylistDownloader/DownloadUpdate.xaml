@@ -24,6 +24,18 @@
                 <iconPacks:PackIconModern Width="40" Height="40" Kind="ClipboardVariantEdit" />
             </Controls:Tile>
         </StackPanel>
+        <ScrollViewer>
+            <RichTextBox Width="1200" Margin="0,50,0,0" MaxWidth="1280" BorderThickness="0" Cursor="Arrow" IsReadOnly="True" IsReadOnlyCaretVisible="False"  >
+                <FlowDocument>
+                    <Paragraph Margin="50,0,0,0">
+                        <Run Foreground="{DynamicResource AccentColorBrush}" Text="{DynamicResource WhatsNew}" FontSize="24" />
+                    </Paragraph>
+                    <Paragraph Margin="100,0,0,0" FontSize="16">
+                        <Run x:Name="ChangelogRun"/>
+                    </Paragraph>
+                </FlowDocument>
+            </RichTextBox>
+        </ScrollViewer>
 
     </StackPanel>
 </UserControl>

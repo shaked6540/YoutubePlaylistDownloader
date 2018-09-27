@@ -28,13 +28,28 @@ namespace YoutubePlaylistDownloader
         private VideoQuality Quality;
         private string Bitrate;
         private List<Tuple<string, string>> NotDownloaded;
+        private IEnumerable<Video> Videos;
+        private bool AudioOnly, PreferHighestFPS;
+        private string SavePath;
+        private Subscription Subscription;
 
-        public DownloadPage(Playlist playlist, bool convert, VideoQuality quality = VideoQuality.High720, string fileType = "mp3", string bitrate = null, int startIndex = 0, int endIndex = 0)
+        public bool StillDownloading;
+
+        public DownloadPage(Playlist playlist, bool convert, VideoQuality quality = VideoQuality.High720, string fileType = "mp3",
+            string bitrate = null, int startIndex = 0, int endIndex = 0, bool audioOnly = false,
+            bool preferHighestFPS = false, string savePath = "", IEnumerable<Video> videos = null, Subscription subscription = null, bool silent = false)
         {
             InitializeComponent();
-            GlobalConsts.HideSettingsButton();
-            GlobalConsts.HideAboutButton();
-            GlobalConsts.HideHomeButton();
+
+            if (!silent)
+            {
+                GlobalConsts.HideSettingsButton();
+                GlobalConsts.HideAboutButton();
+                GlobalConsts.HideHomeButton();
+                GlobalConsts.HideSubscriptionsButton();
+                GlobalConsts.HideHelpButton();
+            }
+
             cts = new CancellationTokenSource();
             ffmpegList = new List<Process>();
             StartIndex = startIndex;
@@ -43,16 +58,32 @@ namespace YoutubePlaylistDownloader
             Maximum = EndIndex - StartIndex + 1;
             DownloadedVideosProgressBar.Maximum = Maximum;
             Playlist = playlist;
+
+            if (playlist == null)
+                Videos = videos;
+            else
+                Videos = playlist.Videos;
+
             FileType = fileType;
             DownloadedCount = 0;
             Quality = quality;
+            SavePath = string.IsNullOrWhiteSpace(savePath) ? GlobalConsts.SaveDirectory : savePath;
 
-            if (bitrate != null)
+            if (!Directory.Exists(SavePath))
+                Directory.CreateDirectory(SavePath);
+
+            Subscription = subscription;
+            AudioOnly = audioOnly;
+            PreferHighestFPS = preferHighestFPS;
+
+            if (!string.IsNullOrWhiteSpace(bitrate) && bitrate.All(x=> char.IsDigit(x)))
                 Bitrate = $"-b:a {bitrate}k";
             else
                 Bitrate = string.Empty;
 
-            if (convert)
+            StillDownloading = true;
+
+            if (convert || audioOnly)
                 StartDownloadingWithConverting(cts.Token).ConfigureAwait(false);
             else
                 StartDownloading(cts.Token).ConfigureAwait(false);
@@ -61,118 +92,152 @@ namespace YoutubePlaylistDownloader
 
         public async Task StartDownloadingWithConverting(CancellationToken token)
         {
-
-            if (StartIndex > Playlist.Videos.Count - 1)
+            try
             {
-                await GlobalConsts.ShowMessage($"{FindResource("NoVideosToDownload")}", $"{FindResource("ThereAreNoVidoesToDownload")}");
-                GlobalConsts.LoadPage(new MainPage());
-            }
-
-            var client = new YoutubeClient();
-            var indexes = Playlist.Videos.Index().ToDictionary(kvp => kvp.Value.Title, kvp => kvp.Key);
-            for (int i = StartIndex; i <= EndIndex; i++)
-            {
-                var video = Playlist.Videos.ElementAtOrDefault(i);
-
-                if (video == default(Video))
-                    goto exit;
-
-                try
+                if (StartIndex > Videos.Count() - 1)
                 {
-                    
-                    await Dispatcher.InvokeAsync(() => Update(0, video));
+                    await GlobalConsts.ShowMessage($"{FindResource("NoVideosToDownload")}", $"{FindResource("ThereAreNoVidoesToDownload")}");
+                    StillDownloading = false;
+                    GlobalConsts.LoadPage(new MainPage());
+                }
 
-                    var streamInfoSet = await client.GetVideoMediaStreamInfosAsync(video.Id);
-                    var bestQuality = streamInfoSet.Audio.MaxBy(x => x.AudioEncoding);
-                    var fileLoc = $"{GlobalConsts.TempFolderPath}{GlobalConsts.CleanFileName(video.Title)}";
-                    var outputFileLoc = $"{GlobalConsts.TempFolderPath}{GlobalConsts.CleanFileName(video.Title)}.{FileType}";
-                    var copyFileLoc = $"{GlobalConsts.SaveDirectory}\\{GlobalConsts.CleanFileName(video.Title)}.{FileType}";
+                var client = GlobalConsts.YoutubeClient;
+                for (int i = StartIndex; i <= EndIndex; i++)
+                {
+                    var video = Videos.ElementAtOrDefault(i);
 
-                    using (var stream = new ProgressStream(File.Create(fileLoc)))
+                    if (video == default(Video))
+                        goto exit;
+
+                    try
                     {
-                        stream.BytesWritten += async (sender, args) =>
+
+                        await Dispatcher.InvokeAsync(() => Update(0, video));
+
+                       
+                        var streamInfoSet = await client.GetVideoMediaStreamInfosAsync(video.Id);
+                        var bestQuality = streamInfoSet.Audio.MaxBy(x => x.AudioEncoding);
+                        var cleanFileName = GlobalConsts.CleanFileName(video.Title);
+                        var fileLoc = $"{GlobalConsts.TempFolderPath}{cleanFileName}";
+
+                        if (AudioOnly)
+                            FileType = bestQuality.Container.GetFileExtension();
+
+                        var outputFileLoc = $"{GlobalConsts.TempFolderPath}{cleanFileName}.{FileType}";
+                        var copyFileLoc = $"{SavePath}\\{cleanFileName}.{FileType}";
+
+                        using (var stream = new ProgressStream(File.Create(fileLoc)))
                         {
-                            var precent = args.StreamLength * 100 / bestQuality.Size;
-                            await Dispatcher.InvokeAsync(() =>
+                            stream.BytesWritten += async (sender, args) =>
                             {
-                                CurrentDownloadProgressBar.Value = precent;
-                                CurrentDownloadProgressBarTextBlock.Text = $"{precent}%";
-                            });
-                        };
-                        await client.DownloadMediaStreamAsync(bestQuality, stream, cancellationToken: token);
-                        var ffmpeg = new Process()
-                        {
-                            EnableRaisingEvents = true,
-                            StartInfo = new ProcessStartInfo()
+                                var precent = args.StreamLength * 100 / bestQuality.Size;
+                                await Dispatcher.InvokeAsync(() =>
+                                {
+                                    CurrentDownloadProgressBar.Value = precent;
+                                    CurrentDownloadProgressBarTextBlock.Text = $"{precent}%";
+                                });
+                            };
+                            await client.DownloadMediaStreamAsync(bestQuality, stream, cancellationToken: token);
+                            if (!AudioOnly)
                             {
-                                FileName = $"{GlobalConsts.CurrentDir}\\ffmpeg.exe",
-                                Arguments = $"-i \"{fileLoc}\" -y {Bitrate} \"{outputFileLoc}\"",
-                                CreateNoWindow = true,
-                                UseShellExecute = false
+                                var ffmpeg = new Process()
+                                {
+                                    EnableRaisingEvents = true,
+                                    StartInfo = new ProcessStartInfo()
+                                    {
+                                        FileName = $"{GlobalConsts.CurrentDir}\\ffmpeg.exe",
+                                        Arguments = $"-i \"{fileLoc}\" -y {Bitrate} \"{outputFileLoc}\"",
+                                        CreateNoWindow = true,
+                                        UseShellExecute = false
+                                    }
+                                };
+
+                                token.ThrowIfCancellationRequested();
+                                ffmpeg.Exited += async (x, y) =>
+                                {
+                                    ffmpegList.Remove(ffmpeg);
+                                    await GlobalConsts.TagFile(video, i + 1, outputFileLoc, Playlist);
+
+                                    File.Copy(outputFileLoc, copyFileLoc, true);
+                                    File.Delete(outputFileLoc);
+                                };
+                                ffmpeg.Start();
+                                ffmpegList.Add(ffmpeg);
                             }
-                        };
+                            else
+                            {
+                                File.Copy(fileLoc, copyFileLoc, true);
+                                File.Delete(fileLoc);
+                                await GlobalConsts.TagFile(video, i + 1, copyFileLoc, Playlist);
+                            }
 
-                        token.ThrowIfCancellationRequested();
-                        ffmpeg.Exited += async (x, y) =>
-                        {
-                            ffmpegList.Remove(ffmpeg);
-                            await GlobalConsts.TagFile(video, indexes[video.Title] + 1, outputFileLoc, Playlist);
+                            if (Subscription != null)
+                                Subscription.DownloadedVideos.Add(video.Id);
 
-                            File.Copy(outputFileLoc, copyFileLoc, true);
-                            File.Delete(outputFileLoc);
-                        };
-                        ffmpeg.Start();
-                        ffmpegList.Add(ffmpeg);
-                        DownloadedCount++;
+                            DownloadedCount++;
+                        }
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        goto exit;
+                    }
+                    catch (Exception ex)
+                    {
+                        NotDownloaded.Add(new Tuple<string, string>(video.Title, ex.Message));
                     }
                 }
-                catch (OperationCanceledException)
+
+                exit:
+
+                if (NotDownloaded.Any())
+                    await GlobalConsts.ShowMessage($"{FindResource("CouldntDownload")}", string.Concat($"{FindResource("ListOfNotDownloadedVideos")}\n", string.Join("\n", NotDownloaded.Select(x => string.Concat(x.Item1, " Reason: ", x.Item2)))));
+
+                while (ffmpegList.Count > 0)
                 {
-                    goto exit;
+                    await Dispatcher.InvokeAsync(() =>
+                    {
+                        HeadlineTextBlock.Text = (string)FindResource("AllDone");
+                        CurrentDownloadProgressBar.IsIndeterminate = true;
+                        TotalDownloadedGrid.Visibility = Visibility.Collapsed;
+                        TotalDownloadsProgressBarTextBlock.Text = $"({DownloadedCount}\\{Maximum})";
+                        DownloadedVideosProgressBar.Value = Maximum;
+                        ConvertingTextBlock.Text = $"{FindResource("StillConverting")} {ffmpegList.Count} {FindResource("files")}";
+                        CurrentDownloadProgressBarTextBlock.Visibility = Visibility.Collapsed;
+                    });
+                    await Task.Delay(1000);
                 }
-                catch (Exception ex)
-                {
-                    NotDownloaded.Add(new Tuple<string, string>(video.Title, ex.Message));
-                }
+
+                if (Subscription != null)
+                    Subscription.LatestVideoDownloaded = Videos.MaxBy(x => x.UploadDate).UploadDate.DateTime;
+
+                CurrentDownloadGrid.Visibility = Visibility.Collapsed;
+                ConvertingTextBlock.Visibility = Visibility.Collapsed;
+                ConvertingTextBlock.Visibility = Visibility.Collapsed;
             }
-
-            exit:
-
-            if (NotDownloaded.Any())
-                await GlobalConsts.ShowMessage($"{FindResource("CouldntDownload")}", string.Concat($"{FindResource("ListOfNotDownloadedVideos")}\n", string.Join("\n", NotDownloaded.Select(x => string.Concat(x.Item1, " Reason: ", x.Item2)))));
-
-            while (ffmpegList.Count > 0)
+            catch (Exception ex)
             {
-                await Dispatcher.InvokeAsync(() =>
-                {
-                    HeadlineTextBlock.Text = (string)FindResource("AllDone");
-                    CurrentDownloadProgressBar.IsIndeterminate = true;
-                    TotalDownloadedGrid.Visibility = Visibility.Collapsed;
-                    TotalDownloadsProgressBarTextBlock.Text = $"({DownloadedCount}\\{Maximum})";
-                    DownloadedVideosProgressBar.Value = Maximum;
-                    ConvertingTextBlock.Text = $"{FindResource("StillConverting")} {ffmpegList.Count} {FindResource("files")}";
-                    CurrentDownloadProgressBarTextBlock.Visibility = Visibility.Collapsed;
-                });
-                await Task.Delay(1000);
-            }
+                await GlobalConsts.Log(ex.ToString(), "DownloadPage With converting");
 
-            CurrentDownloadGrid.Visibility = Visibility.Collapsed;
-            ConvertingTextBlock.Visibility = Visibility.Collapsed;
-            ConvertingTextBlock.Visibility = Visibility.Collapsed;
+            }
+            finally
+            {
+                StillDownloading = false;
+            }
         }
 
         public async Task StartDownloading(CancellationToken token)
         {
-            if (StartIndex > Playlist.Videos.Count - 1)
+            if (StartIndex > Videos.Count() - 1)
             {
                 await GlobalConsts.ShowMessage($"{FindResource("NoVideosToDownload")}", $"{FindResource("ThereAreNoVidoesToDownload")}");
+                StillDownloading = false;
                 GlobalConsts.LoadPage(new MainPage());
             }
 
-            var client = new YoutubeClient();
+            var client = GlobalConsts.YoutubeClient;
             for (int i = StartIndex; i <= EndIndex; i++)
             {
-                var video = Playlist.Videos.ElementAtOrDefault(i);
+                var video = Videos.ElementAtOrDefault(i);
 
                 if (video == default(Video))
                     goto exit;
@@ -184,13 +249,20 @@ namespace YoutubePlaylistDownloader
                     var streamInfoSet = await client.GetVideoMediaStreamInfosAsync(video.Id);
                     MediaStreamInfo bestQuality, bestAudio = null;
 
-                    bestQuality = streamInfoSet.Video.OrderByDescending(x => x.VideoQuality == Quality).ThenByDescending(x => x.VideoQuality > Quality).ThenByDescending(x => x.VideoQuality).FirstOrDefault();
-                    bestAudio = streamInfoSet.Audio.OrderByDescending(x => x.AudioEncoding).FirstOrDefault();
+                    var videoList = streamInfoSet.Video.OrderByDescending(x => x.VideoQuality == Quality);
 
-                    var cleanVideoName = GlobalConsts.CleanFileName(video.Title);//.Replace("$","S")
+                    if (PreferHighestFPS)
+                        videoList = videoList.ThenByDescending(x => x.Framerate).ThenByDescending(x => x.VideoQuality > Quality).ThenByDescending(x => x.VideoQuality);
+                    else
+                        videoList = videoList.ThenByDescending(x => x.VideoQuality > Quality).ThenByDescending(x => x.VideoQuality);
+
+                    bestQuality = videoList.FirstOrDefault();
+                    bestAudio = streamInfoSet.Audio.MaxBy(x => x.AudioEncoding);
+
+                    var cleanVideoName = GlobalConsts.CleanFileName(video.Title);
                     var fileLoc = $"{GlobalConsts.TempFolderPath}{cleanVideoName}";
                     var outputFileLoc = $"{GlobalConsts.TempFolderPath}{cleanVideoName}.mkv";
-                    var copyFileLoc = $"{GlobalConsts.SaveDirectory}\\{cleanVideoName}.mkv";
+                    var copyFileLoc = $"{SavePath}\\{cleanVideoName}.mkv";
                     var audioLoc = $"{GlobalConsts.TempFolderPath}{cleanVideoName}.{bestAudio.Container.GetFileExtension()}";
 
                     using (var stream = new ProgressStream(File.Create(fileLoc)))
@@ -228,6 +300,10 @@ namespace YoutubePlaylistDownloader
                         {
                             ffmpegList.Remove(ffmpeg);
                             File.Copy(outputFileLoc, copyFileLoc, true);
+
+                            if (Subscription != null)
+                                Subscription.DownloadedVideos.Add(video.Id);
+
                             File.Delete(outputFileLoc);
                             File.Delete(audioLoc);
                             File.Delete(fileLoc);
@@ -259,13 +335,19 @@ namespace YoutubePlaylistDownloader
                     HeadlineTextBlock.Text = (string)FindResource("AllDone");
                     CurrentDownloadProgressBar.IsIndeterminate = true;
                     TotalDownloadedGrid.Visibility = Visibility.Collapsed;
-                    TotalDownloadsProgressBarTextBlock.Text = $"({DownloadedCount}\\{Playlist.Videos.Count})";
-                    DownloadedVideosProgressBar.Value = Playlist.Videos.Count;
+                    TotalDownloadsProgressBarTextBlock.Text = $"({DownloadedCount}\\{Maximum})";
+                    DownloadedVideosProgressBar.Value = Maximum;
                     ConvertingTextBlock.Text = $"{FindResource("StillConverting")} {ffmpegList.Count} {FindResource("files")}";
                     CurrentDownloadProgressBarTextBlock.Visibility = Visibility.Collapsed;
                 });
                 await Task.Delay(1000);
             }
+
+            if (Subscription != null)
+                Subscription.LatestVideoDownloaded = Videos.MaxBy(x => x.UploadDate).UploadDate.DateTime;
+
+            StillDownloading = false;
+
             CurrentDownloadGrid.Visibility = Visibility.Collapsed;
             TotalDownloadedGrid.Visibility = Visibility.Collapsed;
             ConvertingTextBlock.Visibility = Visibility.Collapsed;
@@ -280,6 +362,17 @@ namespace YoutubePlaylistDownloader
             DownloadedVideosProgressBar.Value = DownloadedCount;
         }
 
+        public DownloadPage LoadFromSilent()
+        {
+            GlobalConsts.HideSettingsButton();
+            GlobalConsts.HideAboutButton();
+            GlobalConsts.HideHomeButton();
+            GlobalConsts.HideHelpButton();
+            GlobalConsts.HideSubscriptionsButton();
+
+            return this;
+        }
+
         private async void Exit_Click(object sender, RoutedEventArgs e)
         {
             cts.Cancel(true);
@@ -290,6 +383,7 @@ namespace YoutubePlaylistDownloader
                     return;
             }
             ffmpegList.ForEach(x => { try { x.Kill(); } catch { } });
+            StillDownloading = false;
             GlobalConsts.LoadPage(new MainPage());
         }
 
@@ -301,14 +395,17 @@ namespace YoutubePlaylistDownloader
             {
                 if (disposing)
                 {
+                    cts.Cancel(true);
                     cts.Dispose();
+                    ffmpegList.ForEach(x => { try { x.Kill(); } catch { } });
                     ffmpegList.Clear();
-                    
                 }
 
+                StillDownloading = false;
                 Playlist = null;
                 ffmpegList = null;
                 disposedValue = true;
+                Videos = null;
             }
         }
         public void Dispose()
