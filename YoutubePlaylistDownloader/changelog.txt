@@ -3,3 +3,5 @@
 - A new help page that includes more information about the subscriptions system and how it works. There is also information about how to contact me
 
 IMPORTANT NOTE: all your settings (save location, themes and colors) will be reset after this update, this is one time only and will not repeat in the future.
+
+*Version 1.301 fixes a small bug in the subscription system

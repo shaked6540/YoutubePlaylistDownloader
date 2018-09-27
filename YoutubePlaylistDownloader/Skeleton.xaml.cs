@@ -18,6 +18,7 @@ namespace YoutubePlaylistDownloader
     {
 
         private bool exit = false;
+        private SemaphoreSlim locker = new SemaphoreSlim(0, 1);
 
         public Skeleton()
         {
@@ -39,19 +40,31 @@ namespace YoutubePlaylistDownloader
         {
             while (GlobalConsts.CheckForSubscriptionUpdates)
             {
-                foreach (var sub in SubscriptionManager.Subscriptions)
+                try
                 {
-                    try
+                    await locker.WaitAsync();
+                    foreach (var sub in SubscriptionManager.Subscriptions)
                     {
-                        await sub.DownloadMissingVideos();
-                    }
-                    catch (Exception ex)
-                    {
-                        await GlobalConsts.Log(ex.ToString(), "DownloadSubscriptions");
-                        // maybe also inform the user that something failed
+                        try
+                        {
+                            await sub.DownloadMissingVideos();
+                        }
+                        catch (Exception ex)
+                        {
+                            await GlobalConsts.Log(ex.ToString(), "DownloadSubscriptions");
+                            // maybe also inform the user that something failed
+                        }
                     }
                 }
-                await Task.Delay(TimeSpan.FromMinutes(5));
+                catch(Exception ex)
+                {
+                    await GlobalConsts.Log(ex.ToString(), "DownloadSubscriptions - out of while loop");
+                }
+                finally
+                {
+                    locker.Release();
+                }
+                await Task.Delay(TimeSpan.FromMinutes(1));
             }
         }
         private async Task CheckForUpdates()

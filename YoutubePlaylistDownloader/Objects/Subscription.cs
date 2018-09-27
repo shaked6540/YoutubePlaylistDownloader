@@ -88,7 +88,7 @@ namespace YoutubePlaylistDownloader.Objects
             {
                 var playlist = await GlobalConsts.YoutubeClient.GetChannelUploadsAsync(ChannelId);
                 var date = LatestVideoDownloaded.ToUniversalTime();
-                var missingVideos = playlist.Where(x => x.UploadDate.ToUniversalTime() > date && !DownloadedVideos.Contains(x.Id));
+                var missingVideos = playlist.Where(x => x.UploadDate.ToUniversalTime() >= date && !DownloadedVideos.Contains(x.Id));
 
                 if (missingVideos.Any())
                     downloadPage = new DownloadPage(null, Convert, Quality, SaveFormat, Bitrate, 0, 0, AudioOnly, PreferHighestFPS, SavePath, missingVideos, this, true);
@@ -97,7 +97,7 @@ namespace YoutubePlaylistDownloader.Objects
             {
                 var playlist = await GlobalConsts.YoutubeClient.GetChannelUploadsAsync(ChannelId);
                 var date = LatestVideoDownloaded.ToUniversalTime();
-                var missingVideos = playlist.Where(x => x.UploadDate.ToUniversalTime() > date && !DownloadedVideos.Contains(x.Id));
+                var missingVideos = playlist.Where(x => x.UploadDate.ToUniversalTime() >= date && !DownloadedVideos.Contains(x.Id));
 
                 if (missingVideos.Any())
                     downloadPage = new DownloadPage(null, Convert, Quality, SaveFormat, Bitrate, 0, 0, AudioOnly, PreferHighestFPS, SavePath, missingVideos, this, true);

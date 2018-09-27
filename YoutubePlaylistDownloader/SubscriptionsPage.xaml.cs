@@ -195,6 +195,7 @@ namespace YoutubePlaylistDownloader
         private void CheckBox_Checked(object sender, RoutedEventArgs e)
         {
             GlobalConsts.CheckForSubscriptionUpdates = CheckForSubscriptionUpdatesCheckBox.IsChecked.Value;
+            GlobalConsts.Current.DownloadSubscriptions().ConfigureAwait(false);
         }
 
         private void CheckBox_Unchecked(object sender, RoutedEventArgs e)
