@@ -93,45 +93,48 @@ namespace YoutubePlaylistDownloader
                         });
                     };
                     await client.DownloadMediaStreamAsync(bestQuality, stream, cancellationToken: token);
-
-                    if (!AudioOnly)
-                    {
-
-                        var ffmpeg = new Process()
-                        {
-                            EnableRaisingEvents = true,
-                            StartInfo = new ProcessStartInfo()
-                            {
-                                FileName = $"{GlobalConsts.CurrentDir}\\ffmpeg.exe",
-                                Arguments = $"-i \"{fileLoc}\" -vn -y {Bitrate} \"{outputFileLoc}\"",
-                                CreateNoWindow = true,
-                                UseShellExecute = false
-                            }
-                        };
-
-                        token.ThrowIfCancellationRequested();
-                        ffmpeg.Exited += async (x, y) =>
-                        {
-                            ffmpegList.Remove(ffmpeg);
-                            await GlobalConsts.TagFile(Video, 0, outputFileLoc);
-
-                            File.Copy(outputFileLoc, copyFileLoc, true);
-                            File.Delete(outputFileLoc);
-                            File.Delete(fileLoc);
-                        };
-                        ffmpeg.Start();
-                        ffmpegList.Add(ffmpeg);
-                    }
-                    else
-                    {
-                        File.Copy(fileLoc, copyFileLoc, true);
-                        await GlobalConsts.TagFile(Video, 0, copyFileLoc);
-                        File.Delete(fileLoc);
-                    }
-
-
-                    DownloadedCount++;
                 }
+                if (!AudioOnly)
+                {
+
+                    var ffmpeg = new Process()
+                    {
+                        EnableRaisingEvents = true,
+                        StartInfo = new ProcessStartInfo()
+                        {
+                            FileName = $"{GlobalConsts.CurrentDir}\\ffmpeg.exe",
+                            Arguments = $"-i \"{fileLoc}\" -vn -y {Bitrate} \"{outputFileLoc}\"",
+                            CreateNoWindow = true,
+                            UseShellExecute = false
+                        }
+                    };
+
+                    token.ThrowIfCancellationRequested();
+                    ffmpeg.Exited += async (x, y) =>
+                    {
+                        ffmpegList.Remove(ffmpeg);
+                        await GlobalConsts.TagFile(Video, 0, outputFileLoc);
+
+                        File.Copy(outputFileLoc, copyFileLoc, true);
+                        File.Delete(outputFileLoc);
+                        File.Delete(fileLoc);
+                    };
+                    ffmpeg.Start();
+                    ffmpegList.Add(ffmpeg);
+                }
+                else
+                {
+                    File.Copy(fileLoc, copyFileLoc, true);
+                    File.Delete(fileLoc);
+                    try
+                    {
+                        await GlobalConsts.TagFile(Video, 0, copyFileLoc);
+                    }
+                    catch { }
+                }
+
+                DownloadedCount++;
+
             }
             catch (OperationCanceledException)
             {

@@ -114,7 +114,7 @@ namespace YoutubePlaylistDownloader
 
                         await Dispatcher.InvokeAsync(() => Update(0, video));
 
-                       
+
                         var streamInfoSet = await client.GetVideoMediaStreamInfosAsync(video.Id);
                         var bestQuality = streamInfoSet.Audio.MaxBy(x => x.AudioEncoding);
                         var cleanFileName = GlobalConsts.CleanFileName(video.Title);
@@ -138,44 +138,51 @@ namespace YoutubePlaylistDownloader
                                 });
                             };
                             await client.DownloadMediaStreamAsync(bestQuality, stream, cancellationToken: token);
-                            if (!AudioOnly)
+                        }
+                        if (!AudioOnly)
+                        {
+                            var ffmpeg = new Process()
                             {
-                                var ffmpeg = new Process()
+                                EnableRaisingEvents = true,
+                                StartInfo = new ProcessStartInfo()
                                 {
-                                    EnableRaisingEvents = true,
-                                    StartInfo = new ProcessStartInfo()
-                                    {
-                                        FileName = $"{GlobalConsts.CurrentDir}\\ffmpeg.exe",
-                                        Arguments = $"-i \"{fileLoc}\" -y {Bitrate} \"{outputFileLoc}\"",
-                                        CreateNoWindow = true,
-                                        UseShellExecute = false
-                                    }
-                                };
+                                    FileName = $"{GlobalConsts.CurrentDir}\\ffmpeg.exe",
+                                    Arguments = $"-i \"{fileLoc}\" -y {Bitrate} \"{outputFileLoc}\"",
+                                    CreateNoWindow = true,
+                                    UseShellExecute = false
+                                }
+                            };
 
-                                token.ThrowIfCancellationRequested();
-                                ffmpeg.Exited += async (x, y) =>
-                                {
-                                    ffmpegList.Remove(ffmpeg);
-                                    await GlobalConsts.TagFile(video, i + 1, outputFileLoc, Playlist);
-
-                                    File.Copy(outputFileLoc, copyFileLoc, true);
-                                    File.Delete(outputFileLoc);
-                                };
-                                ffmpeg.Start();
-                                ffmpegList.Add(ffmpeg);
-                            }
-                            else
+                            token.ThrowIfCancellationRequested();
+                            ffmpeg.Exited += async (x, y) =>
                             {
-                                File.Copy(fileLoc, copyFileLoc, true);
-                                File.Delete(fileLoc);
+                                ffmpegList.Remove(ffmpeg);
+                                await GlobalConsts.TagFile(video, i + 1, outputFileLoc, Playlist);
+
+                                File.Copy(outputFileLoc, copyFileLoc, true);
+                                File.Delete(outputFileLoc);
+                            };
+                            ffmpeg.Start();
+                            ffmpegList.Add(ffmpeg);
+                        }
+                        else
+                        {
+                            File.Copy(fileLoc, copyFileLoc, true);
+                            File.Delete(fileLoc);
+                            try
+                            {
                                 await GlobalConsts.TagFile(video, i + 1, copyFileLoc, Playlist);
                             }
-
-                            if (Subscription != null)
-                                Subscription.DownloadedVideos.Add(video.Id);
-
-                            DownloadedCount++;
+                            catch
+                            {
+                            }
                         }
+
+                        if (Subscription != null)
+                            Subscription.DownloadedVideos.Add(video.Id);
+
+                        DownloadedCount++;
+
                     }
                     catch (OperationCanceledException)
                     {

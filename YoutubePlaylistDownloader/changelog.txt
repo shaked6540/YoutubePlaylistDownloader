@@ -4,4 +4,5 @@
 
 IMPORTANT NOTE: all your settings (save location, themes and colors) will be reset after this update, this is one time only and will not repeat in the future.
 
-*Version 1.301 fixes a small bug in the subscription system
+*Version 1.301 fixes a small bug in the subscription system & Version 1.302 fixes some bugs with clean audio downloading
+Also, I'm sorry for these frequent small patches
