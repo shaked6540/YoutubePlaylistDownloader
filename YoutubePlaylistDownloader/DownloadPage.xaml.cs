@@ -41,6 +41,15 @@ namespace YoutubePlaylistDownloader
         {
             InitializeComponent();
 
+            if (playlist == null)
+                Videos = videos;
+            else
+                Videos = playlist.Videos;
+
+            startIndex = startIndex <= 0 ? 0 : startIndex;
+            endIndex = endIndex <= 0 ? Videos.Count() - 1 : endIndex;
+
+
             if (!silent)
             {
                 GlobalConsts.HideSettingsButton();
@@ -58,12 +67,6 @@ namespace YoutubePlaylistDownloader
             Maximum = EndIndex - StartIndex + 1;
             DownloadedVideosProgressBar.Maximum = Maximum;
             Playlist = playlist;
-
-            if (playlist == null)
-                Videos = videos;
-            else
-                Videos = playlist.Videos;
-
             FileType = fileType;
             DownloadedCount = 0;
             Quality = quality;
@@ -161,6 +164,9 @@ namespace YoutubePlaylistDownloader
 
                                 File.Copy(outputFileLoc, copyFileLoc, true);
                                 File.Delete(outputFileLoc);
+
+                                if (Subscription != null)
+                                    Subscription.LatestVideoDownloaded = video.UploadDate.ToUniversalTime().Date;
                             };
                             ffmpeg.Start();
                             ffmpegList.Add(ffmpeg);
@@ -168,13 +174,18 @@ namespace YoutubePlaylistDownloader
                         else
                         {
                             File.Copy(fileLoc, copyFileLoc, true);
+
+                            if (Subscription != null)
+                                Subscription.LatestVideoDownloaded = video.UploadDate.ToUniversalTime().Date;
+
                             File.Delete(fileLoc);
                             try
                             {
                                 await GlobalConsts.TagFile(video, i + 1, copyFileLoc, Playlist);
                             }
-                            catch
+                            catch (Exception ex)
                             {
+                                await GlobalConsts.Log(ex.ToString(), "TagFile at download with convert playlist");
                             }
                         }
 
@@ -214,9 +225,6 @@ namespace YoutubePlaylistDownloader
                     await Task.Delay(1000);
                 }
 
-                if (Subscription != null)
-                    Subscription.LatestVideoDownloaded = Videos.MaxBy(x => x.UploadDate).UploadDate.DateTime;
-
                 CurrentDownloadGrid.Visibility = Visibility.Collapsed;
                 ConvertingTextBlock.Visibility = Visibility.Collapsed;
                 ConvertingTextBlock.Visibility = Visibility.Collapsed;
@@ -248,7 +256,7 @@ namespace YoutubePlaylistDownloader
 
                 if (video == default(Video))
                     goto exit;
-                
+
                 try
                 {
 
@@ -289,36 +297,36 @@ namespace YoutubePlaylistDownloader
                             var audioTask = client.DownloadMediaStreamAsync(bestAudio, audioStream);
                             await Task.WhenAll(videoTask, audioTask);
                         }
-                        var ffmpeg = new Process()
-                        {
-                            EnableRaisingEvents = true,
-                            StartInfo = new ProcessStartInfo()
-                            {
-                                FileName = $"{GlobalConsts.CurrentDir}\\ffmpeg.exe",
-                                Arguments = $"-i \"{fileLoc}\" -i \"{audioLoc}\" -y -c copy \"{outputFileLoc}\"",
-                                CreateNoWindow = true,
-                                UseShellExecute = false,
-                            }
-                        };
-
-
-                        token.ThrowIfCancellationRequested();
-                        ffmpeg.Exited += (x, y) =>
-                        {
-                            ffmpegList.Remove(ffmpeg);
-                            File.Copy(outputFileLoc, copyFileLoc, true);
-
-                            if (Subscription != null)
-                                Subscription.DownloadedVideos.Add(video.Id);
-
-                            File.Delete(outputFileLoc);
-                            File.Delete(audioLoc);
-                            File.Delete(fileLoc);
-                        };
-                        ffmpeg.Start();
-                        ffmpegList.Add(ffmpeg);
-                        DownloadedCount++;
                     }
+                    var ffmpeg = new Process()
+                    {
+                        EnableRaisingEvents = true,
+                        StartInfo = new ProcessStartInfo()
+                        {
+                            FileName = $"{GlobalConsts.CurrentDir}\\ffmpeg.exe",
+                            Arguments = $"-i \"{fileLoc}\" -i \"{audioLoc}\" -y -c copy \"{outputFileLoc}\"",
+                            CreateNoWindow = true,
+                            UseShellExecute = false,
+                        }
+                    };
+
+                    token.ThrowIfCancellationRequested();
+                    ffmpeg.Exited += (x, y) =>
+                    {
+                        ffmpegList.Remove(ffmpeg);
+                        File.Copy(outputFileLoc, copyFileLoc, true);
+
+                        if (Subscription != null)
+                            Subscription.DownloadedVideos.Add(video.Id);
+
+                        File.Delete(outputFileLoc);
+                        File.Delete(audioLoc);
+                        File.Delete(fileLoc);
+                    };
+                    ffmpeg.Start();
+                    ffmpegList.Add(ffmpeg);
+                    DownloadedCount++;
+
                 }
                 catch (OperationCanceledException)
                 {
@@ -351,7 +359,7 @@ namespace YoutubePlaylistDownloader
             }
 
             if (Subscription != null)
-                Subscription.LatestVideoDownloaded = Videos.MaxBy(x => x.UploadDate).UploadDate.DateTime;
+                Subscription.LatestVideoDownloaded = Videos.MaxBy(x => x.UploadDate).UploadDate.DateTime.Date;
 
             StillDownloading = false;
 

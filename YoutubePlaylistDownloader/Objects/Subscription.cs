@@ -1,12 +1,10 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
-using YoutubeExplode;
 using YoutubeExplode.Models;
 using YoutubeExplode.Models.MediaStreams;
-using System.Linq;
-using MoreLinq;
 
 namespace YoutubePlaylistDownloader.Objects
 {
@@ -17,10 +15,22 @@ namespace YoutubePlaylistDownloader.Objects
         private Channel channel = null;
 
         [JsonIgnore]
+        private DateTime lastVideoDownloaded;
+
+        [JsonIgnore]
         private DownloadPage downloadPage = null;
 
         [JsonProperty]
-        public DateTime LatestVideoDownloaded { get; set; }
+        public DateTime LatestVideoDownloaded
+        {
+            get => lastVideoDownloaded.Date;
+            set
+            {
+                var date = value.ToUniversalTime().Date;
+                if (date > LatestVideoDownloaded)
+                    lastVideoDownloaded = date;
+            }
+        }
 
         [JsonProperty]
         public string ChannelId { get; set; }
@@ -84,20 +94,13 @@ namespace YoutubePlaylistDownloader.Objects
         }
         public async Task DownloadMissingVideos()
         {
-            if (downloadPage == null)
-            {
-                var playlist = await GlobalConsts.YoutubeClient.GetChannelUploadsAsync(ChannelId);
-                var date = LatestVideoDownloaded.ToUniversalTime();
-                var missingVideos = playlist.Where(x => x.UploadDate.ToUniversalTime() >= date && !DownloadedVideos.Contains(x.Id));
+            if (downloadPage != null && downloadPage.StillDownloading)
+                return;
 
-                if (missingVideos.Any())
-                    downloadPage = new DownloadPage(null, Convert, Quality, SaveFormat, Bitrate, 0, 0, AudioOnly, PreferHighestFPS, SavePath, missingVideos, this, true);
-            }
-            else if (!downloadPage.StillDownloading)
+            else
             {
                 var playlist = await GlobalConsts.YoutubeClient.GetChannelUploadsAsync(ChannelId);
-                var date = LatestVideoDownloaded.ToUniversalTime();
-                var missingVideos = playlist.Where(x => x.UploadDate.ToUniversalTime() >= date && !DownloadedVideos.Contains(x.Id));
+                var missingVideos = playlist.Where(x => x.UploadDate.ToUniversalTime().Date >= LatestVideoDownloaded && !DownloadedVideos.Contains(x.Id)).ToList();
 
                 if (missingVideos.Any())
                     downloadPage = new DownloadPage(null, Convert, Quality, SaveFormat, Bitrate, 0, 0, AudioOnly, PreferHighestFPS, SavePath, missingVideos, this, true);
@@ -110,6 +113,6 @@ namespace YoutubePlaylistDownloader.Objects
 
             return downloadPage.StillDownloading;
         }
-        public DownloadPage GetDownloadPage() => downloadPage.LoadFromSilent();
+        public DownloadPage GetDownloadPage() => downloadPage;
     }
 }

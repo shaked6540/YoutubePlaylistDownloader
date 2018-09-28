@@ -31,7 +31,7 @@ namespace YoutubePlaylistDownloader
         public static readonly string CurrentDir;
         private static readonly string ConfigFilePath;
         private static readonly string ErrorFilePath;
-        public const double VERSION = 1.302;
+        public const double VERSION = 1.303;
         public static bool UpdateOnExit;
         public static string UpdateSetupLocation;
         public static bool OptionExpanderIsExpanded;
@@ -226,7 +226,7 @@ namespace YoutubePlaylistDownloader
         {
             using (StreamWriter sw = new StreamWriter(ErrorFilePath, true))
             {
-                await sw.WriteLineAsync($"[{DateTime.Now.ToString()}], [{sender}]:\t{message}");
+                await sw.WriteLineAsync($"[{DateTime.Now.ToUniversalTime()}], [{sender}]:\n\n{message}\n\n");
             }
         }
         public static string CleanFileName(string filename)

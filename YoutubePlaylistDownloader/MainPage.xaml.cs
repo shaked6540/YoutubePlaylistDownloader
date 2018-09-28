@@ -128,12 +128,8 @@ namespace YoutubePlaylistDownloader
                 type = (string)ExtensionsDropDown.SelectedItem;
 
             if (list != null && video == null)
-            {
-                startIndex = startIndex <= 0 ? 0 : startIndex;
-                endIndex = endIndex <= 0 ? list.Videos.Count - 1 : endIndex;
-
                 GlobalConsts.LoadPage(new DownloadPage(list, convert, vq, type, bitrate, startIndex, endIndex, audioOnly, preferHighestFPS));
-            }
+
             else if (list == null && video != null)
                 GlobalConsts.LoadPage(new DownloadVideo(video, convert, vq, type, bitrate, audioOnly, preferHighestFPS));
         }

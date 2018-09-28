@@ -18,7 +18,7 @@ namespace YoutubePlaylistDownloader
     {
 
         private bool exit = false;
-        private SemaphoreSlim locker = new SemaphoreSlim(0, 1);
+        private SemaphoreSlim locker = new SemaphoreSlim(1, 1);
 
         public Skeleton()
         {
@@ -132,7 +132,8 @@ namespace YoutubePlaylistDownloader
                 var exitMessage = $"{FindResource("ExitMessage")}";
 
                 bool loadSubPage = false;
-                if (SubscriptionManager.Subscriptions.Any(x => x.StillDownloading()))
+                DownloadPage page = SubscriptionManager.Subscriptions.FirstOrDefault(x => x.StillDownloading())?.GetDownloadPage();
+                if (page != null)
                 {
                     exitMessage = $"{FindResource("StillDownloadingSubscriptionsExit")}";
                     loadSubPage = true;
@@ -146,10 +147,11 @@ namespace YoutubePlaylistDownloader
                         return;
                     }
                     exit = true;
+                    page = null;
                     Close();
                 }
                 else if (loadSubPage)
-                    GlobalConsts.LoadPage(SubscriptionManager.Subscriptions.FirstOrDefault(x => x.StillDownloading()).GetDownloadPage());
+                    GlobalConsts.LoadPage(page);
             }
         }
 

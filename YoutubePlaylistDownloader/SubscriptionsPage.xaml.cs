@@ -71,7 +71,15 @@ namespace YoutubePlaylistDownloader
 
         private async void AddChannelButton_Click(object sender, RoutedEventArgs e)
         {
-            var sub = new Subscription(DateTime.Now, SubscriptionChannelId, GlobalConsts.SaveDirectory, "mp3", false,
+            var sub = new Subscription(
+
+#if DEBUG
+                new DateTime(2018,9,25),
+#else
+                DateTime.Now,
+#endif
+
+                SubscriptionChannelId, GlobalConsts.SaveDirectory, "mp3", false,
                 YoutubeExplode.Models.MediaStreams.VideoQuality.High720, false, false, false, false, string.Empty, new List<string>());
             Subscriptions.Add(sub);
             AddChannelSubscriptionTextBox.Text = string.Empty;
