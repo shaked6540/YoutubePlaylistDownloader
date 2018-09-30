@@ -5,11 +5,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using YoutubeExplode.Models;
 using YoutubeExplode.Models.MediaStreams;
+using System.Threading;
+using System.Windows;
 
 namespace YoutubePlaylistDownloader.Objects
 {
     [JsonObject]
-    public class Subscription
+    public class Subscription : IDisposable
     {
         [JsonIgnore]
         private Channel channel = null;
@@ -19,6 +21,12 @@ namespace YoutubePlaylistDownloader.Objects
 
         [JsonIgnore]
         private DownloadPage downloadPage = null;
+
+        [JsonIgnore]
+        private readonly SemaphoreSlim locker;
+
+        [JsonIgnore]
+        private CancellationTokenSource cts;
 
         [JsonProperty]
         public DateTime LatestVideoDownloaded
@@ -83,6 +91,9 @@ namespace YoutubePlaylistDownloader.Objects
             Convert = convert;
             Bitrate = bitrate;
             SetBitrate = setBitrate;
+
+            locker = new SemaphoreSlim(1);
+            cts = new CancellationTokenSource();
         }
 
         public async Task<Channel> GetChannel()
@@ -92,7 +103,7 @@ namespace YoutubePlaylistDownloader.Objects
 
             return channel;
         }
-        public async Task DownloadMissingVideos()
+        private async Task DownloadMissingVideos()
         {
             if (downloadPage != null && downloadPage.StillDownloading)
                 return;
@@ -103,7 +114,12 @@ namespace YoutubePlaylistDownloader.Objects
                 var missingVideos = playlist.Where(x => x.UploadDate.ToUniversalTime().Date >= LatestVideoDownloaded && !DownloadedVideos.Contains(x.Id)).ToList();
 
                 if (missingVideos.Any())
-                    downloadPage = new DownloadPage(null, Convert, Quality, SaveFormat, Bitrate, 0, 0, AudioOnly, PreferHighestFPS, SavePath, missingVideos, this, true);
+                {
+                    await Application.Current.Dispatcher.InvokeAsync(() =>
+                    {
+                        downloadPage = new DownloadPage(null, Convert, Quality, SaveFormat, Bitrate, 0, 0, AudioOnly, PreferHighestFPS, SavePath, missingVideos, this, true, cts);
+                    }, System.Windows.Threading.DispatcherPriority.Background);
+                }
             }
         }
         public bool StillDownloading()
@@ -114,5 +130,60 @@ namespace YoutubePlaylistDownloader.Objects
             return downloadPage.StillDownloading;
         }
         public DownloadPage GetDownloadPage() => downloadPage;
+        public Task RefreshUpdate()
+        {
+            cts?.Cancel(true);
+            cts = new CancellationTokenSource();
+            return UpdateSubscription();
+        }
+        public async Task UpdateSubscription()
+        {
+            try
+            {
+                await locker.WaitAsync();
+                while (GlobalConsts.CheckForSubscriptionUpdates)
+                {
+                    cts.Token.ThrowIfCancellationRequested();
+                    await DownloadMissingVideos();
+                    await Task.Delay(GlobalConsts.SubscriptionsUpdateDelay);
+                }
+            }
+            catch (OperationCanceledException){ }
+            catch(Exception ex)
+            {
+                await GlobalConsts.Log(ex.ToString(), "Update Subscription");
+            }
+            finally
+            {
+                locker.Release();
+            }
+        }
+        public void CancelUpdate()
+        {
+            cts?.Cancel(true);
+        }
+
+        #region IDisposable Support
+        private bool disposedValue = false; 
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    locker?.Dispose();
+                    downloadPage?.Dispose();
+                    cts?.Dispose();
+                }
+
+                downloadPage = null;
+                disposedValue = true;
+            }
+        }
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+        #endregion
     }
 }

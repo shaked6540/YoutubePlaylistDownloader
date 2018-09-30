@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 using YoutubeExplode.Models.MediaStreams;
 using YoutubePlaylistDownloader.Objects;
 
@@ -57,6 +58,7 @@ namespace YoutubePlaylistDownloader
                 ExtensionsDropDown.SelectedItem = Subscription.SaveFormat;
                 BitrateCheckBox.IsChecked = Subscription.SetBitrate;
                 BitRateTextBox.Text = Subscription.Bitrate.Replace("k", string.Empty);
+                ChannelLogo.Source = new BitmapImage(new Uri(channel.LogoUrl));
             });
 
         }

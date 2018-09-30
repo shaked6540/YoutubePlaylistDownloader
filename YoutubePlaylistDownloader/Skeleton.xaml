@@ -26,55 +26,53 @@
 
         <Controls:TransitioningContentControl Height="Auto" HorizontalAlignment="Center" DockPanel.Dock="Top" x:Name="CurrentPage" Margin="0,50,0,0" Transition="Default" />
 
-        <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" Height="Auto">
-            <Grid Width="{Binding ActualWidth, ElementName=SkeletonWindow}" VerticalAlignment="Bottom">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
+        <Grid Width="{Binding ActualWidth, ElementName=SkeletonWindow}" VerticalAlignment="Bottom">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
 
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
 
-                <WrapPanel Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" DockPanel.Dock="Left" VerticalAlignment="Bottom">
-                    <Controls:Tile Click="Settings_Click" x:Name="SettingsButton" Height="50" Width="Auto" Margin="5,5,5,5" VerticalAlignment="Bottom" >
-                        <WrapPanel>
-                            <iconPacks:PackIconModern Width="40" Margin="5" Height="40" Kind="Settings" />
-                            <TextBlock Text="{DynamicResource Settings}" VerticalAlignment="Center" FontSize="24" Margin="2.5,5,7.5,5" />
-                        </WrapPanel>
-                    </Controls:Tile>
-                    <Controls:Tile Click="SubscriptionsButton_Click" x:Name="SubscriptionsButton" Height="50" Width="Auto" Margin="5,5,5,5" VerticalAlignment="Bottom" >
-                        <WrapPanel>
-                            <iconPacks:PackIconModern Width="40" Margin="5" Height="40" Kind="List" />
-                            <TextBlock Text="{DynamicResource Subscriptions}" VerticalAlignment="Center" FontSize="24" Margin="2.5,5,7.5,5" />
-                        </WrapPanel>
-                    </Controls:Tile>
-                </WrapPanel>
-
-                <Controls:Tile Click="Home_Click" x:Name="HomeButton" Grid.Column="1" Height="50" Width="Auto" Margin="5,5,5,5" DockPanel.Dock="Bottom" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+            <WrapPanel Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" DockPanel.Dock="Left" VerticalAlignment="Bottom">
+                <Controls:Tile Click="Settings_Click" x:Name="SettingsButton" Height="50" Width="Auto" Margin="5,5,5,5" VerticalAlignment="Bottom" >
                     <WrapPanel>
-                        <iconPacks:PackIconModern Width="40" Margin="5" Height="40" Kind="Home" />
-                        <TextBlock Text="{DynamicResource Home}" VerticalAlignment="Center" FontSize="24" Margin="2.5,5,7.5,5" />
+                        <iconPacks:PackIconModern Width="40" Margin="5" Height="40" Kind="Settings" />
+                        <TextBlock Text="{DynamicResource Settings}" VerticalAlignment="Center" FontSize="24" Margin="2.5,5,7.5,5" />
                     </WrapPanel>
                 </Controls:Tile>
+                <Controls:Tile Click="SubscriptionsButton_Click" x:Name="SubscriptionsButton" Height="50" Width="Auto" Margin="5,5,5,5" VerticalAlignment="Bottom" >
+                    <WrapPanel>
+                        <iconPacks:PackIconModern Width="40" Margin="5" Height="40" Kind="List" />
+                        <TextBlock Text="{DynamicResource Subscriptions}" VerticalAlignment="Center" FontSize="24" Margin="2.5,5,7.5,5" />
+                    </WrapPanel>
+                </Controls:Tile>
+            </WrapPanel>
 
-                <WrapPanel Grid.Column="2" Grid.Row="0" HorizontalAlignment="Right" DockPanel.Dock="Right" VerticalAlignment="Bottom">
-                    <Controls:Tile Click="Help_Click" x:Name="HelpButton" Height="50" Width="Auto" Margin="5,5,5,5">
-                        <WrapPanel>
-                            <iconPacks:PackIconModern Width="40" Margin="5" Height="40" Kind="BookPerspectiveHelp" />
-                            <TextBlock Text="{DynamicResource Help}" VerticalAlignment="Center" FontSize="24" Margin="2.5,5,7.5,5" />
-                        </WrapPanel>
-                    </Controls:Tile>
-                    <Controls:Tile Click="About_Click" x:Name="AboutButton" Height="50" Width="Auto" Margin="5,5,5,5" >
-                        <WrapPanel>
-                            <iconPacks:PackIconModern Width="40" Margin="5" Height="40" Kind="AppPlus" />
-                            <TextBlock Text="{DynamicResource About}" VerticalAlignment="Center" FontSize="24" Margin="2.5,5,7.5,5" />
-                        </WrapPanel>
-                    </Controls:Tile>
+            <Controls:Tile Click="Home_Click" x:Name="HomeButton" Grid.Column="1" Height="50" Width="Auto" Margin="5,5,5,5" DockPanel.Dock="Bottom" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+                <WrapPanel>
+                    <iconPacks:PackIconModern Width="40" Margin="5" Height="40" Kind="Home" />
+                    <TextBlock Text="{DynamicResource Home}" VerticalAlignment="Center" FontSize="24" Margin="2.5,5,7.5,5" />
                 </WrapPanel>
-            </Grid>
-        </StackPanel>
+            </Controls:Tile>
+
+            <WrapPanel Grid.Column="2" Grid.Row="0" HorizontalAlignment="Right" DockPanel.Dock="Right" VerticalAlignment="Bottom">
+                <Controls:Tile Click="Help_Click" x:Name="HelpButton" Height="50" Width="Auto" Margin="5,5,5,5">
+                    <WrapPanel>
+                        <iconPacks:PackIconModern Width="40" Margin="5" Height="40" Kind="BookPerspectiveHelp" />
+                        <TextBlock Text="{DynamicResource Help}" VerticalAlignment="Center" FontSize="24" Margin="2.5,5,7.5,5" />
+                    </WrapPanel>
+                </Controls:Tile>
+                <Controls:Tile Click="About_Click" x:Name="AboutButton" Height="50" Width="Auto" Margin="5,5,5,5" >
+                    <WrapPanel>
+                        <iconPacks:PackIconModern Width="40" Margin="5" Height="40" Kind="AppPlus" />
+                        <TextBlock Text="{DynamicResource About}" VerticalAlignment="Center" FontSize="24" Margin="2.5,5,7.5,5" />
+                    </WrapPanel>
+                </Controls:Tile>
+            </WrapPanel>
+        </Grid>
     </DockPanel>
 </Controls:MetroWindow>

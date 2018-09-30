@@ -77,7 +77,7 @@ YouTube Playlist Downloader v</s:String>
     <s:String x:Key="ThereAreNoVidoesToDownload">אין סרטונים להורדה עם הפרמטרים שציינת</s:String>
     <s:String x:Key="UpdateNow">עדכן עכשיו</s:String>
     <s:String x:Key="Subscriptions">הרשמות</s:String>
-    <s:String x:Key="AutomaticllyDownloadSubscriptions">הורד באופן אוטומטי סרטונים חדשים מערוצים כאשר אני מפעיל את התוכנית</s:String>
+    <s:String x:Key="AutomaticllyDownloadSubscriptions">הורד באופן אוטומטי סרטונים חדשים מערוצים אלה</s:String>
     <s:String x:Key="InsertChannelLink">הכנס קישור לערוץ כאן</s:String>
     <s:String x:Key="Remove">הסר</s:String>
     <s:String x:Key="Id">מזהה: </s:String>
@@ -107,4 +107,6 @@ YouTube Playlist Downloader v</s:String>
 הדרך השלישית ליצור איתי קשר היא באמצעות GitHub, פשוט לפתוח בעיה חדשה ואני אנסה להגיב בהקדם האפשרי, הנה קישור: https://github.com/shaked6540/YoutubePlaylistDownloader/issues</s:String>
     <s:String x:Key="AutomaticallyCheckForUpdates">חפש אוטומטית עדכונים כאשר אני מפעיל את התוכנית</s:String>
     <s:String x:Key="WhatsNew">מה חדש?</s:String>
+    <s:String x:Key="SubscriptionsUpdateDelay">עדכן הרשמות כל</s:String>
+    <s:String x:Key="Minutes">דקות</s:String>
 </ResourceDictionary>

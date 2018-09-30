@@ -50,6 +50,15 @@ namespace YoutubePlaylistDownloader
             ResulotionDropDown.SelectedIndex = 4;
             OptionsExpander.IsExpanded = GlobalConsts.OptionExpanderIsExpanded;
             client = GlobalConsts.YoutubeClient;
+
+            void UpdateSize(object s, SizeChangedEventArgs e)
+            {
+                GridScrollViewer.Height = GlobalConsts.GetOffset() - HeadlineStackPanel.ActualHeight;
+                GridScrollViewer.UpdateLayout();
+            }
+
+            GlobalConsts.Current.SizeChanged += UpdateSize;
+            Unloaded += (s, e) => GlobalConsts.Current.SizeChanged -= UpdateSize;
         }
 
         private async void TextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -72,7 +81,7 @@ namespace YoutubePlaylistDownloader
                         channel = await client.GetChannelAsync(channelId).ConfigureAwait(false);
                         list = await client.GetPlaylistAsync(channel.GetChannelVideosPlaylistId());
                         video = null;
-                        await UpdatePlaylistInfo(Visibility.Visible, channel.Title, list.Author, list.Statistics.ViewCount.ToString(), list.Videos.Count.ToString(), $"https://img.youtube.com/vi/{channel.LogoUrl}/0.jpg", true, true);
+                        await UpdatePlaylistInfo(Visibility.Visible, channel.Title, list.Author, list.Statistics.ViewCount.ToString(), list.Videos.Count.ToString(), channel.LogoUrl, true, true);
                     }).ConfigureAwait(false);
                 }
                 else if (YoutubeClient.TryParseVideoId(PlaylistLinkTextBox.Text, out string videoId))

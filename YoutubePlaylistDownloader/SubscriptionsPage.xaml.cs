@@ -35,18 +35,16 @@ namespace YoutubePlaylistDownloader
 
             void UpdateSize(object s, SizeChangedEventArgs e)
             {
-                GridScrollViewer.Height = GlobalConsts.Current.ActualHeight - 300;
+                GridScrollViewer.Height = Subscriptions.Count * 105;
+                GridScrollViewer.MaxHeight = GlobalConsts.GetOffset() - 165;
                 GridScrollViewer.UpdateLayout();
             }
 
             GlobalConsts.Current.SizeChanged += UpdateSize;
+            Unloaded += (s, e) => GlobalConsts.Current.SizeChanged -= UpdateSize;
+            
 
-            Unloaded += (s, e) =>
-            {
-                GlobalConsts.Current.SizeChanged -= UpdateSize;
-            };
-
-
+            SubscriptionsUpdateDelayTextBox.Text = GlobalConsts.SubscriptionsUpdateDelay.TotalMinutes.ToString();
             FillSubscriptions().ConfigureAwait(false);
 
 
@@ -57,10 +55,9 @@ namespace YoutubePlaylistDownloader
                 await AddSubscriptionPanel(sub);
         }
 
-
         private void AddChannelSubscriptionTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (YoutubeClient.TryParseChannelId(AddChannelSubscriptionTextBox.Text, out string channelId))
+            if (YoutubeClient.TryParseChannelId(AddChannelSubscriptionTextBox.Text, out string channelId) && !Subscriptions.Any(x => x.ChannelId == channelId))
             {
                 SubscriptionChannelId = channelId;
                 AddChannelButton.IsEnabled = true;
@@ -74,16 +71,23 @@ namespace YoutubePlaylistDownloader
             var sub = new Subscription(
 
 #if DEBUG
-                new DateTime(2018,9,25),
+                new DateTime(2018, 9, 25),
 #else
                 DateTime.Now,
 #endif
 
                 SubscriptionChannelId, GlobalConsts.SaveDirectory, "mp3", false,
                 YoutubeExplode.Models.MediaStreams.VideoQuality.High720, false, false, false, false, string.Empty, new List<string>());
+
+
             Subscriptions.Add(sub);
+
             AddChannelSubscriptionTextBox.Text = string.Empty;
             await AddSubscriptionPanel(sub).ConfigureAwait(false);
+
+            if (GlobalConsts.CheckForSubscriptionUpdates)
+                await sub.RefreshUpdate();
+
         }
 
         private async Task AddSubscriptionPanel(Subscription sub)
@@ -92,7 +96,10 @@ namespace YoutubePlaylistDownloader
             _ = Dispatcher.InvokeAsync(() =>
             {
                 int row = SubscriptionsGrid.RowDefinitions.Count;
-                RowDefinition rowDefinition = new RowDefinition();
+                RowDefinition rowDefinition = new RowDefinition
+                {
+                    Height = GridLength.Auto,
+                };
                 SubscriptionsGrid.RowDefinitions.Add(rowDefinition);
 
                 Image logo = new Image
@@ -102,14 +109,21 @@ namespace YoutubePlaylistDownloader
                     Width = 98,
                     Height = 98,
                     Margin = new Thickness(2),
-                    Source = new BitmapImage(new Uri(channel.LogoUrl))
+                    Source = new BitmapImage(new Uri(channel.LogoUrl)),
+                    VerticalAlignment = VerticalAlignment.Top
                 };
                 Grid.SetColumn(logo, 0);
                 Grid.SetRow(logo, row);
                 SubscriptionsGrid.Children.Add(logo);
 
 
-                TextBlock description = new TextBlock();
+                TextBlock description = new TextBlock
+                {
+                    Height = 40,
+                    Width = double.NaN,
+                    FontSize = 14,
+                    VerticalAlignment = VerticalAlignment.Top
+                };
                 description.Inlines.Add(string.Concat(FindResource("PlaylistTitle"), channel.Title, "\n"));
                 description.Inlines.Add(string.Concat(FindResource("LastVideoDownloadDate"), sub.LatestVideoDownloaded.ToLocalTime().ToShortDateString()));
                 Grid.SetColumn(description, 1);
@@ -203,13 +217,32 @@ namespace YoutubePlaylistDownloader
         private void CheckBox_Checked(object sender, RoutedEventArgs e)
         {
             GlobalConsts.CheckForSubscriptionUpdates = CheckForSubscriptionUpdatesCheckBox.IsChecked.Value;
-            GlobalConsts.Current.DownloadSubscriptions().ConfigureAwait(false);
+            GlobalConsts.SaveConsts();
         }
 
         private void CheckBox_Unchecked(object sender, RoutedEventArgs e)
         {
             GlobalConsts.CheckForSubscriptionUpdates = CheckForSubscriptionUpdatesCheckBox.IsChecked.Value;
+            GlobalConsts.SaveConsts();
         }
 
+        private void SubscriptionsUpdateDelayTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (int.TryParse(SubscriptionsUpdateDelayTextBox.Text, out int delay))
+            {
+                if (delay <= 0)
+                {
+                    SubscriptionsUpdateDelayTextBox.Background = GlobalConsts.ErrorBrush;
+                    return;
+                }
+                GlobalConsts.SubscriptionsUpdateDelay = TimeSpan.FromMinutes(delay);
+                SubscriptionsUpdateDelayTextBox.Background = null;
+                GlobalConsts.SaveConsts();
+            }
+            else
+            {
+                SubscriptionsUpdateDelayTextBox.Background = GlobalConsts.ErrorBrush;
+            }
+        }
     }
 }

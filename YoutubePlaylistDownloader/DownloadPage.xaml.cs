@@ -37,7 +37,7 @@ namespace YoutubePlaylistDownloader
 
         public DownloadPage(Playlist playlist, bool convert, VideoQuality quality = VideoQuality.High720, string fileType = "mp3",
             string bitrate = null, int startIndex = 0, int endIndex = 0, bool audioOnly = false,
-            bool preferHighestFPS = false, string savePath = "", IEnumerable<Video> videos = null, Subscription subscription = null, bool silent = false)
+            bool preferHighestFPS = false, string savePath = "", IEnumerable<Video> videos = null, Subscription subscription = null, bool silent = false, CancellationTokenSource cancellationToken = null)
         {
             InitializeComponent();
 
@@ -59,7 +59,7 @@ namespace YoutubePlaylistDownloader
                 GlobalConsts.HideHelpButton();
             }
 
-            cts = new CancellationTokenSource();
+            cts = cancellationToken ?? new CancellationTokenSource();
             ffmpegList = new List<Process>();
             StartIndex = startIndex;
             EndIndex = endIndex;
@@ -133,12 +133,24 @@ namespace YoutubePlaylistDownloader
                         {
                             stream.BytesWritten += async (sender, args) =>
                             {
-                                var precent = args.StreamLength * 100 / bestQuality.Size;
-                                await Dispatcher.InvokeAsync(() =>
+                                try
                                 {
-                                    CurrentDownloadProgressBar.Value = precent;
-                                    CurrentDownloadProgressBarTextBlock.Text = $"{precent}%";
-                                });
+                                    var precent = args.StreamLength * 100 / bestQuality.Size;
+                                    await Dispatcher.InvokeAsync(() =>
+                                    {
+                                        CurrentDownloadProgressBar.Value = precent;
+                                        CurrentDownloadProgressBarTextBlock.Text = $"{precent}%";
+                                    }, System.Windows.Threading.DispatcherPriority.Normal, cts.Token);
+                                }
+                                catch(OperationCanceledException)
+                                {
+
+                                }
+                                catch(Exception ex)
+                                {
+                                    await GlobalConsts.Log(ex.ToString(), "BytesWrittenEventHandler at ProgressStream in DownloadPage");
+                                }
+
                             };
                             await client.DownloadMediaStreamAsync(bestQuality, stream, cancellationToken: token);
                         }
@@ -284,12 +296,23 @@ namespace YoutubePlaylistDownloader
                     {
                         stream.BytesWritten += async (sender, args) =>
                         {
-                            var precent = Convert.ToInt32(args.StreamLength * 100 / bestQuality.Size);
-                            await Dispatcher.InvokeAsync(() =>
+                            try
                             {
-                                CurrentDownloadProgressBar.Value = precent;
-                                CurrentDownloadProgressBarTextBlock.Text = $"{precent}%";
-                            });
+                                var precent = Convert.ToInt32(args.StreamLength * 100 / bestQuality.Size);
+                                await Dispatcher.InvokeAsync(() =>
+                                {
+                                    CurrentDownloadProgressBar.Value = precent;
+                                    CurrentDownloadProgressBarTextBlock.Text = $"{precent}%";
+                                }, System.Windows.Threading.DispatcherPriority.Normal, cts.Token);
+                            }
+                            catch (OperationCanceledException)
+                            {
+
+                            }
+                            catch (Exception ex)
+                            {
+                                await GlobalConsts.Log(ex.ToString(), "BytesWrittenEventHandler at ProgressStream in DownloadPage");
+                            }
                         };
                         var videoTask = client.DownloadMediaStreamAsync(bestQuality, stream, cancellationToken: token);
                         using (var audioStream = File.Create(audioLoc))

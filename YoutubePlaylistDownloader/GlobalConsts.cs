@@ -19,7 +19,6 @@ namespace YoutubePlaylistDownloader
     {
         //The const variables are variables that can be accessed from all over the solution.
         #region Const Variables
-
         public static Skeleton Current;
         public static AppTheme Theme;
         public static Accent Accent;
@@ -31,7 +30,7 @@ namespace YoutubePlaylistDownloader
         public static readonly string CurrentDir;
         private static readonly string ConfigFilePath;
         private static readonly string ErrorFilePath;
-        public const double VERSION = 1.303;
+        public const double VERSION = 1.304;
         public static bool UpdateOnExit;
         public static string UpdateSetupLocation;
         public static bool OptionExpanderIsExpanded;
@@ -40,9 +39,23 @@ namespace YoutubePlaylistDownloader
         public static DownloadUpdate UpdateControl;
         public static readonly string ChannelSubscriptionsFilePath;
         public static readonly YoutubeClient YoutubeClient;
-        public static bool CheckForSubscriptionUpdates;
+        private static bool checkForSubscriptionUpdates;
         public static bool CheckForProgramUpdates;
+        public static TimeSpan SubscriptionsUpdateDelay;
 
+        public static bool CheckForSubscriptionUpdates
+        {
+            get => checkForSubscriptionUpdates;
+            set
+            {
+                checkForSubscriptionUpdates = value;
+                if (checkForSubscriptionUpdates)
+                    SubscriptionManager.UpdateAllSubscriptions();
+                else
+                    SubscriptionManager.CancelAll();
+            }
+
+        }
         public static AppTheme Opposite { get { return Theme.Name == "BaseLight" ? ThemeManager.GetAppTheme("BaseDark") : ThemeManager.GetAppTheme("BaseLight"); } }
 
         #endregion
@@ -70,11 +83,14 @@ namespace YoutubePlaylistDownloader
                 CachePolicy = new System.Net.Cache.RequestCachePolicy(System.Net.Cache.RequestCacheLevel.NoCacheNoStore)
             };
             YoutubeClient = new YoutubeClient();
-            CheckForSubscriptionUpdates = false;
+            SubscriptionsUpdateDelay = TimeSpan.FromMinutes(1);
+            checkForSubscriptionUpdates = false;
         }
 
         //The const methods are used mainly for saving/loading consts, and handling page\menu management.
         #region Const Methods
+
+        #region Buttons
         public static void HideSubscriptionsButton()
         {
             Current.SubscriptionsButton.Visibility = Visibility.Collapsed;
@@ -115,6 +131,8 @@ namespace YoutubePlaylistDownloader
         {
             Current.SubscriptionsButton.Visibility = Visibility.Visible;
         }
+        #endregion
+
         public static async Task ShowMessage(string title, string message)
         {
             if (Current.DefaultFlyout.IsOpen)
@@ -132,7 +150,7 @@ namespace YoutubePlaylistDownloader
         {
             try
             {
-                var settings = new Objects.Settings(Theme.Name, Accent.Name, Language, SaveDirectory, OptionExpanderIsExpanded, CheckForSubscriptionUpdates, CheckForProgramUpdates);
+                var settings = new Objects.Settings(Theme.Name, Accent.Name, Language, SaveDirectory, OptionExpanderIsExpanded, CheckForSubscriptionUpdates, CheckForProgramUpdates, SubscriptionsUpdateDelay);
                 File.WriteAllText(ConfigFilePath, Newtonsoft.Json.JsonConvert.SerializeObject(settings));
                 SubscriptionManager.SaveSubscriptions();
             }
@@ -144,8 +162,9 @@ namespace YoutubePlaylistDownloader
             Accent = ThemeManager.GetAccent("Red");
             Language = "English";
             OptionExpanderIsExpanded = true;
-            CheckForSubscriptionUpdates = false;
+            checkForSubscriptionUpdates = false;
             CheckForProgramUpdates = true;
+            SubscriptionsUpdateDelay = TimeSpan.FromMinutes(1);
 
             SaveConsts();
         }
@@ -168,6 +187,7 @@ namespace YoutubePlaylistDownloader
                 OptionExpanderIsExpanded = settings.OptionExpanderIsExpanded;
                 CheckForSubscriptionUpdates = settings.CheckForSubscriptionUpdates;
                 CheckForProgramUpdates = settings.CheckForProgramUpdates;
+                SubscriptionsUpdateDelay = settings.SubscriptionsDelay;
             }
             catch
             {
@@ -334,9 +354,11 @@ namespace YoutubePlaylistDownloader
             Current.DefaultFlyout.IsOpen = false;
             Current.DefaultFlyoutUserControl.Content = null;
         }
-
+        public static double GetOffset()
+        {
+            return Current.ActualHeight - 120;
+        }
         #endregion
-
 
     }
 }

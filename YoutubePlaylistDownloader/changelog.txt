@@ -1,7 +1,6 @@
-﻿
-Version 1.303:
-- Fixed (hopefully) all the bugs with the new subscription system. 
-  New features = new bugs, new bugs = new patches; sorry for that 
+﻿Version 1.304:
+- Rewrote the buggy subscriptions system, the interface is exactly the same but the code behind is completly different
+- Polished the UI more, some performance improvements as well
 
 Version 1.3:
 - Subscriptions! You can now subscribe to channels to automatically download their new videos

@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 
 namespace YoutubePlaylistDownloader.Objects
 {
@@ -26,9 +27,12 @@ namespace YoutubePlaylistDownloader.Objects
         [JsonProperty]
         public bool CheckForProgramUpdates { get; set; }
 
+        [JsonProperty]
+        public TimeSpan SubscriptionsDelay { get; set; }
+
 
         [JsonConstructor]
-        public Settings(string theme, string accent, string language, string saveDirectory, bool optionExpanderIsExpanded, bool checkForSubscriptionUpdates, bool checkForProgramUpdates)
+        public Settings(string theme, string accent, string language, string saveDirectory, bool optionExpanderIsExpanded, bool checkForSubscriptionUpdates, bool checkForProgramUpdates, TimeSpan subscriptionsDelay)
         {
             Theme = theme;
             Accent = accent;
@@ -37,6 +41,7 @@ namespace YoutubePlaylistDownloader.Objects
             OptionExpanderIsExpanded = optionExpanderIsExpanded;
             CheckForSubscriptionUpdates = checkForSubscriptionUpdates;
             CheckForProgramUpdates = checkForProgramUpdates;
+            SubscriptionsDelay = subscriptionsDelay;
         }
 
     }

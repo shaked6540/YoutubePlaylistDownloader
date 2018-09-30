@@ -85,12 +85,23 @@ namespace YoutubePlaylistDownloader
                 {
                     stream.BytesWritten += async (sender, args) =>
                     {
-                        var precent = args.StreamLength * 100 / bestQuality.Size;
-                        await Dispatcher.InvokeAsync(() =>
+                        try
                         {
-                            CurrentDownloadProgressBar.Value = precent;
-                            CurrentDownloadProgressBarTextBlock.Text = $"{precent}%";
-                        });
+                            var precent = args.StreamLength * 100 / bestQuality.Size;
+                            await Dispatcher.InvokeAsync(() =>
+                            {
+                                CurrentDownloadProgressBar.Value = precent;
+                                CurrentDownloadProgressBarTextBlock.Text = $"{precent}%";
+                            });
+                        }
+                        catch (OperationCanceledException)
+                        {
+
+                        }
+                        catch (Exception ex)
+                        {
+                            await GlobalConsts.Log(ex.ToString(), "BytesWrittenEventHandler at ProgressStream in DownloadVideo");
+                        }
                     };
                     await client.DownloadMediaStreamAsync(bestQuality, stream, cancellationToken: token);
                 }
@@ -197,12 +208,23 @@ namespace YoutubePlaylistDownloader
                 {
                     stream.BytesWritten += async (sender, args) =>
                     {
-                        var precent = Convert.ToInt32(args.StreamLength * 100 / bestQuality.Size);
-                        await Dispatcher.InvokeAsync(() =>
+                        try
                         {
-                            CurrentDownloadProgressBar.Value = precent;
-                            CurrentDownloadProgressBarTextBlock.Text = $"{precent}%";
-                        });
+                            var precent = Convert.ToInt32(args.StreamLength * 100 / bestQuality.Size);
+                            await Dispatcher.InvokeAsync(() =>
+                            {
+                                CurrentDownloadProgressBar.Value = precent;
+                                CurrentDownloadProgressBarTextBlock.Text = $"{precent}%";
+                            });
+                        }
+                        catch (OperationCanceledException)
+                        {
+
+                        }
+                        catch (Exception ex)
+                        {
+                            await GlobalConsts.Log(ex.ToString(), "BytesWrittenEventHandler at ProgressStream in DownloadVideo");
+                        }
                     };
                     var videoTask = client.DownloadMediaStreamAsync(bestQuality, stream, cancellationToken: token);
 
@@ -211,31 +233,32 @@ namespace YoutubePlaylistDownloader
                         var audioTask = client.DownloadMediaStreamAsync(bestAudio, audioStream);
                         await Task.WhenAll(videoTask, audioTask);
                     }
-                    var ffmpeg = new Process()
-                    {
-                        EnableRaisingEvents = true,
-                        StartInfo = new ProcessStartInfo()
-                        {
-                            FileName = $"{GlobalConsts.CurrentDir}\\ffmpeg.exe",
-                            Arguments = $"-i \"{fileLoc}\" -i \"{audioLoc}\" -y -c copy \"{outputFileLoc}\"",
-                            CreateNoWindow = true,
-                            UseShellExecute = false,
-                        }
-                    };
-
-                    token.ThrowIfCancellationRequested();
-                    ffmpeg.Exited += (x, y) =>
-                    {
-                        ffmpegList.Remove(ffmpeg);
-                        File.Copy(outputFileLoc, copyFileLoc, true);
-                        File.Delete(outputFileLoc);
-                        File.Delete(audioLoc);
-                        File.Delete(fileLoc);
-                    };
-                    ffmpeg.Start();
-                    ffmpegList.Add(ffmpeg);
-                    DownloadedCount++;
                 }
+                var ffmpeg = new Process()
+                {
+                    EnableRaisingEvents = true,
+                    StartInfo = new ProcessStartInfo()
+                    {
+                        FileName = $"{GlobalConsts.CurrentDir}\\ffmpeg.exe",
+                        Arguments = $"-i \"{fileLoc}\" -i \"{audioLoc}\" -y -c copy \"{outputFileLoc}\"",
+                        CreateNoWindow = true,
+                        UseShellExecute = false,
+                    }
+                };
+
+                token.ThrowIfCancellationRequested();
+                ffmpeg.Exited += (x, y) =>
+                {
+                    ffmpegList.Remove(ffmpeg);
+                    File.Copy(outputFileLoc, copyFileLoc, true);
+                    File.Delete(outputFileLoc);
+                    File.Delete(audioLoc);
+                    File.Delete(fileLoc);
+                };
+                ffmpeg.Start();
+                ffmpegList.Add(ffmpeg);
+                DownloadedCount++;
+
 
             }
             catch (OperationCanceledException)
