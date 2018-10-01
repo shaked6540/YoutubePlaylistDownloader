@@ -30,7 +30,7 @@ namespace YoutubePlaylistDownloader
         public static readonly string CurrentDir;
         private static readonly string ConfigFilePath;
         private static readonly string ErrorFilePath;
-        public const double VERSION = 1.304;
+        public const double VERSION = 1.306;
         public static bool UpdateOnExit;
         public static string UpdateSetupLocation;
         public static bool OptionExpanderIsExpanded;
@@ -38,7 +38,6 @@ namespace YoutubePlaylistDownloader
         public static bool UpdateLater;
         public static DownloadUpdate UpdateControl;
         public static readonly string ChannelSubscriptionsFilePath;
-        public static readonly YoutubeClient YoutubeClient;
         private static bool checkForSubscriptionUpdates;
         public static bool CheckForProgramUpdates;
         public static TimeSpan SubscriptionsUpdateDelay;
@@ -57,6 +56,7 @@ namespace YoutubePlaylistDownloader
 
         }
         public static AppTheme Opposite { get { return Theme.Name == "BaseLight" ? ThemeManager.GetAppTheme("BaseDark") : ThemeManager.GetAppTheme("BaseLight"); } }
+        public static YoutubeClient YoutubeClient { get => new YoutubeClient(); }
 
         #endregion
 
@@ -82,7 +82,6 @@ namespace YoutubePlaylistDownloader
             {
                 CachePolicy = new System.Net.Cache.RequestCachePolicy(System.Net.Cache.RequestCacheLevel.NoCacheNoStore)
             };
-            YoutubeClient = new YoutubeClient();
             SubscriptionsUpdateDelay = TimeSpan.FromMinutes(1);
             checkForSubscriptionUpdates = false;
         }

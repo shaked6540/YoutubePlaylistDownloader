@@ -1,4 +1,4 @@
-﻿Version 1.304:
+﻿Version 1.306:
 - Rewrote the buggy subscriptions system, the interface is exactly the same but the code behind is completly different
 - Polished the UI more, some performance improvements as well
 
@@ -6,7 +6,3 @@ Version 1.3:
 - Subscriptions! You can now subscribe to channels to automatically download their new videos
 - More download options added; you can now download videos with higher fps rate than 30 and you can also choose to not convert audio to any format
 - A new help page that includes more information about the subscriptions system and how it works. There is also information about how to contact me
-
-IMPORTANT NOTE: all your settings (save location, themes and colors) will be reset after this update, this is one time only and will not repeat in the future.
-
-*Version 1.301 fixes a small bug in the subscription system & Version 1.302 fixes some bugs with clean audio downloading
