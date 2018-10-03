@@ -12,6 +12,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using YoutubeExplode;
 using YoutubeExplode.Models;
+using YoutubePlaylistDownloader.Objects;
 
 namespace YoutubePlaylistDownloader
 {
@@ -41,6 +42,9 @@ namespace YoutubePlaylistDownloader
         private static bool checkForSubscriptionUpdates;
         public static bool CheckForProgramUpdates;
         public static TimeSpan SubscriptionsUpdateDelay;
+        private static DownloadSettings downloadSettings;
+        public static bool SaveDownloadOptions;
+        public static readonly string DownloadSettingsFilePath;
 
         public static bool CheckForSubscriptionUpdates
         {
@@ -57,6 +61,24 @@ namespace YoutubePlaylistDownloader
         }
         public static AppTheme Opposite { get { return Theme.Name == "BaseLight" ? ThemeManager.GetAppTheme("BaseDark") : ThemeManager.GetAppTheme("BaseLight"); } }
         public static YoutubeClient YoutubeClient { get => new YoutubeClient(); }
+        public static DownloadSettings DownloadSettings
+        {
+            get
+            {
+                if (downloadSettings == null)
+                    downloadSettings = new DownloadSettings("mp3", false, YoutubeExplode.Models.MediaStreams.VideoQuality.High720, false, false, false, false, "192");
+
+                return downloadSettings;
+            }
+            set
+            {
+                if (value != null && SaveDownloadOptions)
+                {
+                    downloadSettings = value;
+                    File.WriteAllText(DownloadSettingsFilePath, Newtonsoft.Json.JsonConvert.SerializeObject(downloadSettings));
+                }
+            }
+        }
 
         #endregion
 
@@ -66,6 +88,7 @@ namespace YoutubePlaylistDownloader
             string appDataPath = string.Concat(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "\\Youtube Playlist Downloader\\");
             ConfigFilePath = string.Concat(appDataPath, "Settings.json");
             ErrorFilePath = string.Concat(appDataPath, "Errors.txt");
+            DownloadSettingsFilePath = string.Concat(appDataPath, "DownloadSettings.json");
             ChannelSubscriptionsFilePath = string.Concat(appDataPath, "Subscriptions.ypds");
 
             if (!Directory.Exists(appDataPath))
@@ -149,7 +172,7 @@ namespace YoutubePlaylistDownloader
         {
             try
             {
-                var settings = new Objects.Settings(Theme.Name, Accent.Name, Language, SaveDirectory, OptionExpanderIsExpanded, CheckForSubscriptionUpdates, CheckForProgramUpdates, SubscriptionsUpdateDelay);
+                var settings = new Objects.Settings(Theme.Name, Accent.Name, Language, SaveDirectory, OptionExpanderIsExpanded, CheckForSubscriptionUpdates, CheckForProgramUpdates, SubscriptionsUpdateDelay, SaveDownloadOptions);
                 File.WriteAllText(ConfigFilePath, Newtonsoft.Json.JsonConvert.SerializeObject(settings));
                 SubscriptionManager.SaveSubscriptions();
             }
@@ -164,7 +187,9 @@ namespace YoutubePlaylistDownloader
             checkForSubscriptionUpdates = false;
             CheckForProgramUpdates = true;
             SubscriptionsUpdateDelay = TimeSpan.FromMinutes(1);
+            SaveDownloadOptions = true;
 
+            DownloadSettings = new DownloadSettings("mp3", false, YoutubeExplode.Models.MediaStreams.VideoQuality.High720, false, false, false, false, "192");
             SaveConsts();
         }
         public static void LoadConsts()
@@ -187,6 +212,8 @@ namespace YoutubePlaylistDownloader
                 CheckForSubscriptionUpdates = settings.CheckForSubscriptionUpdates;
                 CheckForProgramUpdates = settings.CheckForProgramUpdates;
                 SubscriptionsUpdateDelay = settings.SubscriptionsDelay;
+                SaveDownloadOptions = settings.SaveDownloadOptions;
+                LoadDownloadSettings();
             }
             catch
             {
@@ -356,6 +383,29 @@ namespace YoutubePlaylistDownloader
         public static double GetOffset()
         {
             return Current.ActualHeight - 120;
+        }
+        private static void LoadDownloadSettings()
+        {
+            if (File.Exists(DownloadSettingsFilePath))
+            {
+                try
+                {
+                    DownloadSettings = Newtonsoft.Json.JsonConvert.DeserializeObject<DownloadSettings>(File.ReadAllText(DownloadSettingsFilePath));
+                }
+                catch
+                {
+                    File.Delete(DownloadSettingsFilePath);
+                    DownloadSettings = new DownloadSettings("mp3", false, YoutubeExplode.Models.MediaStreams.VideoQuality.High720, false, false, false, false, "192");
+                }
+            }
+            else
+            {
+                DownloadSettings = new DownloadSettings("mp3", false, YoutubeExplode.Models.MediaStreams.VideoQuality.High720, false, false, false, false, "192");
+            }
+        }
+        public static void SaveDownloadSettings()
+        {
+            File.WriteAllText(DownloadSettingsFilePath, Newtonsoft.Json.JsonConvert.SerializeObject(downloadSettings));
         }
         #endregion
 

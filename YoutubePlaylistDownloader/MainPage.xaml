@@ -18,26 +18,26 @@
                 <Expander Header="{DynamicResource Options}" Margin="7,0,7,5" x:Name="OptionsExpander" Expanded="OptionsExpander_Expanded" ExpandDirection="Down" Collapsed="OptionsExpander_Expanded">
                     <StackPanel>
                         <StackPanel Orientation="Horizontal" >
-                            <CheckBox Content="{DynamicResource Prefer}" Margin="7" x:Name="PreferCheckBox" HorizontalAlignment="Center" IsChecked="False" />
-                            <ComboBox HorizontalContentAlignment="Left" HorizontalAlignment="Center" VerticalContentAlignment="Center" SelectedIndex="0" Width="Auto" x:Name="ResulotionDropDown" VerticalAlignment="Center"/>
+                            <CheckBox Content="{DynamicResource Prefer}" Margin="7" x:Name="PreferCheckBox" HorizontalAlignment="Center" IsChecked="False" Checked="PreferCheckBox_Checked" Unchecked="PreferCheckBox_Unchecked" />
+                            <ComboBox HorizontalContentAlignment="Left" HorizontalAlignment="Center" SelectionChanged="ResulotionDropDown_SelectionChanged" VerticalContentAlignment="Center" Width="Auto" x:Name="ResulotionDropDown" VerticalAlignment="Center"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" >
-                            <CheckBox Content="{DynamicResource ConvertToMp3}" Margin="7" x:Name="ConvertCheckBox" HorizontalAlignment="Center" IsChecked="False" />
-                            <ComboBox HorizontalContentAlignment="Left" HorizontalAlignment="Center" VerticalContentAlignment="Center" SelectedIndex="0" Width="Auto" x:Name="ExtensionsDropDown" VerticalAlignment="Center"/>
-                            <CheckBox Content="{DynamicResource BitRate}" Margin="7" x:Name="BitrateCheckBox" />
-                            <TextBox Margin="0,7" Text="192" x:Name="BitRateTextBox"/>
+                            <CheckBox Content="{DynamicResource ConvertToMp3}" Margin="7" Checked="ConvertCheckBox_Checked" Unchecked="ConvertCheckBox_Unchecked" x:Name="ConvertCheckBox" HorizontalAlignment="Center" IsChecked="False" />
+                            <ComboBox HorizontalContentAlignment="Left" SelectionChanged="ExtensionsDropDown_SelectionChanged" HorizontalAlignment="Center" VerticalContentAlignment="Center" Width="Auto" x:Name="ExtensionsDropDown" VerticalAlignment="Center"/>
+                            <CheckBox Checked="BitrateCheckBox_Checked" Unchecked="BitrateCheckBox_Unchecked" Content="{DynamicResource BitRate}" Margin="7" x:Name="BitrateCheckBox" />
+                            <TextBox TextChanged="BitRateTextBox_TextChanged" Margin="0,7" x:Name="BitRateTextBox" TextAlignment="Center" MinWidth="40" Width="Auto" />
                             <Label Content="kb\s" Margin="7" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" x:Name="DownloadSubIndexStackPanel" Visibility="Visible">
                             <CheckBox Content="{DynamicResource PlaylistIndex}" Margin="7" x:Name="DownloadByIndexCheckBox" />
-                            <TextBox Text="1" Margin="0,7" Width="50" x:Name="StartIndexTextBox" />
+                            <TextBox Text="1" Margin="0,7" Width="50" x:Name="StartIndexTextBox" TextAlignment="Center" />
                             <TextBlock Text="{DynamicResource UntilIndex}" Margin="7" VerticalAlignment="Center" />
-                            <TextBox x:Name="EndIndexTextBox" Margin="0,7" Width="50" Text="0"/>
+                            <TextBox x:Name="EndIndexTextBox" Margin="0,7" Width="50" Text="0" TextAlignment="Center"/>
                             <TextBlock VerticalAlignment="Center" Margin="7" Text="{DynamicResource LeaveEmptyOrZeroForUntilTheEnd}" />
 
                         </StackPanel>
-                        <CheckBox Margin="7" x:Name="PreferHighestFPSCheckBox" Content="{DynamicResource PreferFPS}" />
-                        <CheckBox Margin="7" x:Name="AudioOnlyCheckBox" Content="{DynamicResource AudioOnly}" />
+                        <CheckBox Checked="PreferHighestFPSCheckBox_Checked" Unchecked="PreferHighestFPSCheckBox_Unchecked" Margin="7" x:Name="PreferHighestFPSCheckBox" Content="{DynamicResource PreferFPS}" />
+                        <CheckBox Checked="AudioOnlyCheckBox_Checked" Unchecked="AudioOnlyCheckBox_Unchecked" Margin="7" x:Name="AudioOnlyCheckBox" Content="{DynamicResource AudioOnly}" />
                     </StackPanel>
                 </Expander>
                 <Grid Visibility="Collapsed" x:Name="PlaylistInfoGrid" Margin="7,0" HorizontalAlignment="Left" Width="Auto" MaxHeight="410" >

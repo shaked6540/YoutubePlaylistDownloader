@@ -8,6 +8,7 @@ using System.Windows.Media.Imaging;
 using YoutubeExplode;
 using YoutubeExplode.Models;
 using YoutubeExplode.Models.MediaStreams;
+using YoutubePlaylistDownloader.Objects;
 
 namespace YoutubePlaylistDownloader
 {
@@ -47,9 +48,14 @@ namespace YoutubePlaylistDownloader
 
             ExtensionsDropDown.ItemsSource = FileTypes;
             ResulotionDropDown.ItemsSource = Resolutions.Keys;
-            ResulotionDropDown.SelectedIndex = 4;
+
             OptionsExpander.IsExpanded = GlobalConsts.OptionExpanderIsExpanded;
             client = GlobalConsts.YoutubeClient;
+
+            if (GlobalConsts.SaveDownloadOptions)
+                SetSettings();
+            else
+                ResulotionDropDown.SelectedIndex = 4;
 
             void UpdateSize(object s, SizeChangedEventArgs e)
             {
@@ -59,6 +65,18 @@ namespace YoutubePlaylistDownloader
 
             GlobalConsts.Current.SizeChanged += UpdateSize;
             Unloaded += (s, e) => GlobalConsts.Current.SizeChanged -= UpdateSize;
+        }
+
+        private void SetSettings()
+        {
+            var settings = GlobalConsts.DownloadSettings;
+            ExtensionsDropDown.SelectedItem = settings.SaveFormat;
+            ResulotionDropDown.SelectedItem = Resolutions.FirstOrDefault(x => x.Value == settings.Quality).Key;
+            PreferCheckBox.IsChecked = settings.PreferQuality;
+            PreferHighestFPSCheckBox.IsChecked = settings.PreferHighestFPS;
+            ConvertCheckBox.IsChecked = settings.Convert;
+            BitrateCheckBox.IsChecked = settings.SetBitrate;
+            BitRateTextBox.Text = settings.Bitrate;
         }
 
         private async void TextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -136,6 +154,8 @@ namespace YoutubePlaylistDownloader
             if (convert)
                 type = (string)ExtensionsDropDown.SelectedItem;
 
+            GlobalConsts.DownloadSettings = new DownloadSettings(type, audioOnly, vq, preferHighestFPS, PreferCheckBox.IsChecked.Value, convert, BitrateCheckBox.IsChecked.Value, bitrate);
+
             if (list != null && video == null)
                 GlobalConsts.LoadPage(new DownloadPage(list, convert, vq, type, bitrate, startIndex, endIndex, audioOnly, preferHighestFPS));
 
@@ -183,6 +203,126 @@ namespace YoutubePlaylistDownloader
         private void OptionsExpander_Expanded(object sender, RoutedEventArgs e)
         {
             GlobalConsts.OptionExpanderIsExpanded = OptionsExpander.IsExpanded;
+        }
+
+        private void PreferCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            if (GlobalConsts.SaveDownloadOptions)
+            {
+                GlobalConsts.DownloadSettings.PreferQuality = PreferCheckBox.IsChecked.Value;
+                GlobalConsts.DownloadSettings.Quality = Resolutions[(string)ResulotionDropDown.SelectedValue];
+                GlobalConsts.SaveDownloadSettings();
+            }
+        }
+
+        private void PreferCheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            if (GlobalConsts.SaveDownloadOptions)
+            {
+                GlobalConsts.DownloadSettings.PreferQuality = PreferCheckBox.IsChecked.Value;
+                GlobalConsts.SaveDownloadSettings();
+            }
+        }
+
+        private void ResulotionDropDown_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (GlobalConsts.SaveDownloadOptions)
+            {
+                GlobalConsts.DownloadSettings.Quality = Resolutions[(string)ResulotionDropDown.SelectedValue];
+                GlobalConsts.SaveDownloadSettings();
+            }
+        }
+
+        private void ConvertCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            if (GlobalConsts.SaveDownloadOptions)
+            {
+                GlobalConsts.DownloadSettings.Convert = ConvertCheckBox.IsChecked.Value;
+                GlobalConsts.DownloadSettings.SaveFormat = (string)ExtensionsDropDown.SelectedItem;
+                GlobalConsts.SaveDownloadSettings();
+            }
+        }
+
+        private void ConvertCheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            if (GlobalConsts.SaveDownloadOptions)
+            {
+                GlobalConsts.DownloadSettings.Convert = ConvertCheckBox.IsChecked.Value;
+                GlobalConsts.SaveDownloadSettings();
+            }
+        }
+
+        private void ExtensionsDropDown_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (GlobalConsts.SaveDownloadOptions)
+            {
+                GlobalConsts.DownloadSettings.SaveFormat = (string)ExtensionsDropDown.SelectedItem;
+                GlobalConsts.SaveDownloadSettings();
+            }
+        }
+
+        private void BitrateCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            if (GlobalConsts.SaveDownloadOptions)
+            {
+                GlobalConsts.DownloadSettings.SetBitrate = BitrateCheckBox.IsChecked.Value;
+                GlobalConsts.DownloadSettings.Bitrate = BitRateTextBox.Text;
+                GlobalConsts.SaveDownloadSettings();
+            }
+        }
+
+        private void BitrateCheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            if (GlobalConsts.SaveDownloadOptions)
+            {
+                GlobalConsts.DownloadSettings.SetBitrate = BitrateCheckBox.IsChecked.Value;
+                GlobalConsts.SaveDownloadSettings();
+            }
+        }
+
+        private void BitRateTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (GlobalConsts.SaveDownloadOptions)
+            {
+                GlobalConsts.DownloadSettings.Bitrate = BitRateTextBox.Text;
+                GlobalConsts.SaveDownloadSettings();
+            }
+        }
+
+        private void PreferHighestFPSCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            if (GlobalConsts.SaveDownloadOptions)
+            {
+                GlobalConsts.DownloadSettings.PreferHighestFPS = PreferHighestFPSCheckBox.IsChecked.Value;
+                GlobalConsts.SaveDownloadSettings();
+            }
+        }
+
+        private void PreferHighestFPSCheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            if (GlobalConsts.SaveDownloadOptions)
+            {
+                GlobalConsts.DownloadSettings.PreferHighestFPS = PreferHighestFPSCheckBox.IsChecked.Value;
+                GlobalConsts.SaveDownloadSettings();
+            }
+        }
+
+        private void AudioOnlyCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            if (GlobalConsts.SaveDownloadOptions)
+            {
+                GlobalConsts.DownloadSettings.AudioOnly = AudioOnlyCheckBox.IsChecked.Value;
+                GlobalConsts.SaveDownloadSettings();
+            }
+        }
+
+        private void AudioOnlyCheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            if (GlobalConsts.SaveDownloadOptions)
+            {
+                GlobalConsts.DownloadSettings.AudioOnly = AudioOnlyCheckBox.IsChecked.Value;
+                GlobalConsts.SaveDownloadSettings();
+            }
         }
     }
 }

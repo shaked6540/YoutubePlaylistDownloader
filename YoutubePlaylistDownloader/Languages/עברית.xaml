@@ -109,4 +109,5 @@ YouTube Playlist Downloader v</s:String>
     <s:String x:Key="WhatsNew">מה חדש?</s:String>
     <s:String x:Key="SubscriptionsUpdateDelay">עדכן הרשמות כל</s:String>
     <s:String x:Key="Minutes">דקות</s:String>
+    <s:String x:Key="SaveDownloadOptions">שמור את העדפות ההורדה</s:String>
 </ResourceDictionary>

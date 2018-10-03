@@ -1,16 +1,9 @@
 ﻿using MahApps.Metro;
-using MahApps.Metro.Controls;
-using MahApps.Metro.IconPacks;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media.Imaging;
-using YoutubeExplode;
 using YoutubePlaylistDownloader.Objects;
-using static YoutubePlaylistDownloader.SubscriptionManager;
 
 namespace YoutubePlaylistDownloader
 {
@@ -30,6 +23,7 @@ namespace YoutubePlaylistDownloader
             if (GlobalConsts.Theme.Name == "BaseDark") NightModeCheckBox.IsChecked = true;
             CheckForUpdatesCheckBox.IsChecked = GlobalConsts.CheckForProgramUpdates;
             SaveDirectoryTextBox.Text = GlobalConsts.SaveDirectory;
+            SaveDownloadOptionsCheckBox.IsChecked = GlobalConsts.SaveDownloadOptions;
 
             NightModeCheckBox.Checked += NightModeCheckBox_Checked;
             NightModeCheckBox.Unchecked += NightModeCheckBox_Unchecked;
@@ -114,7 +108,7 @@ namespace YoutubePlaylistDownloader
             }
             else
                 SaveDirectoryTextBox.Background = GlobalConsts.ErrorBrush;
-            
+
         }
 
         private void Tile_Click(object sender, RoutedEventArgs e)
@@ -130,6 +124,16 @@ namespace YoutubePlaylistDownloader
         private void CheckBox_Unchecked(object sender, RoutedEventArgs e)
         {
             GlobalConsts.CheckForProgramUpdates = CheckForUpdatesCheckBox.IsChecked.Value;
+        }
+
+        private void SaveDownloadOptionsCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            GlobalConsts.SaveDownloadOptions = SaveDownloadOptionsCheckBox.IsChecked.Value;
+        }
+
+        private void SaveDownloadOptionsCheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            GlobalConsts.SaveDownloadOptions = SaveDownloadOptionsCheckBox.IsChecked.Value;
         }
     }
 }

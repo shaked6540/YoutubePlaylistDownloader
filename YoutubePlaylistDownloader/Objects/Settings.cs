@@ -30,9 +30,11 @@ namespace YoutubePlaylistDownloader.Objects
         [JsonProperty]
         public TimeSpan SubscriptionsDelay { get; set; }
 
+        [JsonProperty]
+        public bool SaveDownloadOptions { get; set; }
 
         [JsonConstructor]
-        public Settings(string theme, string accent, string language, string saveDirectory, bool optionExpanderIsExpanded, bool checkForSubscriptionUpdates, bool checkForProgramUpdates, TimeSpan subscriptionsDelay)
+        public Settings(string theme, string accent, string language, string saveDirectory, bool optionExpanderIsExpanded, bool checkForSubscriptionUpdates, bool checkForProgramUpdates, TimeSpan subscriptionsDelay, bool saveDownloadOptions)
         {
             Theme = theme;
             Accent = accent;
@@ -42,6 +44,7 @@ namespace YoutubePlaylistDownloader.Objects
             CheckForSubscriptionUpdates = checkForSubscriptionUpdates;
             CheckForProgramUpdates = checkForProgramUpdates;
             SubscriptionsDelay = subscriptionsDelay;
+            SaveDownloadOptions = saveDownloadOptions;
         }
 
     }
