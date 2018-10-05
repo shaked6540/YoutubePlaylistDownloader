@@ -57,6 +57,7 @@ namespace YoutubePlaylistDownloader
             }
             catch (Exception ex)
             {
+                await GlobalConsts.Log(ex.ToString(), "About UpdateButton_Click");
                 await GlobalConsts.ShowMessage($"{FindResource("Error")}", $"{FindResource("CannotUpdate")} {ex.Message}");
             }
         }

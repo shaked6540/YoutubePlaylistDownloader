@@ -111,4 +111,5 @@ The third way to contact me is through GitHub, simply open a new issue and I wil
     <s:String x:Key="Minutes">minutes</s:String>
     <s:String x:Key="SaveDownloadOptions">Save my download preferences</s:String>
     <s:String x:Key="DownloadSpeed">Download speed: </s:String>
+    <s:String x:Key="Changelog">Changelog</s:String>
 </ResourceDictionary>

@@ -232,6 +232,7 @@ namespace YoutubePlaylistDownloader
                     }
                     catch (Exception ex)
                     {
+                        await GlobalConsts.Log(ex.ToString(), "DownloadPage DownlaodWithConvert");
                         NotDownloaded.Add(new Tuple<string, string>(video.Title, ex.Message));
                     }
                 }
@@ -394,6 +395,7 @@ namespace YoutubePlaylistDownloader
                 }
                 catch (Exception ex)
                 {
+                    await GlobalConsts.Log(ex.ToString(), "DownloadPage DownlaodWithConvert");
                     NotDownloaded.Add(new Tuple<string, string>(video.Title, ex.Message));
                 }
             }

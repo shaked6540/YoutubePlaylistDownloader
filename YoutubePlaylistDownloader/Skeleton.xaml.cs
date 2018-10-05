@@ -1,13 +1,10 @@
 ﻿using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
+using System;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Windows;
-using YoutubeExplode;
-using System;
-using System.Linq;
-using System.Threading;
-using MoreLinq;
 
 namespace YoutubePlaylistDownloader
 {
@@ -62,7 +59,10 @@ namespace YoutubePlaylistDownloader
                     }
                 }
             }
-            catch { }
+            catch (Exception ex)
+            {
+                await GlobalConsts.Log(ex.ToString(), "Skeleton CheckForUpdates");
+            }
         }
 
         public async Task ShowMessage(string title, string message)

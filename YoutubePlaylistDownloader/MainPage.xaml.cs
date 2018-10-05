@@ -120,6 +120,7 @@ namespace YoutubePlaylistDownloader
 
             catch (Exception ex)
             {
+                await GlobalConsts.Log(ex.ToString(), "MainPage TextBox_TextChanged");
                 await GlobalConsts.ShowMessage((string)FindResource("Error"), ex.Message);
             }
         }

@@ -13,7 +13,7 @@
                 <RichTextBox MaxWidth="1200" Width="600" BorderThickness="0" Margin="5,0,0,0" Cursor="Arrow" IsReadOnly="True" IsReadOnlyCaretVisible="False"  >
                     <FlowDocument>
                         <Paragraph>
-                            <Run x:Name="AboutRun" FontSize="14" Text="{DynamicResource AboutTheProgram}" ></Run>
+                            <Run x:Name="AboutRun" FontSize="14" Text="{DynamicResource AboutTheProgram}" />
                         </Paragraph>
                     </FlowDocument>
                 </RichTextBox>

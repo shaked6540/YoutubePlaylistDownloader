@@ -176,7 +176,10 @@ namespace YoutubePlaylistDownloader
                 File.WriteAllText(ConfigFilePath, Newtonsoft.Json.JsonConvert.SerializeObject(settings));
                 SubscriptionManager.SaveSubscriptions();
             }
-            catch { }
+            catch (Exception ex)
+            {
+                Log(ex.ToString(), "SaveConsts").Wait();
+            }
         }
         public static void RestoreDefualts()
         {
@@ -215,8 +218,9 @@ namespace YoutubePlaylistDownloader
                 SaveDownloadOptions = settings.SaveDownloadOptions;
                 LoadDownloadSettings();
             }
-            catch
+            catch (Exception ex)
             {
+                Log(ex.ToString(), "LoadConsts").Wait();
                 RestoreDefualts();
             }
             UpdateTheme();
