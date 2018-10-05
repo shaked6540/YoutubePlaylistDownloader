@@ -32,6 +32,7 @@ namespace YoutubePlaylistDownloader
         private bool AudioOnly, PreferHighestFPS;
         private string SavePath;
         private Subscription Subscription;
+        const int megaBytes = 1 << 20;
 
         public bool StillDownloading;
 
@@ -131,15 +132,31 @@ namespace YoutubePlaylistDownloader
 
                         using (var stream = new ProgressStream(File.Create(fileLoc)))
                         {
+                            Stopwatch sw = new Stopwatch();
+                            TimeSpan ts = new TimeSpan(0);
+                            string downloadSpeedText = (string)FindResource("DownloadSpeed");
+                            int seconds = 0;
+
                             stream.BytesWritten += async (sender, args) =>
                             {
                                 try
                                 {
-                                    var precent = args.StreamLength * 100 / bestQuality.Size;
+                                    var delta = sw.Elapsed - ts;
+                                    ts = sw.Elapsed;
+                                    var speedInBytes = args.BytesMoved / delta.TotalSeconds;
+                                    var speedInMB = Math.Round(speedInBytes / megaBytes, 2);
+
+                                    var precent = Convert.ToInt32(args.StreamLength * 100 / bestQuality.Size);
                                     await Dispatcher.InvokeAsync(() =>
                                     {
                                         CurrentDownloadProgressBar.Value = precent;
                                         CurrentDownloadProgressBarTextBlock.Text = $"{precent}%";
+                                        if (seconds == sw.Elapsed.Seconds)
+                                        {
+                                            DownloadSpeedTextBlock.Text = string.Concat(downloadSpeedText, speedInMB, " MB\\s");
+                                            DownloadSpeedTextBlock.Visibility = Visibility.Visible;
+                                            seconds += 1;
+                                        }
                                     }, System.Windows.Threading.DispatcherPriority.Normal, cts.Token);
                                 }
                                 catch(OperationCanceledException)
@@ -152,7 +169,9 @@ namespace YoutubePlaylistDownloader
                                 }
 
                             };
+                            sw.Start();
                             await client.DownloadMediaStreamAsync(bestQuality, stream, cancellationToken: token);
+                            sw.Stop();
                         }
                         if (!AudioOnly)
                         {
@@ -294,16 +313,32 @@ namespace YoutubePlaylistDownloader
 
                     using (var stream = new ProgressStream(File.Create(fileLoc)))
                     {
+                        Stopwatch sw = new Stopwatch();
+                        TimeSpan ts = new TimeSpan(0);
+                        string downloadSpeedText = (string)FindResource("DownloadSpeed");
+                        int seconds = 0;
                         stream.BytesWritten += async (sender, args) =>
                         {
                             try
                             {
+                                var delta = sw.Elapsed - ts;
+                                ts = sw.Elapsed;
+                                var speedInBytes = args.BytesMoved / delta.TotalSeconds;
+                                var speedInMB = Math.Round(speedInBytes / megaBytes, 2);
+
                                 var precent = Convert.ToInt32(args.StreamLength * 100 / bestQuality.Size);
                                 await Dispatcher.InvokeAsync(() =>
                                 {
                                     CurrentDownloadProgressBar.Value = precent;
                                     CurrentDownloadProgressBarTextBlock.Text = $"{precent}%";
+                                    if (seconds == sw.Elapsed.Seconds)
+                                    {
+                                        DownloadSpeedTextBlock.Text = string.Concat(downloadSpeedText, speedInMB, " MB\\s");
+                                        DownloadSpeedTextBlock.Visibility = Visibility.Visible;
+                                        seconds += 1;
+                                    }
                                 }, System.Windows.Threading.DispatcherPriority.Normal, cts.Token);
+
                             }
                             catch (OperationCanceledException)
                             {
@@ -314,11 +349,13 @@ namespace YoutubePlaylistDownloader
                                 await GlobalConsts.Log(ex.ToString(), "BytesWrittenEventHandler at ProgressStream in DownloadPage");
                             }
                         };
+                        sw.Start();
                         var videoTask = client.DownloadMediaStreamAsync(bestQuality, stream, cancellationToken: token);
                         using (var audioStream = File.Create(audioLoc))
                         {
                             var audioTask = client.DownloadMediaStreamAsync(bestAudio, audioStream);
                             await Task.WhenAll(videoTask, audioTask);
+                            sw.Stop();
                         }
                     }
                     var ffmpeg = new Process()

@@ -14,11 +14,14 @@
             <TextBlock x:Name="CurrentDownloadProgressBarTextBlock" VerticalAlignment="Center" HorizontalAlignment="Center" />
         </Grid>
 
-        <TextBlock x:Name="ConvertingTextBlock" Visibility="Visible"  HorizontalAlignment="Center" FontSize="16" Foreground="{DynamicResource AccentColorBrush}" Margin="5" />
+        <TextBlock x:Name="ConvertingTextBlock" Visibility="Collapsed"  HorizontalAlignment="Center" FontSize="16" Foreground="{DynamicResource AccentColorBrush}" Margin="5" />
+
+        <TextBlock Visibility="Collapsed" x:Name="DownloadSpeedTextBlock" HorizontalAlignment="Left" FontSize="18" Foreground="{DynamicResource AccentColorBrush2}" Margin="10"/>
 
         <Controls:Tile Click="Exit_Click" HorizontalAlignment="Center" Title="{DynamicResource Back}" Margin="5" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Controls:ControlsHelper.MouseOverBorderBrush="{DynamicResource BlackBrush}"  HorizontalTitleAlignment="Right" Style="{StaticResource LargeTileStyle}">
             <iconPacks:PackIconModern Width="40" Height="40" Kind="ArrowLeft" />
         </Controls:Tile>
+
 
     </StackPanel>
 </UserControl>
