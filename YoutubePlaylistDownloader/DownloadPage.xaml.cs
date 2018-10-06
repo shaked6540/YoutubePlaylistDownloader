@@ -8,7 +8,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using YoutubeExplode;
 using YoutubeExplode.Models;
 using YoutubeExplode.Models.MediaStreams;
 using YoutubePlaylistDownloader.Objects;
@@ -115,9 +114,11 @@ namespace YoutubePlaylistDownloader
 
                     try
                     {
-
-                        await Dispatcher.InvokeAsync(() => Update(0, video));
-
+                        await Dispatcher.InvokeAsync(() =>
+                        {
+                            DownloadSpeedTextBlock.Visibility = Visibility.Collapsed;
+                            Update(0, video);
+                        });
 
                         var streamInfoSet = await client.GetVideoMediaStreamInfosAsync(video.Id);
                         var bestQuality = streamInfoSet.Audio.MaxBy(x => x.AudioEncoding);
@@ -291,8 +292,11 @@ namespace YoutubePlaylistDownloader
 
                 try
                 {
-
-                    await Dispatcher.InvokeAsync(() => Update(0, video));
+                    await Dispatcher.InvokeAsync(() =>
+                    {
+                        DownloadSpeedTextBlock.Visibility = Visibility.Collapsed;
+                        Update(0, video);
+                    });
                     var streamInfoSet = await client.GetVideoMediaStreamInfosAsync(video.Id);
                     MediaStreamInfo bestQuality, bestAudio = null;
 
