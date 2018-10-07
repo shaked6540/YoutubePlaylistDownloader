@@ -11,7 +11,7 @@
     <s:String x:Key="Yes">Yes</s:String>
     <s:String x:Key="No">No</s:String>
     <s:String x:Key="Error">Error</s:String>
-    <s:String x:Key="ErrorMessage">An unexpected error occurred while performing the action, please contact your administrator to handle the error</s:String>
+    <s:String x:Key="ErrorMessage">An unexpected error occurred while performing the action. Please contact your administrator to handle the error.</s:String>
     <s:String x:Key="Settings">Settings</s:String>
     <s:String x:Key="Preferences">Preferences</s:String>
     <s:String x:Key="Theme">Accent</s:String>
@@ -26,7 +26,7 @@
     <s:String x:Key="CurrentlyDownlading">Currently downloading: </s:String>
     <s:String x:Key="TotalProgress">Downloaded so far: </s:String>
     <s:String x:Key="AllDone">All Done.</s:String>
-    <s:String x:Key="Canceling">Caneling your downloads, please wait..</s:String>
+    <s:String x:Key="Canceling">Cancelling your downloads, please wait..</s:String>
     <s:String x:Key="Videos">Videos</s:String>
     <s:String x:Key="Download">Download</s:String>
     <s:String x:Key="ConvertToMp3">Convert videos to </s:String>
