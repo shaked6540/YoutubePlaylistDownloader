@@ -112,4 +112,8 @@ Il terzo metodo è con GitHub: compila una nuova richiesta e cercherò di rispon
     <s:String x:Key="SaveDownloadOptions">Salva le preferenze sui download</s:String>
     <s:String x:Key="DownloadSpeed">Velocità download: </s:String>
     <s:String x:Key="Changelog">Cambiamenti</s:String>
+    <s:String x:Key="CreditsAndContributors">Many thanks to these people for translating this software: 
+Dong Cunrui (董存瑞)
+RichyZ99
+</s:String>
 </ResourceDictionary>

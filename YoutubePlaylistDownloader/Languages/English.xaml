@@ -112,4 +112,9 @@ The third way to contact me is through GitHub, simply open a new issue and I wil
     <s:String x:Key="SaveDownloadOptions">Save my download preferences</s:String>
     <s:String x:Key="DownloadSpeed">Download speed: </s:String>
     <s:String x:Key="Changelog">Changelog</s:String>
+    <s:String x:Key="DongChunrui">Dong Cunrui (董存瑞)</s:String>
+    <s:String x:Key="CreditsAndContributors">Many thanks to these people for translating this software: 
+Dong Cunrui (董存瑞)
+RichyZ99
+</s:String>
 </ResourceDictionary>

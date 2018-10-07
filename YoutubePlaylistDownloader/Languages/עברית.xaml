@@ -112,4 +112,8 @@ YouTube Playlist Downloader v</s:String>
     <s:String x:Key="SaveDownloadOptions">שמור את העדפות ההורדה</s:String>
     <s:String x:Key="DownloadSpeed">מהירות הורדה: </s:String>
     <s:String x:Key="Changelog">יומן שינויים</s:String>
+    <s:String x:Key="CreditsAndContributors">Many thanks to these people for translating this software: 
+Dong Cunrui (董存瑞)
+RichyZ99
+</s:String>
 </ResourceDictionary>

@@ -1,0 +1,104 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:s="clr-namespace:System;assembly=mscorlib"
+                    xml:space="preserve">
+    
+    <s:String x:Key="Title">Youtube 歌单下载</s:String>
+    <FlowDirection x:Key="FlowDirection">LeftToRight</FlowDirection>
+    <s:String x:Key="InsertYoutubePlaylistLinkHere">插入 Youtube 连接这里</s:String>
+    <s:String x:Key="Exit">退出</s:String>
+    <s:String x:Key="ExitMessage">你确定你要退出吗?</s:String>
+    <s:String x:Key="Yes">确定</s:String>
+    <s:String x:Key="No">取消</s:String>
+    <s:String x:Key="Error">错误</s:String>
+    <s:String x:Key="ErrorMessage">发生意外的错误. 请与你的管理者联系.</s:String>
+    <s:String x:Key="Settings">配置</s:String>
+    <s:String x:Key="Preferences">偏爱</s:String>
+    <s:String x:Key="Theme">重读</s:String>
+    <s:String x:Key="Language">语言</s:String>
+    <s:String x:Key="Back">返回</s:String>
+    <s:String x:Key="SaveAndBackToDownload">保存,回去主菜单</s:String>
+    <s:String x:Key="DarkTheme">深色的模式</s:String>
+    <s:String x:Key="Name">视频的名称: </s:String>
+    <s:String x:Key="Description">叙述: </s:String>
+    <s:String x:Key="Views">多少人看着: </s:String>
+    <s:String x:Key="SaveDirectory">存视频到: </s:String>
+    <s:String x:Key="CurrentlyDownlading">现在下载: </s:String>
+    <s:String x:Key="TotalProgress">下载的视频: </s:String>
+    <s:String x:Key="AllDone">全做完了</s:String>
+    <s:String x:Key="Canceling">取消下载.请稍候.</s:String>
+    <s:String x:Key="Videos">视频</s:String>
+    <s:String x:Key="Download">下载</s:String>
+    <s:String x:Key="ConvertToMp3">转换视频成 </s:String>
+    <s:String x:Key="StillConverting">还转变</s:String>
+    <s:String x:Key="files">文件</s:String>
+    <s:String x:Key="Author">作者: </s:String>
+    <s:String x:Key="PlaylistTitle">标题: </s:String>
+    <s:String x:Key="Loading">加載..</s:String>
+    <HorizontalAlignment x:Key="LeftAlignment">Left</HorizontalAlignment>
+    <s:String x:Key="About">关于</s:String>
+    <s:String x:Key="Home">主页 </s:String>
+    <s:String x:Key="Prefer">选择视频分辨率 </s:String>
+    <s:String x:Key="AreYouSureExit">你确定要离开?</s:String>
+    <s:String x:Key="TotalVideos">总数视频: </s:String>
+    <s:String x:Key="AboutTheProgram">这个计算机程序由开发 shaked6450 和免费使用.
+我不是负责的合法的困难.我所知道的 Youtube 才不是下载.源代码 https://github.com/shaked6540/YoutubePlaylistDownloader
+        
+这个安装软件成功的运用 Inno Setup (http://www.jrsoftware.org/isinfo.php)
+        
+        
+YouTube Playlist Downloader v</s:String>
+    <s:String x:Key="BitRate">分配比特率 </s:String>
+    <s:String x:Key="NewVersionAvailable">更新可用</s:String>
+    <s:String x:Key="DoYouWantToUpdate">更新可用. 你想要更新吗?
+新功能: </s:String>
+    <s:String x:Key="DownloadingUpdateSetup">目前下载:更新体系</s:String>
+    <s:String x:Key="UpdateCancelled">更新已取消</s:String>
+    <s:String x:Key="ErrorWhileUpdating">发生了错误下载更新. 确保你有网络连接 要么稍后再试. 检查问题在这里: https://github.com/shaked6540/YoutubePlaylistDownloader/issues	</s:String>
+    <s:String x:Key="UpdateComplete">下载完成</s:String>
+    <s:String x:Key="UpdateWhenIExit">退出后更新</s:String>
+    <s:String x:Key="UpdateAndExit">现在更新</s:String>
+    <s:String x:Key="UpdateFailed">更新失败</s:String>
+    <s:String x:Key="CannotUpdate">更新失败. 重启程序和确保你有网络连接. 
+错误信息: </s:String>
+    <s:String x:Key="CouldntDownload">一些视频目前无法下载</s:String>
+    <s:String x:Key="ListOfNotDownloadedVideos">这些视频目前无法下载和理由:</s:String>
+    <s:String x:Key="Options">選項</s:String>
+    <s:String x:Key="CheckForUpdates">检查更新</s:String>
+    <s:String x:Key="NoUpdates">没有可用的更新</s:String>
+    <s:String x:Key="NoUpdatesAvailable">没有可用的更新. 你有最新版本.</s:String>
+    <s:String x:Key="PlaylistIndex">从下载视频编号 </s:String>
+    <s:String x:Key="UntilIndex">直到视频编号 </s:String>
+    <s:String x:Key="LeaveEmptyOrZeroForUntilTheEnd">留着空白要么输入填写 0 全部下载视频.</s:String>
+    <s:String x:Key="NoVideosToDownload">找不到视频</s:String>
+    <s:String x:Key="ThereAreNoVidoesToDownload">没有视频和你的参数</s:String>
+    <s:String x:Key="UpdateNow">现在更新</s:String>
+    <s:String x:Key="Subscriptions">订阅</s:String>
+    <s:String x:Key="AutomaticllyDownloadSubscriptions">自动下载视频这些人</s:String>
+    <s:String x:Key="InsertChannelLink">粘贴频道连接</s:String>
+    <s:String x:Key="Remove">清除</s:String>
+    <s:String x:Key="Id">ID: </s:String>
+    <s:String x:Key="Save">保存</s:String>
+    <s:String x:Key="PreferFPS">喜欢的视频有最高FPS</s:String>
+    <s:String x:Key="AudioOnly">下载最好的音频和转变 没有格式化</s:String>
+    <s:String x:Key="StillDownloadingSubscriptionsExit">这个算机程序正在下载您的视频. 单击是会关上电脑程序. 你确定你要退出吗?</s:String>
+    <s:String x:Key="LastVideoDownloadDate">最近更新时间: </s:String>
+    <s:String x:Key="Help">求助</s:String>
+    <s:String x:Key="SubscriptionsHelp">订阅是频道电脑程序下载自动. 例如用户添加频道9月1日. 视频上传9月2日自动下载. 以前的视频没有下载.删除的项目不会再次下载. 订阅是定制. 单击订阅然后单击配置.
+    </s:String>
+    <s:String x:Key="ContactTheDeveloper">联络我</s:String>
+    <s:String x:Key="ContactTheDeveloperHelp">有联的方法络我 (shaked6540):首先是 reddit. 我的 reddit 是 https://www.reddit.com/user/shaked6540/. 请发给我 PM 我会尽快回复您.
+我的專案 discord 是 https://discord.gg/eXeVCqE.
+我的 github 是 https://github.com/shaked6540/YoutubePlaylistDownloader/issues</s:String>
+    <s:String x:Key="AutomaticallyCheckForUpdates">自动检查更新</s:String>
+    <s:String x:Key="WhatsNew">新功能</s:String>
+    <s:String x:Key="SubscriptionsUpdateDelay">更新我的订阅 </s:String>
+    <s:String x:Key="Minutes">分钟</s:String>
+    <s:String x:Key="SaveDownloadOptions">保存我的下载配置</s:String>
+    <s:String x:Key="DownloadSpeed">下载速度 </s:String>
+    <s:String x:Key="CreditsAndContributors">Many thanks to these people for translating this software: 
+Dong Cunrui (董存瑞)
+RichyZ99
+</s:String>
+    
+</ResourceDictionary>

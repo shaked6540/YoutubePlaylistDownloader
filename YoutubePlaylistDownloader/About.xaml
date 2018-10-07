@@ -15,6 +15,9 @@
                         <Paragraph>
                             <Run x:Name="AboutRun" FontSize="14" Text="{DynamicResource AboutTheProgram}" />
                         </Paragraph>
+                        <Paragraph TextAlignment="Left" FlowDirection="LeftToRight">
+                            <Run FontSize="14" Text="{DynamicResource CreditsAndContributors}" />
+                        </Paragraph>
                     </FlowDocument>
                 </RichTextBox>
             </Controls:MetroTabItem>
