@@ -1,0 +1,115 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:s="clr-namespace:System;assembly=mscorlib"
+                    xml:space="preserve">
+    
+    <s:String x:Key="Title">YouTube Playlist Downloader</s:String>
+    <FlowDirection x:Key="FlowDirection">LeftToRight</FlowDirection>
+    <s:String x:Key="InsertYoutubePlaylistLinkHere">Incolla qui un link da YouTube</s:String>
+    <s:String x:Key="Exit">Esci</s:String>
+    <s:String x:Key="ExitMessage">Sei sicuro di voler uscire?</s:String>
+    <s:String x:Key="Yes">Sí</s:String>
+    <s:String x:Key="No">No</s:String>
+    <s:String x:Key="Error">Errore</s:String>
+    <s:String x:Key="ErrorMessage">Errore inaspettato, per favore contatta il tuo amministratore</s:String>
+    <s:String x:Key="Settings">Opzioni</s:String>
+    <s:String x:Key="Preferences">Preferenze</s:String>
+    <s:String x:Key="Theme">Colore</s:String>
+    <s:String x:Key="Language">Lingua</s:String>
+    <s:String x:Key="Back">Indietro</s:String>
+    <s:String x:Key="SaveAndBackToDownload">Salva e torna al menu principale</s:String>
+    <s:String x:Key="DarkTheme">Tema scuro</s:String>
+    <s:String x:Key="Name">Nome: </s:String>
+    <s:String x:Key="Description">Descrizione: </s:String>
+    <s:String x:Key="Views">Visualizzazioni: </s:String>
+    <s:String x:Key="SaveDirectory">Salva i video in: </s:String>
+    <s:String x:Key="CurrentlyDownlading">Sto scaricando: </s:String>
+    <s:String x:Key="TotalProgress">Scaricati: </s:String>
+    <s:String x:Key="AllDone">Operazione completata.</s:String>
+    <s:String x:Key="Canceling">Annullo i download. Attendere...</s:String>
+    <s:String x:Key="Videos">Video</s:String>
+    <s:String x:Key="Download">Download</s:String>
+    <s:String x:Key="ConvertToMp3">Converti i video in </s:String>
+    <s:String x:Key="StillConverting">Sto ancora convertendo</s:String>
+    <s:String x:Key="files">file</s:String>
+    <s:String x:Key="Author">Autore: </s:String>
+    <s:String x:Key="PlaylistTitle">Titolo: </s:String>
+    <s:String x:Key="Loading">Caricamento...</s:String>
+    <HorizontalAlignment x:Key="LeftAlignment">Left</HorizontalAlignment>
+    <s:String x:Key="About">Informazioni</s:String>
+    <s:String x:Key="Home">Home</s:String>
+    <s:String x:Key="Prefer">Dai priorità ai video con risoluzione </s:String>
+    <s:String x:Key="AreYouSureExit">Sei sicuro di voler uscire?</s:String>
+    <s:String x:Key="TotalVideos">Video totali: </s:String>
+    <s:String x:Key="AboutTheProgram">Questo programma è stato sviluppato da shaked6540 ed è completamente gratuito senza limitazioni.
+Non sono responsabile, però, per gli eventuali problemi legali che questo programma causa: 
+YouTube, infatti, non permette di scaricare video dai proprii siti. 
+Il codice sorgente di questo programma può essere consultato su https://github.com/shaked6540/YoutubePlaylistDownloader.
+        
+L'installer è stato fatto con Inno Setup (http://www.jrsoftware.org/isinfo.php).
+    
+
+YouTube Playlist Downloader v</s:String>
+    <s:String x:Key="BitRate">e imposta il bitrate a</s:String>
+    <s:String x:Key="NewVersionAvailable">Nuova versione disponibile</s:String>
+    <s:String x:Key="DoYouWantToUpdate">È disponibile una nuova versione: aggiornare?
+Ecco le novità: </s:String>
+    <s:String x:Key="DownloadingUpdateSetup">Sto scaricando: aggiornamento alle configurazioni</s:String>
+    <s:String x:Key="UpdateCancelled">L'aggiornamento è stato cancellato.</s:String>
+    <s:String x:Key="ErrorWhileUpdating">Errore durante l'aggiornamento. Controlla la tua connessione ad Internet.
+Se sei connesso, prova piú tardi o visita https://github.com/shaked6540/YoutubePlaylistDownloader/issues per eventuali problemi ai server.</s:String>
+    <s:String x:Key="UpdateComplete">Download completato.</s:String>
+    <s:String x:Key="UpdateWhenIExit">Aggiorna all'uscita</s:String>
+    <s:String x:Key="UpdateAndExit">Chiudi ed aggiorna adesso</s:String>
+    <s:String x:Key="UpdateFailed">Aggiornamento fallito</s:String>
+    <s:String x:Key="CannotUpdate">Non riesco ad aggiornare. Prova a riavviare il programma, controllando la tua connessione ad Internet.
+Messaggio d'errore: </s:String>
+    <s:String x:Key="CouldntDownload">Non sono riuscito a scaricare alcuni video</s:String>
+    <s:String x:Key="ListOfNotDownloadedVideos">Ecco una lista dei video non scaricati: </s:String>
+    <s:String x:Key="Options">Opzioni</s:String>
+    <s:String x:Key="CheckForUpdates">Controlla aggiornamenti</s:String>
+    <s:String x:Key="NoUpdates">Nessun aggiornamento disponibile</s:String>
+    <s:String x:Key="NoUpdatesAvailable">Nessun aggiornamento disponibile. Si dispone già dell'ultima versione.</s:String>
+    <s:String x:Key="PlaylistIndex">Scarica dal video numero </s:String>
+    <s:String x:Key="UntilIndex">fino al video numero </s:String>
+    <s:String x:Key="LeaveEmptyOrZeroForUntilTheEnd">(lascia vuoto o scrivi 0 per scaricare tutti i video fino alla fine della playlist)</s:String>
+    <s:String x:Key="NoVideosToDownload">Nessun video scaricabile trovato</s:String>
+    <s:String x:Key="ThereAreNoVidoesToDownload">Non ci sono video da scaricare coi parametri specificati</s:String>
+    <s:String x:Key="UpdateNow">Aggiorna adesso</s:String>
+    <s:String x:Key="Subscriptions">Iscrizioni</s:String>
+    <s:String x:Key="AutomaticllyDownloadSubscriptions">Scarica automaticamente i video da questi canali</s:String>
+    <s:String x:Key="InsertChannelLink">Inserisci qui il link di un canale</s:String>
+    <s:String x:Key="Remove">Rimuovi</s:String>
+    <s:String x:Key="Id">ID: </s:String>
+    <s:String x:Key="Save">Salva</s:String>
+    <s:String x:Key="PreferFPS">Dai priorità ai video con un rateo di FPS maggiore.</s:String>
+    <s:String x:Key="AudioOnly">Scarica l'audio senza convertirlo in alcun formato</s:String>
+    <s:String x:Key="StillDownloadingSubscriptionsExit">Il programma sta ancora scaricando i video delle iscrizioni. Cliccando su “Sí” il programma si chiuderà e quei video non saranno scaricati fino al riavvio del programma.
+Sei sicuro di voler uscire?</s:String>
+    <s:String x:Key="LastVideoDownloadDate">Ultimo aggiornamento: </s:String>
+    <s:String x:Key="Help">Aiuto</s:String>
+    <s:String x:Key="SubscriptionsHelp">Le iscrizioni sono canali di cui il programma scaricherà automaticamente ogni video pubblicato dopo l'aggiunta dell'iscrizione.
+        
+Per esempio, se si aggiunge l'iscrizione al canale “X” il 1° settembre e questo carica un video il 2 settembre, sarà scaricato automaticamente. 
+        
+I video precedenti all'iscrizione non saranno scaricati, e i video cancellati dal disco non saranno riscaricati una seconda volta.
+        
+Ogni iscrizione è personalizzabile ed ha le proprie impostazioni. Per accedere alle impostazioni fare click su “Iscrizioni” dal menu principale, poi su “Opzioni” per il canale da regolare.
+Attenzione: se il programma è spento, non scaricherà alcun video.
+    </s:String>
+    <s:String x:Key="ContactTheDeveloper">Contatti</s:String>
+    <s:String x:Key="ContactTheDeveloperHelp">Ci sono molti modi per contattarmi (shaked6540): 
+        
+Il primo metodo è con Reddit: inviami un messaggio su Reddit e risponderò il prima possibile. Ecco il link al mio profilo: https://www.reddit.com/user/shaked6540/ 
+        
+Il secondo metodo è con Discord: il progetto ha un server Discord suo proprio; entra pure, anche se non hai nulla da dirmi riguardo a questo programma: https://discord.gg/eXeVCqE 
+        
+Il terzo metodo è con GitHub: compila una nuova richiesta e cercherò di rispondere il prima possibile. Ecco il  link: https://github.com/shaked6540/YoutubePlaylistDownloader/issues</s:String>
+    <s:String x:Key="AutomaticallyCheckForUpdates">Cerca automaticamente aggiornamenti all'avvio del programma</s:String>
+    <s:String x:Key="WhatsNew">Novità</s:String>
+    <s:String x:Key="SubscriptionsUpdateDelay">Aggiorna le iscrizioni ogni</s:String>
+    <s:String x:Key="Minutes">minuti</s:String>
+    <s:String x:Key="SaveDownloadOptions">Salva le preferenze sui download</s:String>
+    <s:String x:Key="DownloadSpeed">Velocità download: </s:String>
+    <s:String x:Key="Changelog">Cambiamenti</s:String>
+</ResourceDictionary>
