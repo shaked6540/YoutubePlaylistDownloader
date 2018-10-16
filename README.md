@@ -15,5 +15,5 @@ A simple program to download whole playlists\channels or even single videos from
 - Automaticlly download new videos from channels
 
 ## Screenshots
-![Gif](https://i.imgur.com/nD4S8tF.gif "Gif")
+![Gif](https://i.imgur.com/bQw4fVm.gif "Gif")
 
