@@ -76,7 +76,7 @@ namespace YoutubePlaylistDownloader
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
             GlobalConsts.SaveConsts();
-            GlobalConsts.LoadPage(new MainPage());
+            GlobalConsts.LoadPage(GlobalConsts.MainPage.Load());
         }
 
         private void LanguageComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)

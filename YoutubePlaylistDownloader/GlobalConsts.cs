@@ -1,6 +1,7 @@
 ﻿using MahApps.Metro;
 using MahApps.Metro.Controls.Dialogs;
 using System;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -18,9 +19,9 @@ namespace YoutubePlaylistDownloader
 {
     static class GlobalConsts
     {
-        //The const variables are variables that can be accessed from all over the solution.
         #region Const Variables
         public static Skeleton Current;
+        public static MainPage MainPage;
         public static AppTheme Theme;
         public static Accent Accent;
         public static Brush ErrorBrush;
@@ -31,7 +32,7 @@ namespace YoutubePlaylistDownloader
         public static readonly string CurrentDir;
         private static readonly string ConfigFilePath;
         private static readonly string ErrorFilePath;
-        public const double VERSION = 1.4;
+        public const double VERSION = 1.5;
         public static bool UpdateOnExit;
         public static string UpdateSetupLocation;
         public static bool OptionExpanderIsExpanded;
@@ -45,6 +46,7 @@ namespace YoutubePlaylistDownloader
         private static DownloadSettings downloadSettings;
         public static bool SaveDownloadOptions;
         public static readonly string DownloadSettingsFilePath;
+        public static readonly ObservableCollection<QueuedDownload> Downloads;
 
         public static bool CheckForSubscriptionUpdates
         {
@@ -84,6 +86,7 @@ namespace YoutubePlaylistDownloader
 
         static GlobalConsts()
         {
+            Downloads = new ObservableCollection<QueuedDownload>();
             CurrentDir = new FileInfo(Assembly.GetEntryAssembly().Location).Directory.ToString();
             string appDataPath = string.Concat(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "\\Youtube Playlist Downloader\\");
             ConfigFilePath = string.Concat(appDataPath, "Settings.json");
@@ -107,6 +110,7 @@ namespace YoutubePlaylistDownloader
             };
             SubscriptionsUpdateDelay = TimeSpan.FromMinutes(1);
             checkForSubscriptionUpdates = false;
+            Downloads.CollectionChanged += Downloads_CollectionChanged;
         }
 
         //The const methods are used mainly for saving/loading consts, and handling page\menu management.
@@ -231,7 +235,7 @@ namespace YoutubePlaylistDownloader
         {
             if (!Directory.Exists(Path.GetTempPath() + "YoutubePlaylistDownloader"))
                 Directory.CreateDirectory(Path.GetTempPath() + "YoutubePlaylistDownloader");
-            
+
         }
         public static void CleanTempFolder()
         {
@@ -302,6 +306,9 @@ namespace YoutubePlaylistDownloader
         }
         public static async Task TagFile(Video video, int vIndex, string file, Playlist playlist = null)
         {
+            if (video == null)
+                throw new ArgumentNullException($"{nameof(video)} was null, can't tag a file without a video title");
+
             var genre = video.Title.Split('[', ']').ElementAtOrDefault(1);
 
 
@@ -335,7 +342,7 @@ namespace YoutubePlaylistDownloader
                 genre = string.Empty;
             else
                 t.Tag.Genres = genre.Split('/', '\\');
-            
+
             try
             {
                 TagLib.Id3v2.Tag.DefaultVersion = 3;
@@ -386,7 +393,7 @@ namespace YoutubePlaylistDownloader
         }
         public static double GetOffset()
         {
-            return Current.ActualHeight - 120;
+            return Current.ActualHeight - 95;
         }
         private static void LoadDownloadSettings()
         {
@@ -410,6 +417,19 @@ namespace YoutubePlaylistDownloader
         public static void SaveDownloadSettings()
         {
             File.WriteAllText(DownloadSettingsFilePath, Newtonsoft.Json.JsonConvert.SerializeObject(downloadSettings));
+        }
+        private static void Downloads_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
+                foreach (QueuedDownload item in e.NewItems)
+                    MainPage.QueueStackPanel.Children.Add(item?.GetDisplayGrid());
+
+            if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Remove)
+                foreach (QueuedDownload item in e.OldItems)
+                {
+                    MainPage.QueueStackPanel.Children.Remove(item?.GetDisplayGrid());
+                    item?.Dispose();
+                }
         }
         #endregion
 

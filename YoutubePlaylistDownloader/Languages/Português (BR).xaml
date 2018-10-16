@@ -1,0 +1,126 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:s="clr-namespace:System;assembly=mscorlib"
+                    xml:space="preserve">
+    
+    <s:String x:Key="Title">YouTube Playlist Downloader</s:String>
+    <FlowDirection x:Key="FlowDirection">LeftToRight</FlowDirection>
+    <s:String x:Key="InsertYoutubePlaylistLinkHere">Insira um link do youtube aqui</s:String>
+    <s:String x:Key="Exit">Sair</s:String>
+    <s:String x:Key="ExitMessage">Você tem certeza que deseja sair?</s:String>
+    <s:String x:Key="Yes">Sim</s:String>
+    <s:String x:Key="No">Não</s:String>
+    <s:String x:Key="Error">Erro</s:String>
+    <s:String x:Key="ErrorMessage">Um erro inesperado ocorreu enquanto realizavamos a ação, por favor contate o seu administrador para lidar com o erro</s:String>
+    <s:String x:Key="Settings">Configurações</s:String>
+    <s:String x:Key="Preferences">Preferências</s:String>
+    <s:String x:Key="Theme">Sotaque</s:String>
+    <s:String x:Key="Language">Idioma</s:String>
+    <s:String x:Key="Back">Voltar</s:String>
+    <s:String x:Key="SaveAndBackToDownload">Salvar e retornar para o menu pricipal</s:String>
+    <s:String x:Key="DarkTheme">Tema Escuro</s:String>
+    <s:String x:Key="Name">Nome: </s:String>
+    <s:String x:Key="Description">Descrição: </s:String>
+    <s:String x:Key="Views">Visualizações: </s:String>
+    <s:String x:Key="SaveDirectory">Salvar vídeos para: </s:String>
+    <s:String x:Key="CurrentlyDownlading">Download em andamento: </s:String>
+    <s:String x:Key="TotalProgress">Baixados até agora: </s:String>
+    <s:String x:Key="AllDone">Tudo feito.</s:String>
+    <s:String x:Key="Canceling">Cancelando seus downloads, por favor aguarde...</s:String>
+    <s:String x:Key="Videos">Vídeos</s:String>
+    <s:String x:Key="Download">Download</s:String>
+    <s:String x:Key="ConvertToMp3">Converter vídeos para </s:String>
+    <s:String x:Key="StillConverting">Ainda convertendo</s:String>
+    <s:String x:Key="files">Arquivos</s:String>
+    <s:String x:Key="Author">Autor: </s:String>
+    <s:String x:Key="PlaylistTitle">Título: </s:String>
+    <s:String x:Key="Loading">Carregando...</s:String>
+    <HorizontalAlignment x:Key="LeftAlignment">Left</HorizontalAlignment>
+    <s:String x:Key="About">Sobre</s:String>
+    <s:String x:Key="Home">Início</s:String>
+    <s:String x:Key="Prefer">Preferir vídeos com uma resolução de </s:String>
+    <s:String x:Key="AreYouSureExit">Você tem certeza que deseja sair?</s:String>
+    <s:String x:Key="TotalVideos">Total de vídeos: </s:String>
+    <s:String x:Key="AboutTheProgram">Esse programa foi desenvolvido por shaked6540 e é completamente gratuito para uso sem limitações.
+Contudo, eu não sou responsável por qualquer problema legal que esse programa causará a voce, até onde eu sei, o Youtube não permite baixar vídeos do seu site.
+O código-fonte completo desse programa pode ser encontrado em:
+https://github.com/shaked6540/YoutubePlaylistDownloader
+
+O instalador foi feito usando Inno Setup (http://www.jrsoftware.org/isinfo.php)
+
+Youtube Playlist Downloader v</s:String>
+    <s:String x:Key="BitRate">e determinar o bitrate para</s:String>
+    <s:String x:Key="NewVersionAvailable">Nova versão disponível</s:String>
+    <s:String x:Key="DoYouWantToUpdate">Uma nova versão está disponível, você gostaria de atualizar?
+Aqui está o que tem de novo: </s:String>
+    <s:String x:Key="DownloadingUpdateSetup">Download em andamento: Update Setup</s:String>
+    <s:String x:Key="UpdateCancelled">Atualização em andamento.</s:String>
+    <s:String x:Key="ErrorWhileUpdating">Um erro ocorreu enquanto baixavamos o Update Setup, certifique-se de que você está conectado a internet, se você está conectado a internet, tenta baixar mais tarde ou visite:
+ https://github.com/shaked6540/YoutubePlaylistDownloader/issues to see if theres an issue with the download server</s:String>
+    <s:String x:Key="UpdateComplete">Download Completo</s:String>
+    <s:String x:Key="UpdateWhenIExit">Atualizar quando eu sair</s:String>
+    <s:String x:Key="UpdateAndExit">Fechar e atualizar agora</s:String>
+    <s:String x:Key="UpdateFailed">A atualização falhou</s:String>
+    <s:String x:Key="CannotUpdate">Não foi possível atualizar agora, tente reiniciar o programa e certifique-se de estar conectado a internet.
+Mensagem de erro: </s:String>
+    <s:String x:Key="CouldntDownload">Alguns vídeos não podem ser baixados</s:String>
+    <s:String x:Key="ListOfNotDownloadedVideos">Aqui uma lista dos vídeos que não podem ser baixados, e o porquê: </s:String>
+    <s:String x:Key="Options">Opções</s:String>
+    <s:String x:Key="CheckForUpdates">Checar por atualizações</s:String>
+    <s:String x:Key="NoUpdates">Sem atualizações disponíveis</s:String>
+    <s:String x:Key="NoUpdatesAvailable">Não há atualizações disponíveis no momento, você tem a última versão.</s:String>
+    <s:String x:Key="PlaylistIndex">Baixar pelo número do vídeo </s:String>
+    <s:String x:Key="UntilIndex">até o número do vídeo </s:String>
+    <s:String x:Key="LeaveEmptyOrZeroForUntilTheEnd">(deixe isso vazio ou coloque 0 para baixar todos os vídeos até o final da playlist)</s:String>
+    <s:String x:Key="NoVideosToDownload">Não foi possível localizar vídeos para baixar</s:String>
+    <s:String x:Key="ThereAreNoVidoesToDownload">Não há vídeos para baixar com os parâmetros que você especificou</s:String>
+    <s:String x:Key="UpdateNow">Atualizar agora</s:String>
+    <s:String x:Key="Subscriptions">Inscrições</s:String>
+    <s:String x:Key="AutomaticllyDownloadSubscriptions">Baixar automaticamente vídeos novos deste canal</s:String>
+    <s:String x:Key="InsertChannelLink">Insira o link de um canal aqui</s:String>
+    <s:String x:Key="Remove">Remover</s:String>
+    <s:String x:Key="Id">ID: </s:String>
+    <s:String x:Key="Save">Salvar</s:String>
+    <s:String x:Key="PreferFPS">Preferir vídeos com a maior taxa de FPS</s:String>
+    <s:String x:Key="AudioOnly">Baixar o aúdio puro, sem converter para nenhum formato</s:String>
+    <s:String x:Key="StillDownloadingSubscriptionsExit">O programa ainda está baixando os vídeos das suas incrições, clicar em SIM irá fechar o programa e esses vídeos não serão baixados até que você inicie o programa novamente.
+Você tem certeza que deseja sair?</s:String>
+    <s:String x:Key="LastVideoDownloadDate">Última atualização em: </s:String>
+    <s:String x:Key="Help">Ajuda</s:String>
+    <s:String x:Key="SubscriptionsHelp">Incrições são canais nos quais o programa baixará automaticamente qualquer vídeo que sair depois que a inscrição for adicionada.
+
+Por exemplo, se você adicionou uma inscrição ao canal """"x"""" em 1º de setembro e o canal """"x"""" enviou um vídeo em 2 de setembro, ele será automaticamente baixado.
+
+Os vídeos anteriores não serão baixados e os vídeos não serão baixados duas vezes, mesmo se você excluir um determinado vídeo.
+
+Todas as inscrições são personalizáveis e têm suas próprias configurações, para acessar as configurações de inscrição, clique em """"Configurações"""" no menu principal e, em seguida, clique em ""Configurações"" para o canal que você deseja.
+
+Por favor note que se o programa não estiver sendo executado, novos vídeos não serão baixados.
+    </s:String>
+    <s:String x:Key="ContactTheDeveloper">Contato</s:String>
+    <s:String x:Key="ContactTheDeveloperHelp">Há muitas formas de entrar em contato comigo (shaked65400):
+
+A primeira delas é pelo Reddit, simplesmente me mande uma mensagem pelo Reddit e eu irei responder o mais rápido que poder, esse é o link do meu perfil: https://www.reddit.com/user/shaked6540/ 
+
+A segunda forma de entrar em contsato comigo é pelo discord, eu configurei um servidor do discord para esse projeto, sinta-se livre para juntar-se mesmo se você não tiver nada para me dizer: https://discord.gg/eXeVCqE 
+
+A terceira forma de falar comigo é através do GitHub, simplesmente abra uma nova questão e eu vou tentar responder o mais rápido que poder, esse é o link: https://github.com/shaked6540/YoutubePlaylistDownloader/issues</s:String>
+    <s:String x:Key="AutomaticallyCheckForUpdates">Automaticamente checar novas atualizações quando iniciar o programa</s:String>
+    <s:String x:Key="WhatsNew">O que tem de novo?</s:String>
+    <s:String x:Key="SubscriptionsUpdateDelay">Atualizar inscrições a cada minuto</s:String>
+    <s:String x:Key="Minutes">minutos</s:String>
+    <s:String x:Key="SaveDownloadOptions">Salvar minhas preferências de download</s:String>
+    <s:String x:Key="DownloadSpeed">Velocidade de download: </s:String>
+    <s:String x:Key="Changelog">Changelog</s:String>
+    <s:String x:Key="DongChunrui">Dong Cunrui (董存瑞)</s:String>
+    <s:String x:Key="CreditsAndContributors">Many thanks to these people for translating this software: 
+Dong Cunrui (董存瑞)
+RichyZ99
+Jhonatan Lima (Heremitus)
+</s:String>
+    <s:String x:Key="Search">Pesquisar</s:String>
+    <s:String x:Key="Queue">Fila</s:String>
+    <s:String x:Key="Downloading">Baixando..</s:String>
+    <s:String x:Key="Converting">Convertendo..</s:String>
+    <s:String x:Key="DownloadInBackground">Adicionar à fila</s:String>
+</ResourceDictionary>

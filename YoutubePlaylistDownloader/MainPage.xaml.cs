@@ -45,7 +45,6 @@ namespace YoutubePlaylistDownloader
             GlobalConsts.ShowHelpButton();
             GlobalConsts.ShowSubscriptionsButton();
 
-
             ExtensionsDropDown.ItemsSource = FileTypes;
             ResulotionDropDown.ItemsSource = Resolutions.Keys;
 
@@ -59,12 +58,27 @@ namespace YoutubePlaylistDownloader
 
             void UpdateSize(object s, SizeChangedEventArgs e)
             {
-                GridScrollViewer.Height = GlobalConsts.GetOffset() - HeadlineStackPanel.ActualHeight;
+                double height = GlobalConsts.GetOffset() - (HeadlineStackPanel.ActualHeight + 75);
+                GridScrollViewer.Height = height;
+                QueueScrollViewer.Height = height;
                 GridScrollViewer.UpdateLayout();
+                QueueScrollViewer.UpdateLayout();
             }
 
             GlobalConsts.Current.SizeChanged += UpdateSize;
             Unloaded += (s, e) => GlobalConsts.Current.SizeChanged -= UpdateSize;
+
+            GlobalConsts.MainPage = this;
+        }
+
+        public MainPage Load()
+        {
+            GlobalConsts.HideHomeButton();
+            GlobalConsts.ShowSettingsButton();
+            GlobalConsts.ShowAboutButton();
+            GlobalConsts.ShowHelpButton();
+            GlobalConsts.ShowSubscriptionsButton();
+            return this;
         }
 
         private void SetSettings()
@@ -76,7 +90,7 @@ namespace YoutubePlaylistDownloader
             PreferHighestFPSCheckBox.IsChecked = settings.PreferHighestFPS;
             ConvertCheckBox.IsChecked = settings.Convert;
             BitrateCheckBox.IsChecked = settings.SetBitrate;
-            BitRateTextBox.Text = settings.Bitrate;
+            BitRateTextBox.Text = string.IsNullOrWhiteSpace(settings.Bitrate) ? "192" : settings.Bitrate;
         }
 
         private async void TextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -158,10 +172,15 @@ namespace YoutubePlaylistDownloader
             GlobalConsts.DownloadSettings = new DownloadSettings(type, audioOnly, vq, preferHighestFPS, PreferCheckBox.IsChecked.Value, convert, BitrateCheckBox.IsChecked.Value, bitrate);
 
             if (list != null && video == null)
+            {
                 GlobalConsts.LoadPage(new DownloadPage(list, convert, vq, type, bitrate, startIndex, endIndex, audioOnly, preferHighestFPS));
-
+                PlaylistLinkTextBox.Text = string.Empty;
+            }
             else if (list == null && video != null)
+            {
                 GlobalConsts.LoadPage(new DownloadVideo(video, convert, vq, type, bitrate, audioOnly, preferHighestFPS));
+                PlaylistLinkTextBox.Text = string.Empty;
+            }
         }
 
         private async Task UpdatePlaylistInfo(Visibility vis = Visibility.Collapsed, string title = "", string author = "", string views = "", string totalVideos = "", string imageUrl = "", bool downloadEnabled = false, bool showIndexes = false)
@@ -198,8 +217,54 @@ namespace YoutubePlaylistDownloader
                     DownloadSubIndexStackPanel.Visibility = Visibility.Collapsed;
 
                 DownloadButton.IsEnabled = downloadEnabled;
+                DownloadInBackgroundButton.IsEnabled = downloadEnabled;
 
             });
+
+
+        private void DownloadInBackgroundButton_Click(object sender, RoutedEventArgs e)
+        {
+            var convert = ConvertCheckBox.IsChecked.Value;
+            var vq = VideoQuality.High720;
+            var type = "mp3";
+            string bitrate = null;
+            int startIndex = 0, endIndex = 0;
+            bool audioOnly = AudioOnlyCheckBox.IsChecked.Value;
+            bool preferHighestFPS = PreferHighestFPSCheckBox.IsChecked.Value;
+
+            if (DownloadByIndexCheckBox.IsChecked.Value)
+            {
+                if (!string.IsNullOrWhiteSpace(StartIndexTextBox.Text) && StartIndexTextBox.Text.All(c => char.IsDigit(c)) == true)
+                    startIndex = int.Parse(StartIndexTextBox.Text) - 1;
+
+                if (!string.IsNullOrWhiteSpace(EndIndexTextBox.Text) && EndIndexTextBox.Text.All(c => char.IsDigit(c)) == true)
+                    endIndex = int.Parse(EndIndexTextBox.Text) - 1;
+            }
+
+            if (BitrateCheckBox.IsChecked.Value)
+                if (!string.IsNullOrWhiteSpace(BitRateTextBox.Text) && BitRateTextBox.Text.All(c => char.IsDigit(c)))
+                    bitrate = BitRateTextBox.Text;
+
+
+            if (PreferCheckBox.IsChecked.Value)
+                vq = Resolutions[(string)ResulotionDropDown.SelectedValue];
+
+            if (convert)
+                type = (string)ExtensionsDropDown.SelectedItem;
+
+            GlobalConsts.DownloadSettings = new DownloadSettings(type, audioOnly, vq, preferHighestFPS, PreferCheckBox.IsChecked.Value, convert, BitrateCheckBox.IsChecked.Value, bitrate);
+
+            if (list != null && video == null)
+            {
+                _ = new DownloadPage(list, convert, vq, type, bitrate, startIndex, endIndex, audioOnly, preferHighestFPS, silent: true);
+                PlaylistLinkTextBox.Text = string.Empty;
+            }
+            else if (list == null && video != null)
+            {
+                _ = new DownloadVideo(video, convert, vq, type, bitrate, audioOnly, preferHighestFPS, silent: true);
+                PlaylistLinkTextBox.Text = string.Empty;
+            }
+        }
 
         private void OptionsExpander_Expanded(object sender, RoutedEventArgs e)
         {
@@ -327,3 +392,41 @@ namespace YoutubePlaylistDownloader
         }
     }
 }
+/*
+                        <Grid Visibility="Visible" x:Name="DownloadInfoGrid" Margin="7,0" HorizontalAlignment="Left" Width="Auto" MaxHeight="410" >
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!--Col 0-->
+                            <Controls:Tile Width="50" Height="50" Grid.RowSpan="5" Margin="2.5">
+                                <iconPacks:PackIconModern Kind="Close" Width="40" Height="40"/>
+                            </Controls:Tile>
+
+                            <!--Col 1-->
+                            <Image x:Name="DownloadInfoImage" Margin="2.5,2.5,10,2.5" Grid.Column="1" Grid.Row="0" Grid.RowSpan="5" Width="200" Height="112.5" />
+
+                            
+                            <!--Col 2-->
+                            <TextBlock Margin="2.5" Text="{DynamicResource PlaylistTitle}" Grid.Row="0" Grid.Column="2" FontSize="14" />
+                            <TextBlock Margin="2.5" Text="S.Title" Grid.Row="1" Grid.Column="2" FontSize="14" />
+
+
+                            <!--Col 4-->
+                            <Grid Grid.Row="0" Grid.Column="4" Grid.RowSpan="4" Margin="2.5">
+                                <ProgressBar Height="30" VerticalAlignment="Center" Width="880" />
+                                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" />
+                            </Grid>
+                        </Grid>
+ */

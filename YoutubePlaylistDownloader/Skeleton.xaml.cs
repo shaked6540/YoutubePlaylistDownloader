@@ -132,7 +132,7 @@ namespace YoutubePlaylistDownloader
 
         private void Home_Click(object sender, RoutedEventArgs e)
         {
-            GlobalConsts.LoadPage(new MainPage());
+            GlobalConsts.LoadPage(GlobalConsts.MainPage.Load());
         }
 
         private void Help_Click(object sender, RoutedEventArgs e)

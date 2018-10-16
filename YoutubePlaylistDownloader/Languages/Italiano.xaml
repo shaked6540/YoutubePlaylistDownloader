@@ -115,5 +115,11 @@ Il terzo metodo è con GitHub: compila una nuova richiesta e cercherò di rispon
     <s:String x:Key="CreditsAndContributors">Many thanks to these people for translating this software: 
 Dong Cunrui (董存瑞)
 RichyZ99
+Jhonatan Lima (Heremitus)
 </s:String>
+    <s:String x:Key="Search">Search</s:String>
+    <s:String x:Key="Queue">Queue</s:String>
+    <s:String x:Key="Downloading">Downloading..</s:String>
+    <s:String x:Key="Converting">Converting..</s:String>
+    <s:String x:Key="DownloadInBackground">Add to queue</s:String>
 </ResourceDictionary>

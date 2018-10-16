@@ -115,5 +115,11 @@ YouTube Playlist Downloader v</s:String>
     <s:String x:Key="CreditsAndContributors">Many thanks to these people for translating this software: 
 Dong Cunrui (董存瑞)
 RichyZ99
+Jhonatan Lima (Heremitus)
 </s:String>
+    <s:String x:Key="Search">חיפוש</s:String>
+    <s:String x:Key="Queue">רשימה</s:String>
+    <s:String x:Key="Downloading">מוריד..</s:String>
+    <s:String x:Key="Converting">ממיר..</s:String>
+    <s:String x:Key="DownloadInBackground">הוסף לרשימה</s:String>
 </ResourceDictionary>

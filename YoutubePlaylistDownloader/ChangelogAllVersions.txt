@@ -1,4 +1,17 @@
-﻿﻿Version 1.306:
+﻿Version 1.5: 
+- You can now queue downloads and download multiple items in the background
+- The download speed indicator is now accurate
+- New language available, Brazilian Portuguese, thanks to Jhonatan Lima (Heremitus)
+- Many performance improvemets, especially memory-wise
+
+
+﻿Version 1.4: 
+- You can now save your download settings
+- Added a download speed indicator
+- 2 new translations available: Chinese and Italian, big thanks to Dong Cunrui (董存瑞) and RichyZ99 for these translations.
+
+
+﻿Version 1.306:
 - Rewrote the buggy subscriptions system, the interface is exactly the same but the code behind is completly different
 - Polished the UI more, some performance improvements as well
 
