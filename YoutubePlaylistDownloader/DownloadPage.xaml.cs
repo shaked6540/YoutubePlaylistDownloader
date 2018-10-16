@@ -681,13 +681,17 @@ namespace YoutubePlaylistDownloader
             {
                 if (disposing)
                 {
-                    Subscription.Dispose();
-                    cts.Cancel(true);
-                    cts.Dispose();
-                    ffmpegList.ForEach(x => { try { x.Kill(); } catch { } });
-                    ffmpegList.Clear();
-                    NotDownloaded.Clear();
-                    downloadSpeeds.Clear();
+                    Subscription?.Dispose();
+                    cts?.Cancel(true);
+                    cts?.Dispose();
+                    try
+                    {
+                        ffmpegList?.ForEach(x => { try { x.Kill(); } catch { } });
+                        ffmpegList?.Clear();
+                    }
+                    catch { }
+                    NotDownloaded?.Clear();
+                    downloadSpeeds?.Clear();
                 }
 
                 StillDownloading = false;

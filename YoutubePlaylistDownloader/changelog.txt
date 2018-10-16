@@ -1,4 +1,4 @@
-﻿Version 1.5: 
+﻿Version 1.501: 
 - THIS VERSION FIXES A CRITICAL BUG, WITHOUT UPDATING THE PROGRAM WILL NOT WORK
 - You can now queue downloads and download multiple items in the background
 - The download speed indicator is now accurate

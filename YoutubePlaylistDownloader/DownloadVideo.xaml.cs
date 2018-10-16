@@ -555,16 +555,16 @@ namespace YoutubePlaylistDownloader
             {
                 if (disposing)
                 {
-                    cts.Cancel(true);
-                    cts.Dispose();
+                    cts?.Cancel(true);
+                    cts?.Dispose();
                     try
                     {
-                        ffmpegList.ForEach(x => { try { x.Kill(); } catch { } });
+                        ffmpegList?.ForEach(x => { try { x.Kill(); } catch { } });
+                        ffmpegList?.Clear();
                     }
                     catch { }
-                    ffmpegList.Clear();
-                    NotDownloaded.Clear();
-                    downloadSpeeds.Clear();
+                    NotDownloaded?.Clear();
+                    downloadSpeeds?.Clear();
                 }
 
                 Video = null;
