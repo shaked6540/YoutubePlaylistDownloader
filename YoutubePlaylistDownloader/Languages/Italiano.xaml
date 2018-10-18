@@ -117,9 +117,9 @@ Dong Cunrui (董存瑞)
 RichyZ99
 Jhonatan Lima (Heremitus)
 </s:String>
-    <s:String x:Key="Search">Search</s:String>
-    <s:String x:Key="Queue">Queue</s:String>
-    <s:String x:Key="Downloading">Downloading..</s:String>
-    <s:String x:Key="Converting">Converting..</s:String>
-    <s:String x:Key="DownloadInBackground">Add to queue</s:String>
+    <s:String x:Key="Search">Cerca</s:String>
+    <s:String x:Key="Queue">Coda</s:String>
+    <s:String x:Key="Downloading">Sto scaricando...</s:String>
+    <s:String x:Key="Converting">Conversione in corso...</s:String>
+    <s:String x:Key="DownloadInBackground">Aggiungi alla coda</s:String>
 </ResourceDictionary>
