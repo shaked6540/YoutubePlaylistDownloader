@@ -55,13 +55,34 @@ namespace YoutubePlaylistDownloader
                 await AddSubscriptionPanel(sub);
         }
 
-        private void AddChannelSubscriptionTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        private async void AddChannelSubscriptionTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (YoutubeClient.TryParseChannelId(AddChannelSubscriptionTextBox.Text, out string channelId) && !Subscriptions.Any(x => x.ChannelId == channelId))
             {
                 SubscriptionChannelId = channelId;
                 AddChannelButton.IsEnabled = true;
             }
+            else if (YoutubeClient.TryParseUsername(AddChannelSubscriptionTextBox.Text, out string username))
+            {
+                try
+                {
+                    var client = GlobalConsts.YoutubeClient;
+                    var channelID = await client.GetChannelIdAsync(username);
+
+                    if (!Subscriptions.Any(x => x.ChannelId == channelID))
+                    {
+                        SubscriptionChannelId = channelID;
+                        AddChannelButton.IsEnabled = true;
+                    }
+                    else
+                        AddChannelButton.IsEnabled = false;
+                }
+                catch
+                {
+                    AddChannelButton.IsEnabled = false;
+                }
+            }
+
             else
                 AddChannelButton.IsEnabled = false;
         }

@@ -116,6 +116,17 @@ namespace YoutubePlaylistDownloader
                         await UpdatePlaylistInfo(Visibility.Visible, channel.Title, list.Author, list.Statistics.ViewCount.ToString(), list.Videos.Count.ToString(), channel.LogoUrl, true, true);
                     }).ConfigureAwait(false);
                 }
+                else if (YoutubeClient.TryParseUsername(PlaylistLinkTextBox.Text, out string username))
+                {
+                    _ = Task.Run(async () =>
+                    {
+                        string channelID = await client.GetChannelIdAsync(username).ConfigureAwait(false);
+                        var channel = await client.GetChannelAsync(channelID).ConfigureAwait(false);
+                        list = await client.GetPlaylistAsync(channel.GetChannelVideosPlaylistId()).ConfigureAwait(false);
+                        video = null;
+                        await UpdatePlaylistInfo(Visibility.Visible, channel.Title, list.Author, list.Statistics.ViewCount.ToString(), list.Videos.Count.ToString(), channel.LogoUrl, true, true);
+                    });
+                }
                 else if (YoutubeClient.TryParseVideoId(PlaylistLinkTextBox.Text, out string videoId))
                 {
                     _ = Task.Run(async () =>
@@ -220,7 +231,6 @@ namespace YoutubePlaylistDownloader
                 DownloadInBackgroundButton.IsEnabled = downloadEnabled;
 
             });
-
 
         private void DownloadInBackgroundButton_Click(object sender, RoutedEventArgs e)
         {
@@ -392,41 +402,3 @@ namespace YoutubePlaylistDownloader
         }
     }
 }
-/*
-                        <Grid Visibility="Visible" x:Name="DownloadInfoGrid" Margin="7,0" HorizontalAlignment="Left" Width="Auto" MaxHeight="410" >
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition/>
-                            </Grid.RowDefinitions>
-
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition />
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
-
-                            <!--Col 0-->
-                            <Controls:Tile Width="50" Height="50" Grid.RowSpan="5" Margin="2.5">
-                                <iconPacks:PackIconModern Kind="Close" Width="40" Height="40"/>
-                            </Controls:Tile>
-
-                            <!--Col 1-->
-                            <Image x:Name="DownloadInfoImage" Margin="2.5,2.5,10,2.5" Grid.Column="1" Grid.Row="0" Grid.RowSpan="5" Width="200" Height="112.5" />
-
-                            
-                            <!--Col 2-->
-                            <TextBlock Margin="2.5" Text="{DynamicResource PlaylistTitle}" Grid.Row="0" Grid.Column="2" FontSize="14" />
-                            <TextBlock Margin="2.5" Text="S.Title" Grid.Row="1" Grid.Column="2" FontSize="14" />
-
-
-                            <!--Col 4-->
-                            <Grid Grid.Row="0" Grid.Column="4" Grid.RowSpan="4" Margin="2.5">
-                                <ProgressBar Height="30" VerticalAlignment="Center" Width="880" />
-                                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" />
-                            </Grid>
-                        </Grid>
- */
