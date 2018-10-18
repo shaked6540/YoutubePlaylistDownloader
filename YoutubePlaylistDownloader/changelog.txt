@@ -1,6 +1,4 @@
-﻿Version 1.501: 
-- THIS VERSION FIXES A CRITICAL BUG, WITHOUT UPDATING THE PROGRAM WILL NOT WORK
-- You can now queue downloads and download multiple items in the background
-- The download speed indicator is now accurate
-- New language available, Brazilian Portuguese, thanks to Jhonatan Lima (Heremitus)
-- Many performance improvemets, especially memory-wise
+﻿Version 1.503:
+- Updated Italian and Chinese tralstions
+- You can now download videos from user links (e.g. youtube.com/user/example)
+- You can also subscribe to users
