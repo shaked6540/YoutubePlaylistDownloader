@@ -101,10 +101,10 @@ Dong Cunrui (董存瑞)
 RichyZ99
 Jhonatan Lima (Heremitus)
 </s:String>
-    <s:String x:Key="Search">Search</s:String>
-    <s:String x:Key="Queue">Queue</s:String>
-    <s:String x:Key="Downloading">Downloading..</s:String>
-    <s:String x:Key="Converting">Converting..</s:String>
-    <s:String x:Key="DownloadInBackground">Add to queue</s:String>
+    <s:String x:Key="Search">搜索</s:String>
+    <s:String x:Key="Queue">队列</s:String>
+    <s:String x:Key="Downloading">下载..</s:String>
+    <s:String x:Key="Converting">转换..</s:String>
+    <s:String x:Key="DownloadInBackground">添加到队列</s:String>
     
 </ResourceDictionary>
