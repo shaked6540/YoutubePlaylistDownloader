@@ -21,7 +21,7 @@ namespace YoutubePlaylistDownloader
     public partial class DownloadVideo : UserControl, IDisposable, IDownload
     {
         private Video Video;
-        private string FileType;
+        private string FileType, CaptionsLanguage;
         private int DownloadedCount;
         private List<Process> ffmpegList;
         private CancellationTokenSource cts;
@@ -30,7 +30,7 @@ namespace YoutubePlaylistDownloader
         private bool AudioOnly, PreferHighestFPS;
         private List<Tuple<string, string>> NotDownloaded;
         const int megaBytes = 1 << 20;
-        private bool silent;
+        private bool silent, DownloadCaptions;
         private FixedQueue<double> downloadSpeeds;
 
         private string title, currentTitle, currentStatus, totalDownloaded, currentDownloadSpeed;
@@ -110,7 +110,7 @@ namespace YoutubePlaylistDownloader
 
 
         public DownloadVideo(Video video, bool convert, VideoQuality quality = VideoQuality.High720, string fileType = "mp3", string bitrate = null,
-            bool audioOnly = false, bool preferHighestFPS = false, bool silent = false)
+            bool audioOnly = false, bool preferHighestFPS = false, bool silent = false, string captionsLanguage = "", bool downloadCaptions = false)
         {
             InitializeComponent();
             downloadSpeeds = new FixedQueue<double>(50);
@@ -131,6 +131,8 @@ namespace YoutubePlaylistDownloader
             FileType = fileType;
             AudioOnly = audioOnly;
             PreferHighestFPS = preferHighestFPS;
+            DownloadCaptions = downloadCaptions;
+            CaptionsLanguage = captionsLanguage;
 
             DownloadedCount = 0;
             Quality = quality;
@@ -351,6 +353,7 @@ namespace YoutubePlaylistDownloader
                 var fileLoc = $"{GlobalConsts.TempFolderPath}{cleanVideoName}";
                 var outputFileLoc = $"{GlobalConsts.TempFolderPath}{cleanVideoName}.mkv";
                 var copyFileLoc = $"{GlobalConsts.SaveDirectory}\\{cleanVideoName}.mkv";
+                var captionsLoc = $"{GlobalConsts.TempFolderPath}{cleanVideoName}.srt";
 
                 string audioLoc = null;
                 if (bestAudio != null)
@@ -358,6 +361,8 @@ namespace YoutubePlaylistDownloader
 
                 CurrentTitle = Video.Title;
                 CurrentStatus = (string)FindResource("Downloading");
+
+                string ffmpegArguments = "";
 
                 using (var stream = new ProgressStream(File.Create(fileLoc)))
                 {
@@ -417,8 +422,32 @@ namespace YoutubePlaylistDownloader
                     using (var audioStream = File.Create(audioLoc))
                     {
                         var audioTask = client.DownloadMediaStreamAsync(bestAudio, audioStream);
-                        await Task.WhenAll(videoTask, audioTask);
-                        sw.Stop();
+                        caption:
+                        if (DownloadCaptions)
+                        {
+                            var captionsInfo = await client.GetVideoClosedCaptionTrackInfosAsync(Video.Id);
+                            var captions = captionsInfo.FirstOrDefault(x => x.Language.Name.Equals(CaptionsLanguage, StringComparison.OrdinalIgnoreCase));
+
+                            if (captions == default)
+                            {
+                                DownloadCaptions = false;
+                                goto caption;
+                            }
+
+                            using (var captionsStream = File.Create(captionsLoc))
+                            {
+                                var captionsTask = client.DownloadClosedCaptionTrackAsync(captions, captionsStream, cancellationToken: token);
+                                await Task.WhenAll(videoTask, audioTask, captionsTask);
+                                sw.Stop();
+                                ffmpegArguments = $"-i \"{fileLoc}\" -i \"{audioLoc}\" -i \"{captionsLoc}\" -y -c copy \"{outputFileLoc}\"";
+                            }
+                        }
+                        else
+                        {
+                            await Task.WhenAll(videoTask, audioTask);
+                            ffmpegArguments = $"-i \"{fileLoc}\" -i \"{audioLoc}\" -y -c copy \"{outputFileLoc}\"";
+                            sw.Stop();
+                        }
                     }
                 }
                 var ffmpeg = new Process()
@@ -427,7 +456,7 @@ namespace YoutubePlaylistDownloader
                     StartInfo = new ProcessStartInfo()
                     {
                         FileName = $"{GlobalConsts.CurrentDir}\\ffmpeg.exe",
-                        Arguments = $"-i \"{fileLoc}\" -i \"{audioLoc}\" -y -c copy \"{outputFileLoc}\"",
+                        Arguments = ffmpegArguments,
                         CreateNoWindow = true,
                         UseShellExecute = false,
                     }
