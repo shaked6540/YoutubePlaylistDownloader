@@ -114,9 +114,8 @@ namespace YoutubePlaylistDownloader
         }
 
 
-        public DownloadPage(Playlist playlist, bool convert, VideoQuality quality = VideoQuality.High720, string fileType = "mp3",
-            string bitrate = null, int startIndex = 0, int endIndex = 0, bool audioOnly = false,
-            bool preferHighestFPS = false, string savePath = "", IEnumerable<Video> videos = null, Subscription subscription = null,
+        public DownloadPage(Playlist playlist, DownloadSettings settings, int startIndex = 0, int endIndex = 0, string savePath = "",
+            IEnumerable<Video> videos = null, Subscription subscription = null,
             bool silent = false, CancellationTokenSource cancellationToken = null, bool downloadCaptions = false, string captionsLanguage = "")
         {
             InitializeComponent();
@@ -149,9 +148,9 @@ namespace YoutubePlaylistDownloader
             Maximum = EndIndex - StartIndex + 1;
             DownloadedVideosProgressBar.Maximum = Maximum;
             Playlist = playlist;
-            FileType = fileType;
+            FileType = settings.SaveFormat;
             DownloadedCount = 0;
-            Quality = quality;
+            Quality = settings.Quality;
             DownloadCaptions = downloadCaptions;
             CaptionsLanguage = captionsLanguage;
             SavePath = string.IsNullOrWhiteSpace(savePath) ? GlobalConsts.SaveDirectory : savePath;
@@ -160,11 +159,11 @@ namespace YoutubePlaylistDownloader
                 Directory.CreateDirectory(SavePath);
 
             Subscription = subscription;
-            AudioOnly = audioOnly;
-            PreferHighestFPS = preferHighestFPS;
+            AudioOnly = settings.AudioOnly;
+            PreferHighestFPS = settings.PreferHighestFPS;
 
-            if (!string.IsNullOrWhiteSpace(bitrate) && bitrate.All(x=> char.IsDigit(x)))
-                Bitrate = $"-b:a {bitrate}k";
+            if (!string.IsNullOrWhiteSpace(settings.Bitrate) && settings.Bitrate.All(x=> char.IsDigit(x)))
+                Bitrate = $"-b:a {settings.Bitrate}k";
             else
                 Bitrate = string.Empty;
 
@@ -177,7 +176,7 @@ namespace YoutubePlaylistDownloader
             CurrentProgressPrecent = 0;
             CurrentDownloadSpeed = $"{FindResource("DownloadSpeed")}: 0 MiB/s";
 
-            if (convert || audioOnly)
+            if (settings.Convert || settings.AudioOnly)
                 StartDownloadingWithConverting(cts.Token).ConfigureAwait(false);
             else
                 StartDownloading(cts.Token).ConfigureAwait(false);

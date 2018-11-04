@@ -32,7 +32,7 @@ namespace YoutubePlaylistDownloader
         public static readonly string CurrentDir;
         private static readonly string ConfigFilePath;
         private static readonly string ErrorFilePath;
-        public const double VERSION = 1.503;
+        public const double VERSION = 1.6;
         public static bool UpdateOnExit;
         public static string UpdateSetupLocation;
         public static bool OptionExpanderIsExpanded;
@@ -68,16 +68,18 @@ namespace YoutubePlaylistDownloader
             get
             {
                 if (downloadSettings == null)
-                    downloadSettings = new DownloadSettings("mp3", false, YoutubeExplode.Models.MediaStreams.VideoQuality.High720, false, false, false, false, "192");
+                    downloadSettings = new DownloadSettings("mp3", false, YoutubeExplode.Models.MediaStreams.VideoQuality.High720, false, false, false, false, "192", false, "en");
 
                 return downloadSettings;
             }
             set
             {
-                if (value != null && SaveDownloadOptions)
+                if (value != null)
                 {
                     downloadSettings = value;
-                    File.WriteAllText(DownloadSettingsFilePath, Newtonsoft.Json.JsonConvert.SerializeObject(downloadSettings));
+
+                    if (SaveDownloadOptions)
+                        File.WriteAllText(DownloadSettingsFilePath, Newtonsoft.Json.JsonConvert.SerializeObject(downloadSettings));
                 }
             }
         }
@@ -196,7 +198,7 @@ namespace YoutubePlaylistDownloader
             SubscriptionsUpdateDelay = TimeSpan.FromMinutes(1);
             SaveDownloadOptions = true;
 
-            DownloadSettings = new DownloadSettings("mp3", false, YoutubeExplode.Models.MediaStreams.VideoQuality.High720, false, false, false, false, "192");
+            DownloadSettings = new DownloadSettings("mp3", false, YoutubeExplode.Models.MediaStreams.VideoQuality.High720, false, false, false, false, "192", false, "en");
             SaveConsts();
         }
         public static void LoadConsts()
@@ -406,12 +408,12 @@ namespace YoutubePlaylistDownloader
                 catch
                 {
                     File.Delete(DownloadSettingsFilePath);
-                    DownloadSettings = new DownloadSettings("mp3", false, YoutubeExplode.Models.MediaStreams.VideoQuality.High720, false, false, false, false, "192");
+                    DownloadSettings = new DownloadSettings("mp3", false, YoutubeExplode.Models.MediaStreams.VideoQuality.High720, false, false, false, false, "192", false, "en");
                 }
             }
             else
             {
-                DownloadSettings = new DownloadSettings("mp3", false, YoutubeExplode.Models.MediaStreams.VideoQuality.High720, false, false, false, false, "192");
+                DownloadSettings = new DownloadSettings("mp3", false, YoutubeExplode.Models.MediaStreams.VideoQuality.High720, false, false, false, false, "192", false, "en");
             }
         }
         public static void SaveDownloadSettings()

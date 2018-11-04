@@ -122,4 +122,8 @@ Jhonatan Lima (Heremitus)
     <s:String x:Key="Downloading">מוריד..</s:String>
     <s:String x:Key="Converting">ממיר..</s:String>
     <s:String x:Key="DownloadInBackground">הוסף לרשימה</s:String>
+    <s:String x:Key="Audio">אודיו</s:String>
+    <s:String x:Key="Video">וידאו</s:String>
+    <s:String x:Key="DownloadCaptions">הורד כתוביות</s:String>
+    <s:String x:Key="CaptionsLanguage">שפת כתוביות: </s:String>
 </ResourceDictionary>

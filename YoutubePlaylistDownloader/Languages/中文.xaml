@@ -106,5 +106,9 @@ Jhonatan Lima (Heremitus)
     <s:String x:Key="Downloading">下载..</s:String>
     <s:String x:Key="Converting">转换..</s:String>
     <s:String x:Key="DownloadInBackground">添加到队列</s:String>
+    <s:String x:Key="Audio">音频</s:String>
+    <s:String x:Key="Video">视频</s:String>
+    <s:String x:Key="DownloadCaptions">下载隐藏式字幕</s:String>
+    <s:String x:Key="CaptionsLanguage">隐藏式字幕语言: </s:String>
     
 </ResourceDictionary>

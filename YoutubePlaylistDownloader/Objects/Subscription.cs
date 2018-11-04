@@ -2,11 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using YoutubeExplode.Models;
-using YoutubeExplode.Models.MediaStreams;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
+using YoutubeExplode.Models;
 
 namespace YoutubePlaylistDownloader.Objects
 {
@@ -44,53 +43,18 @@ namespace YoutubePlaylistDownloader.Objects
         public string ChannelId { get; set; }
 
         [JsonProperty]
-        public string SavePath { get; set; }
-
-        [JsonProperty]
-        public string SaveFormat { get; set; }
-
-        [JsonProperty]
-        public bool AudioOnly { get; set; }
-
-        [JsonProperty]
-        public VideoQuality Quality { get; set; }
-
-        [JsonProperty]
-        public bool PreferHighestFPS { get; set; }
-
-        [JsonProperty]
-        public bool PreferQuality { get; set; }
-
-        [JsonProperty]
-        public bool Convert { get; set; }
-
-        [JsonProperty]
-        public bool SetBitrate { get; set; }
-
-        [JsonProperty]
-        public string Bitrate { get; set; }
+        public DownloadSettings Settings { get; set; }
 
         [JsonProperty]
         public List<string> DownloadedVideos { get; set; }
 
 
         [JsonConstructor]
-        public Subscription(DateTime latestVideoDownloaded, string channelId, string savePath, string saveForamt,
-            bool audioOnly, VideoQuality quality, bool preferHighestFPS, bool preferQuality, bool convert,
-            bool setBitrate, string bitrate, List<string> downloadedVideos)
+        public Subscription(DateTime latestVideoDownloaded, string channelId, DownloadSettings settings, List<string> downloadedVideos)
         {
             LatestVideoDownloaded = latestVideoDownloaded;
             ChannelId = channelId;
-            SavePath = savePath;
-            SaveFormat = saveForamt;
-            AudioOnly = audioOnly;
-            Quality = quality;
-            PreferHighestFPS = preferHighestFPS;
-            DownloadedVideos = downloadedVideos;
-            PreferQuality = preferQuality;
-            Convert = convert;
-            Bitrate = bitrate;
-            SetBitrate = setBitrate;
+            Settings = settings;
 
             locker = new SemaphoreSlim(1);
             cts = new CancellationTokenSource();
@@ -117,7 +81,7 @@ namespace YoutubePlaylistDownloader.Objects
                 {
                     await Application.Current.Dispatcher.InvokeAsync(() =>
                     {
-                        downloadPage = new DownloadPage(null, Convert, Quality, SaveFormat, Bitrate, 0, 0, AudioOnly, PreferHighestFPS, SavePath, missingVideos, this, true, cts);
+                        downloadPage = new DownloadPage(null, Settings, videos: missingVideos, subscription: this, silent: true, cancellationToken: cts);
                     }, System.Windows.Threading.DispatcherPriority.Background);
                 }
             }
@@ -176,6 +140,7 @@ namespace YoutubePlaylistDownloader.Objects
                     cts?.Dispose();
                 }
 
+                Settings = null;
                 downloadPage = null;
                 disposedValue = true;
             }

@@ -123,4 +123,8 @@ Jhonatan Lima (Heremitus)
     <s:String x:Key="Downloading">Baixando..</s:String>
     <s:String x:Key="Converting">Convertendo..</s:String>
     <s:String x:Key="DownloadInBackground">Adicionar à fila</s:String>
+    <s:String x:Key="Audio">Audio</s:String>
+    <s:String x:Key="Video">Vídeo</s:String>
+    <s:String x:Key="DownloadCaptions">Faça o download de legendas ocultas</s:String>
+    <s:String x:Key="CaptionsLanguage">Idioma das legendas ocultas: </s:String>
 </ResourceDictionary>

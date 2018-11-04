@@ -3,7 +3,8 @@ using YoutubeExplode.Models.MediaStreams;
 
 namespace YoutubePlaylistDownloader.Objects
 {
-    class DownloadSettings
+    [JsonObject]
+    public class DownloadSettings
     {
         [JsonProperty]
         public string SavePath { get; set; }
@@ -32,9 +33,15 @@ namespace YoutubePlaylistDownloader.Objects
         [JsonProperty]
         public string Bitrate { get; set; }
 
+        [JsonProperty]
+        public bool DownloadCaptions { get; set; }
+
+        [JsonProperty]
+        public string CaptionsLanguage { get; set; }
+
         [JsonConstructor]
         public DownloadSettings(string saveForamt, bool audioOnly, VideoQuality quality, bool preferHighestFPS,
-            bool preferQuality, bool convert, bool setBitrate, string bitrate)
+            bool preferQuality, bool convert, bool setBitrate, string bitrate, bool downloadCaptions, string captionsLanguage)
         {
             SaveFormat = saveForamt;
             AudioOnly = audioOnly;
@@ -44,6 +51,25 @@ namespace YoutubePlaylistDownloader.Objects
             Convert = convert;
             Bitrate = bitrate;
             SetBitrate = setBitrate;
+            DownloadCaptions = downloadCaptions;
+            CaptionsLanguage = captionsLanguage;
         }
+
+        public DownloadSettings(DownloadSettings settings)
+        {
+            SaveFormat = settings.SaveFormat;
+            AudioOnly = settings.AudioOnly;
+            Quality = settings.Quality;
+            PreferHighestFPS = settings.PreferHighestFPS;
+            PreferQuality = settings.PreferQuality;
+            Convert = settings.Convert;
+            Bitrate = settings.Bitrate;
+            SetBitrate = settings.SetBitrate;
+            DownloadCaptions = settings.DownloadCaptions;
+            CaptionsLanguage = settings.CaptionsLanguage;
+        }
+
+        public DownloadSettings Clone() => new DownloadSettings(this);
+        
     }
 }

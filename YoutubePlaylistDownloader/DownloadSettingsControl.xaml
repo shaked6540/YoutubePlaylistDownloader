@@ -1,0 +1,51 @@
+﻿<UserControl x:Class="YoutubePlaylistDownloader.DownloadSettingsControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             FlowDirection="{DynamicResource FlowDirection}"
+             HorizontalAlignment="Center">
+    <StackPanel Margin="50">
+        
+        <Controls:MetroAnimatedTabControl MinWidth="500" MinHeight="200">
+
+            <Controls:MetroTabItem Header="{DynamicResource Video}">
+                <WrapPanel Orientation="Vertical">
+                    <StackPanel Orientation="Horizontal" >
+                        <CheckBox Content="{DynamicResource Prefer}" Margin="7" x:Name="PreferCheckBox" HorizontalAlignment="Center" IsChecked="False" Checked="PreferCheckBox_Checked" Unchecked="PreferCheckBox_Unchecked" />
+                        <ComboBox HorizontalContentAlignment="Left" HorizontalAlignment="Center" SelectionChanged="ResulotionDropDown_SelectionChanged" VerticalContentAlignment="Center" Width="Auto" x:Name="ResulotionDropDown" VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <CheckBox Checked="PreferHighestFPSCheckBox_Checked" Unchecked="PreferHighestFPSCheckBox_Unchecked" Margin="7" x:Name="PreferHighestFPSCheckBox" Content="{DynamicResource PreferFPS}" />
+                    <CheckBox x:Name="CaptionsCheckBox" Checked="CaptionsCheckBox_Checked" Unchecked="CaptionsCheckBox_Unchecked" Margin="7" Content="{DynamicResource DownloadCaptions}" />
+                    <WrapPanel>
+                        <TextBlock Text="{DynamicResource CaptionsLanguage}" Margin="7" VerticalAlignment="Center" />
+                        <ComboBox Height="10" x:Name="CaptionsLanguagesComboBox" SelectionChanged="CaptionsLanguagesComboBox_SelectionChanged" Width="Auto" />
+                    </WrapPanel>
+                </WrapPanel>
+            </Controls:MetroTabItem>
+
+            <Controls:MetroTabItem Header="{DynamicResource Audio}">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" >
+                        <CheckBox Content="{DynamicResource ConvertToMp3}" Margin="7" Checked="ConvertCheckBox_Checked" Unchecked="ConvertCheckBox_Unchecked" x:Name="ConvertCheckBox" HorizontalAlignment="Center" IsChecked="False" />
+                        <ComboBox HorizontalContentAlignment="Left" SelectionChanged="ExtensionsDropDown_SelectionChanged" HorizontalAlignment="Center" VerticalContentAlignment="Center" Width="Auto" x:Name="ExtensionsDropDown" VerticalAlignment="Center"/>
+                        <CheckBox Checked="BitrateCheckBox_Checked" Unchecked="BitrateCheckBox_Unchecked" Content="{DynamicResource BitRate}" Margin="7" x:Name="BitrateCheckBox" />
+                        <TextBox TextChanged="BitRateTextBox_TextChanged" Margin="0,7" x:Name="BitRateTextBox" TextAlignment="Center" MinWidth="40" Width="Auto" />
+                        <Label Content="kb\s" Margin="7" />
+                    </StackPanel>
+                    <CheckBox Checked="AudioOnlyCheckBox_Checked" Unchecked="AudioOnlyCheckBox_Unchecked" Margin="7" x:Name="AudioOnlyCheckBox" Content="{DynamicResource AudioOnly}" />
+                </StackPanel>
+            </Controls:MetroTabItem>
+            
+        </Controls:MetroAnimatedTabControl>
+
+        <!--<Controls:Tile Style="{DynamicResource SmallTileStyle}" x:Name="SaveButton" Title="{DynamicResource Save}" IsEnabled="True" Click="SaveButton_Click">
+            <iconPacks:PackIconModern Width="40" Height="40" Kind="Checkmark" />
+        </Controls:Tile>-->
+
+    </StackPanel>
+
+
+</UserControl>

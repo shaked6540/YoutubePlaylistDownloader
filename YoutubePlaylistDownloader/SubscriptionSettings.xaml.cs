@@ -31,8 +31,9 @@ namespace YoutubePlaylistDownloader
             { "3072p", VideoQuality.High3072 },
             { "4320p", VideoQuality.High4320 }
         };
-
         private readonly string[] FileTypes = { "mp3", "aac", "opus", "wav", "flac", "m4a", "ogg", "webm" };
+        private readonly Dictionary<string, string> Languages = new Dictionary<string, string>() { { "aa", "Afar" }, { "ab", "Abkhazian" }, { "af", "Afrikaans" }, { "ak", "Akan" }, { "sq", "Albanian" }, { "am", "Amharic" }, { "ar", "Arabic" }, { "an", "Aragonese" }, { "hy", "Armenian" }, { "as", "Assamese" }, { "av", "Avaric" }, { "ae", "Avestan" }, { "ay", "Aymara" }, { "az", "Azerbaijani" }, { "ba", "Bashkir" }, { "bm", "Bambara" }, { "eu", "Basque" }, { "be", "Belarusian" }, { "bn", "Bengali" }, { "bh", "Bihari languages" }, { "bi", "Bislama" }, { "bs", "Bosnian" }, { "br", "Breton" }, { "bg", "Bulgarian" }, { "my", "Burmese" }, { "ca", "Catalan" }, { "ch", "Chamorro" }, { "ce", "Chechen" }, { "zh", "Chinese" }, { "cu", "Church Slavic" }, { "cv", "Chuvash" }, { "kw", "Cornish" }, { "co", "Corsican" }, { "cr", "Cree" }, { "cs", "Czech" }, { "da", "Danish" }, { "dv", "Divehi" }, { "nl", "Dutch" }, { "dz", "Dzongkha" }, { "en", "English" }, { "eo", "Esperanto" }, { "et", "Estonian" }, { "ee", "Ewe" }, { "fo", "Faroese" }, { "fj", "Fijian" }, { "fi", "Finnish" }, { "fr", "French" }, { "fy", "Western Frisian" }, { "ff", "Fulah" }, { "ka", "Georgian" }, { "de", "German" }, { "gd", "Gaelic" }, { "ga", "Irish" }, { "gl", "Galician" }, { "gv", "Manx" }, { "el", "Greek" }, { "gn", "Guarani" }, { "gu", "Gujarati" }, { "ht", "Haitian" }, { "ha", "Hausa" }, { "he", "Hebrew" }, { "hz", "Herero" }, { "hi", "Hindi" }, { "ho", "Hiri Motu" }, { "hr", "Croatian" }, { "hu", "Hungarian" }, { "ig", "Igbo" }, { "is", "Icelandic" }, { "io", "Ido" }, { "ii", "Sichuan Yi" }, { "iu", "Inuktitut" }, { "ie", "Interlingue" }, { "ia", "Interlingua" }, { "id", "Indonesian" }, { "ik", "Inupiaq" }, { "it", "Italian" }, { "jv", "Javanese" }, { "ja", "Japanese" }, { "kl", "Kalaallisut" }, { "kn", "Kannada" }, { "ks", "Kashmiri" }, { "kr", "Kanuri" }, { "kk", "Kazakh" }, { "km", "Central Khmer" }, { "ki", "Kikuyu" }, { "rw", "Kinyarwanda" }, { "ky", "Kirghiz" }, { "kv", "Komi" }, { "kg", "Kongo" }, { "ko", "Korean" }, { "kj", "Kuanyama" }, { "ku", "Kurdish" }, { "lo", "Lao" }, { "la", "Latin" }, { "lv", "Latvian" }, { "li", "Limburgan" }, { "ln", "Lingala" }, { "lt", "Lithuanian" }, { "lb", "Luxembourgish" }, { "lu", "Luba-Katanga" }, { "lg", "Ganda" }, { "mk", "Macedonian" }, { "mh", "Marshallese" }, { "ml", "Malayalam" }, { "mi", "Maori" }, { "mr", "Marathi" }, { "ms", "Malay" }, { "mg", "Malagasy" }, { "mt", "Maltese" }, { "mn", "Mongolian" }, { "na", "Nauru" }, { "nv", "Navajo" }, { "nr", "Ndebele, South" }, { "nd", "Ndebele, North" }, { "ng", "Ndonga" }, { "ne", "Nepali" }, { "nn", "Norwegian" }, { "nb", "Bokmål" }, { "no", "Norwegian" }, { "ny", "Chichewa" }, { "oc", "Occitan" }, { "oj", "Ojibwa" }, { "or", "Oriya" }, { "om", "Oromo" }, { "os", "Ossetian" }, { "pa", "Panjabi" }, { "fa", "Persian" }, { "pi", "Pali" }, { "pl", "Polish" }, { "pt", "Portuguese" }, { "ps", "Pushto" }, { "qu", "Quechua" }, { "rm", "Romansh" }, { "ro", "Romanian" }, { "rn", "Rundi" }, { "ru", "Russian" }, { "sg", "Sango" }, { "sa", "Sanskrit" }, { "si", "Sinhala" }, { "sk", "Slovak" }, { "sl", "Slovenian" }, { "se", "Northern Sami" }, { "sm", "Samoan" }, { "sn", "Shona" }, { "sd", "Sindhi" }, { "so", "Somali" }, { "st", "Sotho, Southern" }, { "es", "Spanish" }, { "sc", "Sardinian" }, { "sr", "Serbian" }, { "ss", "Swati" }, { "su", "Sundanese" }, { "sw", "Swahili" }, { "sv", "Swedish" }, { "ty", "Tahitian" }, { "ta", "Tamil" }, { "tt", "Tatar" }, { "te", "Telugu" }, { "tg", "Tajik" }, { "tl", "Tagalog" }, { "th", "Thai" }, { "bo", "Tibetan" }, { "ti", "Tigrinya" }, { "to", "Tonga (Tonga Islands)" }, { "tn", "Tswana" }, { "ts", "Tsonga" }, { "tk", "Turkmen" }, { "tr", "Turkish" }, { "tw", "Twi" }, { "ug", "Uighur" }, { "uk", "Ukrainian" }, { "ur", "Urdu" }, { "uz", "Uzbek" }, { "ve", "Venda" }, { "vi", "Vietnamese" }, { "vo", "Volapük" }, { "cy", "Welsh" }, { "wa", "Walloon" }, { "wo", "Wolof" }, { "xh", "Xhosa" }, { "yi", "Yiddish" }, { "yo", "Yoruba" }, { "za", "Zhuang" }, { "zu", "Zulu" }, };
+
         public SubscriptionSettings(Subscription subscription)
         {
             InitializeComponent();
@@ -50,14 +51,16 @@ namespace YoutubePlaylistDownloader
             {
                 TitleLabel.Content = channel.Title;
                 IdLabel.Content = Subscription.ChannelId;
-                SaveDirectoryTextBox.Text = Subscription.SavePath;
-                PreferCheckBox.IsChecked = Subscription.PreferQuality;
-                PreferHighestFPSCheckBox.IsChecked = Subscription.PreferHighestFPS;
-                ResulotionDropDown.SelectedItem = Resolutions.FirstOrDefault(x => x.Value == Subscription.Quality).Key;
-                ConvertCheckBox.IsChecked = Subscription.Convert;
-                ExtensionsDropDown.SelectedItem = Subscription.SaveFormat;
-                BitrateCheckBox.IsChecked = Subscription.SetBitrate;
-                BitRateTextBox.Text = Subscription.Bitrate.Replace("k", string.Empty);
+                SaveDirectoryTextBox.Text = Subscription.Settings.SavePath;
+                PreferCheckBox.IsChecked = Subscription.Settings.PreferQuality;
+                PreferHighestFPSCheckBox.IsChecked = Subscription.Settings.PreferHighestFPS;
+                ResulotionDropDown.SelectedItem = Resolutions.FirstOrDefault(x => x.Value == Subscription.Settings.Quality).Key;
+                ConvertCheckBox.IsChecked = Subscription.Settings.Convert;
+                ExtensionsDropDown.SelectedItem = Subscription.Settings.SaveFormat;
+                BitrateCheckBox.IsChecked = Subscription.Settings.SetBitrate;
+                BitRateTextBox.Text = Subscription.Settings.Bitrate;
+                CaptionsCheckBox.IsChecked = Subscription.Settings.DownloadCaptions;
+                CaptionsLanguagesComboBox.SelectedItem = Languages[Subscription.Settings.CaptionsLanguage ?? "en"];
                 ChannelLogo.Source = new BitmapImage(new Uri(channel.LogoUrl));
             });
 
@@ -68,7 +71,7 @@ namespace YoutubePlaylistDownloader
             string dir = SaveDirectoryTextBox.Text;
             if (System.IO.Directory.Exists(dir))
             {
-                Subscription.SavePath = dir;
+                Subscription.Settings.SavePath = dir;
                 SaveDirectoryTextBox.Background = null;
                 SaveButton.IsEnabled = true;
             }
@@ -99,22 +102,24 @@ namespace YoutubePlaylistDownloader
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            Subscription.SavePath = SaveDirectoryTextBox.Text;
-            Subscription.PreferQuality = PreferCheckBox.IsChecked.Value;
-            Subscription.PreferHighestFPS = PreferHighestFPSCheckBox.IsChecked.Value;
-            Subscription.Quality = Resolutions[(string)ResulotionDropDown.SelectedValue];
-            Subscription.Convert = ConvertCheckBox.IsChecked.Value;
-            Subscription.SaveFormat = ExtensionsDropDown.SelectedItem.ToString();
-            Subscription.SetBitrate = BitrateCheckBox.IsChecked.Value;
+            Subscription.Settings.SavePath = SaveDirectoryTextBox.Text;
+            Subscription.Settings.PreferQuality = PreferCheckBox.IsChecked.Value;
+            Subscription.Settings.PreferHighestFPS = PreferHighestFPSCheckBox.IsChecked.Value;
+            Subscription.Settings.Quality = Resolutions[(string)ResulotionDropDown.SelectedValue];
+            Subscription.Settings.Convert = ConvertCheckBox.IsChecked.Value;
+            Subscription.Settings.SaveFormat = ExtensionsDropDown.SelectedItem.ToString();
+            Subscription.Settings.SetBitrate = BitrateCheckBox.IsChecked.Value;
+            Subscription.Settings.DownloadCaptions = CaptionsCheckBox.IsChecked.Value;
+            Subscription.Settings.CaptionsLanguage = Languages.FirstOrDefault(x => x.Value.Equals((string)CaptionsLanguagesComboBox.SelectedItem, StringComparison.OrdinalIgnoreCase)).Key;
 
-            if (Subscription.SetBitrate && BitRateTextBox.Text.All(x => char.IsDigit(x)))
-                Subscription.Bitrate = string.Concat(BitRateTextBox.Text, "k");
+            if (Subscription.Settings.SetBitrate && BitRateTextBox.Text.All(x => char.IsDigit(x)))
+                Subscription.Settings.Bitrate = BitRateTextBox.Text;
             else
             {
-                Subscription.SetBitrate = false;
-                Subscription.Bitrate = string.Empty;
+                Subscription.Settings.SetBitrate = false;
+                Subscription.Settings.Bitrate = string.Empty;
             }
-            Subscription.AudioOnly = AudioOnlyCheckBox.IsChecked.Value;
+            Subscription.Settings.AudioOnly = AudioOnlyCheckBox.IsChecked.Value;
 
 
             SubscriptionManager.SaveSubscriptions();

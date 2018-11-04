@@ -123,4 +123,8 @@ Jhonatan Lima (Heremitus)
     <s:String x:Key="Downloading">Downloading..</s:String>
     <s:String x:Key="Converting">Converting..</s:String>
     <s:String x:Key="DownloadInBackground">Add to queue</s:String>
+    <s:String x:Key="Audio">Audio</s:String>
+    <s:String x:Key="Video">Video</s:String>
+    <s:String x:Key="DownloadCaptions">Download closed captions</s:String>
+    <s:String x:Key="CaptionsLanguage">Closed captions language: </s:String>
 </ResourceDictionary>

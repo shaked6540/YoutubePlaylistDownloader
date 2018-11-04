@@ -122,4 +122,8 @@ Jhonatan Lima (Heremitus)
     <s:String x:Key="Downloading">Sto scaricando...</s:String>
     <s:String x:Key="Converting">Conversione in corso...</s:String>
     <s:String x:Key="DownloadInBackground">Aggiungi alla coda</s:String>
+    <s:String x:Key="Audio">Audio</s:String>
+    <s:String x:Key="Video">Video</s:String>
+    <s:String x:Key="DownloadCaptions">Scarica i sottotitoli</s:String>
+    <s:String x:Key="CaptionsLanguage">Linguaggio dei sottotitoli: </s:String>
 </ResourceDictionary>

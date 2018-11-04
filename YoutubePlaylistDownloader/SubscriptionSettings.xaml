@@ -45,6 +45,11 @@
                 </StackPanel>
                 <CheckBox Margin="7" x:Name="PreferHighestFPSCheckBox" Content="{DynamicResource PreferFPS}" />
                 <CheckBox Margin="7" x:Name="AudioOnlyCheckBox" Content="{DynamicResource AudioOnly}" />
+                <CheckBox x:Name="CaptionsCheckBox" Margin="7" Content="{DynamicResource DownloadCaptions}" />
+                <WrapPanel>
+                    <Label Content="{DynamicResource CaptionsLanguage}" Margin="7" VerticalAlignment="Center" />
+                    <ComboBox Height="10" x:Name="CaptionsLanguagesComboBox" Width="Auto" />
+                </WrapPanel>
             </StackPanel>
 
             <!--Col 2-->
