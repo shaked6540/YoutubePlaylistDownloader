@@ -1,4 +1,2 @@
-﻿Version 1.6:
+﻿Version 1.601:
 THIS VERSION FIXES A BUG THAT CAUSED THE PROGRAM TO NOT WORK
-- Added the ability to download closed captions to videos
-- Slight redesign of the download settings UI
