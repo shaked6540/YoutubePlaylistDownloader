@@ -1,3 +1,4 @@
 ﻿Version 1.602:
 - Fixed download settings sometimes not being saved
 - Fixed download page sometimes not showing that it finished downloading a video
+The next version (1.7) will allow you to paste multiple links and download them
