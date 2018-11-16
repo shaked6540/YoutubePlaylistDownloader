@@ -32,7 +32,7 @@ namespace YoutubePlaylistDownloader
         public static readonly string CurrentDir;
         private static readonly string ConfigFilePath;
         private static readonly string ErrorFilePath;
-        public const double VERSION = 1.601;
+        public const double VERSION = 1.602;
         public static bool UpdateOnExit;
         public static string UpdateSetupLocation;
         public static bool OptionExpanderIsExpanded;
@@ -181,6 +181,7 @@ namespace YoutubePlaylistDownloader
                 var settings = new Objects.Settings(Theme.Name, Accent.Name, Language, SaveDirectory, OptionExpanderIsExpanded, CheckForSubscriptionUpdates, CheckForProgramUpdates, SubscriptionsUpdateDelay, SaveDownloadOptions);
                 File.WriteAllText(ConfigFilePath, Newtonsoft.Json.JsonConvert.SerializeObject(settings));
                 SubscriptionManager.SaveSubscriptions();
+                SaveDownloadSettings();
             }
             catch (Exception ex)
             {
@@ -189,6 +190,8 @@ namespace YoutubePlaylistDownloader
         }
         public static void RestoreDefualts()
         {
+            Log("Restoring defaults", "RestoreDefaults at GlobalConsts").Wait();
+
             Theme = ThemeManager.GetAppTheme("BaseDark");
             Accent = ThemeManager.GetAccent("Red");
             Language = "English";
@@ -206,6 +209,8 @@ namespace YoutubePlaylistDownloader
 
             if (!File.Exists(ConfigFilePath))
             {
+                Log("Config file does not exist, restring defaults", "LoadConsts at GlobalConsts").Wait();
+
                 RestoreDefualts();
                 return;
             }
@@ -226,7 +231,7 @@ namespace YoutubePlaylistDownloader
             }
             catch (Exception ex)
             {
-                Log(ex.ToString(), "LoadConsts").Wait();
+                Log(ex.ToString(), "LoadConsts at GlobalConsts").Wait();
                 RestoreDefualts();
             }
             UpdateTheme();
@@ -235,8 +240,15 @@ namespace YoutubePlaylistDownloader
         }
         public static void CreateTempFolder()
         {
-            if (!Directory.Exists(Path.GetTempPath() + "YoutubePlaylistDownloader"))
-                Directory.CreateDirectory(Path.GetTempPath() + "YoutubePlaylistDownloader");
+            try
+            {
+                if (!Directory.Exists(Path.GetTempPath() + "YoutubePlaylistDownloader"))
+                    Directory.CreateDirectory(Path.GetTempPath() + "YoutubePlaylistDownloader");
+            }
+            catch(Exception ex)
+            {
+                Log($"Failed to create temp folder, {ex}", "CreateTempFolder at GlobalConsts").Wait();
+            }
 
         }
         public static void CleanTempFolder()
@@ -403,22 +415,30 @@ namespace YoutubePlaylistDownloader
             {
                 try
                 {
-                    DownloadSettings = Newtonsoft.Json.JsonConvert.DeserializeObject<DownloadSettings>(File.ReadAllText(DownloadSettingsFilePath));
+                    downloadSettings = Newtonsoft.Json.JsonConvert.DeserializeObject<DownloadSettings>(File.ReadAllText(DownloadSettingsFilePath));
                 }
-                catch
+                catch (Exception ex)
                 {
                     File.Delete(DownloadSettingsFilePath);
-                    DownloadSettings = new DownloadSettings("mp3", false, YoutubeExplode.Models.MediaStreams.VideoQuality.High720, false, false, false, false, "192", false, "en");
+                    downloadSettings = new DownloadSettings("mp3", false, YoutubeExplode.Models.MediaStreams.VideoQuality.High720, false, false, false, false, "192", false, "en");
+                    Log(ex.ToString(), "LoadDownloadSettings at GlobalConsts").Wait();
                 }
             }
             else
             {
-                DownloadSettings = new DownloadSettings("mp3", false, YoutubeExplode.Models.MediaStreams.VideoQuality.High720, false, false, false, false, "192", false, "en");
+                downloadSettings = new DownloadSettings("mp3", false, YoutubeExplode.Models.MediaStreams.VideoQuality.High720, false, false, false, false, "192", false, "en");
             }
         }
         public static void SaveDownloadSettings()
         {
-            File.WriteAllText(DownloadSettingsFilePath, Newtonsoft.Json.JsonConvert.SerializeObject(downloadSettings));
+            try
+            {
+                File.WriteAllText(DownloadSettingsFilePath, Newtonsoft.Json.JsonConvert.SerializeObject(downloadSettings));
+            }
+            catch(Exception ex)
+            {
+                Log(ex.ToString(), "SaveDownloadSettings at GlobalConsts").Wait();
+            }
         }
         private static void Downloads_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {

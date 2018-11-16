@@ -1,17 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using YoutubeExplode.Models.MediaStreams;
 
 namespace YoutubePlaylistDownloader
@@ -58,6 +49,30 @@ namespace YoutubePlaylistDownloader
             BitRateTextBox.Text = string.IsNullOrWhiteSpace(settings.Bitrate) ? "192" : settings.Bitrate;
             CaptionsCheckBox.IsChecked = settings.DownloadCaptions;
             CaptionsLanguagesComboBox.SelectedItem = Languages[settings.CaptionsLanguage ?? "en"];
+            AudioOnlyCheckBox.IsChecked = settings.AudioOnly;
+
+            SubscribeToEvents();
+
+        }
+
+        private void SubscribeToEvents()
+        {
+            PreferCheckBox.Checked += PreferCheckBox_Checked;
+            PreferCheckBox.Unchecked += PreferCheckBox_Unchecked;
+            ResulotionDropDown.SelectionChanged += ResulotionDropDown_SelectionChanged;
+            PreferHighestFPSCheckBox.Checked += PreferHighestFPSCheckBox_Checked;
+            PreferHighestFPSCheckBox.Unchecked += PreferHighestFPSCheckBox_Unchecked;
+            CaptionsCheckBox.Checked += CaptionsCheckBox_Checked;
+            CaptionsCheckBox.Unchecked += CaptionsCheckBox_Unchecked;
+            CaptionsLanguagesComboBox.SelectionChanged += CaptionsLanguagesComboBox_SelectionChanged;
+            ConvertCheckBox.Checked += ConvertCheckBox_Checked;
+            ConvertCheckBox.Unchecked += ConvertCheckBox_Unchecked;
+            ExtensionsDropDown.SelectionChanged += ExtensionsDropDown_SelectionChanged;
+            BitrateCheckBox.Checked += BitrateCheckBox_Checked;
+            BitrateCheckBox.Unchecked += BitrateCheckBox_Unchecked;
+            BitRateTextBox.TextChanged += BitRateTextBox_TextChanged;
+            AudioOnlyCheckBox.Checked += AudioOnlyCheckBox_Checked;
+            AudioOnlyCheckBox.Unchecked += AudioOnlyCheckBox_Unchecked;
         }
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
