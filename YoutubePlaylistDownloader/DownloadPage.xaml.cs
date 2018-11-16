@@ -386,14 +386,24 @@ namespace YoutubePlaylistDownloader
                     await Task.Delay(1000);
                 }
 
-                CurrentDownloadGrid.Visibility = Visibility.Collapsed;
-                ConvertingTextBlock.Visibility = Visibility.Collapsed;
-                DownloadSpeedTextBlock.Visibility = Visibility.Collapsed;
-                CurrentStatus = string.Empty;
-                CurrentDownloadSpeed = string.Empty;
-                CurrentProgressPrecent = 100;
-                Title = string.Concat(FindResource("AllDone"));
-                CurrentTitle = string.Empty;
+                await Dispatcher.InvokeAsync(() => 
+                {
+                    string allDone = (string)FindResource("AllDone");
+                    CurrentDownloadGrid.Visibility = Visibility.Collapsed;
+                    ConvertingTextBlock.Visibility = Visibility.Collapsed;
+                    DownloadSpeedTextBlock.Visibility = Visibility.Collapsed;
+                    CurrentStatus = string.Empty;
+                    CurrentDownloadSpeed = string.Empty;
+                    CurrentProgressPrecent = 100;
+                    Title = allDone;
+                    HeadlineTextBlock.Text = allDone;
+                    CurrentTitle = string.Empty;
+                    TotalDownloadedGrid.Visibility = Visibility.Collapsed;
+                    TotalDownloadsProgressBarTextBlock.Text = $"({DownloadedCount}\\{Maximum})";
+                    DownloadedVideosProgressBar.Value = Maximum;
+                    CurrentDownloadProgressBarTextBlock.Visibility = Visibility.Collapsed;
+                });
+
             }
             catch (Exception ex)
             {
@@ -630,15 +640,23 @@ namespace YoutubePlaylistDownloader
 
             StillDownloading = false;
 
-            CurrentDownloadGrid.Visibility = Visibility.Collapsed;
-            TotalDownloadedGrid.Visibility = Visibility.Collapsed;
-            ConvertingTextBlock.Visibility = Visibility.Collapsed;
-            DownloadSpeedTextBlock.Visibility = Visibility.Collapsed;
-            CurrentStatus = string.Empty;
-            CurrentDownloadSpeed = string.Empty;
-            CurrentProgressPrecent = 100;
-            Title = string.Concat(FindResource("AllDone"));
-            CurrentTitle = string.Empty;
+            await Dispatcher.InvokeAsync(() =>
+            {
+                string allDone = (string)FindResource("AllDone");
+                CurrentDownloadGrid.Visibility = Visibility.Collapsed;
+                ConvertingTextBlock.Visibility = Visibility.Collapsed;
+                DownloadSpeedTextBlock.Visibility = Visibility.Collapsed;
+                CurrentStatus = string.Empty;
+                CurrentDownloadSpeed = string.Empty;
+                CurrentProgressPrecent = 100;
+                Title = allDone;
+                HeadlineTextBlock.Text = allDone;
+                CurrentTitle = string.Empty;
+                TotalDownloadedGrid.Visibility = Visibility.Collapsed;
+                TotalDownloadsProgressBarTextBlock.Text = $"({DownloadedCount}\\{Maximum})";
+                DownloadedVideosProgressBar.Value = Maximum;
+                CurrentDownloadProgressBarTextBlock.Visibility = Visibility.Collapsed;
+            });
 
             Dispose();
         }
