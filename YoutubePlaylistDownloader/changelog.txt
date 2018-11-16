@@ -1,2 +1,3 @@
-﻿Version 1.601:
-THIS VERSION FIXES A BUG THAT CAUSED THE PROGRAM TO NOT WORK
+﻿Version 1.602:
+- Fixed download settings sometimes not being saved
+- Fixed download page sometimes not showing that it finished downloading a video
