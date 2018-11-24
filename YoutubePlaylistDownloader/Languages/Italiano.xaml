@@ -31,7 +31,7 @@
     <s:String x:Key="Download">Download</s:String>
     <s:String x:Key="ConvertToMp3">Converti i video in </s:String>
     <s:String x:Key="StillConverting">Sto ancora convertendo</s:String>
-    <s:String x:Key="files">file</s:String>
+    <s:String x:Key="files">File</s:String>
     <s:String x:Key="Author">Autore: </s:String>
     <s:String x:Key="PlaylistTitle">Titolo: </s:String>
     <s:String x:Key="Loading">Caricamento...</s:String>
@@ -55,7 +55,7 @@ YouTube Playlist Downloader v</s:String>
     <s:String x:Key="DoYouWantToUpdate">È disponibile una nuova versione: aggiornare?
 Ecco le novità: </s:String>
     <s:String x:Key="DownloadingUpdateSetup">Sto scaricando: aggiornamento alle configurazioni</s:String>
-    <s:String x:Key="UpdateCancelled">L'aggiornamento è stato cancellato.</s:String>
+    <s:String x:Key="UpdateCancelled">L'aggiornamento è stato annullato.</s:String>
     <s:String x:Key="ErrorWhileUpdating">Errore durante l'aggiornamento. Controlla la tua connessione ad Internet.
 Se sei connesso, prova piú tardi o visita https://github.com/shaked6540/YoutubePlaylistDownloader/issues per eventuali problemi ai server.</s:String>
     <s:String x:Key="UpdateComplete">Download completato.</s:String>
@@ -112,7 +112,7 @@ Il terzo metodo è con GitHub: compila una nuova richiesta e cercherò di rispon
     <s:String x:Key="SaveDownloadOptions">Salva le preferenze sui download</s:String>
     <s:String x:Key="DownloadSpeed">Velocità download: </s:String>
     <s:String x:Key="Changelog">Cambiamenti</s:String>
-    <s:String x:Key="CreditsAndContributors">Many thanks to these people for translating this software: 
+    <s:String x:Key="CreditsAndContributors">Un ringraziamento particolare va a chi ha tradotto questo programma: 
 Dong Cunrui (董存瑞)
 RichyZ99
 Jhonatan Lima (Heremitus)
