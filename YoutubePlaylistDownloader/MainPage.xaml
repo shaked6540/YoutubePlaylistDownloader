@@ -10,7 +10,7 @@
     <StackPanel>
         <TextBlock HorizontalAlignment="Center" Text="{DynamicResource Title}" FontSize="24" Foreground="{DynamicResource AccentColorBrush}" Margin="5" />
 
-        <Controls:MetroAnimatedTabControl>
+        <Controls:MetroAnimatedTabControl x:Name="MetroAnimatedTabControl">
             <Controls:MetroTabItem Header="{DynamicResource Search}">
                 <StackPanel x:Name="SearchPlaylistStackPanel" MinWidth="1200" >
                     <WrapPanel x:Name="HeadlineStackPanel" HorizontalAlignment="Stretch" >
@@ -65,12 +65,26 @@
                 </StackPanel>
 
             </Controls:MetroTabItem>
-            <Controls:MetroTabItem Header="{DynamicResource Queue}">
+            <Controls:MetroTabItem Header="{DynamicResource Queue}" x:Name="QueueMetroTabItem">
                 <ScrollViewer x:Name="QueueScrollViewer" VerticalScrollBarVisibility="Auto" MinWidth="1200" MaxWidth="1200" >
                     <StackPanel x:Name="QueueStackPanel">
                     </StackPanel>
                 </ScrollViewer>
             </Controls:MetroTabItem>
+
+            <Controls:MetroTabItem Header="Bulk download">
+                <StackPanel>
+                <ScrollViewer x:Name="BulkScrollViewer" VerticalScrollBarVisibility="Auto" MinWidth="1200" MaxWidth="1200" >
+                    <TextBox x:Name="BulkLinksTextBox" AcceptsReturn="True" TextWrapping="Wrap" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" TextChanged="TextBox_TextChanged_1" FontSize="16" MinHeight="100" />
+                </ScrollViewer>
+                <WrapPanel HorizontalAlignment="Center">
+                        <Controls:Tile Style="{DynamicResource SmallTileStyle}" x:Name="BulkDownloadButton" Title="{DynamicResource Download}" IsEnabled="False" Click="BulkDownloadButton_Click">
+                            <iconPacks:PackIconModern Width="40" Height="40" Kind="ArrowDown" />
+                        </Controls:Tile>
+                    </WrapPanel>
+                </StackPanel>
+            </Controls:MetroTabItem>
+            
         </Controls:MetroAnimatedTabControl>
     </StackPanel>
 </UserControl>

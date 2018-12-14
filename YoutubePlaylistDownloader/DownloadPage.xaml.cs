@@ -12,6 +12,7 @@ using YoutubeExplode.Models;
 using YoutubeExplode.Models.MediaStreams;
 using YoutubePlaylistDownloader.Objects;
 using System.ComponentModel;
+using YoutubeExplode;
 
 namespace YoutubePlaylistDownloader
 {
@@ -116,7 +117,7 @@ namespace YoutubePlaylistDownloader
 
         public DownloadPage(Playlist playlist, DownloadSettings settings, int startIndex = 0, int endIndex = 0, string savePath = "",
             IEnumerable<Video> videos = null, Subscription subscription = null,
-            bool silent = false, CancellationTokenSource cancellationToken = null, bool downloadCaptions = false, string captionsLanguage = "")
+            bool silent = false, CancellationTokenSource cancellationToken = null)
         {
             InitializeComponent();
             downloadSpeeds = new FixedQueue<double>(50);
@@ -151,8 +152,8 @@ namespace YoutubePlaylistDownloader
             FileType = settings.SaveFormat;
             DownloadedCount = 0;
             Quality = settings.Quality;
-            DownloadCaptions = downloadCaptions;
-            CaptionsLanguage = captionsLanguage;
+            DownloadCaptions = settings.DownloadCaptions;
+            CaptionsLanguage = settings.CaptionsLanguage;
             SavePath = string.IsNullOrWhiteSpace(savePath) ? GlobalConsts.SaveDirectory : savePath;
 
             if (!Directory.Exists(SavePath))
@@ -182,6 +183,68 @@ namespace YoutubePlaylistDownloader
                 StartDownloading(cts.Token).ConfigureAwait(false);
 
             GlobalConsts.Downloads.Add(new QueuedDownload(this));
+        }
+
+        public static async Task SequenceDownload(string[] links, DownloadSettings settings, bool silent = false)
+        {
+            var client = GlobalConsts.YoutubeClient;
+            Playlist playlist;
+            List<Video> videos = new List<Video>();
+            var notDownloaded = new List<(string, string)>();
+            foreach (var link in links)
+            {
+                async Task Download(Playlist playlistD, IEnumerable<Video> videosD)
+                {
+                    await Application.Current.Dispatcher.InvokeAsync(() =>
+                    {
+                        var downloadPage = new DownloadPage(playlistD, settings, videos: videosD, silent: silent);
+                    });
+                }
+                try
+                {
+                    if (YoutubeClient.TryParsePlaylistId(link, out string playlistId))
+                    {
+                        playlist = await client.GetPlaylistAsync(playlistId).ConfigureAwait(false);
+                        videos.Clear();
+                        await Download(playlist, videos);
+                    }
+                    else if (YoutubeClient.TryParseChannelId(link, out string channelId))
+                    {
+                        playlist = await client.GetPlaylistAsync((await client.GetChannelAsync(channelId).ConfigureAwait(false)).GetChannelVideosPlaylistId());
+                        videos.Clear();
+                        await Download(playlist, videos);
+                    }
+                    else if (YoutubeClient.TryParseUsername(link, out string username))
+                    {
+                        string channelID = await client.GetChannelIdAsync(username).ConfigureAwait(false);
+                        var channel = await client.GetChannelAsync(channelID).ConfigureAwait(false);
+                        playlist = await client.GetPlaylistAsync(channel.GetChannelVideosPlaylistId()).ConfigureAwait(false);
+                        videos.Clear();
+                        await Download(playlist, videos);
+                    }
+                    else if (YoutubeClient.TryParseVideoId(link, out string videoId))
+                    {
+                        var video = await client.GetVideoAsync(videoId);
+                        videos.Clear();
+                        videos.Add(video);
+                        playlist = null;
+                        await Download(playlist, videos);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    notDownloaded.Add((link, ex.Message));
+                    await GlobalConsts.Log(ex.ToString(), "SequenceDownload at DownloadPage.xaml.cs");
+                }
+            }
+
+            if (notDownloaded.Any())
+            {
+                await GlobalConsts.ShowMessage($"{Application.Current.FindResource("CouldntDownload")}",
+                    string.Concat($"{Application.Current.FindResource("ListOfNotDownloadedVideos")}\n",
+                    string.Join("\n", notDownloaded.Select(x => string.Concat(x.Item1, " Reason: ", x.Item2)))));
+            }
+
         }
 
         public async Task StartDownloadingWithConverting(CancellationToken token)
@@ -261,14 +324,21 @@ namespace YoutubePlaylistDownloader
 
                                     await Dispatcher.InvokeAsync(() =>
                                     {
-                                        CurrentDownloadProgressBar.Value = precent;
-                                        CurrentDownloadProgressBarTextBlock.Text = $"{precent}%";
-                                        if (sw.Elapsed.Seconds == seconds && delta.TotalMilliseconds > 0)
+                                        try
                                         {
-                                            CurrentDownloadSpeed = string.Concat(downloadSpeedText, Math.Round(downloadSpeeds.Average(), 2), " MiB/s");
-                                            DownloadSpeedTextBlock.Text = CurrentDownloadSpeed;
-                                            DownloadSpeedTextBlock.Visibility = Visibility.Visible;
-                                            seconds += 1;
+                                            CurrentDownloadProgressBar.Value = precent;
+                                            CurrentDownloadProgressBarTextBlock.Text = $"{precent}%";
+                                            if (sw.Elapsed.Seconds == seconds && delta.TotalMilliseconds > 0)
+                                            {
+                                                CurrentDownloadSpeed = string.Concat(downloadSpeedText, Math.Round(downloadSpeeds.Average(), 2), " MiB/s");
+                                                DownloadSpeedTextBlock.Text = CurrentDownloadSpeed;
+                                                DownloadSpeedTextBlock.Visibility = Visibility.Visible;
+                                                seconds += 1;
+                                            }
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            GlobalConsts.Log(ex.ToString(), "Dispatcher.InvokeAsync at DownloadPage.xaml.cs StartDownloadingWithConverting").Wait();
                                         }
                                     }, System.Windows.Threading.DispatcherPriority.Normal, cts.Token);
                                 }
@@ -380,7 +450,6 @@ namespace YoutubePlaylistDownloader
                         CurrentDownloadSpeed = "0 MiB/s";
                         CurrentProgressPrecent = 100;
                         Title = string.Concat(FindResource("Converting"));
-                        CurrentTitle = string.Empty;
 
                     });
                     await Task.Delay(1000);
@@ -397,7 +466,6 @@ namespace YoutubePlaylistDownloader
                     CurrentProgressPrecent = 100;
                     Title = allDone;
                     HeadlineTextBlock.Text = allDone;
-                    CurrentTitle = string.Empty;
                     TotalDownloadedGrid.Visibility = Visibility.Collapsed;
                     TotalDownloadsProgressBarTextBlock.Text = $"({DownloadedCount}\\{Maximum})";
                     DownloadedVideosProgressBar.Value = Maximum;
@@ -502,15 +570,22 @@ namespace YoutubePlaylistDownloader
 
                                 await Dispatcher.InvokeAsync(() =>
                                 {
-                                    CurrentDownloadProgressBar.Value = precent;
-                                    CurrentDownloadProgressBarTextBlock.Text = $"{precent}%";
-                                    if (sw.Elapsed.Seconds == seconds && delta.TotalMilliseconds > 0)
+                                    try
                                     {
-                                        string speed = string.Concat(downloadSpeedText, Math.Round(downloadSpeeds.Average(), 2), " MiB/s");
-                                        DownloadSpeedTextBlock.Text = speed;
-                                        DownloadSpeedTextBlock.Visibility = Visibility.Visible;
-                                        CurrentDownloadSpeed = speed;
-                                        seconds += 1;
+                                        CurrentDownloadProgressBar.Value = precent;
+                                        CurrentDownloadProgressBarTextBlock.Text = $"{precent}%";
+                                        if (sw.Elapsed.Seconds == seconds && delta.TotalMilliseconds > 0)
+                                        {
+                                            string speed = string.Concat(downloadSpeedText, Math.Round(downloadSpeeds.Average(), 2), " MiB/s");
+                                            DownloadSpeedTextBlock.Text = speed;
+                                            DownloadSpeedTextBlock.Visibility = Visibility.Visible;
+                                            CurrentDownloadSpeed = speed;
+                                            seconds += 1;
+                                        }
+                                    }
+                                    catch(Exception ex)
+                                    {
+                                        GlobalConsts.Log(ex.ToString(), "Dispatcher.InvokeAsync at DownloadPage.xaml.cs StartDownloading").Wait();
                                     }
                                 }, System.Windows.Threading.DispatcherPriority.Normal, cts.Token);
                             }
@@ -630,7 +705,6 @@ namespace YoutubePlaylistDownloader
                     CurrentDownloadSpeed = "0 MiB/s";
                     CurrentProgressPrecent = 100;
                     Title = string.Concat(FindResource("Converting"));
-                    CurrentTitle = string.Empty;
                 });
                 await Task.Delay(1000);
             }
@@ -651,7 +725,6 @@ namespace YoutubePlaylistDownloader
                 CurrentProgressPrecent = 100;
                 Title = allDone;
                 HeadlineTextBlock.Text = allDone;
-                CurrentTitle = string.Empty;
                 TotalDownloadedGrid.Visibility = Visibility.Collapsed;
                 TotalDownloadsProgressBarTextBlock.Text = $"({DownloadedCount}\\{Maximum})";
                 DownloadedVideosProgressBar.Value = Maximum;

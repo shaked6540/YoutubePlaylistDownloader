@@ -8,7 +8,6 @@ using System.Windows.Media.Imaging;
 using YoutubeExplode;
 using YoutubeExplode.Models;
 using YoutubeExplode.Models.MediaStreams;
-using YoutubePlaylistDownloader.Objects;
 
 namespace YoutubePlaylistDownloader
 {
@@ -53,8 +52,10 @@ namespace YoutubePlaylistDownloader
                 double height = GlobalConsts.GetOffset() - (HeadlineStackPanel.ActualHeight + 75);
                 GridScrollViewer.Height = height;
                 QueueScrollViewer.Height = height;
+                BulkScrollViewer.Height = height - 110;
                 GridScrollViewer.UpdateLayout();
                 QueueScrollViewer.UpdateLayout();
+                BulkScrollViewer.UpdateLayout();
             }
 
             GlobalConsts.Current.SizeChanged += UpdateSize;
@@ -179,7 +180,7 @@ namespace YoutubePlaylistDownloader
         {
             if (list != null || VideoList.Any())
             {
-                GlobalConsts.LoadPage(new DownloadPage(list, GlobalConsts.DownloadSettings.Clone(), silent: true, videos: VideoList));
+                new DownloadPage(list, GlobalConsts.DownloadSettings.Clone(), silent: true, videos: VideoList);
                 VideoList.Clear();
                 PlaylistLinkTextBox.Text = string.Empty;
             }
@@ -188,6 +189,19 @@ namespace YoutubePlaylistDownloader
         private void Tile_Click(object sender, RoutedEventArgs e)
         {
             GlobalConsts.LoadFlyoutPage(new DownloadSettingsControl());
+        }
+
+        private void BulkDownloadButton_Click(object sender, RoutedEventArgs e)
+        {
+            var links = BulkLinksTextBox.Text.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+            _ = DownloadPage.SequenceDownload(links, GlobalConsts.DownloadSettings.Clone(), silent: true);
+            BulkLinksTextBox.Text = string.Empty;
+            MetroAnimatedTabControl.SelectedItem = QueueMetroTabItem;
+        }
+
+        private void TextBox_TextChanged_1(object sender, TextChangedEventArgs e)
+        {
+            BulkDownloadButton.IsEnabled = !string.IsNullOrWhiteSpace(BulkLinksTextBox.Text);
         }
     }
 }
