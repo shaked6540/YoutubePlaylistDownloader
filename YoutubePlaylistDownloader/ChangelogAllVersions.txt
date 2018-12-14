@@ -1,4 +1,9 @@
-﻿Version 1.61:
+﻿Version 1.7:
+- You can now bulk download videos (paste multiple links). This supports everything, a mix of playlists, channels and single videos.
+- Fixed "Add to queue" sending you to the video screen instead of downloading in the background
+
+
+Version 1.61:
 - Made the program more stable and faster
 
 
