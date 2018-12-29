@@ -36,6 +36,7 @@ namespace YoutubePlaylistDownloader
         const int megaBytes = 1 << 20;
         private bool silent;
         private FixedQueue<double> downloadSpeeds;
+        private Dictionary<Video, int> indexes = new Dictionary<Video, int>();
 
         public bool StillDownloading;
 
@@ -259,6 +260,7 @@ namespace YoutubePlaylistDownloader
                 }
 
                 var client = GlobalConsts.YoutubeClient;
+                int convertingCount = 0;
                 for (int i = StartIndex; i <= EndIndex; i++)
                 {
                     var video = Videos.ElementAtOrDefault(i);
@@ -266,6 +268,7 @@ namespace YoutubePlaylistDownloader
                     if (video == default(Video))
                         goto exit;
 
+                    indexes.Add(video, i + 1);
                     try
                     {
                         await Dispatcher.InvokeAsync(() =>
@@ -375,7 +378,8 @@ namespace YoutubePlaylistDownloader
                                 try
                                 {
                                     ffmpegList?.Remove(ffmpeg);
-                                    await GlobalConsts.TagFile(video, i + 1, outputFileLoc, Playlist);
+                                    convertingCount--;
+                                    await GlobalConsts.TagFile(video, indexes[video], outputFileLoc, Playlist);
 
                                     File.Copy(outputFileLoc, copyFileLoc, true);
                                     File.Delete(outputFileLoc);
@@ -388,8 +392,34 @@ namespace YoutubePlaylistDownloader
                                     await GlobalConsts.Log(ex.ToString(), "DownloadPage with convert");
                                 }
                             };
-                            ffmpeg.Start();
-                            ffmpegList.Add(ffmpeg);
+                            if (!GlobalConsts.LimitConvertions)
+                            {
+                                ffmpeg.Start();
+                                convertingCount++;
+                                ffmpegList.Add(ffmpeg);
+                            }
+                            else
+                            {
+                                _ = Task.Run(async () =>
+                                {
+                                    try
+                                    {
+                                        await GlobalConsts.ConversionsLocker.WaitAsync(cts.Token);
+                                        ffmpeg.Start();
+                                        convertingCount++;
+                                        ffmpeg.Exited += (x, y) => GlobalConsts.ConversionsLocker.Release();
+                                        ffmpegList.Add(ffmpeg);
+                                    }
+                                    catch (OperationCanceledException)
+                                    {
+
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        await GlobalConsts.Log(ex.ToString(), "ConvertionLocker at StartDownloadingWithConverting at DownloadPage.xaml.cs");
+                                    }
+                                });
+                            }
                         }
                         else
                         {
@@ -436,7 +466,7 @@ namespace YoutubePlaylistDownloader
                 {
                     await Dispatcher.InvokeAsync(() =>
                     {
-                        string status = string.Concat(FindResource("StillConverting"), " ", ffmpegList.Count, " ", FindResource("files"));
+                        string status = string.Concat(FindResource("StillConverting"), " ", convertingCount, " ", FindResource("files"));
                         HeadlineTextBlock.Text = (string)FindResource("AllDone");
                         CurrentDownloadProgressBar.IsIndeterminate = true;
                         TotalDownloadedGrid.Visibility = Visibility.Collapsed;
@@ -495,6 +525,7 @@ namespace YoutubePlaylistDownloader
             }
 
             var client = GlobalConsts.YoutubeClient;
+            int convertingCount = 0;
             for (int i = StartIndex; i <= EndIndex; i++)
             {
                 var video = Videos.ElementAtOrDefault(i);
@@ -651,6 +682,7 @@ namespace YoutubePlaylistDownloader
                         try
                         {
                             ffmpegList?.Remove(ffmpeg);
+                            convertingCount--;
                             File.Copy(outputFileLoc, copyFileLoc, true);
 
                             if (Subscription != null)
@@ -665,7 +697,35 @@ namespace YoutubePlaylistDownloader
                             await GlobalConsts.Log(ex.ToString(), "DownloadPage without convert");
                         }
                     };
-                    ffmpeg.Start();
+
+                    if (!GlobalConsts.LimitConvertions)
+                    {
+                        ffmpeg.Start();
+                        convertingCount++;
+                        ffmpegList.Add(ffmpeg);
+                    }
+                    else
+                    {
+                        _ = Task.Run(async () =>
+                        {
+                            try
+                            {
+                                await GlobalConsts.ConversionsLocker.WaitAsync(cts.Token);
+                                ffmpeg.Start();
+                                convertingCount++;
+                                ffmpeg.Exited += (x, y) => GlobalConsts.ConversionsLocker.Release();
+                                ffmpegList.Add(ffmpeg);
+                            }
+                            catch (OperationCanceledException)
+                            {
+
+                            }
+                            catch (Exception ex)
+                            {
+                                await GlobalConsts.Log(ex.ToString(), "ConvertionLocker at StartDownloading at DownloadPage.xaml.cs");
+                            }
+                        });
+                    }
                     ffmpegList.Add(ffmpeg);
                     DownloadedCount++;
                     TotalDownloaded = $"({DownloadedCount}/{Maximum})";
@@ -691,7 +751,7 @@ namespace YoutubePlaylistDownloader
             {
                 await Dispatcher.InvokeAsync(() =>
                 {
-                    string status = string.Concat(FindResource("StillConverting"), " ", ffmpegList.Count, " ", FindResource("files"));
+                    string status = string.Concat(FindResource("StillConverting"), " ", convertingCount, " ", FindResource("files"));
                     HeadlineTextBlock.Text = (string)FindResource("AllDone");
                     CurrentDownloadProgressBar.IsIndeterminate = true;
                     TotalDownloadedGrid.Visibility = Visibility.Collapsed;
@@ -774,7 +834,7 @@ namespace YoutubePlaylistDownloader
             cts?.Cancel(true);
             if (ffmpegList.Count > 0)
             {
-                var yesno = await GlobalConsts.ShowYesNoDialog($"{FindResource("StillConverting")}", $"{FindResource("StillConverting")} {ffmpegList.Count(x => !x.HasExited)} {FindResource("files")} {FindResource("AreYouSureExit")}");
+                var yesno = await GlobalConsts.ShowYesNoDialog($"{FindResource("StillConverting")}", $"{FindResource("StillConverting")} {ffmpegList.Count} {FindResource("files")} {FindResource("AreYouSureExit")}");
                 if (yesno == MahApps.Metro.Controls.Dialogs.MessageDialogResult.Negative)
                     return false;
             }

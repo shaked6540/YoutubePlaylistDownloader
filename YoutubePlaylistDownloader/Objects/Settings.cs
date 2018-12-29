@@ -33,8 +33,17 @@ namespace YoutubePlaylistDownloader.Objects
         [JsonProperty]
         public bool SaveDownloadOptions { get; set; }
 
+        [JsonProperty]
+        public int MaximumConverstionsCount { get; set; }
+
+        [JsonProperty]
+        public int ActualConvertionsLimit { get; set; }
+
+        [JsonProperty]
+        public bool LimitConvertions { get; set; }
+
         [JsonConstructor]
-        public Settings(string theme, string accent, string language, string saveDirectory, bool optionExpanderIsExpanded, bool checkForSubscriptionUpdates, bool checkForProgramUpdates, TimeSpan subscriptionsDelay, bool saveDownloadOptions)
+        public Settings(string theme, string accent, string language, string saveDirectory, bool optionExpanderIsExpanded, bool checkForSubscriptionUpdates, bool checkForProgramUpdates, TimeSpan subscriptionsDelay, bool saveDownloadOptions, int maximumConverstionsCount,  int actualConvertionsLimit, bool limitConvertions)
         {
             Theme = theme;
             Accent = accent;
@@ -45,6 +54,9 @@ namespace YoutubePlaylistDownloader.Objects
             CheckForProgramUpdates = checkForProgramUpdates;
             SubscriptionsDelay = subscriptionsDelay;
             SaveDownloadOptions = saveDownloadOptions;
+            MaximumConverstionsCount = maximumConverstionsCount;
+            ActualConvertionsLimit = actualConvertionsLimit;
+            LimitConvertions = limitConvertions;
         }
 
     }

@@ -39,6 +39,15 @@
                     </FlowDocument>
                 </RichTextBox>
             </Controls:MetroTabItem>
+            <Controls:MetroTabItem Header="{DynamicResource FileConvertion}">
+                <RichTextBox MaxWidth="1200" Width="600" Margin="5,0,0,0" BorderThickness="0" Cursor="Arrow" IsReadOnly="True" IsReadOnlyCaretVisible="False" Height="Auto" >
+                    <FlowDocument>
+                        <Paragraph>
+                            <Run FontSize="14" Text="{DynamicResource ConvertionsLimitingExplnation}" />
+                        </Paragraph>
+                    </FlowDocument>
+                </RichTextBox>
+            </Controls:MetroTabItem>
 
         </Controls:MetroAnimatedTabControl>
     </StackPanel>

@@ -24,6 +24,9 @@ namespace YoutubePlaylistDownloader
             CheckForUpdatesCheckBox.IsChecked = GlobalConsts.CheckForProgramUpdates;
             SaveDirectoryTextBox.Text = GlobalConsts.SaveDirectory;
             SaveDownloadOptionsCheckBox.IsChecked = GlobalConsts.SaveDownloadOptions;
+            LimitConvertionsCheckBox.IsChecked = GlobalConsts.LimitConvertions;
+            ActualConvertionTextBox.Text = GlobalConsts.ActualConvertionsLimit.ToString();
+            ActualConvertionTextBox.TextChanged += ActualConvertionTextBox_TextChanged;
 
             NightModeCheckBox.Checked += NightModeCheckBox_Checked;
             NightModeCheckBox.Unchecked += NightModeCheckBox_Unchecked;
@@ -134,6 +137,40 @@ namespace YoutubePlaylistDownloader
         private void SaveDownloadOptionsCheckBox_Unchecked(object sender, RoutedEventArgs e)
         {
             GlobalConsts.SaveDownloadOptions = SaveDownloadOptionsCheckBox.IsChecked.Value;
+        }
+
+        private void LimitConvertionsCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            GlobalConsts.LimitConvertions = LimitConvertionsCheckBox.IsChecked.Value;
+        }
+
+        private void LimitConvertionsCheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            GlobalConsts.LimitConvertions = LimitConvertionsCheckBox.IsChecked.Value;
+        }
+
+        private void ActualConvertionTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (int.TryParse(ActualConvertionTextBox.Text, out var actual) && actual > 0 && actual < GlobalConsts.MaximumConverstionsCount)
+            {
+                ActualConvertionTextBox.Background = null;
+                int delta = actual - GlobalConsts.ConversionsLocker.CurrentCount;
+                if (delta > 0)
+                    GlobalConsts.ConversionsLocker.Release(delta);
+                else
+                {
+                    delta = System.Math.Abs(delta);
+                    for (int i = 0; i < delta; i++)
+                    {
+                        GlobalConsts.ConversionsLocker.Wait();
+                    }
+                }
+                GlobalConsts.ActualConvertionsLimit = actual;
+            }
+            else
+            {
+                ActualConvertionTextBox.Background = GlobalConsts.ErrorBrush;
+            }
         }
     }
 }

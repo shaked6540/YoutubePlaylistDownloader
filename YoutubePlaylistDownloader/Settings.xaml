@@ -21,40 +21,52 @@
     <StackPanel>
         <Controls:MetroAnimatedTabControl HorizontalAlignment="Center">
             <Controls:MetroTabItem Header="{DynamicResource Settings}">
-                <Grid Margin="5,0,0,0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition/>
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
+                <StackPanel>
+                    <Grid Margin="5,0,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition />
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
 
-                    <!--Col 1-->
-                    <CheckBox Grid.Row="0" Margin="5" Grid.Column="0"  Grid.ColumnSpan="2" x:Name="NightModeCheckBox" Content="{DynamicResource DarkTheme}"/>
-                    <CheckBox Grid.Row="1" Content="{DynamicResource AutomaticallyCheckForUpdates}" Margin="5" Grid.Column="0" Grid.ColumnSpan="5" x:Name="CheckForUpdatesCheckBox" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" />
-                    <CheckBox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" Margin="5" Content="{DynamicResource SaveDownloadOptions}" x:Name="SaveDownloadOptionsCheckBox" Checked="SaveDownloadOptionsCheckBox_Checked" Unchecked="SaveDownloadOptionsCheckBox_Unchecked" />
-                    <Label    Grid.Row="3" Content="{DynamicResource Theme}" Margin="5" Grid.Column="0"  />
-                    <Label    Grid.Row="4" Content="{DynamicResource Language}" Margin="5"  Grid.Column="0" />
-                    <Label    Grid.Row="5" Content="{DynamicResource SaveDirectory}" Margin="5"  Grid.Column="0"  />
+                        <!--Col 0-->
+                        <CheckBox Grid.Row="0" Margin="5" Grid.Column="0"  Grid.ColumnSpan="2" x:Name="NightModeCheckBox" Content="{DynamicResource DarkTheme}"/>
+                        <CheckBox Grid.Row="1" Content="{DynamicResource AutomaticallyCheckForUpdates}" Margin="5" Grid.Column="0" Grid.ColumnSpan="5" x:Name="CheckForUpdatesCheckBox" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" />
+                        <CheckBox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" Margin="5" Content="{DynamicResource SaveDownloadOptions}" x:Name="SaveDownloadOptionsCheckBox" Checked="SaveDownloadOptionsCheckBox_Checked" Unchecked="SaveDownloadOptionsCheckBox_Unchecked" />
+                        <CheckBox Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Margin="5" Content="{DynamicResource LimitConverstions}" x:Name="LimitConvertionsCheckBox" Checked="LimitConvertionsCheckBox_Checked" Unchecked="LimitConvertionsCheckBox_Unchecked" />
+                        <Label    Grid.Row="4" Content="{DynamicResource Theme}" Margin="5" Grid.Column="0"  />
+                        <Label    Grid.Row="5" Content="{DynamicResource Language}" Margin="5"  Grid.Column="0" />
+                        <Label    Grid.Row="6" Content="{DynamicResource SaveDirectory}" Margin="5"  Grid.Column="0"  />
 
-                    <!--Col 2-->
-                    <ComboBox Grid.Row="3" Margin="5" VerticalAlignment="Center"  Grid.Column="1" x:Name="comboBox" HorizontalAlignment="Left" MinWidth="120" SelectionChanged="ComboBox_SelectionChanged" />
-                    <ComboBox Grid.Row="4"   Margin="5" VerticalAlignment="Center"  Grid.Column="1" x:Name="LanguageComboBox" HorizontalAlignment="Left" MinWidth="120" SelectionChanged="LanguageComboBox_SelectionChanged" />
-                    <TextBox  Grid.Row="5" x:Name="SaveDirectoryTextBox" Grid.Column="1" Margin="5" TextChanged="SaveDirectoryTextBox_TextChanged" MouseDoubleClick="TextBox_MouseDoubleClick" />
+                        <!--Col 1-->
+                        <WrapPanel Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2">
+                            <TextBox  Grid.Row="3" Margin="5" VerticalAlignment="Center" Grid.Column="1" x:Name="ActualConvertionTextBox" HorizontalAlignment="Left" Width="30" TextAlignment="Center" />
+                            <Label Content="{DynamicResource ValueChangeRequiresRestart}" HorizontalAlignment="Center" Margin="5" ></Label>
+                        </WrapPanel>
+                        <ComboBox Grid.Row="4"  Margin="5" VerticalAlignment="Center"  Grid.Column="1" x:Name="comboBox" HorizontalAlignment="Left" MinWidth="120" SelectionChanged="ComboBox_SelectionChanged" />
+                        <ComboBox Grid.Row="5" Margin="5" VerticalAlignment="Center"  Grid.Column="1" x:Name="LanguageComboBox" HorizontalAlignment="Left" MinWidth="120" SelectionChanged="LanguageComboBox_SelectionChanged" />
+                        <WrapPanel Grid.Row="6" Grid.Column="1" >
+                            <TextBox x:Name="SaveDirectoryTextBox" Margin="5" TextChanged="SaveDirectoryTextBox_TextChanged" MouseDoubleClick="TextBox_MouseDoubleClick" HorizontalAlignment="Left" MinWidth="120" />
+                            <Controls:Tile Grid.Row="4" Grid.Column="2" Width="30" Height="30" Click="Tile_Click" HorizontalAlignment="Left" >
+                                <iconPacks:PackIconModern Width="20" Height="20" Kind="FolderOpen" Margin="5" />
+                            </Controls:Tile>
+                        </WrapPanel>
 
-                    <!--Col 3-->
-                    <Controls:Tile Grid.Row="4" Grid.Column="3" Width="30" Height="30" Click="Tile_Click" HorizontalAlignment="Left" >
-                        <iconPacks:PackIconModern Width="20" Height="20" Kind="FolderOpen" Margin="5" />
-                    </Controls:Tile>
+                        <!--Col 2-->
 
-                </Grid>
+
+                    </Grid>
+                </StackPanel>
+
             </Controls:MetroTabItem>
         </Controls:MetroAnimatedTabControl>
         <Controls:Tile Click="Exit_Click" HorizontalAlignment="Center" Title="{DynamicResource SaveAndBackToDownload}" Margin="5" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Controls:ControlsHelper.MouseOverBorderBrush="{DynamicResource BlackBrush}"  HorizontalTitleAlignment="Right" Style="{StaticResource LargeTileStyle}">

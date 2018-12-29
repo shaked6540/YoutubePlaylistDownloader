@@ -72,7 +72,7 @@
                 </ScrollViewer>
             </Controls:MetroTabItem>
 
-            <Controls:MetroTabItem Header="Bulk download">
+            <Controls:MetroTabItem Header="{DynamicResource BulkDownload}">
                 <StackPanel>
                 <ScrollViewer x:Name="BulkScrollViewer" VerticalScrollBarVisibility="Auto" MinWidth="1200" MaxWidth="1200" >
                     <TextBox x:Name="BulkLinksTextBox" AcceptsReturn="True" TextWrapping="Wrap" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" TextChanged="TextBox_TextChanged_1" FontSize="16" MinHeight="100" />

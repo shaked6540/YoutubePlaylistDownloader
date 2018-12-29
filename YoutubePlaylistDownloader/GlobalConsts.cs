@@ -1,12 +1,14 @@
 ﻿using MahApps.Metro;
 using MahApps.Metro.Controls.Dialogs;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -32,7 +34,7 @@ namespace YoutubePlaylistDownloader
         public static readonly string CurrentDir;
         private static readonly string ConfigFilePath;
         private static readonly string ErrorFilePath;
-        public const double VERSION = 1.7;
+        public const double VERSION = 1.701;
         public static bool UpdateOnExit;
         public static string UpdateSetupLocation;
         public static bool OptionExpanderIsExpanded;
@@ -47,6 +49,9 @@ namespace YoutubePlaylistDownloader
         public static bool SaveDownloadOptions;
         public static readonly string DownloadSettingsFilePath;
         public static readonly ObservableCollection<QueuedDownload> Downloads;
+        public static bool LimitConvertions;
+        public static int MaximumConverstionsCount, ActualConvertionsLimit;
+        private static SemaphoreSlim convertionLocker;
 
         public static bool CheckForSubscriptionUpdates
         {
@@ -63,6 +68,7 @@ namespace YoutubePlaylistDownloader
         }
         public static AppTheme Opposite { get { return Theme.Name == "BaseLight" ? ThemeManager.GetAppTheme("BaseDark") : ThemeManager.GetAppTheme("BaseLight"); } }
         public static YoutubeClient YoutubeClient { get => new YoutubeClient(); }
+        public static SemaphoreSlim ConversionsLocker { get => convertionLocker; set { if (convertionLocker == null) convertionLocker = value; } }
         public static DownloadSettings DownloadSettings
         {
             get
@@ -178,7 +184,7 @@ namespace YoutubePlaylistDownloader
         {
             try
             {
-                var settings = new Objects.Settings(Theme.Name, Accent.Name, Language, SaveDirectory, OptionExpanderIsExpanded, CheckForSubscriptionUpdates, CheckForProgramUpdates, SubscriptionsUpdateDelay, SaveDownloadOptions);
+                var settings = new Objects.Settings(Theme.Name, Accent.Name, Language, SaveDirectory, OptionExpanderIsExpanded, CheckForSubscriptionUpdates, CheckForProgramUpdates, SubscriptionsUpdateDelay, SaveDownloadOptions, MaximumConverstionsCount, ActualConvertionsLimit, LimitConvertions);
                 File.WriteAllText(ConfigFilePath, Newtonsoft.Json.JsonConvert.SerializeObject(settings));
                 SubscriptionManager.SaveSubscriptions();
                 SaveDownloadSettings();
@@ -200,6 +206,9 @@ namespace YoutubePlaylistDownloader
             CheckForProgramUpdates = true;
             SubscriptionsUpdateDelay = TimeSpan.FromMinutes(1);
             SaveDownloadOptions = true;
+            MaximumConverstionsCount = 20;
+            ActualConvertionsLimit = 2;
+            LimitConvertions = true;
 
             DownloadSettings = new DownloadSettings("mp3", false, YoutubeExplode.Models.MediaStreams.VideoQuality.High720, false, false, false, false, "192", false, "en");
             SaveConsts();
@@ -209,7 +218,7 @@ namespace YoutubePlaylistDownloader
 
             if (!File.Exists(ConfigFilePath))
             {
-                Log("Config file does not exist, restring defaults", "LoadConsts at GlobalConsts").Wait();
+                Log("Config file does not exist, restoring defaults", "LoadConsts at GlobalConsts").Wait();
 
                 RestoreDefualts();
                 return;
@@ -227,6 +236,12 @@ namespace YoutubePlaylistDownloader
                 CheckForProgramUpdates = settings.CheckForProgramUpdates;
                 SubscriptionsUpdateDelay = settings.SubscriptionsDelay;
                 SaveDownloadOptions = settings.SaveDownloadOptions;
+                MaximumConverstionsCount = settings.MaximumConverstionsCount;
+                ActualConvertionsLimit = settings.ActualConvertionsLimit;
+                LimitConvertions = settings.LimitConvertions;
+
+                ConversionsLocker = new SemaphoreSlim(ActualConvertionsLimit, MaximumConverstionsCount);
+
                 LoadDownloadSettings();
             }
             catch (Exception ex)
@@ -245,7 +260,7 @@ namespace YoutubePlaylistDownloader
                 if (!Directory.Exists(Path.GetTempPath() + "YoutubePlaylistDownloader"))
                     Directory.CreateDirectory(Path.GetTempPath() + "YoutubePlaylistDownloader");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Log($"Failed to create temp folder, {ex}", "CreateTempFolder at GlobalConsts").Wait();
             }
@@ -435,7 +450,7 @@ namespace YoutubePlaylistDownloader
             {
                 File.WriteAllText(DownloadSettingsFilePath, Newtonsoft.Json.JsonConvert.SerializeObject(downloadSettings));
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Log(ex.ToString(), "SaveDownloadSettings at GlobalConsts").Wait();
             }
