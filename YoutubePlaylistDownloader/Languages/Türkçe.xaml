@@ -1,0 +1,142 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:s="clr-namespace:System;assembly=mscorlib"
+                    xml:space="preserve">
+    
+    <s:String x:Key="Title">YouTube Liste İndirici</s:String>
+    <FlowDirection x:Key="FlowDirection">SoldanSağa</FlowDirection>
+    <s:String x:Key="InsertYoutubePlaylistLinkHere">Youtube Linkini Buraya Kopyalayınız</s:String>
+    <s:String x:Key="Exit">Çıkış</s:String>
+    <s:String x:Key="ExitMessage">Çıkmak istediğinize emin misiniz?</s:String>
+    <s:String x:Key="Yes">Evet</s:String>
+    <s:String x:Key="No">Hayır</s:String>
+    <s:String x:Key="Error">Hata</s:String>
+    <s:String x:Key="ErrorMessage">İşlem gerçekleştirilirken beklenmeyen bir hata oluştu. Lütfen hatayı işlemek için yöneticinize başvurun.</s:String>
+    <s:String x:Key="Settings">Ayarlar</s:String>
+    <s:String x:Key="Preferences">Tercihler</s:String>
+    <s:String x:Key="Theme">Aksan</s:String>
+    <s:String x:Key="Language">Dil</s:String>
+    <s:String x:Key="Back">Geri</s:String>
+    <s:String x:Key="SaveAndBackToDownload">Kaydet ve ana menüye dön</s:String>
+    <s:String x:Key="DarkTheme">Koyu Tema</s:String>
+    <s:String x:Key="Name">İsim: </s:String>
+    <s:String x:Key="Description">Açıklama: </s:String>
+    <s:String x:Key="Views">Görünümler: </s:String>
+    <s:String x:Key="SaveDirectory">Dosyayı kaydet: </s:String>
+    <s:String x:Key="CurrentlyDownlading">Geçerli İndirme: </s:String>
+    <s:String x:Key="TotalProgress">Şimdiye kadar indirilen: </s:String>
+    <s:String x:Key="AllDone">Hepsi Tamam.</s:String>
+    <s:String x:Key="Canceling">İndirme işlemi iptal ediliyor,lütfen bekleyin..</s:String>
+    <s:String x:Key="Videos">Videolar</s:String>
+    <s:String x:Key="Download">İndir</s:String>
+    <s:String x:Key="ConvertToMp3">Videoyu Dönüştür </s:String>
+    <s:String x:Key="StillConverting">Dönüştürülüyor</s:String>
+    <s:String x:Key="files">dosyalar</s:String>
+    <s:String x:Key="Author">Yazar: </s:String>
+    <s:String x:Key="PlaylistTitle">Başlık: </s:String>
+    <s:String x:Key="Loading">Yükleniyor..</s:String>
+    <HorizontalAlignment x:Key="LeftAlignment">Sol</HorizontalAlignment>
+    <s:String x:Key="About">Hakkında</s:String>
+    <s:String x:Key="Home">Ana Sayfa</s:String>
+    <s:String x:Key="Prefer">Çözünürlüğü şu olan videoları tercih et </s:String>
+    <s:String x:Key="AreYouSureExit">Çıkmak istiyor musunuz?</s:String>
+    <s:String x:Key="TotalVideos">Toplam Video: </s:String>
+    <s:String x:Key="AboutTheProgram">Bu program shaked6540 tarafından geliştirilmiştir ve sınırlama olmadan kullanımı tamamen ücretsizdir.
+Ancak, bu programın size getireceği herhangi bir yasal sorundan sorumlu değilim.
+Bildiğim kadarıyla, YouTube web sitelerinden video indirmeye izin vermiyor.
+Bu programın tam kaynak kodu https://github.com/shaked6540/YoutubePlaylistDownloader adresinde bulunabilir.
+        
+Yükleyici, Inno Kurulumu kullanılarak yapıldı (http://www.jrsoftware.org/isinfo.php)
+    
+
+YouTube Oynatma Listesi İndiricisi v</s:String>
+    <s:String x:Key="BitRate">ve bit hızını ayarla</s:String>
+    <s:String x:Key="NewVersionAvailable">Yeni versiyon kullanılabilir</s:String>
+    <s:String x:Key="DoYouWantToUpdate">Yeni versiyon kullanılabilir. İndirmek ister misiniz?
+Burada yeni güncellemeler var: </s:String>
+    <s:String x:Key="DownloadingUpdateSetup">Şuan indirilen: Güncelleme Kurulumu</s:String>
+    <s:String x:Key="UpdateCancelled">Güncelleme iptal edildi.</s:String>
+    <s:String x:Key="ErrorWhileUpdating">Güncelleme ayarları indirilirken bir hata oluştu, internete bağlı olduğunuzdan emin olun.
+İnternete bağlıysanız, daha sonra indirmeyi deneyin veya indirme sunucusuyla ilgili bir sorun olup olmadığını görmek için https://github.com/shaked6540/YoutubePlaylistDownloader/issues adresini ziyaret edin.</s:String>
+    <s:String x:Key="UpdateComplete">İndirme tamamlandı.</s:String>
+    <s:String x:Key="UpdateWhenIExit">Çıktığımda Güncelle</s:String>
+    <s:String x:Key="UpdateAndExit">Şimdi Kapat ve Güncelle</s:String>
+    <s:String x:Key="UpdateFailed">Güncelleme başarısız</s:String>
+    <s:String x:Key="CannotUpdate">Şu anda güncelleme yapılamıyor, uygulamayı yeniden başlatmayı deneyin ve internete bağlı olduğunuzdan emin olun.
+Hata mesajı: </s:String>
+    <s:String x:Key="CouldntDownload">Bazı videolar indirilemedi</s:String>
+    <s:String x:Key="ListOfNotDownloadedVideos">İndirilemeyen videoların listesi ve nedenleri burada: </s:String>
+    <s:String x:Key="Options">Seçenekler</s:String>
+    <s:String x:Key="CheckForUpdates">Güncellemeleri Kontrol Et</s:String>
+    <s:String x:Key="NoUpdates">Güncelleme yok</s:String>
+    <s:String x:Key="NoUpdatesAvailable">Şu anda mevcut güncelleme yok. En güncel sürüme sahipsiniz.</s:String>
+    <s:String x:Key="PlaylistIndex">Video numarasına göre indir </s:String>
+    <s:String x:Key="UntilIndex">video numarasına kadar </s:String>
+    <s:String x:Key="LeaveEmptyOrZeroForUntilTheEnd">(oynatma listesinin sonuna kadar tüm videoları indirmek için bunu boş bırakın veya 0 girin)</s:String>
+    <s:String x:Key="NoVideosToDownload">İndirilecek video bulunamadı</s:String>
+    <s:String x:Key="ThereAreNoVidoesToDownload">Belirttiğiniz parametrelere uygun indirilecek video yok</s:String>
+    <s:String x:Key="UpdateNow">Şimdi Güncelle</s:String>
+    <s:String x:Key="Subscriptions">Abonelikler</s:String>
+    <s:String x:Key="AutomaticllyDownloadSubscriptions">Bu kanala eklenen videoları otomatik olarak indir</s:String>
+    <s:String x:Key="InsertChannelLink">Buraya yeni kanal bağlantısını ekleyin</s:String>
+    <s:String x:Key="Remove">Kaldır</s:String>
+    <s:String x:Key="Id">ID: </s:String>
+    <s:String x:Key="Save">Kaydet</s:String>
+    <s:String x:Key="PreferFPS">En yüksek FPS oranına sahip videoları tercih et</s:String>
+    <s:String x:Key="AudioOnly">Başka bir formata dönüştürmeden temiz ses dosyası indirin</s:String>
+    <s:String x:Key="StillDownloadingSubscriptionsExit">Program hala abonelik videolarınızı indiriyor, evet'e tıklamak programı kapatır ve siz programı yeniden açana kadar bu videolar indirilmez
+Çıkmak istediğine emin misin?</s:String>
+    <s:String x:Key="LastVideoDownloadDate">Son güncelleme zamanı: </s:String>
+    <s:String x:Key="Help">Yardım</s:String>
+    <s:String x:Key="SubscriptionsHelp">Abonelikler, programın abonelik eklendikten sonra çıkan videoları otomatik olarak indireceği kanallardır
+        
+Örneğin, 1 Eylül’de "x" kanalına bir abonelik eklerseniz ve "x" kanalı 2 Eylül’de bir video yüklediyseniz, otomatik olarak indirilir.
+        
+Belirli bir videoyu silseniz bile önceki videolar indirilmeyecek ve videolar iki kez indirilmeyecek.
+        
+Tüm abonelikler özelleştirilebilir ve kendi ayarlarına sahip, abonelik ayarlarına erişmek için ana menüden "Abonelikler" i ve ardından istediğiniz kanal için "Ayarlar" ı tıklayın
+Program çalışmıyorsa, yeni videoların indirilmeyeceğini lütfen unutmayın.
+    </s:String>
+    <s:String x:Key="ContactTheDeveloper">İletişim</s:String>
+    <s:String x:Key="ContactTheDeveloperHelp">Benimle iletişim kurmanın birkaç yolu var (shaked6540):
+        
+İlki Reddit, bana Reddit ile ilgili bir mesaj gönderirseniz size en kısa sürede cevap vereceğim, bu benim profil bağlantım: https://www.reddit.com/user/shaked6540/
+        
+Bana ulaşmanın ikinci yolu anlaşmazlıktan geçiyor, bu proje için bir anlaşmazlık sunucusu kurdum, bana söyleyecek bir şeyiniz olmasa bile katılmaktan çekinmeyin: https://discord.gg/eXeVCqE
+        
+Benimle iletişim kurmanın üçüncü yolu GitHub'dan geçiyor, sadece yeni bir sayı aç ve en kısa sürede yanıt vermeye çalışacağım, işte bir link: https://github.com/shaked6540/YoutubePlaylistDownloader/issues</s:String>
+    <s:String x:Key="AutomaticallyCheckForUpdates">Programı başlattığımda güncellemeleri otomatik olarak kontrol et</s:String>
+    <s:String x:Key="WhatsNew">Neler Yeni?</s:String>
+    <s:String x:Key="SubscriptionsUpdateDelay">Her abonliği güncelleyin</s:String>
+    <s:String x:Key="Minutes">dakika</s:String>
+    <s:String x:Key="SaveDownloadOptions">İndirme tercihlerimi kaydet</s:String>
+    <s:String x:Key="DownloadSpeed">İndirme hızı: </s:String>
+    <s:String x:Key="Changelog">Değişiklikler</s:String>
+    <s:String x:Key="DongChunrui">Dong Cunrui (董存瑞)</s:String>
+    <s:String x:Key="CreditsAndContributors">Bu yazılımı çevirdikleri için bu insanlara çok teşekkürler:
+Dong Cunrui (董存瑞)
+RichyZ99
+Jhonatan Lima (Heremitus)
+İskender ALPSAKARYA (Türkçe)
+</s:String>
+    <s:String x:Key="Search">Arama</s:String>
+    <s:String x:Key="Queue">Kuyruk</s:String>
+    <s:String x:Key="Downloading">İndiriliyor..</s:String>
+    <s:String x:Key="Converting">Dönüştürülüyor..</s:String>
+    <s:String x:Key="DownloadInBackground">Kuyruğa ekle</s:String>
+    <s:String x:Key="Audio">Ses</s:String>
+    <s:String x:Key="Video">Video</s:String>
+    <s:String x:Key="DownloadCaptions">Kapalı başlıkları indir</s:String>
+    <s:String x:Key="CaptionsLanguage">Kapalı başlık dili: </s:String>
+    <s:String x:Key="BulkDownload">Toplu İndirme</s:String>
+    <s:String x:Key="LimitConverstions" >Eşzamanlı en çok dosya dönüşümü </s:String>
+    <s:String x:Key="ValueChangeRequiresRestart">(limitin geçerli olması için
+	programı yeniden başlatmalısınız)</s:String>
+    <s:String x:Key="ConvertionsLimitingExplnation">Her dosya dönüştürme işlemi yaklaşık 1 işlemci çekirdeğini kullanır. Örneğin: 4 çekirdekli işlemciniz varsa
+, bir seferde program 3 dosya dönüştürmeye izin verecek ve 3 işlemci çekirdeği kullanacaktır.
+Görev Yöneticisi'nde programın% 75'ten az CPU kullandığını göreceksiniz.
+CPU'nuzdan 1 çekirdek daha az kullanmanız önerilir. Eğer CPU'nuz 4 çekirdekliyse,
+dosya dönüştürmeyi 3 ile sınırlandırarak 3 çekirdek kullanın, 3 çekirdeğiniz varsa, 2 çekirdeği sınırlayarak
+2'ye dosya dönüştürmeyi seçmelisiniz.</s:String>
+    <s:String x:Key="FileConvertion">Dosya Dönüştürme</s:String>
+</ResourceDictionary> 
