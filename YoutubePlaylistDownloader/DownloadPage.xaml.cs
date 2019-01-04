@@ -37,6 +37,7 @@ namespace YoutubePlaylistDownloader
         private bool silent;
         private FixedQueue<double> downloadSpeeds;
         private Dictionary<Video, int> indexes = new Dictionary<Video, int>();
+        private List<Task> convertionTasks = new List<Task>();
 
         public bool StillDownloading;
 
@@ -261,6 +262,7 @@ namespace YoutubePlaylistDownloader
 
                 var client = GlobalConsts.YoutubeClient;
                 int convertingCount = 0;
+                convertionTasks.Clear();
                 for (int i = StartIndex; i <= EndIndex; i++)
                 {
                     var video = Videos.ElementAtOrDefault(i);
@@ -400,7 +402,7 @@ namespace YoutubePlaylistDownloader
                             }
                             else
                             {
-                                _ = Task.Run(async () =>
+                                convertionTasks.Add(Task.Run(async () =>
                                 {
                                     try
                                     {
@@ -418,7 +420,7 @@ namespace YoutubePlaylistDownloader
                                     {
                                         await GlobalConsts.Log(ex.ToString(), "ConvertionLocker at StartDownloadingWithConverting at DownloadPage.xaml.cs");
                                     }
-                                });
+                                }));
                             }
                         }
                         else
@@ -462,7 +464,7 @@ namespace YoutubePlaylistDownloader
                 if (NotDownloaded.Any())
                     await GlobalConsts.ShowMessage($"{FindResource("CouldntDownload")}", string.Concat($"{FindResource("ListOfNotDownloadedVideos")}\n", string.Join("\n", NotDownloaded.Select(x => string.Concat(x.Item1, " Reason: ", x.Item2)))));
 
-                while (ffmpegList.Count > 0)
+                while (ffmpegList.Count > 0 || convertionTasks?.Count(x=> !x.IsCompleted) > 0)
                 {
                     await Dispatcher.InvokeAsync(() =>
                     {
@@ -510,6 +512,7 @@ namespace YoutubePlaylistDownloader
             }
             finally
             {
+                await Task.WhenAll(convertionTasks);
                 StillDownloading = false;
                 Dispose();
             }
@@ -526,6 +529,7 @@ namespace YoutubePlaylistDownloader
 
             var client = GlobalConsts.YoutubeClient;
             int convertingCount = 0;
+            convertionTasks.Clear();
             for (int i = StartIndex; i <= EndIndex; i++)
             {
                 var video = Videos.ElementAtOrDefault(i);
@@ -688,6 +692,8 @@ namespace YoutubePlaylistDownloader
                             if (Subscription != null)
                                 Subscription.DownloadedVideos.Add(video.Id);
 
+                            
+
                             File.Delete(outputFileLoc);
                             File.Delete(audioLoc);
                             File.Delete(fileLoc);
@@ -706,7 +712,7 @@ namespace YoutubePlaylistDownloader
                     }
                     else
                     {
-                        _ = Task.Run(async () =>
+                        convertionTasks.Add(Task.Run(async () =>
                         {
                             try
                             {
@@ -724,7 +730,7 @@ namespace YoutubePlaylistDownloader
                             {
                                 await GlobalConsts.Log(ex.ToString(), "ConvertionLocker at StartDownloading at DownloadPage.xaml.cs");
                             }
-                        });
+                        }));
                     }
                     ffmpegList.Add(ffmpeg);
                     DownloadedCount++;
@@ -747,7 +753,7 @@ namespace YoutubePlaylistDownloader
             if (NotDownloaded.Any())
                 await GlobalConsts.ShowMessage($"{FindResource("CouldntDownload")}", string.Concat($"{FindResource("ListOfNotDownloadedVideos")}\n", string.Join("\n", NotDownloaded.Select(x => string.Concat(x.Item1, " Reason: ", x.Item2)))));
 
-            while (ffmpegList.Count > 0)
+            while (ffmpegList.Count > 0 || convertionTasks?.Count(x=> !x.IsCompleted) > 0)
             {
                 await Dispatcher.InvokeAsync(() =>
                 {
@@ -790,6 +796,8 @@ namespace YoutubePlaylistDownloader
                 DownloadedVideosProgressBar.Value = Maximum;
                 CurrentDownloadProgressBarTextBlock.Visibility = Visibility.Collapsed;
             });
+
+            await Task.WhenAll(convertionTasks);
 
             Dispose();
         }
