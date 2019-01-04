@@ -1,4 +1,9 @@
-﻿Version 1.701:
+﻿Version 1.702:
+- Added Türkçe translation
+- Critical bug fixed
+
+
+Version 1.701:
 - Added the ability to limit file convertions count, so the program will not use 100% cpu.
 An explanation about this feature is available at the Help page.
 
