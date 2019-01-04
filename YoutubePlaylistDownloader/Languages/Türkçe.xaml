@@ -4,7 +4,7 @@
                     xml:space="preserve">
     
     <s:String x:Key="Title">YouTube Liste İndirici</s:String>
-    <FlowDirection x:Key="FlowDirection">SoldanSağa</FlowDirection>
+    <FlowDirection x:Key="FlowDirection">LeftToRight</FlowDirection>
     <s:String x:Key="InsertYoutubePlaylistLinkHere">Youtube Linkini Buraya Kopyalayınız</s:String>
     <s:String x:Key="Exit">Çıkış</s:String>
     <s:String x:Key="ExitMessage">Çıkmak istediğinize emin misiniz?</s:String>
@@ -35,7 +35,7 @@
     <s:String x:Key="Author">Yazar: </s:String>
     <s:String x:Key="PlaylistTitle">Başlık: </s:String>
     <s:String x:Key="Loading">Yükleniyor..</s:String>
-    <HorizontalAlignment x:Key="LeftAlignment">Sol</HorizontalAlignment>
+    <HorizontalAlignment x:Key="LeftAlignment">Left</HorizontalAlignment>
     <s:String x:Key="About">Hakkında</s:String>
     <s:String x:Key="Home">Ana Sayfa</s:String>
     <s:String x:Key="Prefer">Çözünürlüğü şu olan videoları tercih et </s:String>
