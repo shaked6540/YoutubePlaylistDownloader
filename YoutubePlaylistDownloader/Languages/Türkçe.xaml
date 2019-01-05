@@ -131,7 +131,7 @@ Jhonatan Lima (Heremitus)
     <s:String x:Key="BulkDownload">Toplu İndirme</s:String>
     <s:String x:Key="LimitConverstions" >Eşzamanlı en çok dosya dönüşümü </s:String>
     <s:String x:Key="ValueChangeRequiresRestart">(limitin geçerli olması için
-	programı yeniden başlatmalısınız)</s:String>
+programı yeniden başlatmalısınız)</s:String>
     <s:String x:Key="ConvertionsLimitingExplnation">Her dosya dönüştürme işlemi yaklaşık 1 işlemci çekirdeğini kullanır. Örneğin: 4 çekirdekli işlemciniz varsa
 , bir seferde program 3 dosya dönüştürmeye izin verecek ve 3 işlemci çekirdeği kullanacaktır.
 Görev Yöneticisi'nde programın% 75'ten az CPU kullandığını göreceksiniz.

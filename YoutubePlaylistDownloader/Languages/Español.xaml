@@ -130,7 +130,8 @@ Luis Duenas (Español)
     <s:String x:Key="CaptionsLanguage">Idioma de los subtítulos: </s:String>
     <s:String x:Key="BulkDownload">Descarga masiva</s:String>
     <s:String x:Key="LimitConverstions" >Establecer el máximo de conversiones al mismo tiempo a</s:String>
-    <s:String x:Key="ValueChangeRequiresRestart">(se necesita reiniciar la aplicación para que los cambios tengan efecto)</s:String>
+    <s:String x:Key="ValueChangeRequiresRestart">(se necesita reiniciar la aplicación
+para que los cambios tengan efecto)</s:String>
     <s:String x:Key="ConvertionsLimitingExplnation">Cada video convertido necesita un procesador completo. Por ejemplo: si tienes un CPU
 de 4 núcleos, limitar el programa a 3 conversiones simultaneas usara 3 de los 4 núcleos;
 en el administrador de tareas veras que la aplicación utiliza un poco mas del 75% del CPU.
