@@ -1,3 +1,3 @@
-﻿Version 1.702:
-- Added Türkçe translation
-- Critical bug fixed
+﻿Version 1.703:
+- Added Español translation
+- Fixed a bug that caused the program to now show the correct amount of convertions being made
