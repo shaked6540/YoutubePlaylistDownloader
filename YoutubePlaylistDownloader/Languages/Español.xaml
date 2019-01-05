@@ -35,7 +35,7 @@
     <s:String x:Key="Author">Autor: </s:String>
     <s:String x:Key="PlaylistTitle">Titulo: </s:String>
     <s:String x:Key="Loading">Cargando..</s:String>
-    <HorizontalAlignment x:Key="LeftAlignment">Izquierda</HorizontalAlignment>
+    <HorizontalAlignment x:Key="LeftAlignment">Left</HorizontalAlignment>
     <s:String x:Key="About">Acerca de</s:String>
     <s:String x:Key="Home">Inicio</s:String>
     <s:String x:Key="Prefer">Prefiero videos con una resolución de </s:String>
