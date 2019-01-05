@@ -406,9 +406,9 @@ namespace YoutubePlaylistDownloader
                                 {
                                     try
                                     {
+                                        convertingCount++;
                                         await GlobalConsts.ConversionsLocker.WaitAsync(cts.Token);
                                         ffmpeg.Start();
-                                        convertingCount++;
                                         ffmpeg.Exited += (x, y) => GlobalConsts.ConversionsLocker.Release();
                                         ffmpegList.Add(ffmpeg);
                                     }
@@ -716,9 +716,9 @@ namespace YoutubePlaylistDownloader
                         {
                             try
                             {
+                                convertingCount++;
                                 await GlobalConsts.ConversionsLocker.WaitAsync(cts.Token);
                                 ffmpeg.Start();
-                                convertingCount++;
                                 ffmpeg.Exited += (x, y) => GlobalConsts.ConversionsLocker.Release();
                                 ffmpegList.Add(ffmpeg);
                             }
