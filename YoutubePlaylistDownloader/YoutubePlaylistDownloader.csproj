@@ -201,6 +201,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Languages\Español.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Languages\Italiano.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
