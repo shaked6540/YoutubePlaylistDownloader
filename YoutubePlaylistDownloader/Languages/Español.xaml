@@ -35,7 +35,7 @@
     <s:String x:Key="Author">Autor: </s:String>
     <s:String x:Key="PlaylistTitle">Titulo: </s:String>
     <s:String x:Key="Loading">Cargando..</s:String>
-    <HorizontalAlignment x:Key="LeftAlignment">Left</HorizontalAlignment>
+    <HorizontalAlignment x:Key="LeftAlignment">Izquierda</HorizontalAlignment>
     <s:String x:Key="About">Acerca de</s:String>
     <s:String x:Key="Home">Inicio</s:String>
     <s:String x:Key="Prefer">Prefiero videos con una resolución de </s:String>
@@ -76,25 +76,26 @@ Mensaje de error: </s:String>
     <s:String x:Key="ThereAreNoVidoesToDownload">No hay videos para descargar con los parametros especificados</s:String>
     <s:String x:Key="UpdateNow">Actualizar ahora</s:String>
     <s:String x:Key="Subscriptions">Suscripciones</s:String>
-    <s:String x:Key="AutomaticllyDownloadSubscriptions">Descargar automaticamente los videos nuevos de estos canales</s:String>
+    <s:String x:Key="AutomaticllyDownloadSubscriptions">Descargar automáticamente los videos nuevos de estos canales</s:String>
     <s:String x:Key="InsertChannelLink">Agrega el link de un canal aqui</s:String>
     <s:String x:Key="Remove">Remover</s:String>
     <s:String x:Key="Id">ID: </s:String>
     <s:String x:Key="Save">Guardar</s:String>
     <s:String x:Key="PreferFPS">Presentar videos con el mayor FPS</s:String>
     <s:String x:Key="AudioOnly">Descargar audio sin convertir a ningún formato en específico</s:String>
-    <s:String x:Key="StillDownloadingSubscriptionsExit">Aún se estan descargando los videos en cola, si sales ahora la aplicación se cerrara y los videos no se descargaran hasta que se abra la aplicación nuevamente.
+    <s:String x:Key="StillDownloadingSubscriptionsExit">Aún se estan descargando los videos en cola, si sales ahora la aplicación se cerrara y los videos no se descargarán hasta que se abra la aplicación nuevamente.
 ¿Estás seguro de que deseas salir?</s:String>
     <s:String x:Key="LastVideoDownloadDate">Última actualización: </s:String>
     <s:String x:Key="Help">Ayuda</s:String>
-    <s:String x:Key="SubscriptionsHelp">En 'Suscripciones' se encuentran los canales que descargaran automáticamente cualquier video agregado despúes de que el canal fue suscrito.
+    <s:String x:Key="SubscriptionsHelp">En 'Suscripciones' se encuentran los canales que descargarán automáticamente cualquier video agregado despúes de que el canal fue suscrito.
 
-Por ejemplo, si agregas una suscripción al canal "X" el 1 de Septiembre, y el canar "X" agrega un video el 2 de Septiembre, éste se descargará automáticamente.
+Por ejemplo, si agregas una suscripción al canal "X" el 1 de Septiembre, y el canal "X" agrega un video el 2 de Septiembre, éste se descargará automáticamente.
 
-Los videos anteriores no seran descargados y los videos no se descargaran dos veces incluso si los eliminas de tu equipo.
+Los videos anteriores no seran descargados y los videos no se descargarán dos veces incluso si los eliminas de tu equipo.
 
-Todas las suscripciones son personalizables y tienen sus propios ajustes, para acceder a los ajustes de una suscripción selecciona 'Suscripciones' en el menu principal y despues en 'Ajustes' en el canal que deseas modificar.
-Te recordamos que si la aplicación no se encuentra en ejecución, no se descargaran videos nuevos.
+Todas las suscripciones son personalizables y tienen sus propios ajustes. 
+Para acceder a los ajustes de una suscripción, selecciona 'Suscripciones' en el menu principal y despúes en 'Ajustes' en el canal que deseas modificar.
+Te recordamos que si la aplicación no se encuentra en ejecución, no se descargarán videos nuevos.
     </s:String>
     <s:String x:Key="ContactTheDeveloper">Contacto</s:String>
     <s:String x:Key="ContactTheDeveloperHelp">Hay varias maneras de contactarme (shaked6540):
@@ -130,13 +131,9 @@ Luis Duenas (Español)
     <s:String x:Key="CaptionsLanguage">Idioma de los subtítulos: </s:String>
     <s:String x:Key="BulkDownload">Descarga masiva</s:String>
     <s:String x:Key="LimitConverstions" >Establecer el máximo de conversiones al mismo tiempo a</s:String>
-    <s:String x:Key="ValueChangeRequiresRestart">(se necesita reiniciar la aplicación
-para que los cambios tengan efecto)</s:String>
-    <s:String x:Key="ConvertionsLimitingExplnation">Cada video convertido necesita un procesador completo. Por ejemplo: si tienes un CPU
-de 4 núcleos, limitar el programa a 3 conversiones simultaneas usara 3 de los 4 núcleos;
-en el administrador de tareas veras que la aplicación utiliza un poco mas del 75% del CPU.
-Se recomienda utilizar 1 núcleo menos de los que tienes disponibles. Si tu computadora 
-tiene 4 núcleos, usa 3 limitando la conversión a 3, si tienes 3 núcleos, usa 2 núcleos 
-limitando la conversion a 2, etc..</s:String>
+    <s:String x:Key="ValueChangeRequiresRestart">(se necesita reiniciar la aplicación para que los cambios tengan efecto)</s:String>
+    <s:String x:Key="ConvertionsLimitingExplnation">Cada video convertido necesita un procesador completo.
+Por ejemplo: si tienes un CPU de 4 núcleos, limitar el programa a 3 conversiones simultaneas usará 3 de los 4 núcleos, en el administrador de tareas veras que la aplicación utiliza un poco mas del 75% del CPU. 
+Se recomienda utilizar 1 núcleo menos de los que tienes disponibles. Si tu computadora tiene 4 núcleos, usa 3 limitando la conversión a 3, si tienes 3 núcleos, usa 2 núcleos limitando la conversion a 2, etc..</s:String>
     <s:String x:Key="FileConvertion">Conversión de videos</s:String>
 </ResourceDictionary> 
