@@ -1,6 +1,4 @@
 # YouTube Playlist Downloader
-# IMPORTANT NOTE: THE PROGRAM CURRENTLY DOESN'T WORK
-### I'm home only at weekends and I don't have much time to take care of this program, as a result, it is currently unstable, the portable version should work if you don't update the program, but if its broken too there is not much you can do until I release a fix. Join the [discord group](https://discord.gg/eXeVCqE) for more information 
 
 ## What is it?
 A simple program to download whole playlists\channels or even single videos from YouTube 
