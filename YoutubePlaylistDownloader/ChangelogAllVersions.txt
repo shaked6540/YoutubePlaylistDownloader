@@ -1,4 +1,8 @@
-﻿Version 1.704:
+﻿Version 1.705:
+- Fixed the program not working at all
+
+
+Version 1.704:
 - Fixed the program not working at all
 Sorry for the long wait, im only home at weekends :(
 
