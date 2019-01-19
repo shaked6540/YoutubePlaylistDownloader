@@ -14,7 +14,7 @@ A simple program to download whole playlists\channels or even single videos from
 - Automatic tagging of artists, album, title, rating and genre based on the video title (rating is based on the likes and dislike ratio)
 - Comfortable update system
 - Multi-language support (Currently the only available translations are Hebrew, English, Chinese, Italian and Brazilian-Portuguese though)
-- Automaticlly download new videos from channels
+- Automatically download new videos from channels
 
 ## Screenshots
 ![Gif](https://i.imgur.com/bQw4fVm.gif "Gif")
