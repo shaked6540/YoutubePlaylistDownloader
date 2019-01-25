@@ -127,15 +127,13 @@ Jhonatan Lima (Heremitus)
     <s:String x:Key="Video">Video</s:String>
     <s:String x:Key="DownloadCaptions">Scarica i sottotitoli</s:String>
     <s:String x:Key="CaptionsLanguage">Linguaggio dei sottotitoli: </s:String>
-    <s:String x:Key="BulkDownload">Bulk download</s:String>
-    <s:String x:Key="LimitConverstions" >Set the maximum concurrent file convertions to </s:String>
-    <s:String x:Key="ValueChangeRequiresRestart">(enabling the limit requires a 
-program restart to take effect)</s:String>
-    <s:String x:Key="ConvertionsLimitingExplnation">Every file convertion takes about 1 core completely. For example: if you have a 4
-cores cpu, limiting the program to 3 file convertions at a time will use 3 cores
-out of 4; in Task Manager you will see that the program uses a little more than 75% cpu.
-It is recommended to use 1 less core than what your cpu have. If your cpu have 4 cores,
-use 3 cores by limiting the file convertion to 3, if you have 3 cores, use 2 cores by limiting
-the file convertion to 2, etc..</s:String>
-    <s:String x:Key="FileConvertion">File convertion</s:String>
+    <s:String x:Key="BulkDownload">Download multiplo</s:String>
+    <s:String x:Key="LimitConverstions">Imposta il massimo numero di conversioni a </s:String>
+    <s:String x:Key="ValueChangeRequiresRestart">(abilitare il limite richiede un 
+riavvio del programma per avere effetto)</s:String>
+    <s:String x:Key="ConvertionsLimitingExplnation">Ogni conversione di file utilizza circa un core intero. Per esempio, con un processore
+a quattro core, limitare il numero massimo di conversioni a tre per volta fa usare al programma al più tre core
+su quattro; in Gestione Attività si vedrà che il programma usa poco più del 75% del processore.
+È consigliato usare al più un core in meno di quelli del proprio dispositivo (tre se il dispositivo ne ha quattro ecc.).</s:String>
+    <s:String x:Key="FileConvertion">Conversione dei file</s:String>
 </ResourceDictionary>
