@@ -158,6 +158,9 @@ namespace YoutubePlaylistDownloader
             CaptionsLanguage = settings.CaptionsLanguage;
             SavePath = string.IsNullOrWhiteSpace(savePath) ? GlobalConsts.SaveDirectory : savePath;
 
+            if (settings.SavePlaylistsInDifferentDirectories && playlist != null && !string.IsNullOrWhiteSpace(playlist.Title))
+                SavePath += $"\\{playlist.Title}";
+
             if (!Directory.Exists(SavePath))
                 Directory.CreateDirectory(SavePath);
 
@@ -643,7 +646,7 @@ namespace YoutubePlaylistDownloader
                             if (DownloadCaptions)
                             {
                                 var captionsInfo = await client.GetVideoClosedCaptionTrackInfosAsync(video.Id);
-                                var captions = captionsInfo.FirstOrDefault(x => x.Language.Name.Equals(CaptionsLanguage, StringComparison.OrdinalIgnoreCase));
+                                var captions = captionsInfo.FirstOrDefault(x => x.Language.Code.Equals(CaptionsLanguage, StringComparison.OrdinalIgnoreCase));
 
                                 if (captions == default)
                                 {
@@ -692,8 +695,6 @@ namespace YoutubePlaylistDownloader
                             if (Subscription != null)
                                 Subscription.DownloadedVideos.Add(video.Id);
 
-                            
-
                             File.Delete(outputFileLoc);
                             File.Delete(audioLoc);
                             File.Delete(fileLoc);
@@ -732,7 +733,7 @@ namespace YoutubePlaylistDownloader
                             }
                         }));
                     }
-                    ffmpegList.Add(ffmpeg);
+    
                     DownloadedCount++;
                     TotalDownloaded = $"({DownloadedCount}/{Maximum})";
 
