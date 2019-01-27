@@ -1,4 +1,14 @@
-﻿Version 1.705:
+﻿Version 1.707:
+- Fixed a bug that caused the program to think it had more files to convert when it had 0 files to convert
+- Reworked the settings page a little
+- You can now save every playlist in a unique folder
+- Fixed subtitles not downloading
+
+Known issues: 
+- The download speed indicator isn't accurate sometimes
+
+
+Version 1.705:
 - Fixed the program not working at all
 
 

@@ -45,7 +45,6 @@
                         <CheckBox Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Margin="5" Content="{DynamicResource LimitConverstions}" x:Name="LimitConvertionsCheckBox" Checked="LimitConvertionsCheckBox_Checked" Unchecked="LimitConvertionsCheckBox_Unchecked" />
                         <Label    Grid.Row="4" Content="{DynamicResource Theme}" Margin="5" Grid.Column="0"  />
                         <Label    Grid.Row="5" Content="{DynamicResource Language}" Margin="5"  Grid.Column="0" />
-                        <Label    Grid.Row="6" Content="{DynamicResource SaveDirectory}" Margin="5"  Grid.Column="0"  />
 
                         <!--Col 1-->
                         <WrapPanel Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2">
@@ -54,12 +53,6 @@
                         </WrapPanel>
                         <ComboBox Grid.Row="4"  Margin="5" VerticalAlignment="Center"  Grid.Column="1" x:Name="comboBox" HorizontalAlignment="Left" MinWidth="120" SelectionChanged="ComboBox_SelectionChanged" />
                         <ComboBox Grid.Row="5" Margin="5" VerticalAlignment="Center"  Grid.Column="1" x:Name="LanguageComboBox" HorizontalAlignment="Left" MinWidth="120" SelectionChanged="LanguageComboBox_SelectionChanged" />
-                        <WrapPanel Grid.Row="6" Grid.Column="1" >
-                            <TextBox x:Name="SaveDirectoryTextBox" Margin="5" TextChanged="SaveDirectoryTextBox_TextChanged" MouseDoubleClick="TextBox_MouseDoubleClick" HorizontalAlignment="Left" MinWidth="120" />
-                            <Controls:Tile Grid.Row="4" Grid.Column="2" Width="30" Height="30" Click="Tile_Click" HorizontalAlignment="Left" >
-                                <iconPacks:PackIconModern Width="20" Height="20" Kind="FolderOpen" Margin="5" />
-                            </Controls:Tile>
-                        </WrapPanel>
 
                         <!--Col 2-->
 

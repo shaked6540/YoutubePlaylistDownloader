@@ -40,6 +40,7 @@ namespace YoutubePlaylistDownloader
             CaptionsLanguagesComboBox.ItemsSource = Languages.Values;
 
             var settings = GlobalConsts.DownloadSettings;
+            SaveDirectoryTextBox.Text = GlobalConsts.SaveDirectory;
             ExtensionsDropDown.SelectedItem = settings.SaveFormat;
             ResulotionDropDown.SelectedItem = Resolutions.FirstOrDefault(x => x.Value == settings.Quality).Key;
             PreferCheckBox.IsChecked = settings.PreferQuality;
@@ -50,6 +51,8 @@ namespace YoutubePlaylistDownloader
             CaptionsCheckBox.IsChecked = settings.DownloadCaptions;
             CaptionsLanguagesComboBox.SelectedItem = Languages[settings.CaptionsLanguage ?? "en"];
             AudioOnlyCheckBox.IsChecked = settings.AudioOnly;
+            UniquePlaylistDirectoryCheckBox.IsChecked = settings.SavePlaylistsInDifferentDirectories;
+
 
             SubscribeToEvents();
 
@@ -73,6 +76,26 @@ namespace YoutubePlaylistDownloader
             BitRateTextBox.TextChanged += BitRateTextBox_TextChanged;
             AudioOnlyCheckBox.Checked += AudioOnlyCheckBox_Checked;
             AudioOnlyCheckBox.Unchecked += AudioOnlyCheckBox_Unchecked;
+            UniquePlaylistDirectoryCheckBox.Checked += UniquePlaylistDirectoryCheckBox_Checked;
+            UniquePlaylistDirectoryCheckBox.Unchecked += UniquePlaylistDirectoryCheckBox_Unchecked;
+        }
+
+        private void UniquePlaylistDirectoryCheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            if (GlobalConsts.SaveDownloadOptions)
+            {
+                GlobalConsts.DownloadSettings.SavePlaylistsInDifferentDirectories = UniquePlaylistDirectoryCheckBox.IsChecked.Value;
+                GlobalConsts.SaveDownloadSettings();
+            }
+        }
+
+        private void UniquePlaylistDirectoryCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            if (GlobalConsts.SaveDownloadOptions)
+            {
+                GlobalConsts.DownloadSettings.SavePlaylistsInDifferentDirectories = UniquePlaylistDirectoryCheckBox.IsChecked.Value;
+                GlobalConsts.SaveDownloadSettings();
+            }
         }
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
@@ -86,6 +109,7 @@ namespace YoutubePlaylistDownloader
             bool audioOnly = AudioOnlyCheckBox.IsChecked.Value;
             bool preferHighestFPS = PreferHighestFPSCheckBox.IsChecked.Value;
             bool downloadCaptions = CaptionsCheckBox.IsChecked.Value;
+            bool playlistDirectories = UniquePlaylistDirectoryCheckBox.IsChecked.Value;
             string captionsLanguage = Languages.FirstOrDefault(x => x.Value.Equals((string)CaptionsLanguagesComboBox.SelectedItem, StringComparison.OrdinalIgnoreCase)).Key;
 
 
@@ -102,7 +126,7 @@ namespace YoutubePlaylistDownloader
 
 
 
-            GlobalConsts.DownloadSettings = new Objects.DownloadSettings(type, audioOnly, vq, preferHighestFPS, preferQuality, convert, setBitrate, bitrate, downloadCaptions, captionsLanguage);
+            GlobalConsts.DownloadSettings = new Objects.DownloadSettings(type, audioOnly, vq, preferHighestFPS, preferQuality, convert, setBitrate, bitrate, downloadCaptions, captionsLanguage, playlistDirectories);
             GlobalConsts.CloseFlyout();
         }
 
@@ -129,6 +153,10 @@ namespace YoutubePlaylistDownloader
             if (GlobalConsts.SaveDownloadOptions)
             {
                 GlobalConsts.DownloadSettings.CaptionsLanguage = Languages.FirstOrDefault(x => x.Value.Equals((string)CaptionsLanguagesComboBox.SelectedItem, StringComparison.OrdinalIgnoreCase)).Key;
+
+                if (CaptionsCheckBox.IsChecked.Value && GlobalConsts.DownloadSettings.CaptionsLanguage == default)
+                    GlobalConsts.DownloadSettings.CaptionsLanguage = "en";
+
                 GlobalConsts.SaveDownloadSettings();
             }
         }
@@ -252,5 +280,38 @@ namespace YoutubePlaylistDownloader
                 GlobalConsts.SaveDownloadSettings();
             }
         }
+
+        private void TextBox_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            using (var dialog = new System.Windows.Forms.FolderBrowserDialog())
+            {
+                dialog.RootFolder = System.Environment.SpecialFolder.Desktop;
+                System.Windows.Forms.DialogResult result = dialog.ShowDialog();
+                if (result == System.Windows.Forms.DialogResult.OK)
+                {
+                    SaveDirectoryTextBox.Text = dialog.SelectedPath;
+                }
+            }
+        }
+
+        private void SaveDirectoryTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            string dir = SaveDirectoryTextBox.Text;
+            if (System.IO.Directory.Exists(dir))
+            {
+                GlobalConsts.SaveDirectory = dir;
+                SaveDirectoryTextBox.Background = null;
+            }
+            else
+                SaveDirectoryTextBox.Background = GlobalConsts.ErrorBrush;
+
+        }
+
+        private void Tile_Click(object sender, RoutedEventArgs e)
+        {
+            TextBox_MouseDoubleClick(sender, null);
+        }
+
+
     }
 }

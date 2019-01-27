@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using YoutubePlaylistDownloader.Objects;
 
 namespace YoutubePlaylistDownloader
 {
@@ -22,7 +21,6 @@ namespace YoutubePlaylistDownloader
 
             if (GlobalConsts.Theme.Name == "BaseDark") NightModeCheckBox.IsChecked = true;
             CheckForUpdatesCheckBox.IsChecked = GlobalConsts.CheckForProgramUpdates;
-            SaveDirectoryTextBox.Text = GlobalConsts.SaveDirectory;
             SaveDownloadOptionsCheckBox.IsChecked = GlobalConsts.SaveDownloadOptions;
             LimitConvertionsCheckBox.IsChecked = GlobalConsts.LimitConvertions;
             ActualConvertionTextBox.Text = GlobalConsts.ActualConvertionsLimit.ToString();
@@ -37,8 +35,6 @@ namespace YoutubePlaylistDownloader
             GlobalConsts.ShowHelpButton();
             GlobalConsts.ShowSubscriptionsButton();
         }
-
-
 
         private void FillLanguages()
         {
@@ -86,37 +82,6 @@ namespace YoutubePlaylistDownloader
         {
             GlobalConsts.ChangeLanguage((string)LanguageComboBox.SelectedItem);
             FlowDirection = (FlowDirection)FindResource("FlowDirection");
-        }
-
-        private void TextBox_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
-            using (var dialog = new System.Windows.Forms.FolderBrowserDialog())
-            {
-                dialog.RootFolder = System.Environment.SpecialFolder.Desktop;
-                System.Windows.Forms.DialogResult result = dialog.ShowDialog();
-                if (result == System.Windows.Forms.DialogResult.OK)
-                {
-                    SaveDirectoryTextBox.Text = dialog.SelectedPath;
-                }
-            }
-        }
-
-        private void SaveDirectoryTextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            string dir = SaveDirectoryTextBox.Text;
-            if (System.IO.Directory.Exists(dir))
-            {
-                GlobalConsts.SaveDirectory = dir;
-                SaveDirectoryTextBox.Background = null;
-            }
-            else
-                SaveDirectoryTextBox.Background = GlobalConsts.ErrorBrush;
-
-        }
-
-        private void Tile_Click(object sender, RoutedEventArgs e)
-        {
-            TextBox_MouseDoubleClick(sender, null);
         }
 
         private void CheckBox_Checked(object sender, RoutedEventArgs e)

@@ -39,9 +39,13 @@ namespace YoutubePlaylistDownloader.Objects
         [JsonProperty]
         public string CaptionsLanguage { get; set; }
 
+        [JsonProperty]
+        public bool SavePlaylistsInDifferentDirectories { get; set; }
+
         [JsonConstructor]
         public DownloadSettings(string saveForamt, bool audioOnly, VideoQuality quality, bool preferHighestFPS,
-            bool preferQuality, bool convert, bool setBitrate, string bitrate, bool downloadCaptions, string captionsLanguage)
+            bool preferQuality, bool convert, bool setBitrate, string bitrate, bool downloadCaptions, string captionsLanguage,
+            bool savePlaylistsInDifferentDirectories)
         {
             SaveFormat = saveForamt;
             AudioOnly = audioOnly;
@@ -53,6 +57,7 @@ namespace YoutubePlaylistDownloader.Objects
             SetBitrate = setBitrate;
             DownloadCaptions = downloadCaptions;
             CaptionsLanguage = captionsLanguage;
+            SavePlaylistsInDifferentDirectories = savePlaylistsInDifferentDirectories;
         }
 
         public DownloadSettings(DownloadSettings settings)
@@ -67,6 +72,7 @@ namespace YoutubePlaylistDownloader.Objects
             SetBitrate = settings.SetBitrate;
             DownloadCaptions = settings.DownloadCaptions;
             CaptionsLanguage = settings.CaptionsLanguage;
+            SavePlaylistsInDifferentDirectories = settings.SavePlaylistsInDifferentDirectories;
         }
 
         public DownloadSettings Clone() => new DownloadSettings(this);
