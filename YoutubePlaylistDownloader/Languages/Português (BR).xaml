@@ -139,4 +139,6 @@ It is recommended to use 1 less core than what your cpu have. If your cpu have 4
 use 3 cores by limiting the file convertion to 3, if you have 3 cores, use 2 cores by limiting
 the file convertion to 2, etc..</s:String>
     <s:String x:Key="FileConvertion">File convertion</s:String>
+    <s:String x:Key="General">General</s:String>
+    <s:String x:Key="SavePlaylistInUniqueDirectory">Save every playlist in a different folder</s:String>
 </ResourceDictionary>

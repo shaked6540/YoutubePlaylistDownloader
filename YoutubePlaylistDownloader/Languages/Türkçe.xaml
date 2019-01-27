@@ -139,4 +139,6 @@ CPU'nuzdan 1 çekirdek daha az kullanmanız önerilir. Eğer CPU'nuz 4 çekirdek
 dosya dönüştürmeyi 3 ile sınırlandırarak 3 çekirdek kullanın, 3 çekirdeğiniz varsa, 2 çekirdeği sınırlayarak
 2'ye dosya dönüştürmeyi seçmelisiniz.</s:String>
     <s:String x:Key="FileConvertion">Dosya Dönüştürme</s:String>
+    <s:String x:Key="General">General</s:String>
+    <s:String x:Key="SavePlaylistInUniqueDirectory">Save every playlist in a different folder</s:String>
 </ResourceDictionary> 

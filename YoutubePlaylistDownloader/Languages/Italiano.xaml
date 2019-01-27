@@ -136,4 +136,6 @@ a quattro core, limitare il numero massimo di conversioni a tre per volta fa usa
 su quattro; in Gestione Attività si vedrà che il programma usa poco più del 75% del processore.
 È consigliato usare al più un core in meno di quelli del proprio dispositivo (tre se il dispositivo ne ha quattro ecc.).</s:String>
     <s:String x:Key="FileConvertion">Conversione dei file</s:String>
+    <s:String x:Key="General">General</s:String>
+    <s:String x:Key="SavePlaylistInUniqueDirectory">Save every playlist in a different folder</s:String>
 </ResourceDictionary>

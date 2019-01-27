@@ -136,4 +136,6 @@ Luis Duenas (Español)
 Por ejemplo: si tienes un CPU de 4 núcleos, limitar el programa a 3 conversiones simultaneas usará 3 de los 4 núcleos, en el administrador de tareas veras que la aplicación utiliza un poco mas del 75% del CPU. 
 Se recomienda utilizar 1 núcleo menos de los que tienes disponibles. Si tu computadora tiene 4 núcleos, usa 3 limitando la conversión a 3, si tienes 3 núcleos, usa 2 núcleos limitando la conversion a 2, etc..</s:String>
     <s:String x:Key="FileConvertion">Conversión de videos</s:String>
+    <s:String x:Key="General">General</s:String>
+    <s:String x:Key="SavePlaylistInUniqueDirectory">Save every playlist in a different folder</s:String>
 </ResourceDictionary> 
