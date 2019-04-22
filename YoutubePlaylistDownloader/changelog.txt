@@ -1,8 +1,6 @@
-﻿Version 1.707:
-- Fixed a bug that caused the program to think it had more files to convert when it had 0 files to convert
-- Reworked the settings page a little
-- You can now save every playlist in a unique folder
-- Fixed subtitles not downloading
+﻿Version 1.708:
+- Fixed a bug that caused the program to not download anything
+- Added Deutsch translation
 
 Known issues: 
-- The download speed indicator isn't accurate sometimes
+- The program might sometimes not retrive all videos in a playlist, a fix will be released as soon as possible for this.
