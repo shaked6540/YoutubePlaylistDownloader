@@ -5,7 +5,7 @@ A simple program to download whole playlists\channels or even single videos from
 
 [Click here to download the installer (recommended)](https://drive.google.com/uc?id=1PUrgasF60loIrgPraEMiBQGV2zxRhZrf&export=download) 
 
-[Click here to download the portable version](https://drive.google.com/uc?id=1OjNrokSiRo0_Y8XHtIorS_DHoNEdoJxD&export=download)
+[Click here to download the portable version (usually outdated)](https://drive.google.com/uc?id=1OjNrokSiRo0_Y8XHtIorS_DHoNEdoJxD&export=download)
 
 ## Features
 - No ads, open source and free
