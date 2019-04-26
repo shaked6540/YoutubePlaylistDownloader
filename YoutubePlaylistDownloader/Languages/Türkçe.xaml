@@ -143,4 +143,8 @@ dosya dönüştürmeyi 3 ile sınırlandırarak 3 çekirdek kullanın, 3 çekird
     <s:String x:Key="FileConvertion">Dosya Dönüştürme</s:String>
     <s:String x:Key="General">General</s:String>
     <s:String x:Key="SavePlaylistInUniqueDirectory">Save every playlist in a different folder</s:String>
+    <s:String x:Key="Playlist">Playlist</s:String>
+    <s:String x:Key="OpenDestinationFolder">Open destination folder</s:String>
+    <s:String x:Key="ConfirmExit">Confirmation on exit</s:String>
+    <s:String x:Key="OpenDestinationFolderOnFinish">Open destination folder when done</s:String>
 </ResourceDictionary> 

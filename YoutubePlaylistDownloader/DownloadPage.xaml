@@ -30,6 +30,9 @@
             <Controls:Tile Click="Background_Exit" HorizontalAlignment="Center" Title="{DynamicResource DownloadInBackground}" Margin="5" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Controls:ControlsHelper.MouseOverBorderBrush="{DynamicResource BlackBrush}"  HorizontalTitleAlignment="Right" Style="{StaticResource LargeTileStyle}">
                 <iconPacks:PackIconModern Width="40" Height="40" Kind="InboxIn" />
             </Controls:Tile>
+            <Controls:Tile Click="OpenFolder_Click" HorizontalAlignment="Center" Title="{DynamicResource OpenDestinationFolder}" Margin="5" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Controls:ControlsHelper.MouseOverBorderBrush="{DynamicResource BlackBrush}"  HorizontalTitleAlignment="Right" Style="{StaticResource LargeTileStyle}">
+                <iconPacks:PackIconModern Width="40" Height="40" Kind="FolderOpen" />
+            </Controls:Tile>
         </WrapPanel>
 
     </StackPanel>

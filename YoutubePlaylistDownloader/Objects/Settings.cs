@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.ComponentModel;
 
 namespace YoutubePlaylistDownloader.Objects
 {
@@ -42,8 +43,12 @@ namespace YoutubePlaylistDownloader.Objects
         [JsonProperty]
         public bool LimitConvertions { get; set; }
 
+        [DefaultValue(true)]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
+        public bool ConfirmExit { get; set; }
+
         [JsonConstructor]
-        public Settings(string theme, string accent, string language, string saveDirectory, bool optionExpanderIsExpanded, bool checkForSubscriptionUpdates, bool checkForProgramUpdates, TimeSpan subscriptionsDelay, bool saveDownloadOptions, int maximumConverstionsCount,  int actualConvertionsLimit, bool limitConvertions)
+        public Settings(string theme, string accent, string language, string saveDirectory, bool optionExpanderIsExpanded, bool checkForSubscriptionUpdates, bool checkForProgramUpdates, TimeSpan subscriptionsDelay, bool saveDownloadOptions, int maximumConverstionsCount,  int actualConvertionsLimit, bool limitConvertions, bool confirmExit)
         {
             Theme = theme;
             Accent = accent;
@@ -57,6 +62,7 @@ namespace YoutubePlaylistDownloader.Objects
             MaximumConverstionsCount = maximumConverstionsCount;
             ActualConvertionsLimit = actualConvertionsLimit;
             LimitConvertions = limitConvertions;
+            ConfirmExit = confirmExit;
         }
 
     }

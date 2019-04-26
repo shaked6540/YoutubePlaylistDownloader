@@ -23,6 +23,7 @@ namespace YoutubePlaylistDownloader
             CheckForUpdatesCheckBox.IsChecked = GlobalConsts.CheckForProgramUpdates;
             SaveDownloadOptionsCheckBox.IsChecked = GlobalConsts.SaveDownloadOptions;
             LimitConvertionsCheckBox.IsChecked = GlobalConsts.LimitConvertions;
+            ConfirmOnExitCheckBox.IsChecked = GlobalConsts.ConfirmExit;
             ActualConvertionTextBox.Text = GlobalConsts.ActualConvertionsLimit.ToString();
             ActualConvertionTextBox.TextChanged += ActualConvertionTextBox_TextChanged;
 
@@ -136,6 +137,16 @@ namespace YoutubePlaylistDownloader
             {
                 ActualConvertionTextBox.Background = GlobalConsts.ErrorBrush;
             }
+        }
+
+        private void ConfirmOnExitCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            GlobalConsts.ConfirmExit = ConfirmOnExitCheckBox.IsChecked.Value;
+        }
+
+        private void ConfirmOnExitCheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            GlobalConsts.ConfirmExit = ConfirmOnExitCheckBox.IsChecked.Value;
         }
     }
 }

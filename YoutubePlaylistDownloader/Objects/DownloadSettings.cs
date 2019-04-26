@@ -42,10 +42,23 @@ namespace YoutubePlaylistDownloader.Objects
         [JsonProperty]
         public bool SavePlaylistsInDifferentDirectories { get; set; }
 
+        [JsonProperty]
+        public bool Subset { get; set; }
+
+        [JsonProperty]
+        public int SubsetStartIndex { get; set; }
+
+        [JsonProperty]
+        public int SubsetEndIndex { get; set; }
+
+        [JsonProperty]
+        public bool OpenDestinationFolderWhenDone { get; set; }
+
+
         [JsonConstructor]
         public DownloadSettings(string saveForamt, bool audioOnly, VideoQuality quality, bool preferHighestFPS,
             bool preferQuality, bool convert, bool setBitrate, string bitrate, bool downloadCaptions, string captionsLanguage,
-            bool savePlaylistsInDifferentDirectories)
+            bool savePlaylistsInDifferentDirectories, bool subset, int subsetStartIndex, int subsetEndIndex, bool openDestinationFolderWhenDone)
         {
             SaveFormat = saveForamt;
             AudioOnly = audioOnly;
@@ -58,6 +71,10 @@ namespace YoutubePlaylistDownloader.Objects
             DownloadCaptions = downloadCaptions;
             CaptionsLanguage = captionsLanguage;
             SavePlaylistsInDifferentDirectories = savePlaylistsInDifferentDirectories;
+            Subset = subset;
+            SubsetStartIndex = subsetStartIndex;
+            SubsetEndIndex = subsetEndIndex;
+            OpenDestinationFolderWhenDone = openDestinationFolderWhenDone;
         }
 
         public DownloadSettings(DownloadSettings settings)
@@ -73,6 +90,10 @@ namespace YoutubePlaylistDownloader.Objects
             DownloadCaptions = settings.DownloadCaptions;
             CaptionsLanguage = settings.CaptionsLanguage;
             SavePlaylistsInDifferentDirectories = settings.SavePlaylistsInDifferentDirectories;
+            Subset = settings.Subset;
+            SubsetStartIndex = settings.SubsetStartIndex;
+            SubsetEndIndex = settings.SubsetEndIndex;
+            OpenDestinationFolderWhenDone = settings.OpenDestinationFolderWhenDone;
         }
 
         public DownloadSettings Clone() => new DownloadSettings(this);

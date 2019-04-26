@@ -38,6 +38,11 @@ namespace YoutubePlaylistDownloader.Objects
             }
 
             Grid DisplayGrid = new Grid();
+            DisplayGrid.MouseLeftButtonDown += (sender, args) =>
+            {
+                if (args.ClickCount == 2)
+                    item.OpenFolder_Click(null, null);
+            };
             DisplayGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
             DisplayGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
             DisplayGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });

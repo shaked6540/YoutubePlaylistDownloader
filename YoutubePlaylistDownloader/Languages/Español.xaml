@@ -139,4 +139,8 @@ Se recomienda utilizar 1 núcleo menos de los que tienes disponibles. Si tu comp
     <s:String x:Key="FileConvertion">Conversión de videos</s:String>
     <s:String x:Key="General">General</s:String>
     <s:String x:Key="SavePlaylistInUniqueDirectory">Save every playlist in a different folder</s:String>
+    <s:String x:Key="Playlist">Playlist</s:String>
+    <s:String x:Key="OpenDestinationFolder">Open destination folder</s:String>
+    <s:String x:Key="ConfirmExit">Confirmation on exit</s:String>
+    <s:String x:Key="OpenDestinationFolderOnFinish">Open destination folder when done</s:String>
 </ResourceDictionary> 

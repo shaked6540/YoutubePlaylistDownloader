@@ -51,6 +51,7 @@ namespace YoutubePlaylistDownloader
         public static bool LimitConvertions;
         public static int MaximumConverstionsCount, ActualConvertionsLimit;
         private static SemaphoreSlim convertionLocker;
+        public static bool ConfirmExit;
 
         public static bool CheckForSubscriptionUpdates
         {
@@ -73,7 +74,7 @@ namespace YoutubePlaylistDownloader
             get
             {
                 if (downloadSettings == null)
-                    downloadSettings = new DownloadSettings("mp3", false, YoutubeExplode.Models.MediaStreams.VideoQuality.High720, false, false, false, false, "192", false, "en", false);
+                    downloadSettings = new DownloadSettings("mp3", false, YoutubeExplode.Models.MediaStreams.VideoQuality.High720, false, false, false, false, "192", false, "en", false, false, 0, 0, false);
 
                 return downloadSettings;
             }
@@ -183,7 +184,7 @@ namespace YoutubePlaylistDownloader
         {
             try
             {
-                var settings = new Objects.Settings(Theme.Name, Accent.Name, Language, SaveDirectory, OptionExpanderIsExpanded, CheckForSubscriptionUpdates, CheckForProgramUpdates, SubscriptionsUpdateDelay, SaveDownloadOptions, MaximumConverstionsCount, ActualConvertionsLimit, LimitConvertions);
+                var settings = new Objects.Settings(Theme.Name, Accent.Name, Language, SaveDirectory, OptionExpanderIsExpanded, CheckForSubscriptionUpdates, CheckForProgramUpdates, SubscriptionsUpdateDelay, SaveDownloadOptions, MaximumConverstionsCount, ActualConvertionsLimit, LimitConvertions, ConfirmExit);
                 File.WriteAllText(ConfigFilePath, Newtonsoft.Json.JsonConvert.SerializeObject(settings));
                 SubscriptionManager.SaveSubscriptions();
                 SaveDownloadSettings();
@@ -209,7 +210,7 @@ namespace YoutubePlaylistDownloader
             ActualConvertionsLimit = 2;
             LimitConvertions = true;
 
-            DownloadSettings = new DownloadSettings("mp3", false, YoutubeExplode.Models.MediaStreams.VideoQuality.High720, false, false, false, false, "192", false, "en", false);
+            DownloadSettings = new DownloadSettings("mp3", false, YoutubeExplode.Models.MediaStreams.VideoQuality.High720, false, false, false, false, "192", false, "en", false, false, 0, 0, false);
             SaveConsts();
         }
         public static void LoadConsts()
@@ -238,6 +239,7 @@ namespace YoutubePlaylistDownloader
                 MaximumConverstionsCount = settings.MaximumConverstionsCount;
                 ActualConvertionsLimit = settings.ActualConvertionsLimit;
                 LimitConvertions = settings.LimitConvertions;
+                ConfirmExit = settings.ConfirmExit;
 
                 ConversionsLocker = new SemaphoreSlim(ActualConvertionsLimit, MaximumConverstionsCount);
 
@@ -434,13 +436,13 @@ namespace YoutubePlaylistDownloader
                 catch (Exception ex)
                 {
                     File.Delete(DownloadSettingsFilePath);
-                    downloadSettings = new DownloadSettings("mp3", false, YoutubeExplode.Models.MediaStreams.VideoQuality.High720, false, false, false, false, "192", false, "en", false);
+                    downloadSettings = new DownloadSettings("mp3", false, YoutubeExplode.Models.MediaStreams.VideoQuality.High720, false, false, false, false, "192", false, "en", false, false, 0, 0, false);
                     Log(ex.ToString(), "LoadDownloadSettings at GlobalConsts").Wait();
                 }
             }
             else
             {
-                downloadSettings = new DownloadSettings("mp3", false, YoutubeExplode.Models.MediaStreams.VideoQuality.High720, false, false, false, false, "192", false, "en", false);
+                downloadSettings = new DownloadSettings("mp3", false, YoutubeExplode.Models.MediaStreams.VideoQuality.High720, false, false, false, false, "192", false, "en", false, false, 0, 0, false);
             }
         }
         public static void SaveDownloadSettings()

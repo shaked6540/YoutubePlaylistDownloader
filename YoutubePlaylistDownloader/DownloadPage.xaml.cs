@@ -117,8 +117,7 @@ namespace YoutubePlaylistDownloader
         }
 
 
-        public DownloadPage(Playlist playlist, DownloadSettings settings, int startIndex = 0, int endIndex = 0, string savePath = "",
-            IEnumerable<Video> videos = null, Subscription subscription = null,
+        public DownloadPage(Playlist playlist, DownloadSettings settings, string savePath = "", IEnumerable<Video> videos = null, Subscription subscription = null,
             bool silent = false, CancellationTokenSource cancellationToken = null)
         {
             InitializeComponent();
@@ -129,8 +128,8 @@ namespace YoutubePlaylistDownloader
             else
                 Videos = playlist.Videos;
 
-            startIndex = startIndex <= 0 ? 0 : startIndex;
-            endIndex = endIndex <= 0 ? Videos.Count() - 1 : endIndex;
+            int startIndex = settings.SubsetStartIndex <= 0 ? 0 : settings.SubsetStartIndex;
+            int endIndex = settings.SubsetEndIndex <= 0 ? Videos.Count() - 1 : settings.SubsetEndIndex;
 
             this.silent = silent;
 
@@ -159,7 +158,7 @@ namespace YoutubePlaylistDownloader
             SavePath = string.IsNullOrWhiteSpace(savePath) ? GlobalConsts.SaveDirectory : savePath;
 
             if (settings.SavePlaylistsInDifferentDirectories && playlist != null && !string.IsNullOrWhiteSpace(playlist.Title))
-                SavePath += $"\\{playlist.Title}";
+                SavePath += $"\\{GlobalConsts.CleanFileName(playlist.Title)}";
 
             if (!Directory.Exists(SavePath))
                 Directory.CreateDirectory(SavePath);
@@ -507,6 +506,9 @@ namespace YoutubePlaylistDownloader
                     CurrentDownloadProgressBarTextBlock.Visibility = Visibility.Collapsed;
                 });
 
+                if (GlobalConsts.DownloadSettings.OpenDestinationFolderWhenDone)
+                    OpenFolder_Click(null, null);
+
             }
             catch (Exception ex)
             {
@@ -800,6 +802,9 @@ namespace YoutubePlaylistDownloader
 
             await Task.WhenAll(convertionTasks);
 
+            if (GlobalConsts.DownloadSettings.OpenDestinationFolderWhenDone)
+                OpenFolder_Click(null, null);
+            
             Dispose();
         }
 
@@ -836,6 +841,10 @@ namespace YoutubePlaylistDownloader
                 return;
             }
             GlobalConsts.LoadPage(GlobalConsts.MainPage.Load());
+        }
+        public void OpenFolder_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start(SavePath);
         }
 
         private async Task<bool> ExitAsync()

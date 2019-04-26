@@ -255,6 +255,7 @@ namespace YoutubePlaylistDownloader
 
             return this;
         }
+        public void OpenFolder_Click(object sender, RoutedEventArgs e) { }
 
         public void Exit()
         {

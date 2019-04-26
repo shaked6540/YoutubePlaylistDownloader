@@ -98,7 +98,7 @@ namespace YoutubePlaylistDownloader
 #endif
 
                 SubscriptionChannelId, new DownloadSettings("mp3", false, YoutubeExplode.Models.MediaStreams.VideoQuality.High720,
-                false, false, false, false, string.Empty, false, "en", false), new List<string>());
+                false, false, false, false, string.Empty, false, "en", false, false, 0, 0, false), new List<string>());
 
 
             Subscriptions.Add(sub);

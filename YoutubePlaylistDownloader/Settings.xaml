@@ -34,7 +34,8 @@
                             <RowDefinition/>
                             <RowDefinition/>
                             <RowDefinition/>
-                            <RowDefinition />
+                            <RowDefinition/>
+                            <RowDefinition/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
 
@@ -43,16 +44,17 @@
                         <CheckBox Grid.Row="1" Content="{DynamicResource AutomaticallyCheckForUpdates}" Margin="5" Grid.Column="0" Grid.ColumnSpan="5" x:Name="CheckForUpdatesCheckBox" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" />
                         <CheckBox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" Margin="5" Content="{DynamicResource SaveDownloadOptions}" x:Name="SaveDownloadOptionsCheckBox" Checked="SaveDownloadOptionsCheckBox_Checked" Unchecked="SaveDownloadOptionsCheckBox_Unchecked" />
                         <CheckBox Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Margin="5" Content="{DynamicResource LimitConverstions}" x:Name="LimitConvertionsCheckBox" Checked="LimitConvertionsCheckBox_Checked" Unchecked="LimitConvertionsCheckBox_Unchecked" />
-                        <Label    Grid.Row="4" Content="{DynamicResource Theme}" Margin="5" Grid.Column="0"  />
-                        <Label    Grid.Row="5" Content="{DynamicResource Language}" Margin="5"  Grid.Column="0" />
-
+                        <CheckBox Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4" Margin="5" Content="{DynamicResource ConfirmExit}" x:Name="ConfirmOnExitCheckBox" Checked="ConfirmOnExitCheckBox_Checked" Unchecked="ConfirmOnExitCheckBox_Unchecked"/>
+                        <Label    Grid.Row="5" Content="{DynamicResource Theme}" Margin="5" Grid.Column="0"  />
+                        <Label    Grid.Row="6" Content="{DynamicResource Language}" Margin="5"  Grid.Column="0" />
+                        
                         <!--Col 1-->
                         <WrapPanel Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2">
                             <TextBox  Grid.Row="3" Margin="5" VerticalAlignment="Center" Grid.Column="1" x:Name="ActualConvertionTextBox" HorizontalAlignment="Left" Width="30" TextAlignment="Center" />
                             <Label Content="{DynamicResource ValueChangeRequiresRestart}" HorizontalAlignment="Center" Margin="5" ></Label>
                         </WrapPanel>
-                        <ComboBox Grid.Row="4"  Margin="5" VerticalAlignment="Center"  Grid.Column="1" x:Name="comboBox" HorizontalAlignment="Left" MinWidth="120" SelectionChanged="ComboBox_SelectionChanged" />
-                        <ComboBox Grid.Row="5" Margin="5" VerticalAlignment="Center"  Grid.Column="1" x:Name="LanguageComboBox" HorizontalAlignment="Left" MinWidth="120" SelectionChanged="LanguageComboBox_SelectionChanged" />
+                        <ComboBox Grid.Row="5"  Margin="5" VerticalAlignment="Center"  Grid.Column="1" x:Name="comboBox" HorizontalAlignment="Left" MinWidth="120" SelectionChanged="ComboBox_SelectionChanged" />
+                        <ComboBox Grid.Row="6" Margin="5" VerticalAlignment="Center"  Grid.Column="1" x:Name="LanguageComboBox" HorizontalAlignment="Left" MinWidth="120" SelectionChanged="LanguageComboBox_SelectionChanged" />
 
                         <!--Col 2-->
 

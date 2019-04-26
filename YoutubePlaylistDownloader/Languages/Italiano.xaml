@@ -140,4 +140,8 @@ su quattro; in Gestione Attività si vedrà che il programma usa poco più del 7
     <s:String x:Key="FileConvertion">Conversione dei file</s:String>
     <s:String x:Key="General">Generale</s:String>
     <s:String x:Key="SavePlaylistInUniqueDirectory">Salva ogni playlist in una cartella diversa</s:String>
+    <s:String x:Key="Playlist">Playlist</s:String>
+    <s:String x:Key="OpenDestinationFolder">Open destination folder</s:String>
+    <s:String x:Key="ConfirmExit">Confirmation on exit</s:String>
+    <s:String x:Key="OpenDestinationFolderOnFinish">Open destination folder when done</s:String>
 </ResourceDictionary>

@@ -90,7 +90,7 @@ namespace YoutubePlaylistDownloader
 
         private async void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (!exit)
+            if (!exit && GlobalConsts.ConfirmExit)
             {
                 e.Cancel = true;
 

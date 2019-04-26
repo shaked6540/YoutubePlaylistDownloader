@@ -52,7 +52,10 @@ namespace YoutubePlaylistDownloader
             CaptionsLanguagesComboBox.SelectedItem = Languages[settings.CaptionsLanguage ?? "en"];
             AudioOnlyCheckBox.IsChecked = settings.AudioOnly;
             UniquePlaylistDirectoryCheckBox.IsChecked = settings.SavePlaylistsInDifferentDirectories;
-
+            PlaylistIndexCheckBox.IsChecked = settings.Subset;
+            PlaylistStartIndexTextBox.Text = settings.SubsetStartIndex.ToString();
+            PlaylistEndIndexTextBox.Text = settings.SubsetEndIndex.ToString();
+            OpenDestinationFolderCheckBox.IsChecked = settings.OpenDestinationFolderWhenDone;
 
             SubscribeToEvents();
 
@@ -78,6 +81,94 @@ namespace YoutubePlaylistDownloader
             AudioOnlyCheckBox.Unchecked += AudioOnlyCheckBox_Unchecked;
             UniquePlaylistDirectoryCheckBox.Checked += UniquePlaylistDirectoryCheckBox_Checked;
             UniquePlaylistDirectoryCheckBox.Unchecked += UniquePlaylistDirectoryCheckBox_Unchecked;
+            PlaylistIndexCheckBox.Checked += PlaylistIndexCheckBox_Checked;
+            PlaylistIndexCheckBox.Unchecked += PlaylistIndexCheckBox_Unchecked;
+            PlaylistStartIndexTextBox.TextChanged += PlaylistStartIndexTextBox_TextChanged;
+            PlaylistEndIndexTextBox.TextChanged += PlaylistEndIndexTextBox_TextChanged;
+            OpenDestinationFolderCheckBox.Checked += OpenDestinationFolderCheckBox_Checked;
+            OpenDestinationFolderCheckBox.Unchecked += OpenDestinationFolderCheckBox_Unchecked;
+        }
+
+        private void OpenDestinationFolderCheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            if (GlobalConsts.SaveDownloadOptions)
+            {
+                GlobalConsts.DownloadSettings.OpenDestinationFolderWhenDone = OpenDestinationFolderCheckBox.IsChecked.Value;
+                GlobalConsts.SaveDownloadSettings();
+            }
+        }
+
+        private void OpenDestinationFolderCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            if (GlobalConsts.SaveDownloadOptions)
+            {
+                GlobalConsts.DownloadSettings.OpenDestinationFolderWhenDone = OpenDestinationFolderCheckBox.IsChecked.Value;
+                GlobalConsts.SaveDownloadSettings();
+            }
+        }
+
+        private void PlaylistEndIndexTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (!int.TryParse(PlaylistEndIndexTextBox.Text, out int endIndex))
+            {
+                if (!string.IsNullOrWhiteSpace(PlaylistEndIndexTextBox.Text))
+                    PlaylistEndIndexTextBox.Background = GlobalConsts.ErrorBrush;
+
+                if (GlobalConsts.SaveDownloadOptions)
+                {
+                    GlobalConsts.DownloadSettings.SubsetStartIndex = 0;
+                    GlobalConsts.SaveDownloadSettings();
+                }
+            }
+            else
+            {
+                PlaylistEndIndexTextBox.Background = null;
+                if (GlobalConsts.SaveDownloadOptions)
+                {
+                    GlobalConsts.DownloadSettings.SubsetStartIndex = endIndex;
+                    GlobalConsts.SaveDownloadSettings();
+                }
+            }
+        }
+
+        private void PlaylistStartIndexTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (!int.TryParse(PlaylistStartIndexTextBox.Text, out int startIndex) || startIndex < 1)
+            {
+                PlaylistStartIndexTextBox.Background = GlobalConsts.ErrorBrush;
+                if (GlobalConsts.SaveDownloadOptions)
+                {
+                    GlobalConsts.DownloadSettings.SubsetStartIndex = 0;
+                    GlobalConsts.SaveDownloadSettings();
+                }
+            }
+            else
+            {
+                PlaylistStartIndexTextBox.Background = null;
+                if (GlobalConsts.SaveDownloadOptions)
+                {
+                    GlobalConsts.DownloadSettings.SubsetStartIndex = startIndex - 1;
+                    GlobalConsts.SaveDownloadSettings();
+                }
+            }
+        }
+
+        private void PlaylistIndexCheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            if (GlobalConsts.SaveDownloadOptions)
+            {
+                GlobalConsts.DownloadSettings.Subset = PlaylistIndexCheckBox.IsChecked.Value;
+                GlobalConsts.SaveDownloadSettings();
+            }
+        }
+
+        private void PlaylistIndexCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            if (GlobalConsts.SaveDownloadOptions)
+            {
+                GlobalConsts.DownloadSettings.Subset = PlaylistIndexCheckBox.IsChecked.Value;
+                GlobalConsts.SaveDownloadSettings();
+            }
         }
 
         private void UniquePlaylistDirectoryCheckBox_Unchecked(object sender, RoutedEventArgs e)
@@ -111,7 +202,27 @@ namespace YoutubePlaylistDownloader
             bool downloadCaptions = CaptionsCheckBox.IsChecked.Value;
             bool playlistDirectories = UniquePlaylistDirectoryCheckBox.IsChecked.Value;
             string captionsLanguage = Languages.FirstOrDefault(x => x.Value.Equals((string)CaptionsLanguagesComboBox.SelectedItem, StringComparison.OrdinalIgnoreCase)).Key;
+            bool subset = PlaylistIndexCheckBox.IsChecked.Value;
+            bool openDestinationFolder = OpenDestinationFolderCheckBox.IsChecked.Value;
 
+            int startIndex = 0, endIndex = 0;
+            if (subset)
+            {
+                if (!int.TryParse(PlaylistStartIndexTextBox.Text, out startIndex) || startIndex < 1)
+                {
+                    startIndex = 0;
+                    PlaylistStartIndexTextBox.Background = GlobalConsts.ErrorBrush;
+                }
+                else PlaylistStartIndexTextBox.Background = null;
+                
+
+                if (!int.TryParse(PlaylistEndIndexTextBox.Text, out endIndex))
+                {
+                    endIndex = 0;
+                    PlaylistEndIndexTextBox.Background = GlobalConsts.ErrorBrush;
+                }
+                else PlaylistEndIndexTextBox.Background = null;
+            }
 
             if (BitrateCheckBox.IsChecked.Value)
                 if (!string.IsNullOrWhiteSpace(BitRateTextBox.Text) && BitRateTextBox.Text.All(c => char.IsDigit(c)))
@@ -126,7 +237,7 @@ namespace YoutubePlaylistDownloader
 
 
 
-            GlobalConsts.DownloadSettings = new Objects.DownloadSettings(type, audioOnly, vq, preferHighestFPS, preferQuality, convert, setBitrate, bitrate, downloadCaptions, captionsLanguage, playlistDirectories);
+            GlobalConsts.DownloadSettings = new Objects.DownloadSettings(type, audioOnly, vq, preferHighestFPS, preferQuality, convert, setBitrate, bitrate, downloadCaptions, captionsLanguage, playlistDirectories, subset, startIndex, endIndex, openDestinationFolder);
             GlobalConsts.CloseFlyout();
         }
 
