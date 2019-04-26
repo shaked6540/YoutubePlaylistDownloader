@@ -1,4 +1,19 @@
-﻿Version 1.707:
+﻿Version 1.8:
+- Re-added playlists subsets
+- Added option to confirm program exit
+- Added option to open destination folder when downloads finish
+- Some minor bug fixes as well
+
+
+Version 1.708:
+- Fixed a bug that caused the program to not download anything
+- Added Deutsch translation
+
+Known issues: 
+- The program might sometimes not retrive all videos in a playlist, a fix will be released as soon as possible for this.
+
+
+Version 1.707:
 - Fixed a bug that caused the program to think it had more files to convert when it had 0 files to convert
 - Reworked the settings page a little
 - You can now save every playlist in a unique folder
