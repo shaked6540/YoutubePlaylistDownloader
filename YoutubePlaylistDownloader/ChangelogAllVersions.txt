@@ -1,4 +1,8 @@
-﻿Version 1.8:
+﻿Version 1.801:
+- Fixed a bug that caused the program to crash if you clicked on "Open Destination Folder" after everything was downloaded
+
+
+Version 1.8:
 - Re-added playlists subsets
 - Added option to confirm program exit
 - Added option to open destination folder when downloads finish
