@@ -842,9 +842,16 @@ namespace YoutubePlaylistDownloader
             }
             GlobalConsts.LoadPage(GlobalConsts.MainPage.Load());
         }
-        public void OpenFolder_Click(object sender, RoutedEventArgs e)
+        public async void OpenFolder_Click(object sender, RoutedEventArgs e)
         {
-            Process.Start(SavePath);
+            try
+            {
+                Process.Start(SavePath);
+            }
+            catch (Exception ex)
+            {
+                await GlobalConsts.Log($"Error opening save path: {ex}", "DownloadPage.xaml.cs at OpenFolder_Click");
+            }
         }
 
         private async Task<bool> ExitAsync()
@@ -902,7 +909,6 @@ namespace YoutubePlaylistDownloader
                 Bitrate = null;
                 NotDownloaded = null;
                 Videos = null;
-                SavePath = null;
                 Subscription = null;
                 downloadSpeeds = null;
                 title = null;
