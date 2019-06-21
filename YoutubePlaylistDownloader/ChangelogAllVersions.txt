@@ -1,4 +1,8 @@
-﻿Version 1.801:
+﻿Version 1.802:
+- Fixed "Could not find signature decipherer function name" error
+
+
+Version 1.801:
 - Fixed a bug that caused the program to crash if you clicked on "Open Destination Folder" after everything was downloaded
 
 

@@ -1,8 +1,2 @@
-﻿Version 1.8:
-- Re-added playlists subsets
-- Added option to confirm program exit
-- Added option to open destination folder when downloads finish
-- Some minor bug fixes as well
-
-Version 1.801:
-- Fixed a bug that caused the program to crash if you clicked on "Open Destination Folder" after everything was downloaded
+﻿Version 1.802:
+- Fixed "Could not find signature decipherer function name" error
