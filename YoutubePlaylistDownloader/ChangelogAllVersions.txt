@@ -1,4 +1,9 @@
-﻿Version 1.802:
+﻿Version 1.803:
+- Updated Italian translation
+- Fixed "Value cannot be null. Parameter name: value" error
+
+
+Version 1.802:
 - Fixed "Could not find signature decipherer function name" error
 
 
