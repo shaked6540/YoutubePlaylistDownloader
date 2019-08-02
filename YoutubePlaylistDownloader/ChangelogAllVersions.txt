@@ -1,4 +1,8 @@
-﻿Version 1.803:
+﻿Version 1.804:
+- Fixed "Video is unavailable" issue
+
+
+Version 1.803:
 - Updated Italian translation
 - Fixed "Value cannot be null. Parameter name: value" error
 
