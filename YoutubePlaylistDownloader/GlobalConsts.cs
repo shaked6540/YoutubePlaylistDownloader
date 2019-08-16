@@ -33,7 +33,7 @@ namespace YoutubePlaylistDownloader
         public static readonly string CurrentDir;
         private static readonly string ConfigFilePath;
         private static readonly string ErrorFilePath;
-        public const double VERSION = 1.804;
+        public const double VERSION = 1.805;
         public static bool UpdateOnExit;
         public static string UpdateSetupLocation;
         public static bool OptionExpanderIsExpanded;
