@@ -1,2 +1,4 @@
-﻿Version 1.805:
-- Fixed a bug that caused age restricted videos to fail downloading
+﻿Version 1.806:
+- Fixed a bug that occured when converting audio files to opus format that caused the first second to be skipped
+- Added an option to not tag audio files
+- Opus files will not be tagged anymore because of the bug mentioned above
