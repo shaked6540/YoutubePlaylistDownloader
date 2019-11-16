@@ -30,7 +30,7 @@ namespace YoutubePlaylistDownloader
         private string Bitrate;
         private List<Tuple<string, string>> NotDownloaded;
         private IEnumerable<Video> Videos;
-        private bool AudioOnly, PreferHighestFPS, DownloadCaptions;
+        private bool AudioOnly, PreferHighestFPS, DownloadCaptions, TagAudioFile;
         private string SavePath;
         private Subscription Subscription;
         const int megaBytes = 1 << 20;
@@ -165,9 +165,10 @@ namespace YoutubePlaylistDownloader
 
             Subscription = subscription;
             AudioOnly = settings.AudioOnly;
+            TagAudioFile = settings.TagAudioFile;
             PreferHighestFPS = settings.PreferHighestFPS;
 
-            if (!string.IsNullOrWhiteSpace(settings.Bitrate) && settings.Bitrate.All(x=> char.IsDigit(x)))
+            if (settings.SetBitrate && !string.IsNullOrWhiteSpace(settings.Bitrate) && settings.Bitrate.All(x=> char.IsDigit(x)))
                 Bitrate = $"-b:a {settings.Bitrate}k";
             else
                 Bitrate = string.Empty;
@@ -383,7 +384,9 @@ namespace YoutubePlaylistDownloader
                                 {
                                     ffmpegList?.Remove(ffmpeg);
                                     convertingCount--;
-                                    await GlobalConsts.TagFile(video, indexes[video], outputFileLoc, Playlist);
+
+                                    if (!FileType.Contains("opus") && TagAudioFile)
+                                        await GlobalConsts.TagFile(video, indexes[video], outputFileLoc, Playlist);
 
                                     File.Copy(outputFileLoc, copyFileLoc, true);
                                     File.Delete(outputFileLoc);
@@ -435,7 +438,8 @@ namespace YoutubePlaylistDownloader
                             File.Delete(fileLoc);
                             try
                             {
-                                await GlobalConsts.TagFile(video, i + 1, copyFileLoc, Playlist);
+                                if (!FileType.Contains("opus") && TagAudioFile)
+                                    await GlobalConsts.TagFile(video, i + 1, copyFileLoc, Playlist);
                             }
                             catch (Exception ex)
                             {

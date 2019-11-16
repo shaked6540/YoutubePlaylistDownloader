@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.ComponentModel;
 using YoutubeExplode.Models.MediaStreams;
 
 namespace YoutubePlaylistDownloader.Objects
@@ -54,11 +55,15 @@ namespace YoutubePlaylistDownloader.Objects
         [JsonProperty]
         public bool OpenDestinationFolderWhenDone { get; set; }
 
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
+        [DefaultValue(true)]
+        public bool TagAudioFile { get; set; }
+
 
         [JsonConstructor]
         public DownloadSettings(string saveForamt, bool audioOnly, VideoQuality quality, bool preferHighestFPS,
             bool preferQuality, bool convert, bool setBitrate, string bitrate, bool downloadCaptions, string captionsLanguage,
-            bool savePlaylistsInDifferentDirectories, bool subset, int subsetStartIndex, int subsetEndIndex, bool openDestinationFolderWhenDone)
+            bool savePlaylistsInDifferentDirectories, bool subset, int subsetStartIndex, int subsetEndIndex, bool openDestinationFolderWhenDone, bool tagAudioFile)
         {
             SaveFormat = saveForamt;
             AudioOnly = audioOnly;
@@ -75,6 +80,7 @@ namespace YoutubePlaylistDownloader.Objects
             SubsetStartIndex = subsetStartIndex;
             SubsetEndIndex = subsetEndIndex;
             OpenDestinationFolderWhenDone = openDestinationFolderWhenDone;
+            TagAudioFile = tagAudioFile;
         }
 
         public DownloadSettings(DownloadSettings settings)
@@ -94,6 +100,7 @@ namespace YoutubePlaylistDownloader.Objects
             SubsetStartIndex = settings.SubsetStartIndex;
             SubsetEndIndex = settings.SubsetEndIndex;
             OpenDestinationFolderWhenDone = settings.OpenDestinationFolderWhenDone;
+            TagAudioFile = settings.TagAudioFile;
         }
 
         public DownloadSettings Clone() => new DownloadSettings(this);

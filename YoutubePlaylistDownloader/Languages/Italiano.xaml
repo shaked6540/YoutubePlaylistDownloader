@@ -144,4 +144,5 @@ su quattro; in Gestione Attività si vedrà che il programma usa poco più del 7
     <s:String x:Key="OpenDestinationFolder">Apri la cartella designata</s:String>
     <s:String x:Key="ConfirmExit">Conferma all’uscita</s:String>
     <s:String x:Key="OpenDestinationFolderOnFinish">Apri la cartella al termine</s:String>
+    <s:String x:Key="TagAudioFile">Add tags and cover picture to audio files</s:String>
 </ResourceDictionary>

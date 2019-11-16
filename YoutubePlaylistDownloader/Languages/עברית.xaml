@@ -146,4 +146,5 @@ the file convertion to 2, etc..</s:String>
     <s:String x:Key="OpenDestinationFolder">הראה בתיקייה</s:String>
     <s:String x:Key="ConfirmExit">שאל האם אני בטוח שאני רוצה לצאת</s:String>
     <s:String x:Key="OpenDestinationFolderOnFinish">פתח תייקיה בסיום ההורדה</s:String>
+    <s:String x:Key="TagAudioFile">הוסף תגים ותמונת רקע לקבצי אודיו</s:String>
 </ResourceDictionary>

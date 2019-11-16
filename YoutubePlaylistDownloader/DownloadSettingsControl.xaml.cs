@@ -56,6 +56,7 @@ namespace YoutubePlaylistDownloader
             PlaylistStartIndexTextBox.Text = settings.SubsetStartIndex.ToString();
             PlaylistEndIndexTextBox.Text = settings.SubsetEndIndex.ToString();
             OpenDestinationFolderCheckBox.IsChecked = settings.OpenDestinationFolderWhenDone;
+            TagAudioFileCheckBox.IsChecked = settings.TagAudioFile;
 
             SubscribeToEvents();
 
@@ -87,6 +88,26 @@ namespace YoutubePlaylistDownloader
             PlaylistEndIndexTextBox.TextChanged += PlaylistEndIndexTextBox_TextChanged;
             OpenDestinationFolderCheckBox.Checked += OpenDestinationFolderCheckBox_Checked;
             OpenDestinationFolderCheckBox.Unchecked += OpenDestinationFolderCheckBox_Unchecked;
+            TagAudioFileCheckBox.Checked += TagAudioFileCheckBox_Checked;
+            TagAudioFileCheckBox.Unchecked += TagAudioFileCheckBox_Unchecked;
+        }
+
+        private void TagAudioFileCheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            if (GlobalConsts.SaveDownloadOptions)
+            {
+                GlobalConsts.DownloadSettings.TagAudioFile = TagAudioFileCheckBox.IsChecked.Value;
+                GlobalConsts.SaveDownloadSettings();
+            }
+        }
+
+        private void TagAudioFileCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            if (GlobalConsts.SaveDownloadOptions)
+            {
+                GlobalConsts.DownloadSettings.TagAudioFile = TagAudioFileCheckBox.IsChecked.Value;
+                GlobalConsts.SaveDownloadSettings();
+            }
         }
 
         private void OpenDestinationFolderCheckBox_Unchecked(object sender, RoutedEventArgs e)
@@ -204,6 +225,7 @@ namespace YoutubePlaylistDownloader
             string captionsLanguage = Languages.FirstOrDefault(x => x.Value.Equals((string)CaptionsLanguagesComboBox.SelectedItem, StringComparison.OrdinalIgnoreCase)).Key;
             bool subset = PlaylistIndexCheckBox.IsChecked.Value;
             bool openDestinationFolder = OpenDestinationFolderCheckBox.IsChecked.Value;
+            bool tagAudioFile = TagAudioFileCheckBox.IsChecked.Value;
 
             int startIndex = 0, endIndex = 0;
             if (subset)
@@ -237,7 +259,7 @@ namespace YoutubePlaylistDownloader
 
 
 
-            GlobalConsts.DownloadSettings = new Objects.DownloadSettings(type, audioOnly, vq, preferHighestFPS, preferQuality, convert, setBitrate, bitrate, downloadCaptions, captionsLanguage, playlistDirectories, subset, startIndex, endIndex, openDestinationFolder);
+            GlobalConsts.DownloadSettings = new Objects.DownloadSettings(type, audioOnly, vq, preferHighestFPS, preferQuality, convert, setBitrate, bitrate, downloadCaptions, captionsLanguage, playlistDirectories, subset, startIndex, endIndex, openDestinationFolder, tagAudioFile);
             GlobalConsts.CloseFlyout();
         }
 

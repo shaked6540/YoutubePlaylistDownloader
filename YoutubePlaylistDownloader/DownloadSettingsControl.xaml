@@ -44,6 +44,7 @@
                 <TextBox  Margin="0,7" x:Name="BitRateTextBox" TextAlignment="Center" MinWidth="40" Width="Auto" />
                 <Label Content="kb\s" Margin="7" />
             </StackPanel>
+            <CheckBox Margin="7" x:Name="TagAudioFileCheckBox" Content="{DynamicResource TagAudioFile}" />
             <CheckBox Margin="7" x:Name="AudioOnlyCheckBox" Content="{DynamicResource AudioOnly}" />
         </StackPanel>
 
