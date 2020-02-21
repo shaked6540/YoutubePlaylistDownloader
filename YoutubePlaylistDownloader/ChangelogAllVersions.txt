@@ -1,4 +1,9 @@
-﻿Version 1.807:
+﻿Version 1.808:
+- Fixed a bug that caused downloaded videos to not be copied to the output directory
+- Added more error information to help analyze errors better
+
+
+Version 1.807:
 - Fixed "Sequence contains no elements" bug
 
 

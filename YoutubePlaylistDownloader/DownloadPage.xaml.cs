@@ -419,7 +419,7 @@ namespace YoutubePlaylistDownloader
                                     }
                                     catch (OperationCanceledException)
                                     {
-
+                                        GlobalConsts.ConversionsLocker.Release();
                                     }
                                     catch (Exception ex)
                                     {
@@ -731,7 +731,7 @@ namespace YoutubePlaylistDownloader
                             }
                             catch (OperationCanceledException)
                             {
-
+                                GlobalConsts.ConversionsLocker.Release();
                             }
                             catch (Exception ex)
                             {
