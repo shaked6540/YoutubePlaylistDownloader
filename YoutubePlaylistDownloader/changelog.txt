@@ -1,3 +1,2 @@
-﻿Version 1.808:
-- Fixed a bug that caused downloaded videos to not be copied to the output directory
-- Added more error information to help analyze errors better
+﻿Version 1.809:
+- Added support for 32 bit based systems
