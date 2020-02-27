@@ -33,7 +33,7 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 
 [Files]
 Source: "C:\Users\Shaked\OneDrive\Documents\Visual Studio 2017\Projects\YoutubePlaylistDownloader\YoutubePlaylistDownloader\bin\Release\*"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\ffmpeg\bin\ffmpeg.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\ffmpeg\bin32\ffmpeg.exe"; DestDir: "{app}"; Flags: ignoreversion
 
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files        
 
