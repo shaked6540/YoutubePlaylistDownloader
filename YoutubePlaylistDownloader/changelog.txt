@@ -1,2 +1,2 @@
-﻿Version 1.809:
-- Added support for 32 bit based systems
+﻿Version 1.810:
+- Fixed error 403 on some videos
