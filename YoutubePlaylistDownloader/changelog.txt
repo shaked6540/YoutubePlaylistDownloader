@@ -1,2 +1,2 @@
-﻿Version 1.810:
-- Fixed error 403 on some videos
+﻿Version 1.811:
+- Updated libraries, this might fix or break a lot of things. If something doesn't work properly, please let me know
