@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
+using YoutubePlaylistDownloader.Utilities;
 
 namespace YoutubePlaylistDownloader
 {
@@ -57,17 +58,17 @@ namespace YoutubePlaylistDownloader
 
         private async void AddChannelSubscriptionTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (YoutubeClient.TryParseChannelId(AddChannelSubscriptionTextBox.Text, out string channelId) && !Subscriptions.Any(x => x.ChannelId == channelId))
+            if (YoutubeHelpers.TryParseChannelId(AddChannelSubscriptionTextBox.Text, out string channelId) && !Subscriptions.Any(x => x.ChannelId == channelId))
             {
                 SubscriptionChannelId = channelId;
                 AddChannelButton.IsEnabled = true;
             }
-            else if (YoutubeClient.TryParseUsername(AddChannelSubscriptionTextBox.Text, out string username))
+            else if (YoutubeHelpers.TryParseUsername(AddChannelSubscriptionTextBox.Text, out string username))
             {
                 try
                 {
                     var client = GlobalConsts.YoutubeClient;
-                    var channelID = await client.GetChannelIdAsync(username);
+                    var channelID = (await client.Channels.GetByUserAsync(username)).Id.Value;
 
                     if (!Subscriptions.Any(x => x.ChannelId == channelID))
                     {
@@ -97,7 +98,7 @@ namespace YoutubePlaylistDownloader
                 DateTime.Now,
 #endif
 
-                SubscriptionChannelId, new DownloadSettings("mp3", false, YoutubeExplode.Models.MediaStreams.VideoQuality.High720,
+                SubscriptionChannelId, new DownloadSettings("mp3", false, YoutubeExplode.Videos.Streams.VideoQuality.High720,
                 false, false, false, false, string.Empty, false, "en", false, false, 0, 0, false, true), new List<string>());
 
 

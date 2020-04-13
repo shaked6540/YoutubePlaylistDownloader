@@ -6,16 +6,20 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using YoutubeExplode;
-using YoutubeExplode.Models;
-using YoutubeExplode.Models.MediaStreams;
+using YoutubeExplode.Playlists;
+using YoutubeExplode.Videos;
+using YoutubeExplode.Videos.Streams;
+using YoutubeExplode.Channels;
+using YoutubePlaylistDownloader.Utilities;
+using YoutubePlaylistDownloader.Objects;
 
 namespace YoutubePlaylistDownloader
 {
     public partial class MainPage : UserControl
     {
         private YoutubeClient client;
-        private Playlist list = null;
-        private List<Video> VideoList;
+        private FullPlaylist list = null;
+        private IEnumerable<Video> VideoList;
         private Channel channel = null;
         private readonly Dictionary<string, VideoQuality> Resolutions = new Dictionary<string, VideoQuality>()
         {
@@ -78,45 +82,44 @@ namespace YoutubePlaylistDownloader
         {
             try
             {
-                if (YoutubeClient.TryParsePlaylistId(PlaylistLinkTextBox.Text, out string playlistId))
+                if (YoutubeHelpers.TryParsePlaylistId(PlaylistLinkTextBox.Text, out string playlistId))
                 {
                     _ = Task.Run(async () =>
                     {
-                        list = await client.GetPlaylistAsync(playlistId).ConfigureAwait(false);
-                        VideoList.Clear();
-                        await UpdatePlaylistInfo(Visibility.Visible, list.Title, list.Author, list.Statistics.ViewCount.ToString(), list.Videos.Count.ToString(), $"https://img.youtube.com/vi/{list?.Videos?.FirstOrDefault()?.Id}/0.jpg", true, true);
+                        Playlist basePlaylist = await client.Playlists.GetAsync(playlistId).ConfigureAwait(false);
+                        list = new FullPlaylist(basePlaylist, await client.Playlists.GetVideosAsync(basePlaylist.Id).BufferAsync().ConfigureAwait(false));
+                        VideoList = new List<Video>();
+                        await UpdatePlaylistInfo(Visibility.Visible, list.BasePlaylist.Title, list.BasePlaylist.Author, list.BasePlaylist.Engagement.ViewCount.ToString(),list.Videos.Count().ToString(), $"https://img.youtube.com/vi/{list?.Videos?.FirstOrDefault()?.Id}/0.jpg", true, true);
                     }).ConfigureAwait(false);
                 }
-                else if (YoutubeClient.TryParseChannelId(PlaylistLinkTextBox.Text, out string channelId))
+                else if (YoutubeHelpers.TryParseChannelId(PlaylistLinkTextBox.Text, out string channelId))
                 {
                     _ = Task.Run(async () =>
                     {
-                        channel = await client.GetChannelAsync(channelId).ConfigureAwait(false);
-                        list = await client.GetPlaylistAsync(channel.GetChannelVideosPlaylistId());
-                        VideoList.Clear();
-                        await UpdatePlaylistInfo(Visibility.Visible, channel.Title, list.Author, list.Statistics.ViewCount.ToString(), list.Videos.Count.ToString(), channel.LogoUrl, true, true);
+                        channel = await client.Channels.GetAsync(channelId).ConfigureAwait(false);
+                        list = new FullPlaylist(null, null);
+                        VideoList = await client.Channels.GetUploadsAsync(channel.Id).BufferAsync().ConfigureAwait(false); ;
+                        await UpdatePlaylistInfo(Visibility.Visible, channel.Title, totalVideos: VideoList.Count().ToString(), imageUrl: channel.LogoUrl, downloadEnabled: true, showIndexes: true);
                     }).ConfigureAwait(false);
                 }
-                else if (YoutubeClient.TryParseUsername(PlaylistLinkTextBox.Text, out string username))
+                else if (YoutubeHelpers.TryParseUsername(PlaylistLinkTextBox.Text, out string username))
                 {
                     _ = Task.Run(async () =>
                     {
-                        string channelID = await client.GetChannelIdAsync(username).ConfigureAwait(false);
-                        var channel = await client.GetChannelAsync(channelID).ConfigureAwait(false);
-                        list = await client.GetPlaylistAsync(channel.GetChannelVideosPlaylistId()).ConfigureAwait(false);
-                        VideoList.Clear();
-                        await UpdatePlaylistInfo(Visibility.Visible, channel.Title, list.Author, list.Statistics.ViewCount.ToString(), list.Videos.Count.ToString(), channel.LogoUrl, true, true);
+                        var channel = await client.Channels.GetByUserAsync(username).ConfigureAwait(false);
+                        list = new FullPlaylist(null, null);
+                        VideoList = await client.Channels.GetUploadsAsync(channel.Id).BufferAsync().ConfigureAwait(false);
+                        await UpdatePlaylistInfo(Visibility.Visible, channel.Title,totalVideos: VideoList.Count().ToString(), imageUrl: channel.LogoUrl, downloadEnabled: true, showIndexes: true);
                     }).ConfigureAwait(false);
                 }
-                else if (YoutubeClient.TryParseVideoId(PlaylistLinkTextBox.Text, out string videoId))
+                else if (YoutubeHelpers.TryParseVideoId(PlaylistLinkTextBox.Text, out string videoId))
                 {
                     _ = Task.Run(async () =>
                     {
-                        var video = await client.GetVideoAsync(videoId);
-                        VideoList.Clear();
-                        VideoList.Add(video);
-                        list = null;
-                        await UpdatePlaylistInfo(Visibility.Visible, video.Title, video.Author, video.Statistics.ViewCount.ToString(), string.Empty, $"https://img.youtube.com/vi/{video.Id}/0.jpg", true, false);
+                        var video = await client.Videos.GetAsync(videoId);
+                        VideoList = new List<Video> { video };
+                        list = new FullPlaylist(null, null);
+                        await UpdatePlaylistInfo(Visibility.Visible, video.Title, video.Author, video.Engagement.ViewCount.ToString(), string.Empty, $"https://img.youtube.com/vi/{video.Id}/0.jpg", true, false);
 
                     }).ConfigureAwait(false);
                 }
@@ -138,7 +141,7 @@ namespace YoutubePlaylistDownloader
             if (list != null || VideoList.Any())
             {
                 GlobalConsts.LoadPage(new DownloadPage(list, GlobalConsts.DownloadSettings.Clone(), videos: VideoList));
-                VideoList.Clear();
+                VideoList= new List<Video>();
                 PlaylistLinkTextBox.Text = string.Empty;
             }
         }
@@ -181,7 +184,7 @@ namespace YoutubePlaylistDownloader
             if (list != null || VideoList.Any())
             {
                 new DownloadPage(list, GlobalConsts.DownloadSettings.Clone(), silent: true, videos: VideoList);
-                VideoList.Clear();
+                VideoList= new List<Video>();
                 PlaylistLinkTextBox.Text = string.Empty;
             }
         }

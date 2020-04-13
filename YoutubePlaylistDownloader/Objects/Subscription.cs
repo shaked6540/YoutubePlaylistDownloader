@@ -5,7 +5,8 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using YoutubeExplode.Models;
+using YoutubeExplode.Channels;
+using YoutubeExplode;
 
 namespace YoutubePlaylistDownloader.Objects
 {
@@ -63,7 +64,7 @@ namespace YoutubePlaylistDownloader.Objects
         public async Task<Channel> GetChannel()
         {
             if (channel == null)
-                channel = await GlobalConsts.YoutubeClient.GetChannelAsync(ChannelId);
+                channel = await GlobalConsts.YoutubeClient.Channels.GetAsync(ChannelId);
 
             return channel;
         }
@@ -74,7 +75,7 @@ namespace YoutubePlaylistDownloader.Objects
 
             else
             {
-                var playlist = await GlobalConsts.YoutubeClient.GetChannelUploadsAsync(ChannelId);
+                var playlist = await GlobalConsts.YoutubeClient.Channels.GetUploadsAsync(ChannelId).BufferAsync().ConfigureAwait(false);
                 var missingVideos = playlist.Where(x => x.UploadDate.ToUniversalTime().Date >= LatestVideoDownloaded && !DownloadedVideos.Contains(x.Id)).ToList();
 
                 if (missingVideos.Any())

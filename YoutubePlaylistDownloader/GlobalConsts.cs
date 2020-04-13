@@ -13,7 +13,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using YoutubeExplode;
-using YoutubeExplode.Models;
+using YoutubeExplode.Playlists;
+using YoutubeExplode.Videos;
 using YoutubePlaylistDownloader.Objects;
 
 namespace YoutubePlaylistDownloader
@@ -74,7 +75,7 @@ namespace YoutubePlaylistDownloader
             get
             {
                 if (downloadSettings == null)
-                    downloadSettings = new DownloadSettings("mp3", false, YoutubeExplode.Models.MediaStreams.VideoQuality.High720, false, false, false, false, "192", false, "en", false, false, 0, 0, false, true);
+                    downloadSettings = new DownloadSettings("mp3", false, YoutubeExplode.Videos.Streams.VideoQuality.High720, false, false, false, false, "192", false, "en", false, false, 0, 0, false, true);
 
                 return downloadSettings;
             }
@@ -210,7 +211,7 @@ namespace YoutubePlaylistDownloader
             ActualConvertionsLimit = 2;
             LimitConvertions = true;
 
-            DownloadSettings = new DownloadSettings("mp3", false, YoutubeExplode.Models.MediaStreams.VideoQuality.High720, false, false, false, false, "192", false, "en", false, false, 0, 0, false, true);
+            DownloadSettings = new DownloadSettings("mp3", false, YoutubeExplode.Videos.Streams.VideoQuality.High720, false, false, false, false, "192", false, "en", false, false, 0, 0, false, true);
             SaveConsts();
         }
         public static void LoadConsts()
@@ -334,7 +335,7 @@ namespace YoutubePlaylistDownloader
 
             return sanitisedNamePart;
         }
-        public static async Task TagFile(Video video, int vIndex, string file, Playlist playlist = null)
+        public static async Task TagFile(Video video, int vIndex, string file, FullPlaylist playlist = null)
         {
             if (video == null)
                 throw new ArgumentNullException($"{nameof(video)} was null, can't tag a file without a video title");
@@ -362,11 +363,11 @@ namespace YoutubePlaylistDownloader
 
             var t = TagLib.File.Create(file);
 
-            t.Tag.Album = playlist?.Title;
+            t.Tag.Album = playlist?.BasePlaylist?.Title;
             t.Tag.Track = (uint)vIndex;
             t.Tag.Year = (uint)video.UploadDate.Year;
             t.Tag.DateTagged = video.UploadDate.UtcDateTime;
-            t.Tag.AlbumArtists = new[] { playlist?.Author };
+            t.Tag.AlbumArtists = new[] { playlist?.BasePlaylist?.Author };
             var lowerGenre = genre.ToLower();
             if (new[] { "download", "out now", "mostercat", "video", "lyric", "release", "ncs" }.Any(x => lowerGenre.Contains(x)))
                 genre = string.Empty;
@@ -378,7 +379,7 @@ namespace YoutubePlaylistDownloader
                 TagLib.Id3v2.Tag.DefaultVersion = 3;
                 TagLib.Id3v2.Tag.ForceDefaultVersion = true;
                 var frame = TagLib.Id3v2.PopularimeterFrame.Get((TagLib.Id3v2.Tag)t.GetTag(TagLib.TagTypes.Id3v2, true), "WindowsUser", true);
-                frame.Rating = Convert.ToByte((video.Statistics.LikeCount * 255) / (video.Statistics.LikeCount + video.Statistics.DislikeCount));
+                frame.Rating = Convert.ToByte((video.Engagement.LikeCount * 255) / (video.Engagement.LikeCount + video.Engagement.DislikeCount));
             }
             catch
             {
@@ -436,13 +437,13 @@ namespace YoutubePlaylistDownloader
                 catch (Exception ex)
                 {
                     File.Delete(DownloadSettingsFilePath);
-                    downloadSettings = new DownloadSettings("mp3", false, YoutubeExplode.Models.MediaStreams.VideoQuality.High720, false, false, false, false, "192", false, "en", false, false, 0, 0, false, true);
+                    downloadSettings = new DownloadSettings("mp3", false, YoutubeExplode.Videos.Streams.VideoQuality.High720, false, false, false, false, "192", false, "en", false, false, 0, 0, false, true);
                     Log(ex.ToString(), "LoadDownloadSettings at GlobalConsts").Wait();
                 }
             }
             else
             {
-                downloadSettings = new DownloadSettings("mp3", false, YoutubeExplode.Models.MediaStreams.VideoQuality.High720, false, false, false, false, "192", false, "en", false, false, 0, 0, false, true);
+                downloadSettings = new DownloadSettings("mp3", false, YoutubeExplode.Videos.Streams.VideoQuality.High720, false, false, false, false, "192", false, "en", false, false, 0, 0, false, true);
             }
         }
         public static void SaveDownloadSettings()
