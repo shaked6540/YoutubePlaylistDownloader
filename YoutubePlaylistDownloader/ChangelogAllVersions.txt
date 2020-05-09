@@ -1,4 +1,10 @@
-﻿Version 1.812:
+﻿Version 1.813:
+- Added filtering videos by duration
+- Updated libraries
+- Fixed a bug that caused download settings to not be saved
+
+
+Version 1.812:
 - Added filtering videos by duration
 - Updated libraries
 
