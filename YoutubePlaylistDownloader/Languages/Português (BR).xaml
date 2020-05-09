@@ -148,4 +148,9 @@ the file convertion to 2, etc..</s:String>
     <s:String x:Key="ConfirmExit">Confirmation on exit</s:String>
     <s:String x:Key="OpenDestinationFolderOnFinish">Open destination folder when done</s:String>
     <s:String x:Key="TagAudioFile">Add tags and cover picture to audio files</s:String>
+    <s:String x:Key="Than">than</s:String>
+    <s:String x:Key="Filter">Filter</s:String>
+    <s:String x:Key="DownloadFilter">Only download videos</s:String>
+    <s:String x:Key="Longer">longer</s:String>
+    <s:String x:Key="Shorter">shorter</s:String>
 </ResourceDictionary>

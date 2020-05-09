@@ -130,6 +130,13 @@ namespace YoutubePlaylistDownloader
             else
                 Videos = playlist.Videos;
 
+            if (settings.FilterVideosByLength)
+            {
+                Videos = settings.FilterMode ?
+                    Videos.Where(video => video.Duration.TotalMinutes > settings.FilterByLengthValue) :
+                    Videos.Where(video => video.Duration.TotalMinutes < settings.FilterByLengthValue);
+            }
+
             int startIndex = settings.SubsetStartIndex <= 0 ? 0 : settings.SubsetStartIndex;
             int endIndex = settings.SubsetEndIndex <= 0 ? Videos.Count() - 1 : settings.SubsetEndIndex;
 

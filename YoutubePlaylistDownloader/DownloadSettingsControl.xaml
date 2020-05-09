@@ -49,12 +49,23 @@
         </StackPanel>
 
         <Label Content="{DynamicResource Playlist}" Foreground="{DynamicResource AccentColorBrush}" FontSize="26" />
-        <StackPanel Orientation="Horizontal">
+        <StackPanel Orientation="Horizontal" Margin="10,0,0,0">
             <CheckBox Content="{DynamicResource PlaylistIndex}" Margin="7" x:Name="PlaylistIndexCheckBox" />
             <TextBox Width="25" x:Name="PlaylistStartIndexTextBox" Text="1" Margin="0,7" TextAlignment="Center"/>
             <Label Content="{DynamicResource UntilIndex}" Margin="7" />
             <TextBox Width="25" x:Name="PlaylistEndIndexTextBox" Text="" Margin="0,7" TextAlignment="Center"/>
             <Label Content="{DynamicResource LeaveEmptyOrZeroForUntilTheEnd}" Margin="7" />
+        </StackPanel>
+
+        <Label Content="{DynamicResource Filter}" Foreground="{DynamicResource AccentColorBrush}" FontSize="26" />
+        <StackPanel Margin="10,0,0,0">
+            <StackPanel Orientation="Horizontal" >
+                <CheckBox Content="{DynamicResource DownloadFilter}" Margin="7" x:Name="FilterByLengthCheckBox" HorizontalAlignment="Center" IsChecked="False" />
+                <ComboBox HorizontalContentAlignment="Left" HorizontalAlignment="Center" VerticalContentAlignment="Center" Width="Auto" x:Name="FilterByLengthShorterOrLongerDropDown" VerticalAlignment="Center"/>
+                <Label Content="{DynamicResource Than}" Margin="7" />
+                <TextBox  Margin="0,7" x:Name="FilterByLengthTextBox" TextAlignment="Center" MinWidth="40" Width="Auto" />
+                <Label Content="{DynamicResource Minutes}" Margin="7" />
+            </StackPanel>
         </StackPanel>
 
     </StackPanel>

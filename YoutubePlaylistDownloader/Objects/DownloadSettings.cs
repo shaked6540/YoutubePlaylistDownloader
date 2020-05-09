@@ -59,11 +59,25 @@ namespace YoutubePlaylistDownloader.Objects
         [DefaultValue(true)]
         public bool TagAudioFile { get; set; }
 
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
+        [DefaultValue(false)]
+        public bool FilterVideosByLength { get; set; }
+
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
+        [DefaultValue(false)]
+        // true = longer than, false = shorter than
+        public bool FilterMode { get; set; }
+
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
+        [DefaultValue(4)]
+        public double FilterByLengthValue { get; set; }
+
 
         [JsonConstructor]
         public DownloadSettings(string saveForamt, bool audioOnly, VideoQuality quality, bool preferHighestFPS,
             bool preferQuality, bool convert, bool setBitrate, string bitrate, bool downloadCaptions, string captionsLanguage,
-            bool savePlaylistsInDifferentDirectories, bool subset, int subsetStartIndex, int subsetEndIndex, bool openDestinationFolderWhenDone, bool tagAudioFile)
+            bool savePlaylistsInDifferentDirectories, bool subset, int subsetStartIndex, int subsetEndIndex, bool openDestinationFolderWhenDone,
+            bool tagAudioFile, bool filterVideosByLength, bool filterMode, int filterByLengthValue)
         {
             SaveFormat = saveForamt;
             AudioOnly = audioOnly;
@@ -81,6 +95,9 @@ namespace YoutubePlaylistDownloader.Objects
             SubsetEndIndex = subsetEndIndex;
             OpenDestinationFolderWhenDone = openDestinationFolderWhenDone;
             TagAudioFile = tagAudioFile;
+            FilterVideosByLength = filterVideosByLength;
+            FilterMode = filterMode;
+            FilterByLengthValue = filterByLengthValue;
         }
 
         public DownloadSettings(DownloadSettings settings)
@@ -101,6 +118,9 @@ namespace YoutubePlaylistDownloader.Objects
             SubsetEndIndex = settings.SubsetEndIndex;
             OpenDestinationFolderWhenDone = settings.OpenDestinationFolderWhenDone;
             TagAudioFile = settings.TagAudioFile;
+            FilterVideosByLength = settings.FilterVideosByLength;
+            FilterMode = settings.FilterMode;
+            FilterByLengthValue = settings.FilterByLengthValue;
         }
 
         public DownloadSettings Clone() => new DownloadSettings(this);

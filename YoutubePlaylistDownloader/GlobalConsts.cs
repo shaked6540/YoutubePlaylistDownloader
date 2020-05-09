@@ -75,7 +75,7 @@ namespace YoutubePlaylistDownloader
             get
             {
                 if (downloadSettings == null)
-                    downloadSettings = new DownloadSettings("mp3", false, YoutubeExplode.Videos.Streams.VideoQuality.High720, false, false, false, false, "192", false, "en", false, false, 0, 0, false, true);
+                    downloadSettings = new DownloadSettings("mp3", false, YoutubeExplode.Videos.Streams.VideoQuality.High720, false, false, false, false, "192", false, "en", false, false, 0, 0, false, true, false, true, 4);
 
                 return downloadSettings;
             }
@@ -211,7 +211,7 @@ namespace YoutubePlaylistDownloader
             ActualConvertionsLimit = 2;
             LimitConvertions = true;
 
-            DownloadSettings = new DownloadSettings("mp3", false, YoutubeExplode.Videos.Streams.VideoQuality.High720, false, false, false, false, "192", false, "en", false, false, 0, 0, false, true);
+            DownloadSettings = new DownloadSettings("mp3", false, YoutubeExplode.Videos.Streams.VideoQuality.High720, false, false, false, false, "192", false, "en", false, false, 0, 0, false, true, false, true, 4);
             SaveConsts();
         }
         public static void LoadConsts()
@@ -437,13 +437,13 @@ namespace YoutubePlaylistDownloader
                 catch (Exception ex)
                 {
                     File.Delete(DownloadSettingsFilePath);
-                    downloadSettings = new DownloadSettings("mp3", false, YoutubeExplode.Videos.Streams.VideoQuality.High720, false, false, false, false, "192", false, "en", false, false, 0, 0, false, true);
+                    downloadSettings = new DownloadSettings("mp3", false, YoutubeExplode.Videos.Streams.VideoQuality.High720, false, false, false, false, "192", false, "en", false, false, 0, 0, false, true, false, true, 4);
                     Log(ex.ToString(), "LoadDownloadSettings at GlobalConsts").Wait();
                 }
             }
             else
             {
-                downloadSettings = new DownloadSettings("mp3", false, YoutubeExplode.Videos.Streams.VideoQuality.High720, false, false, false, false, "192", false, "en", false, false, 0, 0, false, true);
+                downloadSettings = new DownloadSettings("mp3", false, YoutubeExplode.Videos.Streams.VideoQuality.High720, false, false, false, false, "192", false, "en", false, false, 0, 0, false, true, false, true, 4);
             }
         }
         public static void SaveDownloadSettings()

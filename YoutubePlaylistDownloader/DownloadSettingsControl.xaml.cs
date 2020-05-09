@@ -57,6 +57,11 @@ namespace YoutubePlaylistDownloader
             PlaylistEndIndexTextBox.Text = settings.SubsetEndIndex.ToString();
             OpenDestinationFolderCheckBox.IsChecked = settings.OpenDestinationFolderWhenDone;
             TagAudioFileCheckBox.IsChecked = settings.TagAudioFile;
+            FilterByLengthCheckBox.IsChecked = settings.FilterVideosByLength;
+            var FilterByLengthShorterOrLongerDropDownItemSource = new[] { FindResource("Longer"), FindResource("Shorter") };
+            FilterByLengthShorterOrLongerDropDown.ItemsSource = FilterByLengthShorterOrLongerDropDownItemSource;
+            FilterByLengthShorterOrLongerDropDown.SelectedItem = settings.FilterMode ? FilterByLengthShorterOrLongerDropDownItemSource[0] : FilterByLengthShorterOrLongerDropDownItemSource[1];
+            FilterByLengthTextBox.Text = settings.FilterByLengthValue.ToString();
 
             SubscribeToEvents();
 
@@ -90,6 +95,53 @@ namespace YoutubePlaylistDownloader
             OpenDestinationFolderCheckBox.Unchecked += OpenDestinationFolderCheckBox_Unchecked;
             TagAudioFileCheckBox.Checked += TagAudioFileCheckBox_Checked;
             TagAudioFileCheckBox.Unchecked += TagAudioFileCheckBox_Unchecked;
+            FilterByLengthCheckBox.Checked += FilterByLengthCheckBox_Checked;
+            FilterByLengthCheckBox.Unchecked += FilterByLengthCheckBox_Checked;
+            FilterByLengthShorterOrLongerDropDown.SelectionChanged += FilterByLengthShorterOrLongerDropDown_SelectionChanged;
+            FilterByLengthTextBox.TextChanged += FilterByLengthTextBox_TextChanged;
+        }
+
+        private void FilterByLengthTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (!double.TryParse(FilterByLengthTextBox.Text, out double value))
+            {
+                if (!string.IsNullOrWhiteSpace(FilterByLengthTextBox.Text))
+                    FilterByLengthTextBox.Background = GlobalConsts.ErrorBrush;
+
+                if (GlobalConsts.SaveDownloadOptions)
+                {
+                    GlobalConsts.DownloadSettings.FilterByLengthValue = 4;
+                    GlobalConsts.DownloadSettings.FilterVideosByLength = false;
+                    GlobalConsts.SaveDownloadSettings();
+                }
+            }
+            else
+            {
+                FilterByLengthTextBox.Background = null;
+                if (GlobalConsts.SaveDownloadOptions)
+                {
+                    GlobalConsts.DownloadSettings.FilterByLengthValue = value;
+                    GlobalConsts.SaveDownloadSettings();
+                }
+            }
+        }
+
+        private void FilterByLengthShorterOrLongerDropDown_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (GlobalConsts.SaveDownloadOptions)
+            {
+                GlobalConsts.DownloadSettings.FilterMode = FilterByLengthShorterOrLongerDropDown.SelectedItem.Equals(FindResource("Longer"));
+                GlobalConsts.SaveDownloadSettings();
+            } 
+        }
+
+        private void FilterByLengthCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            if (GlobalConsts.SaveDownloadOptions)
+            {
+                GlobalConsts.DownloadSettings.FilterVideosByLength = FilterByLengthCheckBox.IsChecked.Value;
+                GlobalConsts.SaveDownloadSettings();
+            }
         }
 
         private void TagAudioFileCheckBox_Unchecked(object sender, RoutedEventArgs e)
@@ -208,59 +260,6 @@ namespace YoutubePlaylistDownloader
                 GlobalConsts.DownloadSettings.SavePlaylistsInDifferentDirectories = UniquePlaylistDirectoryCheckBox.IsChecked.Value;
                 GlobalConsts.SaveDownloadSettings();
             }
-        }
-
-        private void SaveButton_Click(object sender, RoutedEventArgs e)
-        {
-            bool convert = ConvertCheckBox.IsChecked.Value;
-            bool preferQuality = PreferCheckBox.IsChecked.Value;
-            bool setBitrate = BitrateCheckBox.IsChecked.Value;
-            var vq = VideoQuality.High720;
-            string type = "mp3";
-            string bitrate = null;
-            bool audioOnly = AudioOnlyCheckBox.IsChecked.Value;
-            bool preferHighestFPS = PreferHighestFPSCheckBox.IsChecked.Value;
-            bool downloadCaptions = CaptionsCheckBox.IsChecked.Value;
-            bool playlistDirectories = UniquePlaylistDirectoryCheckBox.IsChecked.Value;
-            string captionsLanguage = Languages.FirstOrDefault(x => x.Value.Equals((string)CaptionsLanguagesComboBox.SelectedItem, StringComparison.OrdinalIgnoreCase)).Key;
-            bool subset = PlaylistIndexCheckBox.IsChecked.Value;
-            bool openDestinationFolder = OpenDestinationFolderCheckBox.IsChecked.Value;
-            bool tagAudioFile = TagAudioFileCheckBox.IsChecked.Value;
-
-            int startIndex = 0, endIndex = 0;
-            if (subset)
-            {
-                if (!int.TryParse(PlaylistStartIndexTextBox.Text, out startIndex) || startIndex < 1)
-                {
-                    startIndex = 0;
-                    PlaylistStartIndexTextBox.Background = GlobalConsts.ErrorBrush;
-                }
-                else PlaylistStartIndexTextBox.Background = null;
-                
-
-                if (!int.TryParse(PlaylistEndIndexTextBox.Text, out endIndex))
-                {
-                    endIndex = 0;
-                    PlaylistEndIndexTextBox.Background = GlobalConsts.ErrorBrush;
-                }
-                else PlaylistEndIndexTextBox.Background = null;
-            }
-
-            if (BitrateCheckBox.IsChecked.Value)
-                if (!string.IsNullOrWhiteSpace(BitRateTextBox.Text) && BitRateTextBox.Text.All(c => char.IsDigit(c)))
-                    bitrate = BitRateTextBox.Text;
-
-
-            if (PreferCheckBox.IsChecked.Value)
-                vq = Resolutions[(string)ResulotionDropDown.SelectedValue];
-
-            if (convert)
-                type = (string)ExtensionsDropDown.SelectedItem;
-
-
-
-            GlobalConsts.DownloadSettings = new Objects.DownloadSettings(type, audioOnly, vq, preferHighestFPS, preferQuality, convert, setBitrate, bitrate, downloadCaptions, captionsLanguage, playlistDirectories, subset, startIndex, endIndex, openDestinationFolder, tagAudioFile);
-            GlobalConsts.CloseFlyout();
         }
 
         private void CaptionsCheckBox_Checked(object sender, RoutedEventArgs e)
