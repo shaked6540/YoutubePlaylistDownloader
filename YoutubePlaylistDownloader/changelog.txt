@@ -1,2 +1,3 @@
-﻿Version 1.811:
-- Updated libraries, this might fix or break a lot of things. If something doesn't work properly, please let me know
+﻿Version 1.812:
+- Added filtering videos by duration
+- Updated libraries
