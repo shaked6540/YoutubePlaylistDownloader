@@ -69,7 +69,7 @@ namespace YoutubePlaylistDownloader.Objects
         public bool FilterMode { get; set; }
 
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
-        [DefaultValue(4)]
+        [DefaultValue(4.0)]
         public double FilterByLengthValue { get; set; }
 
 
@@ -77,7 +77,7 @@ namespace YoutubePlaylistDownloader.Objects
         public DownloadSettings(string saveForamt, bool audioOnly, VideoQuality quality, bool preferHighestFPS,
             bool preferQuality, bool convert, bool setBitrate, string bitrate, bool downloadCaptions, string captionsLanguage,
             bool savePlaylistsInDifferentDirectories, bool subset, int subsetStartIndex, int subsetEndIndex, bool openDestinationFolderWhenDone,
-            bool tagAudioFile, bool filterVideosByLength, bool filterMode, int filterByLengthValue)
+            bool tagAudioFile, bool filterVideosByLength, bool filterMode, double filterByLengthValue)
         {
             SaveFormat = saveForamt;
             AudioOnly = audioOnly;

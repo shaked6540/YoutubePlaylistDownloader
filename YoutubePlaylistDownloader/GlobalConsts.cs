@@ -309,10 +309,9 @@ namespace YoutubePlaylistDownloader
         }
         public static async Task Log(string message, object sender)
         {
-            using (StreamWriter sw = new StreamWriter(ErrorFilePath, true))
-            {
-                await sw.WriteLineAsync($"[{DateTime.Now.ToUniversalTime()}], [{sender}]:\n\n{message}\n\n");
-            }
+            using StreamWriter sw = new StreamWriter(ErrorFilePath, true);
+            await sw.WriteLineAsync($"[{DateTime.Now.ToUniversalTime()}], [{sender}]:\n\n{message}\n\n").ConfigureAwait(false);
+
         }
         public static string CleanFileName(string filename)
         {
@@ -436,9 +435,17 @@ namespace YoutubePlaylistDownloader
                 }
                 catch (Exception ex)
                 {
-                    File.Delete(DownloadSettingsFilePath);
-                    downloadSettings = new DownloadSettings("mp3", false, YoutubeExplode.Videos.Streams.VideoQuality.High720, false, false, false, false, "192", false, "en", false, false, 0, 0, false, true, false, true, 4);
                     Log(ex.ToString(), "LoadDownloadSettings at GlobalConsts").Wait();
+                    try
+                    {
+                        if (File.Exists(DownloadSettingsFilePath))
+                            File.Delete(DownloadSettingsFilePath);
+                    }
+                    catch(Exception ex2)
+                    {
+                        Log(ex2.ToString(), "Delete download settings file path").Wait();
+                    }
+                    downloadSettings = new DownloadSettings("mp3", false, YoutubeExplode.Videos.Streams.VideoQuality.High720, false, false, false, false, "192", false, "en", false, false, 0, 0, false, true, false, true, 4);
                 }
             }
             else
