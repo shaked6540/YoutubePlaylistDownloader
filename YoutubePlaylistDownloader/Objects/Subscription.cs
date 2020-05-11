@@ -56,6 +56,7 @@ namespace YoutubePlaylistDownloader.Objects
             LatestVideoDownloaded = latestVideoDownloaded;
             ChannelId = channelId;
             Settings = settings;
+            DownloadedVideos = downloadedVideos;
 
             locker = new SemaphoreSlim(1);
             cts = new CancellationTokenSource();
@@ -76,7 +77,21 @@ namespace YoutubePlaylistDownloader.Objects
             else
             {
                 var playlist = await GlobalConsts.YoutubeClient.Channels.GetUploadsAsync(ChannelId).BufferAsync().ConfigureAwait(false);
-                var missingVideos = playlist.Where(x => x.UploadDate.ToUniversalTime().Date >= LatestVideoDownloaded && !DownloadedVideos.Contains(x.Id)).ToList();
+
+                List<YoutubeExplode.Videos.Video> missingVideos;
+
+
+                if (Settings.FilterVideosByLength)
+                {
+                    missingVideos = Settings.FilterMode ?
+                        playlist.Where(x => x.UploadDate.ToUniversalTime().Date >= LatestVideoDownloaded && !DownloadedVideos.Contains(x.Id) && x.Duration.TotalMinutes > Settings.FilterByLengthValue).ToList()
+                        :
+                        playlist.Where(x => x.UploadDate.ToUniversalTime().Date >= LatestVideoDownloaded && !DownloadedVideos.Contains(x.Id) && x.Duration.TotalMinutes < Settings.FilterByLengthValue).ToList();
+                }
+                else
+                {
+                    missingVideos = playlist.Where(x => x.UploadDate.ToUniversalTime().Date >= LatestVideoDownloaded && !DownloadedVideos.Contains(x.Id)).ToList();
+                }
 
                 if (missingVideos.Any())
                 {

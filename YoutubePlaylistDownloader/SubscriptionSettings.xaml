@@ -50,6 +50,13 @@
                     <Label Content="{DynamicResource CaptionsLanguage}" Margin="7" VerticalAlignment="Center" />
                     <ComboBox Height="10" x:Name="CaptionsLanguagesComboBox" Width="Auto" />
                 </WrapPanel>
+                <StackPanel Orientation="Horizontal" >
+                    <CheckBox Content="{DynamicResource DownloadFilter}" Margin="7" x:Name="FilterByLengthCheckBox" HorizontalAlignment="Center" IsChecked="False" />
+                    <ComboBox HorizontalContentAlignment="Left" HorizontalAlignment="Center" VerticalContentAlignment="Center" Width="Auto" x:Name="FilterByLengthShorterOrLongerDropDown" VerticalAlignment="Center"/>
+                    <Label Content="{DynamicResource Than}" Margin="7" />
+                    <TextBox  Margin="0,7" x:Name="FilterByLengthTextBox" TextAlignment="Center" MinWidth="40" Width="Auto" TextChanged="FilterByLengthTextBox_TextChanged" />
+                    <Label Content="{DynamicResource Minutes}" Margin="7" />
+                </StackPanel>
             </StackPanel>
 
             <!--Col 2-->

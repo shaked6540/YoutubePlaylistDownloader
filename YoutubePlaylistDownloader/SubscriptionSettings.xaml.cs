@@ -62,6 +62,11 @@ namespace YoutubePlaylistDownloader
                 CaptionsCheckBox.IsChecked = Subscription.Settings.DownloadCaptions;
                 CaptionsLanguagesComboBox.SelectedItem = Languages[Subscription.Settings.CaptionsLanguage ?? "en"];
                 ChannelLogo.Source = new BitmapImage(new Uri(channel.LogoUrl));
+                FilterByLengthCheckBox.IsChecked = Subscription.Settings.FilterVideosByLength;
+                var FilterByLengthShorterOrLongerDropDownItemSource = new[] { FindResource("Longer"), FindResource("Shorter") };
+                FilterByLengthShorterOrLongerDropDown.ItemsSource = FilterByLengthShorterOrLongerDropDownItemSource;
+                FilterByLengthShorterOrLongerDropDown.SelectedItem = Subscription.Settings.FilterMode ? FilterByLengthShorterOrLongerDropDownItemSource[0] : FilterByLengthShorterOrLongerDropDownItemSource[1];
+                FilterByLengthTextBox.Text = Subscription.Settings.FilterByLengthValue.ToString();
             });
 
         }
@@ -111,6 +116,14 @@ namespace YoutubePlaylistDownloader
             Subscription.Settings.SetBitrate = BitrateCheckBox.IsChecked.Value;
             Subscription.Settings.DownloadCaptions = CaptionsCheckBox.IsChecked.Value;
             Subscription.Settings.CaptionsLanguage = Languages.FirstOrDefault(x => x.Value.Equals((string)CaptionsLanguagesComboBox.SelectedItem, StringComparison.OrdinalIgnoreCase)).Key;
+            Subscription.Settings.FilterVideosByLength = FilterByLengthCheckBox.IsChecked.Value;
+
+            if (double.TryParse(FilterByLengthTextBox.Text, out double result))
+            {
+                Subscription.Settings.FilterByLengthValue = result;
+            }
+            
+            Subscription.Settings.FilterMode = FilterByLengthShorterOrLongerDropDown.SelectedItem.Equals(FindResource("Longer"));
 
             if (Subscription.Settings.SetBitrate && BitRateTextBox.Text.All(x => char.IsDigit(x)))
                 Subscription.Settings.Bitrate = BitRateTextBox.Text;
@@ -124,6 +137,20 @@ namespace YoutubePlaylistDownloader
 
             SubscriptionManager.SaveSubscriptions();
             GlobalConsts.CloseFlyout();
+        }
+
+        private void FilterByLengthTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (!double.TryParse(FilterByLengthTextBox.Text, out double value))
+            {
+                if (!string.IsNullOrWhiteSpace(FilterByLengthTextBox.Text))
+                    FilterByLengthTextBox.Background = GlobalConsts.ErrorBrush;
+
+            }
+            else
+            {
+                FilterByLengthTextBox.Background = null;
+            }
         }
     }
 }
