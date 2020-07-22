@@ -1,2 +1,2 @@
-﻿Version 1.814:
-- Added filtering to the subscriptions page too
+﻿Version 1.815:
+- Fixed "Could not find signature decipherer definition body" error
