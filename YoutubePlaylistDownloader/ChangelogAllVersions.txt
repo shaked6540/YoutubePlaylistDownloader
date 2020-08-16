@@ -1,4 +1,8 @@
-﻿Version 1.815:
+﻿Version 1.817:
+- Updated libraries
+
+
+Version 1.815:
 - Fixed "Could not find signature decipherer definition body" error
 
 
