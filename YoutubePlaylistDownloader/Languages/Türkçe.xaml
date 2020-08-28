@@ -153,4 +153,5 @@ dosya dönüştürmeyi 3 ile sınırlandırarak 3 çekirdek kullanın, 3 çekird
     <s:String x:Key="DownloadFilter">Only download videos</s:String>
     <s:String x:Key="Longer">longer</s:String>
     <s:String x:Key="Shorter">shorter</s:String>
+    <s:String x:Key="FileDoesNotExist">{0} does not exist.</s:String>
 </ResourceDictionary> 

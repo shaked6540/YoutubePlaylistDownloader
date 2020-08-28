@@ -32,6 +32,7 @@ namespace YoutubePlaylistDownloader
         public static readonly string TempFolderPath;
         public static string SaveDirectory;
         public static readonly string CurrentDir;
+        public static readonly string FFmpegFilePath;
         private static readonly string ConfigFilePath;
         private static readonly string ErrorFilePath;
         public const double VERSION = 1.817;
@@ -97,6 +98,7 @@ namespace YoutubePlaylistDownloader
         {
             Downloads = new ObservableCollection<QueuedDownload>();
             CurrentDir = new FileInfo(Assembly.GetEntryAssembly().Location).Directory.ToString();
+            FFmpegFilePath = $"{CurrentDir}\\ffmpeg.exe";
             string appDataPath = string.Concat(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "\\Youtube Playlist Downloader\\");
             ConfigFilePath = string.Concat(appDataPath, "Settings.json");
             ErrorFilePath = string.Concat(appDataPath, "Errors.txt");

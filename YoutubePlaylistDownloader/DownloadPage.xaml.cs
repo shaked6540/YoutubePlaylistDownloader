@@ -185,7 +185,7 @@ namespace YoutubePlaylistDownloader
             StillDownloading = true;
 
             ImageUrl = $"https://img.youtube.com/vi/{Videos?.FirstOrDefault()?.Id}/0.jpg";
-            Title = playlist.BasePlaylist?.Title;
+            Title = playlist?.BasePlaylist?.Title;
             CurrentTitle = (string)FindResource("Loading");
             TotalDownloaded = $"(0/{Maximum})";
             CurrentProgressPrecent = 0;
@@ -374,7 +374,7 @@ namespace YoutubePlaylistDownloader
                                 EnableRaisingEvents = true,
                                 StartInfo = new ProcessStartInfo()
                                 {
-                                    FileName = $"{GlobalConsts.CurrentDir}\\ffmpeg.exe",
+                                    FileName = GlobalConsts.FFmpegFilePath,
                                     Arguments = $"-i \"{fileLoc}\" -y {Bitrate} \"{outputFileLoc}\"",
                                     CreateNoWindow = true,
                                     UseShellExecute = false
@@ -684,7 +684,7 @@ namespace YoutubePlaylistDownloader
                         EnableRaisingEvents = true,
                         StartInfo = new ProcessStartInfo()
                         {
-                            FileName = $"{GlobalConsts.CurrentDir}\\ffmpeg.exe",
+                            FileName = GlobalConsts.FFmpegFilePath,
                             Arguments = ffmpegArguments,
                             CreateNoWindow = true,
                             UseShellExecute = false,
