@@ -15,7 +15,7 @@ namespace YoutubePlaylistDownloader
     /// </summary>
     public partial class DownloadUpdate : UserControl, IDownload
     {
-        private double latestVersion;
+        private Version latestVersion;
         private bool downloadFinished;
         private string updateSetupLocation;
 
@@ -94,7 +94,7 @@ namespace YoutubePlaylistDownloader
             }
         }
 
-        public DownloadUpdate(double latestVersion, string changelog, bool updateLater = false)
+        public DownloadUpdate(Version latestVersion, string changelog, bool updateLater = false)
         {
             InitializeComponent();
             if (!updateLater)
