@@ -166,8 +166,8 @@ namespace YoutubePlaylistDownloader
             CaptionsLanguage = settings.CaptionsLanguage;
             SavePath = string.IsNullOrWhiteSpace(savePath) ? GlobalConsts.SaveDirectory : savePath;
 
-            if (settings.SavePlaylistsInDifferentDirectories && playlist.BasePlaylist != null && !string.IsNullOrWhiteSpace(playlist.BasePlaylist.Title))
-                SavePath += $"\\{GlobalConsts.CleanFileName(playlist.BasePlaylist.Title)}";
+            if (settings.SavePlaylistsInDifferentDirectories && playlist?.BasePlaylist != null && !string.IsNullOrWhiteSpace(playlist?.BasePlaylist?.Title))
+                SavePath += $"\\{GlobalConsts.CleanFileName(playlist?.BasePlaylist?.Title)}";
 
             if (!Directory.Exists(SavePath))
                 Directory.CreateDirectory(SavePath);
