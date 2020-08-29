@@ -136,4 +136,5 @@ the file convertion to 2, etc..</s:String>
     <s:String x:Key="DownloadFilter">Only download videos</s:String>
     <s:String x:Key="Longer">longer</s:String>
     <s:String x:Key="Shorter">shorter</s:String>
+    <s:String x:Key="FileDoesNotExist">{0} does not exist.</s:String>
 </ResourceDictionary>

@@ -12,6 +12,7 @@ using YoutubeExplode.Videos.Streams;
 using YoutubeExplode.Channels;
 using YoutubePlaylistDownloader.Utilities;
 using YoutubePlaylistDownloader.Objects;
+using System.IO;
 
 namespace YoutubePlaylistDownloader
 {
@@ -140,6 +141,12 @@ namespace YoutubePlaylistDownloader
         {
             if (list != null || VideoList.Any())
             {
+                if (!CanDownload())
+                {
+                    GlobalConsts.ShowMessage((string)FindResource("Error"), $"{string.Format((string)FindResource("FileDoesNotExist"), GlobalConsts.FFmpegFilePath)}").ConfigureAwait(false);
+                    return;
+                }
+
                 GlobalConsts.LoadPage(new DownloadPage(list, GlobalConsts.DownloadSettings.Clone(), videos: VideoList));
                 VideoList= new List<Video>();
                 PlaylistLinkTextBox.Text = string.Empty;
@@ -183,6 +190,12 @@ namespace YoutubePlaylistDownloader
         {
             if (list != null || VideoList.Any())
             {
+                if (!CanDownload())
+                {
+                    GlobalConsts.ShowMessage((string)FindResource("Error"), $"{string.Format((string)FindResource("FileDoesNotExist"), GlobalConsts.FFmpegFilePath)}").ConfigureAwait(false);
+                    return;
+                }
+
                 new DownloadPage(list, GlobalConsts.DownloadSettings.Clone(), silent: true, videos: VideoList);
                 VideoList= new List<Video>();
                 PlaylistLinkTextBox.Text = string.Empty;
@@ -197,6 +210,13 @@ namespace YoutubePlaylistDownloader
         private void BulkDownloadButton_Click(object sender, RoutedEventArgs e)
         {
             var links = BulkLinksTextBox.Text.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+
+            if (!CanDownload())
+            {
+                GlobalConsts.ShowMessage((string)FindResource("Error"), $"{string.Format((string)FindResource("FileDoesNotExist"), GlobalConsts.FFmpegFilePath)}").ConfigureAwait(false);
+                return;
+            }
+
             _ = DownloadPage.SequenceDownload(links, GlobalConsts.DownloadSettings.Clone(), silent: true);
             BulkLinksTextBox.Text = string.Empty;
             MetroAnimatedTabControl.SelectedItem = QueueMetroTabItem;
@@ -205,6 +225,11 @@ namespace YoutubePlaylistDownloader
         private void TextBox_TextChanged_1(object sender, TextChangedEventArgs e)
         {
             BulkDownloadButton.IsEnabled = !string.IsNullOrWhiteSpace(BulkLinksTextBox.Text);
+        }
+
+        private bool CanDownload()
+        {
+            return GlobalConsts.DownloadSettings.AudioOnly || File.Exists(GlobalConsts.FFmpegFilePath);
         }
     }
 }
