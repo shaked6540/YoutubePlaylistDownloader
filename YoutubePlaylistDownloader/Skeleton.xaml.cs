@@ -35,7 +35,7 @@ namespace YoutubePlaylistDownloader
             {
                 using (var wc = new WebClient() { CachePolicy = new System.Net.Cache.RequestCachePolicy(System.Net.Cache.RequestCacheLevel.NoCacheNoStore) })
                 {
-                    var latestVersion = Version.Parse(await wc.DownloadStringTaskAsync("https://raw.githubusercontent.com/shaked6540/YoutubePlaylistDownloader/master/YoutubePlaylistDownloader/latestVersion.txt"));
+                    var latestVersion = Version.Parse(await wc.DownloadStringTaskAsync("https://raw.githubusercontent.com/shaked6540/YoutubePlaylistDownloader/master/YoutubePlaylistDownloader/latestVersionWithRevision.txt"));
                     
                     if (latestVersion > GlobalConsts.VERSION)
                     {

@@ -1,71 +1,71 @@
-﻿Version 1.817:
+﻿Version 1.8.17:
 - Updated libraries
 
 
-Version 1.815:
+Version 1.8.15:
 - Fixed "Could not find signature decipherer definition body" error
 
 
-Version 1.814:
+Version 1.8.14:
 - Added filtering to the subscriptions page too
 
 
-Version 1.813:
+Version 1.8.13:
 - Added filtering videos by duration
 - Updated libraries
 - Fixed a bug that caused download settings to not be saved
 
 
-Version 1.812:
+Version 1.8.12:
 - Added filtering videos by duration
 - Updated libraries
 
 
-Version 1.811:
+Version 1.8.11:
 - Updated libraries, this might fix or break a lot of things. If something doesn't work properly, please let me know
 
 
-Version 1.810:
+Version 1.8.10:
 - Fixed error 403 on some videos
 
 
-Version 1.809:
+Version 1.8.9:
 - Added support for 32 bit based systems
 
 
-Version 1.808:
+Version 1.8.8:
 - Fixed a bug that caused downloaded videos to not be copied to the output directory
 - Added more error information to help analyze errors better
 
 
-Version 1.807:
+Version 1.8.7:
 - Fixed "Sequence contains no elements" bug
 
 
-Version 1.806:
+Version 1.8.6:
 - Fixed a bug that occured when converting audio files to opus format that caused the first second to be skipped
 - Added an option to not tag audio files
 - Opus files will not be tagged anymore because of the bug mentioned above
 
 
-Version 1.805:
+Version 1.8.5:
 - Fixed a bug that caused age restricted videos to fail downloading
 
 
-Version 1.804:
+Version 1.8.4:
 - Fixed "Video is unavailable" issue
 
 
-Version 1.803:
+Version 1.8.3:
 - Updated Italian translation
 - Fixed "Value cannot be null. Parameter name: value" error
 
 
-Version 1.802:
+Version 1.8.2:
 - Fixed "Could not find signature decipherer function name" error
 
 
-Version 1.801:
+Version 1.8.1:
 - Fixed a bug that caused the program to crash if you clicked on "Open Destination Folder" after everything was downloaded
 
 
@@ -76,7 +76,7 @@ Version 1.8:
 - Some minor bug fixes as well
 
 
-Version 1.708:
+Version 1.7.8:
 - Fixed a bug that caused the program to not download anything
 - Added Deutsch translation
 
@@ -84,7 +84,7 @@ Known issues:
 - The program might sometimes not retrive all videos in a playlist, a fix will be released as soon as possible for this.
 
 
-Version 1.707:
+Version 1.7.7:
 - Fixed a bug that caused the program to think it had more files to convert when it had 0 files to convert
 - Reworked the settings page a little
 - You can now save every playlist in a unique folder
@@ -94,26 +94,26 @@ Known issues:
 - The download speed indicator isn't accurate sometimes
 
 
-Version 1.705:
+Version 1.7.5:
 - Fixed the program not working at all
 
 
-Version 1.704:
+Version 1.7.4:
 - Fixed the program not working at all
 Sorry for the long wait, im only home at weekends :(
 
 
-Version 1.703:
+Version 1.7.3:
 - Added Español translation
 - Fixed a bug that caused the program to now show the correct amount of convertions being made
 
 
-Version 1.702:
+Version 1.7.2:
 - Added Türkçe translation
 - Critical bug fixed
 
 
-Version 1.701:
+Version 1.7.1:
 - Added the ability to limit file convertions count, so the program will not use 100% cpu.
 An explanation about this feature is available at the Help page.
 
@@ -123,16 +123,16 @@ Version 1.7:
 - Fixed "Add to queue" sending you to the video screen instead of downloading in the background
 
 
-Version 1.61:
+Version 1.6.1:
 - Made the program more stable and faster
 
 
-Version 1.602:
+Version 1.6.2:
 - Fixed download settings sometimes not being saved
 - Fixed download page sometimes not showing that it finished downloading a video
 
 
-Version 1.601:
+Version 1.6.1:
 THIS VERSION FIXES A BUG THAT CAUSED THE PROGRAM TO NOT WORK
 
 
@@ -155,16 +155,16 @@ Version 1.5:
 - 2 new translations available: Chinese and Italian, big thanks to Dong Cunrui (董存瑞) and RichyZ99 for these translations.
 
 
-﻿Version 1.306:
+﻿Version 1.3.6:
 - Rewrote the buggy subscriptions system, the interface is exactly the same but the code behind is completly different
 - Polished the UI more, some performance improvements as well
 
 
-Version 1.303:
+Version 1.3.3:
 - Fixed (hopefully) all the bugs with the new subscription system. 
 
 
-﻿Version 1.304:
+﻿Version 1.3.4:
 - Rewrote the buggy subscriptions system, the interface is exactly the same but the code behind is completly different
 - Polished the UI more, some performance improvements as well
 
@@ -175,21 +175,21 @@ Version 1.3:
 - A new help page that includes more information about the subscriptions system and how it works. There is also information about how to contact me
 
 
-Version 1.201:
+Version 1.2.1:
 ﻿- Added ability to download subsets of playlists (e.g. Download from video #3 until video #7)
 ﻿- You can now click "Update when I exit" directly from the update dialog
 
 
-Version 1.103: 
+Version 1.1.3: 
 ﻿- Fixed an app crash when "Update later" finished downloading
 - A new download mirror is now available, no more slow downloads from github servers!
 
 
-Version 1.102:
+Version 1.1.2:
 ﻿- Fixed a bug that happened when a user clicked on "Update when I exit" but the update didn't finish downloading
 
 
-Version 1.101:
+Version 1.1.1:
 - Added "Check for updates" button in the About page, to manually check for updates
 
 
@@ -206,5 +206,5 @@ Version 1:
 - "Update when I exit" now works as intended
 
 
-Version 0.92 (pre release):
+Version 0.9.2 (pre release):
 - The program will now check for updates when its opened
