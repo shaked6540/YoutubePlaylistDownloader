@@ -1,4 +1,10 @@
-﻿Version 1.8.17:
+﻿Version 1.8.18:
+- Changed to a new version format
+- Added french translation (thanks Elta)
+- Updated libraries
+
+
+Version 1.8.17:
 - Updated libraries
 
 
