@@ -32,7 +32,7 @@
     <s:String x:Key="ConvertToMp3">Convertir des vidéos en </s:String>
     <s:String x:Key="StillConverting">Conversion en cours</s:String>
     <s:String x:Key="files">fichier</s:String>
-    <s:String x:Key="Author">Autheur: </s:String>
+    <s:String x:Key="Author">Auteur: </s:String>
     <s:String x:Key="PlaylistTitle">Titre: </s:String>
     <s:String x:Key="Loading">Chargement...</s:String>
     <HorizontalAlignment x:Key="LeftAlignment">Left</HorizontalAlignment>
