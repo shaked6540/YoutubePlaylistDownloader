@@ -1,4 +1,8 @@
-﻿Version 1.8.18:
+﻿Version 1.8.19:
+- Bug fixes
+
+
+Version 1.8.18:
 - Changed to a new version format
 - Added french translation (thanks Elta)
 - Updated libraries
