@@ -1,4 +1,8 @@
-﻿Version 1.8.19:
+﻿Version 1.8.20:
+- Updated libraries, this should improve the stability of the program
+
+
+Version 1.8.19:
 - Bug fixes
 
 
