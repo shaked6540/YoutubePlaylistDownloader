@@ -22,7 +22,7 @@
     <s:String x:Key="Name">Nom: </s:String>
     <s:String x:Key="Description">Description: </s:String>
     <s:String x:Key="Views">Vues: </s:String>
-    <s:String x:Key="SaveDirectory">Save videos to: </s:String>
+    <s:String x:Key="SaveDirectory">Enregistrer les vidéos dans: </s:String>
     <s:String x:Key="CurrentlyDownlading">Téléchargement en cours: </s:String>
     <s:String x:Key="TotalProgress">Téléchargé jusqu'à présent: </s:String>
     <s:String x:Key="AllDone">Terminé.</s:String>
@@ -130,7 +130,7 @@ Elta (Français)
     <s:String x:Key="Video">Vidéo</s:String>
     <s:String x:Key="DownloadCaptions">Télécharger les sous-titres</s:String>
     <s:String x:Key="CaptionsLanguage">Langue des sous-titres: </s:String>
-    <s:String x:Key="BulkDownload">Téléchargement en masse</s:String>
+    <s:String x:Key="BulkDownload">Téléchargement massif</s:String>
     <s:String x:Key="LimitConverstions" >Définissez la conversion de fichier simultanée maximale à </s:String>
     <s:String x:Key="ValueChangeRequiresRestart">(l'activation de la limite nécessite un
 redémarrage du programme pour prendre effet)</s:String>
@@ -142,7 +142,7 @@ utilisez 3 cœurs en limitant la conversion de fichier à 3, si vous avez 3 cœu
 la conversion du fichier à 2, etc.</s:String>
     <s:String x:Key="FileConvertion">Conversion de fichiers</s:String>
     <s:String x:Key="General">Général</s:String>
-    <s:String x:Key="SavePlaylistInUniqueDirectory">Enregistrez chaque playlist dans un dossier différent</s:String>
+    <s:String x:Key="SavePlaylistInUniqueDirectory">Enregistrer chaque playlist dans un dossier différent</s:String>
     <s:String x:Key="Playlist">Playlist</s:String>
     <s:String x:Key="OpenDestinationFolder">Ouvrir le dossier de destination</s:String>
     <s:String x:Key="ConfirmExit">Confirmation à la sortie</s:String>
