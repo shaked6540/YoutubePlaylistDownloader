@@ -1,0 +1,158 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:s="clr-namespace:System;assembly=mscorlib"
+                    xml:space="preserve">
+    
+    <s:String x:Key="Title">YouTube Playlist Downloader</s:String>
+    <FlowDirection x:Key="FlowDirection">RightToLeft</FlowDirection>
+    <s:String x:Key="InsertYoutubePlaylistLinkHere">ضع رابط الفيديوالمراد تنزيله هنا </s:String>
+    <s:String x:Key="Exit">خروج</s:String>
+    <s:String x:Key="ExitMessage">أأنت متاكد من الخروج ؟</s:String>
+    <s:String x:Key="Yes">.نعم</s:String>
+    <s:String x:Key="No">.لا</s:String>
+    <s:String x:Key="Error">خطأ</s:String>
+    <s:String x:Key="ErrorMessage">.حدث خطأ غير متوقع أثناء تنفيذ الإجراء. يرجى الاتصال بالمسؤول الخاص بك لمعالجة الخطأ</s:String>
+    <s:String x:Key="Settings">الأعدادات </s:String>
+    <s:String x:Key="Preferences">التفضيلات</s:String>
+    <s:String x:Key="Theme">لون البرنامج</s:String>
+    <s:String x:Key="Language">اللغة</s:String>
+    <s:String x:Key="Back">الخلف</s:String>
+    <s:String x:Key="SaveAndBackToDownload">حفظ والعودة إلى القائمة الرئيسية</s:String>
+    <s:String x:Key="DarkTheme">المظهر الداكن</s:String>
+    <s:String x:Key="Name">:الاسم</s:String>
+    <s:String x:Key="Description"> :الوصف</s:String>
+    <s:String x:Key="Views">  :عدد المشاهدات</s:String>
+    <s:String x:Key="SaveDirectory"> :حفظ مقاطع الفيديو الى</s:String>
+    <s:String x:Key="CurrentlyDownlading"> :يتم التحميل حاليا</s:String>
+    <s:String x:Key="TotalProgress"> :تم التنزيل حتى الان </s:String>
+    <s:String x:Key="AllDone">تم</s:String>
+    <s:String x:Key="Canceling">جاري الغاء التحميل ...انتظر </s:String>
+    <s:String x:Key="Videos">مقاطع الفيديو </s:String>
+    <s:String x:Key="Download">تحميل </s:String>
+    <s:String x:Key="ConvertToMp3"> تحويل الفيديو الى </s:String>
+    <s:String x:Key="StillConverting">لا يزال قيد التحويل </s:String>
+    <s:String x:Key="files">الملفات</s:String>
+    <s:String x:Key="Author">:المؤلف</s:String>
+    <s:String x:Key="PlaylistTitle">:عنوان الفيديو</s:String>
+    <s:String x:Key="Loading">جاري التحميل</s:String>
+    <HorizontalAlignment x:Key="LeftAlignment">Left</HorizontalAlignment>
+    <s:String x:Key="About">عن البرنامج </s:String>
+    <s:String x:Key="Home">الرئيسية</s:String>
+    <s:String x:Key="Prefer">:تفضل مقاطع الفيديو بدقة </s:String>
+    <s:String x:Key="AreYouSureExit">:هل انت متاكد من الخروج </s:String>
+    <s:String x:Key="TotalVideos">:عدد مقاطع الفيديو </s:String>
+    <s:String x:Key="AboutTheProgram">This program was developed by shaked6540 and it is completely free to use without limitation.
+However, I am not responsible for any legal trouble that this program will cause you, 
+as far as I know, YouTube does not permit downloading videos from their website. 
+The full source code for this program can be found at https://github.com/shaked6540/YoutubePlaylistDownloader
+        
+The installer was made using Inno Setup (http://www.jrsoftware.org/isinfo.php)
+    
+
+YouTube Playlist Downloader v</s:String>
+    <s:String x:Key="BitRate">وضبط معدل البت على</s:String>
+    <s:String x:Key="NewVersionAvailable">اصدار جديد متاح</s:String>
+    <s:String x:Key="DoYouWantToUpdate">هناك اصدار جديد متاح,هل تريد تنزيله؟
+:إليك الميزات الجديدة</s:String>
+    <s:String x:Key="DownloadingUpdateSetup">يتم التنزيل حالياٌ: تحديث الإعداد </s:String>
+    <s:String x:Key="UpdateCancelled">تم الغاء التحديث </s:String>
+    <s:String x:Key="ErrorWhileUpdating">An error has occured while downloading the update setup, make sure you're connected to the internet
+if you are connected to the internet, try downloading a later time or visit https://github.com/shaked6540/YoutubePlaylistDownloader/issues to see if theres an issue with the download server</s:String>
+    <s:String x:Key="UpdateComplete">.اكتمل التحميل </s:String>
+    <s:String x:Key="UpdateWhenIExit">التحديث عند الاغلاق</s:String>
+    <s:String x:Key="UpdateAndExit">الخروج والتحديث الان</s:String>
+    <s:String x:Key="UpdateFailed">تعذر التحديث </s:String>
+    <s:String x:Key="CannotUpdate">لا يمكن التحديث في الوقت الحالي ، حاول إعادة تشغيل التطبيق وتأكد من اتصالك بالإنترنت
+رسالة خطأ: </s:String>
+    <s:String x:Key="CouldntDownload">.بعض مقاطع الفيديو قد لا تحمل </s:String>
+    <s:String x:Key="ListOfNotDownloadedVideos">:فيما يلي قائمة بالفيديوهات التي تعذر تنزيلها وسبب ذلك</s:String>
+    <s:String x:Key="Options">خيارات</s:String>
+    <s:String x:Key="CheckForUpdates">التحقق من التحديثات </s:String>
+    <s:String x:Key="NoUpdates">لايوجد تحديثات متاحة</s:String>
+    <s:String x:Key="NoUpdatesAvailable">.لا توجد تحديثات متوفرة في هذا الوقت ، لديك أحدث إصدار</s:String>
+    <s:String x:Key="PlaylistIndex">تنزيل من رقم الفيديو</s:String>
+    <s:String x:Key="UntilIndex">حتى رقم الفيديو</s:String>
+    <s:String x:Key="LeaveEmptyOrZeroForUntilTheEnd">(leave this empty or enter 0 to download all videos until the end of the playlist)</s:String>
+    <s:String x:Key="NoVideosToDownload">تعذر العثور على مقاطع الفيديو للتنزيل</s:String>
+    <s:String x:Key="ThereAreNoVidoesToDownload">لا توجد مقاطع فيديو لتنزيلها بالمعلمات بالخصائص التي حددتها</s:String>
+    <s:String x:Key="UpdateNow">تحديث الان</s:String>
+    <s:String x:Key="Subscriptions">الاشتراكات</s:String>
+    <s:String x:Key="AutomaticllyDownloadSubscriptions">تحميل مقاطع الفيديو الجديدة من هذه القنوات اوتوماتيكيا</s:String>
+    <s:String x:Key="InsertChannelLink"> ضع رابط القناة هنا </s:String>
+    <s:String x:Key="Remove">ازالة</s:String>
+    <s:String x:Key="Id">:المعرف</s:String>
+    <s:String x:Key="Save">حفظ</s:String>
+    <s:String x:Key="PreferFPS">تفضل مقاطع الفيديو ذات أعلى معدل فريمات </s:String>
+    <s:String x:Key="AudioOnly"> قم بتنزيل ملف الصوت ، دون التحويل إلى أي تنسيق </s:String>
+    <s:String x:Key="StillDownloadingSubscriptionsExit">.مايزال البرنامج يقوم بتنزيل مقاطع فيديو الاشتركات الخاصة بك سيؤدي النقر فوق نعم الى الخروج من البرنامج ولن يتم تنزيل مقاطع الفيديو حتى تقوم بفتح البرنامج 
+هل انت متاكد انك تريد الخروج؟</s:String>
+    <s:String x:Key="LastVideoDownloadDate">:اخر تحديث عند</s:String>
+    <s:String x:Key="Help">مساعدة</s:String>
+    <s:String x:Key="SubscriptionsHelp"> .الاشتراكات هي القنوات التي سيقوم البرنامج تلقائياٌ بتنزيل أي فيديو جديد يصدر بعد إضافة الاشتراك للبرنامج
+        
+على سبيل المثال ، إذا أضفت اشتراكاٌ إلى القناة "س" في الأول من سبتمبر وقامت القناة "س" بتحميل مقطع فيديو في الثاني من سبتمبر ، فسيتم تنزيله تلقائياٌ 
+        
+.لن يتم تنزيل مقاطع الفيديو السابقة ولن يتم تنزيل مقاطع الفيديو مرتين حتى إذا حذفت مقطع فيديو معين 
+        
+جميع الاشتراكات قابلة للتخصيص ولها إعداداتها الخاصة ، للوصول إلى إعدادات الاشتراك ، انقر فوق "الاشتراكات" من القائمة الرئيسية ثم انقر فوق "إعدادات" للقناة التي تريدها
+يرجى ملاحظة أنه إذا لم يكن البرنامج قيد التشغيل ، فلن يتم تنزيل مقاطع الفيديو الجديدة
+    </s:String>
+    <s:String x:Key="ContactTheDeveloper">التواصل</s:String>
+    <s:String x:Key="ContactTheDeveloperHelp">هناك عدة طرق للتواصل معي (shaked6540): 
+        
+The first one is Reddit, simply send me a message on Reddit and I will respond as soon as I can, this is my profile link: https://www.reddit.com/user/shaked6540/ 
+        
+The second way to contact me is through discord, I've set up a discord server for this project, feel free to join even if you don't have anything to say to me: https://discord.gg/eXeVCqE 
+        
+The third way to contact me is through GitHub, simply open a new issue and I will try to respond as soon as possible, here is a link: https://github.com/shaked6540/YoutubePlaylistDownloader/issues</s:String>
+    <s:String x:Key="AutomaticallyCheckForUpdates">Automatically check for updates when I start the program</s:String>
+    <s:String x:Key="WhatsNew">ما الجديد ؟</s:String>
+    <s:String x:Key="SubscriptionsUpdateDelay">تحديث الاشتراكات كل</s:String>
+    <s:String x:Key="Minutes">دقائق</s:String>
+    <s:String x:Key="SaveDownloadOptions">حفظ تفضيلات التحميل </s:String>
+    <s:String x:Key="DownloadSpeed">:سرعة التحميل </s:String>
+    <s:String x:Key="Changelog">التغيير</s:String>
+    <s:String x:Key="DongChunrui">Dong Cunrui (董存瑞)</s:String>
+    <s:String x:Key="CreditsAndContributors">:شك جزيلاً لهؤلاء الأشخاص على ترجمة هذا البرنامج 
+Dong Cunrui (董存瑞)
+RichyZ99
+Jhonatan Lima (Heremitus)
+İskender ALPSAKARYA (Türkçe)
+Stephan Komov (Deutsch)
+Elta (Français)
+Ahmed Waaer (Arabic)
+</s:String>
+    <s:String x:Key="Search">بحث</s:String>
+    <s:String x:Key="Queue">المنتظرة</s:String>
+    <s:String x:Key="Downloading">..جاري التحميل </s:String>
+    <s:String x:Key="Converting">..جاري التحويل </s:String>
+    <s:String x:Key="DownloadInBackground">إضافة إلى قائمة الانتظار</s:String>
+    <s:String x:Key="Audio">ملف الصوت</s:String>
+    <s:String x:Key="Video">فيديو</s:String>
+    <s:String x:Key="DownloadCaptions">تنزيل التسميات التوضيحية المغلقة</s:String>
+    <s:String x:Key="CaptionsLanguage">:لغة الترجمة والشرح</s:String>
+    <s:String x:Key="BulkDownload">تنزيل مجمع</s:String>
+    <s:String x:Key="LimitConverstions" >قم بتعيين الحد الأقصى لتحويلات الملفات المتزامنة إلى </s:String>
+    <s:String x:Key="ValueChangeRequiresRestart">لن يتم تمكين الحد
+الا عند اعادة تشغيل البرنامج </s:String>
+    <s:String x:Key="ConvertionsLimitingExplnation">يستغرق كل تحويل ملف  نواة واحدة . على سبيل المثال: إذا كان لديك اربع انوية 
+سيتم استخدام 3 انوية من الاربعة 
+cpu في مدير المهام ستلاحظ ان البرنامج يستخدم حوالى 75% من
+It is recommended to use 1 less core than what your cpu have. If your cpu have 4 cores,
+use 3 cores by limiting the file convertion to 3, if you have 3 cores, use 2 cores by limiting
+the file convertion to 2, etc..</s:String>
+    <s:String x:Key="FileConvertion">تحويل الملف</s:String>
+    <s:String x:Key="General">عام</s:String>
+    <s:String x:Key="SavePlaylistInUniqueDirectory">أحفظ كل قائمة تشغيل في مجلد مختلف</s:String>
+    <s:String x:Key="Playlist">قائمة تشغيل </s:String>
+    <s:String x:Key="OpenDestinationFolder">فتح مجلد الواجهة</s:String>
+    <s:String x:Key="ConfirmExit">تأكيد عند الخروج</s:String>
+    <s:String x:Key="OpenDestinationFolderOnFinish">افتح مجلد الوجهة عندانتهاء التحميل</s:String>
+    <s:String x:Key="TagAudioFile">أضف العلامات وصورة الغلاف إلى ملفات الصوت</s:String>
+    <s:String x:Key="Than">من</s:String>
+    <s:String x:Key="Filter">فلترة</s:String>
+    <s:String x:Key="DownloadFilter">تحميل مقاطع الفيديو فقط</s:String>
+    <s:String x:Key="Longer">أكبر </s:String>
+    <s:String x:Key="Shorter">أقل </s:String>
+    <s:String x:Key="FileDoesNotExist">غير موجود{0}</s:String>
+</ResourceDictionary> 
