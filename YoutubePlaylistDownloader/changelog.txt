@@ -1,3 +1,2 @@
-﻿Version 1.8.21:
-- Added Arabic (العربية) translation, thanks to Ahmed Waaer
-- Updated French translation
+﻿Version 1.8.22:
+- Fixed playlists not working
