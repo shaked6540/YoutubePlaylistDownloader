@@ -148,7 +148,7 @@ su quattro; in Gestione Attività si vedrà che il programma usa poco più del 7
     <s:String x:Key="OpenDestinationFolderOnFinish">Apri la cartella al termine</s:String>
     <s:String x:Key="TagAudioFile">Aggiungi tag e copertina ai file audio</s:String>
     <s:String x:Key="Than">di</s:String>
-    <s:String x:Key="Filter">Filter</s:String>
+    <s:String x:Key="Filter">Filtro</s:String>
     <s:String x:Key="DownloadFilter">Scarica solo video</s:String>
     <s:String x:Key="Longer">piú lunghi</s:String>
     <s:String x:Key="Shorter">piú corti</s:String>
