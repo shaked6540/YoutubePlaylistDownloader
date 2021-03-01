@@ -20,7 +20,7 @@ namespace YoutubePlaylistDownloader
     {
         private YoutubeClient client;
         private FullPlaylist list = null;
-        private IEnumerable<Video> VideoList;
+        private IEnumerable<PlaylistVideo> VideoList;
         private Channel channel = null;
         private readonly Dictionary<string, VideoQuality> Resolutions = new Dictionary<string, VideoQuality>()
         {
@@ -49,7 +49,7 @@ namespace YoutubePlaylistDownloader
             GlobalConsts.ShowHelpButton();
             GlobalConsts.ShowSubscriptionsButton();
 
-            VideoList = new List<Video>();
+            VideoList = new List<PlaylistVideo>();
             client = GlobalConsts.YoutubeClient;
 
             void UpdateSize(object s, SizeChangedEventArgs e)
@@ -89,8 +89,8 @@ namespace YoutubePlaylistDownloader
                     {
                         Playlist basePlaylist = await client.Playlists.GetAsync(playlistId).ConfigureAwait(false);
                         list = new FullPlaylist(basePlaylist, await client.Playlists.GetVideosAsync(basePlaylist.Id).BufferAsync().ConfigureAwait(false));
-                        VideoList = new List<Video>();
-                        await UpdatePlaylistInfo(Visibility.Visible, list.BasePlaylist.Title, list.BasePlaylist.Author, list.BasePlaylist.Engagement.ViewCount.ToString(),list.Videos.Count().ToString(), $"https://img.youtube.com/vi/{list?.Videos?.FirstOrDefault()?.Id}/0.jpg", true, true);
+                        VideoList = new List<PlaylistVideo>();
+                        await UpdatePlaylistInfo(Visibility.Visible, list.BasePlaylist.Title, list.BasePlaylist.Author, list.BasePlaylist.ViewCount.ToString(),list.Videos.Count().ToString(), $"https://img.youtube.com/vi/{list?.Videos?.FirstOrDefault()?.Id}/0.jpg", true, true);
                     }).ConfigureAwait(false);
                 }
                 else if (YoutubeHelpers.TryParseChannelId(PlaylistLinkTextBox.Text, out string channelId))
@@ -99,7 +99,7 @@ namespace YoutubePlaylistDownloader
                     {
                         channel = await client.Channels.GetAsync(channelId).ConfigureAwait(false);
                         list = new FullPlaylist(null, null);
-                        VideoList = await client.Channels.GetUploadsAsync(channel.Id).BufferAsync().ConfigureAwait(false); ;
+                        VideoList = await client.Channels.GetUploadsAsync(channel.Id).BufferAsync().ConfigureAwait(false);
                         await UpdatePlaylistInfo(Visibility.Visible, channel.Title, totalVideos: VideoList.Count().ToString(), imageUrl: channel.LogoUrl, downloadEnabled: true, showIndexes: true);
                     }).ConfigureAwait(false);
                 }
@@ -118,7 +118,7 @@ namespace YoutubePlaylistDownloader
                     _ = Task.Run(async () =>
                     {
                         var video = await client.Videos.GetAsync(videoId);
-                        VideoList = new List<Video> { video };
+                        VideoList = new List<PlaylistVideo> { new PlaylistVideo(video.Id, video.Title, video.Author, video.ChannelId, video.Description, video.Duration, video.Engagement.ViewCount, video.Thumbnails) };
                         list = new FullPlaylist(null, null);
                         await UpdatePlaylistInfo(Visibility.Visible, video.Title, video.Author, video.Engagement.ViewCount.ToString(), string.Empty, $"https://img.youtube.com/vi/{video.Id}/0.jpg", true, false);
 
@@ -148,7 +148,7 @@ namespace YoutubePlaylistDownloader
                 }
 
                 GlobalConsts.LoadPage(new DownloadPage(list, GlobalConsts.DownloadSettings.Clone(), videos: VideoList));
-                VideoList= new List<Video>();
+                VideoList= new List<PlaylistVideo>();
                 PlaylistLinkTextBox.Text = string.Empty;
             }
         }
@@ -197,7 +197,7 @@ namespace YoutubePlaylistDownloader
                 }
 
                 new DownloadPage(list, GlobalConsts.DownloadSettings.Clone(), silent: true, videos: VideoList);
-                VideoList= new List<Video>();
+                VideoList= new List<PlaylistVideo>();
                 PlaylistLinkTextBox.Text = string.Empty;
             }
         }

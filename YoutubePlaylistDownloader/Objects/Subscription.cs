@@ -76,30 +76,30 @@ namespace YoutubePlaylistDownloader.Objects
 
             else
             {
-                var playlist = await GlobalConsts.YoutubeClient.Channels.GetUploadsAsync(ChannelId).BufferAsync().ConfigureAwait(false);
+                //var playlist = await GlobalConsts.YoutubeClient.Channels.GetUploadsAsync(ChannelId).BufferAsync().ConfigureAwait(false);
 
-                List<YoutubeExplode.Videos.Video> missingVideos;
+                //List<YoutubeExplode.Videos.Video> missingVideos;
 
 
-                if (Settings.FilterVideosByLength)
-                {
-                    missingVideos = Settings.FilterMode ?
-                        playlist.Where(x => x.UploadDate.ToUniversalTime().Date >= LatestVideoDownloaded && !DownloadedVideos.Contains(x.Id) && x.Duration.TotalMinutes > Settings.FilterByLengthValue).ToList()
-                        :
-                        playlist.Where(x => x.UploadDate.ToUniversalTime().Date >= LatestVideoDownloaded && !DownloadedVideos.Contains(x.Id) && x.Duration.TotalMinutes < Settings.FilterByLengthValue).ToList();
-                }
-                else
-                {
-                    missingVideos = playlist.Where(x => x.UploadDate.ToUniversalTime().Date >= LatestVideoDownloaded && !DownloadedVideos.Contains(x.Id)).ToList();
-                }
+                //if (Settings.FilterVideosByLength)
+                //{
+                //    missingVideos = Settings.FilterMode ?
+                //        playlist.Where(x => x.UploadDate.ToUniversalTime().Date >= LatestVideoDownloaded && !DownloadedVideos.Contains(x.Id) && x.Duration.TotalMinutes > Settings.FilterByLengthValue).ToList()
+                //        :
+                //        playlist.Where(x => x.UploadDate.ToUniversalTime().Date >= LatestVideoDownloaded && !DownloadedVideos.Contains(x.Id) && x.Duration.TotalMinutes < Settings.FilterByLengthValue).ToList();
+                //}
+                //else
+                //{
+                //    missingVideos = playlist.Where(x => x.UploadDate.ToUniversalTime().Date >= LatestVideoDownloaded && !DownloadedVideos.Contains(x.Id)).ToList();
+                //}
 
-                if (missingVideos.Any())
-                {
-                    await Application.Current.Dispatcher.InvokeAsync(() =>
-                    {
-                        downloadPage = new DownloadPage(null, Settings, videos: missingVideos, subscription: this, silent: true, cancellationToken: cts);
-                    }, System.Windows.Threading.DispatcherPriority.Background);
-                }
+                //if (missingVideos.Any())
+                //{
+                //    await Application.Current.Dispatcher.InvokeAsync(() =>
+                //    {
+                //        downloadPage = new DownloadPage(null, Settings, videos: missingVideos, subscription: this, silent: true, cancellationToken: cts);
+                //    }, System.Windows.Threading.DispatcherPriority.Background);
+                //}
             }
         }
         public bool StillDownloading()
