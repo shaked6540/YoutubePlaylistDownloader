@@ -35,7 +35,7 @@ namespace YoutubePlaylistDownloader
         public static readonly string FFmpegFilePath;
         private static readonly string ConfigFilePath;
         private static readonly string ErrorFilePath;
-        public static readonly Version VERSION = new Version(1, 8, 22);
+        public static readonly Version VERSION = new Version(1, 8, 23);
         public static bool UpdateOnExit;
         public static string UpdateSetupLocation;
         public static bool OptionExpanderIsExpanded;
@@ -336,7 +336,7 @@ namespace YoutubePlaylistDownloader
 
             return sanitisedNamePart;
         }
-        public static async Task TagFile(Video video, int vIndex, string file, FullPlaylist playlist = null)
+        public static async Task TagFile(PlaylistVideo video, int vIndex, string file, FullPlaylist playlist = null)
         {
             if (video == null)
                 throw new ArgumentNullException($"{nameof(video)} was null, can't tag a file without a video title");
@@ -366,8 +366,8 @@ namespace YoutubePlaylistDownloader
 
             t.Tag.Album = playlist?.BasePlaylist?.Title;
             t.Tag.Track = (uint)vIndex;
-            t.Tag.Year = (uint)video.UploadDate.Year;
-            t.Tag.DateTagged = video.UploadDate.UtcDateTime;
+            //t.Tag.Year = (uint)video.UploadDate.Year;
+            ///t.Tag.DateTagged = video.UploadDate.UtcDateTime;
             t.Tag.AlbumArtists = new[] { playlist?.BasePlaylist?.Author };
             var lowerGenre = genre.ToLower();
             if (new[] { "download", "out now", "mostercat", "video", "lyric", "release", "ncs" }.Any(x => lowerGenre.Contains(x)))
@@ -375,17 +375,17 @@ namespace YoutubePlaylistDownloader
             else
                 t.Tag.Genres = genre.Split('/', '\\');
 
-            try
-            {
-                TagLib.Id3v2.Tag.DefaultVersion = 3;
-                TagLib.Id3v2.Tag.ForceDefaultVersion = true;
-                var frame = TagLib.Id3v2.PopularimeterFrame.Get((TagLib.Id3v2.Tag)t.GetTag(TagLib.TagTypes.Id3v2, true), "WindowsUser", true);
-                frame.Rating = Convert.ToByte((video.Engagement.LikeCount * 255) / (video.Engagement.LikeCount + video.Engagement.DislikeCount));
-            }
-            catch
-            {
+            //try
+            //{
+            //    TagLib.Id3v2.Tag.DefaultVersion = 3;
+            //    TagLib.Id3v2.Tag.ForceDefaultVersion = true;
+            //    var frame = TagLib.Id3v2.PopularimeterFrame.Get((TagLib.Id3v2.Tag)t.GetTag(TagLib.TagTypes.Id3v2, true), "WindowsUser", true);
+            //    frame.Rating = Convert.ToByte((video.Engagement.LikeCount * 255) / (video.Engagement.LikeCount + video.Engagement.DislikeCount));
+            //}
+            //catch
+            //{
 
-            }
+            //}
 
             var index = title.LastIndexOf('-');
             if (index > 0)

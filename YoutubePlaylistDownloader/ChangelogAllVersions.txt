@@ -1,4 +1,9 @@
-﻿Version 1.8.22:
+﻿Version 1.8.23:Version 1.8.23:
+- Fixed playlists not downloading more than 100 videos
+Note: subscriptions no longer work, this have nothing to do with this update, they are not working because of some changes youtube made
+
+
+Version 1.8.22:
 - Fixed playlists not working
 ﻿
 
