@@ -1,4 +1,8 @@
-﻿Version 1.8.23:
+﻿Version 1.8.24:
+- Fixed downloading videos not working due to some new cookies youtube added
+
+
+Version 1.8.23:
 - Fixed playlists not loading more than 100 videos
 - Updated Italian translation
 Note: subscriptions no longer work, this have nothing to do with this update, they are not working because of some changes youtube made
