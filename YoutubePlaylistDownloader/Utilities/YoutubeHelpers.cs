@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Text.RegularExpressions;
+using YoutubeExplode.Common;
+using YoutubeExplode.Videos.Streams;
 
 namespace YoutubePlaylistDownloader.Utilities
 {
@@ -243,5 +245,43 @@ namespace YoutubePlaylistDownloader.Utilities
             TryParseChannelId(channelUrl, out var result)
                 ? result!
                 : throw new FormatException($"Could not parse channel ID from given string [{channelUrl}].");
+
+        public static VideoQuality FromLabel(string label, int framerateFallback)
+        {
+            // Video quality labels can have the following formats:
+            // - 1080p (regular stream, regular fps)
+            // - 1080p60 (regular stream, high fps)
+            // - 1080s (360° stream, regular fps)
+            // - 1080s60 (360° stream, high fps)
+
+            var match = Regex.Match(label, @"^(\d+)\w+(\d+)?$");
+
+            var maxHeight = int.Parse(match.Groups[1].Value);
+            int? framerate = null;
+            try
+            {
+                framerate = int.Parse(match.Groups[2].Value);
+            }
+            catch { }
+
+            return new VideoQuality(
+                label,
+                maxHeight,
+                framerate ?? framerateFallback
+            );
+        }
+
+
+        public static VideoQuality Low144 = FromLabel("144p", 30);
+        public static VideoQuality Low240 = FromLabel("240p", 30);
+        public static VideoQuality Medium360 = FromLabel("360p", 30);
+        public static VideoQuality Medium480 = FromLabel("480p", 30);
+        public static VideoQuality High720 = FromLabel("720p", 30);
+        public static VideoQuality High1080 = FromLabel("1080p", 30);
+        public static VideoQuality High1440 = FromLabel("1440p", 30);
+        public static VideoQuality High2160 = FromLabel("2160p", 30);
+        public static VideoQuality High2880 = FromLabel("2880p", 30);
+        public static VideoQuality High3072 = FromLabel("3072p", 30);
+        public static VideoQuality High4320 = FromLabel("4320p", 30);
     }
 }

@@ -164,8 +164,8 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="YoutubeExplode, Version=6.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\YoutubeExplode.6.0.0-alpha2\lib\net461\YoutubeExplode.dll</HintPath>
+    <Reference Include="YoutubeExplode, Version=6.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\YoutubeExplode.6.0.1\lib\net461\YoutubeExplode.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -201,6 +201,7 @@
     <Compile Include="Objects\QueuedDownload.cs" />
     <Compile Include="Objects\Settings.cs" />
     <Compile Include="Objects\Subscription.cs" />
+    <Compile Include="Objects\VideoQualityConverter.cs" />
     <Compile Include="Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
     </Compile>
@@ -214,6 +215,7 @@
     <Compile Include="SubscriptionSettings.xaml.cs">
       <DependentUpon>SubscriptionSettings.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Utilities\ExtensionMethods.cs" />
     <Compile Include="Utilities\YoutubeHelpers.cs" />
     <Page Include="About.xaml">
       <SubType>Designer</SubType>

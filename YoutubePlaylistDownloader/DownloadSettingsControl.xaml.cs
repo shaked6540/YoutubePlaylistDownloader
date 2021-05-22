@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using YoutubeExplode.Videos.Streams;
+using YoutubePlaylistDownloader.Utilities;
 
 namespace YoutubePlaylistDownloader
 {
@@ -14,17 +15,17 @@ namespace YoutubePlaylistDownloader
     {
         private readonly Dictionary<string, VideoQuality> Resolutions = new Dictionary<string, VideoQuality>()
         {
-            { "144p", VideoQuality.Low144 },
-            { "240p", VideoQuality.Low240 },
-            { "360p", VideoQuality.Medium360 },
-            { "480p", VideoQuality.Medium480 },
-            { "720p", VideoQuality.High720 },
-            { "1080p", VideoQuality.High1080 },
-            { "1440p", VideoQuality.High1440 },
-            { "2160p", VideoQuality.High2160 },
-            { "2880p", VideoQuality.High2880 },
-            { "3072p", VideoQuality.High3072 },
-            { "4320p", VideoQuality.High4320 }
+            { "144p", YoutubeHelpers.Low144 },
+            { "240p", YoutubeHelpers.Low240 },
+            { "360p", YoutubeHelpers.Medium360 },
+            { "480p", YoutubeHelpers.Medium480 },
+            { "720p", YoutubeHelpers.High720 },
+            { "1080p", YoutubeHelpers.High1080 },
+            { "1440p", YoutubeHelpers.High1440 },
+            { "2160p", YoutubeHelpers.High2160 },
+            { "2880p", YoutubeHelpers.High2880 },
+            { "3072p", YoutubeHelpers.High3072 },
+            { "4320p", YoutubeHelpers.High4320 }
         };
 
         private readonly string[] FileTypes = { "mp3", "aac", "opus", "wav", "flac", "m4a", "ogg", "webm" };

@@ -98,7 +98,7 @@ namespace YoutubePlaylistDownloader
                 DateTime.Now,
 #endif
 
-                SubscriptionChannelId, new DownloadSettings("mp3", false, YoutubeExplode.Videos.Streams.VideoQuality.High720,
+                SubscriptionChannelId, new DownloadSettings("mp3", false, YoutubeHelpers.High720,
                 false, false, false, false, string.Empty, false, "en", false, false, 0, 0, false, true, false, true, 4), new List<string>());
 
 
@@ -131,7 +131,7 @@ namespace YoutubePlaylistDownloader
                     Width = 98,
                     Height = 98,
                     Margin = new Thickness(2),
-                    Source = new BitmapImage(new Uri(channel.LogoUrl)),
+                    Source = new BitmapImage(new Uri(channel.Thumbnails.FirstOrDefault()?.Url)),
                     VerticalAlignment = VerticalAlignment.Top
                 };
                 Grid.SetColumn(logo, 0);

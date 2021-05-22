@@ -1,5 +1,6 @@
 ﻿using MahApps.Metro;
 using MahApps.Metro.Controls.Dialogs;
+using Newtonsoft.Json;
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -16,6 +17,7 @@ using YoutubeExplode;
 using YoutubeExplode.Playlists;
 using YoutubeExplode.Videos;
 using YoutubePlaylistDownloader.Objects;
+using YoutubePlaylistDownloader.Utilities;
 
 namespace YoutubePlaylistDownloader
 {
@@ -76,7 +78,7 @@ namespace YoutubePlaylistDownloader
             get
             {
                 if (downloadSettings == null)
-                    downloadSettings = new DownloadSettings("mp3", false, YoutubeExplode.Videos.Streams.VideoQuality.High720, false, false, false, false, "192", false, "en", false, false, 0, 0, false, true, false, true, 4);
+                    downloadSettings = new DownloadSettings("mp3", false, YoutubeHelpers.High720, false, false, false, false, "192", false, "en", false, false, 0, 0, false, true, false, true, 4);
 
                 return downloadSettings;
             }
@@ -96,6 +98,12 @@ namespace YoutubePlaylistDownloader
 
         static GlobalConsts()
         {
+            JsonConvert.DefaultSettings = () =>
+            {
+                var settings = new JsonSerializerSettings();
+                settings.Converters.Add(new VideoQualityConverter());
+                return settings;
+            };
             Downloads = new ObservableCollection<QueuedDownload>();
             CurrentDir = new FileInfo(Assembly.GetEntryAssembly().Location).Directory.ToString();
             FFmpegFilePath = $"{CurrentDir}\\ffmpeg.exe";
@@ -213,7 +221,7 @@ namespace YoutubePlaylistDownloader
             ActualConvertionsLimit = 2;
             LimitConvertions = true;
 
-            DownloadSettings = new DownloadSettings("mp3", false, YoutubeExplode.Videos.Streams.VideoQuality.High720, false, false, false, false, "192", false, "en", false, false, 0, 0, false, true, false, true, 4);
+            DownloadSettings = new DownloadSettings("mp3", false, YoutubeHelpers.High720, false, false, false, false, "192", false, "en", false, false, 0, 0, false, true, false, true, 4);
             SaveConsts();
         }
         public static void LoadConsts()
@@ -368,7 +376,7 @@ namespace YoutubePlaylistDownloader
             t.Tag.Track = (uint)vIndex;
             //t.Tag.Year = (uint)video.UploadDate.Year;
             ///t.Tag.DateTagged = video.UploadDate.UtcDateTime;
-            t.Tag.AlbumArtists = new[] { playlist?.BasePlaylist?.Author };
+            t.Tag.AlbumArtists = new[] { playlist?.BasePlaylist?.Author.Title };
             var lowerGenre = genre.ToLower();
             if (new[] { "download", "out now", "mostercat", "video", "lyric", "release", "ncs" }.Any(x => lowerGenre.Contains(x)))
                 genre = string.Empty;
@@ -447,12 +455,12 @@ namespace YoutubePlaylistDownloader
                     {
                         Log(ex2.ToString(), "Delete download settings file path").Wait();
                     }
-                    downloadSettings = new DownloadSettings("mp3", false, YoutubeExplode.Videos.Streams.VideoQuality.High720, false, false, false, false, "192", false, "en", false, false, 0, 0, false, true, false, true, 4);
+                    downloadSettings = new DownloadSettings("mp3", false, YoutubeHelpers.High720, false, false, false, false, "192", false, "en", false, false, 0, 0, false, true, false, true, 4);
                 }
             }
             else
             {
-                downloadSettings = new DownloadSettings("mp3", false, YoutubeExplode.Videos.Streams.VideoQuality.High720, false, false, false, false, "192", false, "en", false, false, 0, 0, false, true, false, true, 4);
+                downloadSettings = new DownloadSettings("mp3", false, YoutubeHelpers.High720, false, false, false, false, "192", false, "en", false, false, 0, 0, false, true, false, true, 4);
             }
         }
         public static void SaveDownloadSettings()

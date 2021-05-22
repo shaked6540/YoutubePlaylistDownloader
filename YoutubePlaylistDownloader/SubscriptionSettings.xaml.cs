@@ -8,6 +8,7 @@ using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using YoutubeExplode.Videos.Streams;
 using YoutubePlaylistDownloader.Objects;
+using YoutubePlaylistDownloader.Utilities;
 
 namespace YoutubePlaylistDownloader
 {
@@ -19,17 +20,17 @@ namespace YoutubePlaylistDownloader
         private readonly Subscription Subscription;
         private readonly Dictionary<string, VideoQuality> Resolutions = new Dictionary<string, VideoQuality>()
         {
-            { "144p", VideoQuality.Low144 },
-            { "240p", VideoQuality.Low240 },
-            { "360p", VideoQuality.Medium360 },
-            { "480p", VideoQuality.Medium480 },
-            { "720p", VideoQuality.High720 },
-            { "1080p", VideoQuality.High1080 },
-            { "1440p", VideoQuality.High1440 },
-            { "2160p", VideoQuality.High2160 },
-            { "2880p", VideoQuality.High2880 },
-            { "3072p", VideoQuality.High3072 },
-            { "4320p", VideoQuality.High4320 }
+            { "144p", YoutubeHelpers.Low144 },
+            { "240p", YoutubeHelpers.Low240 },
+            { "360p", YoutubeHelpers.Medium360 },
+            { "480p", YoutubeHelpers.Medium480 },
+            { "720p", YoutubeHelpers.High720 },
+            { "1080p", YoutubeHelpers.High1080 },
+            { "1440p", YoutubeHelpers.High1440 },
+            { "2160p", YoutubeHelpers.High2160 },
+            { "2880p", YoutubeHelpers.High2880 },
+            { "3072p", YoutubeHelpers.High3072 },
+            { "4320p", YoutubeHelpers.High4320 }
         };
         private readonly string[] FileTypes = { "mp3", "aac", "opus", "wav", "flac", "m4a", "ogg", "webm" };
         private readonly Dictionary<string, string> Languages = new Dictionary<string, string>() { { "aa", "Afar" }, { "ab", "Abkhazian" }, { "af", "Afrikaans" }, { "ak", "Akan" }, { "sq", "Albanian" }, { "am", "Amharic" }, { "ar", "Arabic" }, { "an", "Aragonese" }, { "hy", "Armenian" }, { "as", "Assamese" }, { "av", "Avaric" }, { "ae", "Avestan" }, { "ay", "Aymara" }, { "az", "Azerbaijani" }, { "ba", "Bashkir" }, { "bm", "Bambara" }, { "eu", "Basque" }, { "be", "Belarusian" }, { "bn", "Bengali" }, { "bh", "Bihari languages" }, { "bi", "Bislama" }, { "bs", "Bosnian" }, { "br", "Breton" }, { "bg", "Bulgarian" }, { "my", "Burmese" }, { "ca", "Catalan" }, { "ch", "Chamorro" }, { "ce", "Chechen" }, { "zh", "Chinese" }, { "cu", "Church Slavic" }, { "cv", "Chuvash" }, { "kw", "Cornish" }, { "co", "Corsican" }, { "cr", "Cree" }, { "cs", "Czech" }, { "da", "Danish" }, { "dv", "Divehi" }, { "nl", "Dutch" }, { "dz", "Dzongkha" }, { "en", "English" }, { "eo", "Esperanto" }, { "et", "Estonian" }, { "ee", "Ewe" }, { "fo", "Faroese" }, { "fj", "Fijian" }, { "fi", "Finnish" }, { "fr", "French" }, { "fy", "Western Frisian" }, { "ff", "Fulah" }, { "ka", "Georgian" }, { "de", "German" }, { "gd", "Gaelic" }, { "ga", "Irish" }, { "gl", "Galician" }, { "gv", "Manx" }, { "el", "Greek" }, { "gn", "Guarani" }, { "gu", "Gujarati" }, { "ht", "Haitian" }, { "ha", "Hausa" }, { "he", "Hebrew" }, { "hz", "Herero" }, { "hi", "Hindi" }, { "ho", "Hiri Motu" }, { "hr", "Croatian" }, { "hu", "Hungarian" }, { "ig", "Igbo" }, { "is", "Icelandic" }, { "io", "Ido" }, { "ii", "Sichuan Yi" }, { "iu", "Inuktitut" }, { "ie", "Interlingue" }, { "ia", "Interlingua" }, { "id", "Indonesian" }, { "ik", "Inupiaq" }, { "it", "Italian" }, { "jv", "Javanese" }, { "ja", "Japanese" }, { "kl", "Kalaallisut" }, { "kn", "Kannada" }, { "ks", "Kashmiri" }, { "kr", "Kanuri" }, { "kk", "Kazakh" }, { "km", "Central Khmer" }, { "ki", "Kikuyu" }, { "rw", "Kinyarwanda" }, { "ky", "Kirghiz" }, { "kv", "Komi" }, { "kg", "Kongo" }, { "ko", "Korean" }, { "kj", "Kuanyama" }, { "ku", "Kurdish" }, { "lo", "Lao" }, { "la", "Latin" }, { "lv", "Latvian" }, { "li", "Limburgan" }, { "ln", "Lingala" }, { "lt", "Lithuanian" }, { "lb", "Luxembourgish" }, { "lu", "Luba-Katanga" }, { "lg", "Ganda" }, { "mk", "Macedonian" }, { "mh", "Marshallese" }, { "ml", "Malayalam" }, { "mi", "Maori" }, { "mr", "Marathi" }, { "ms", "Malay" }, { "mg", "Malagasy" }, { "mt", "Maltese" }, { "mn", "Mongolian" }, { "na", "Nauru" }, { "nv", "Navajo" }, { "nr", "Ndebele, South" }, { "nd", "Ndebele, North" }, { "ng", "Ndonga" }, { "ne", "Nepali" }, { "nn", "Norwegian" }, { "nb", "Bokmål" }, { "no", "Norwegian" }, { "ny", "Chichewa" }, { "oc", "Occitan" }, { "oj", "Ojibwa" }, { "or", "Oriya" }, { "om", "Oromo" }, { "os", "Ossetian" }, { "pa", "Panjabi" }, { "fa", "Persian" }, { "pi", "Pali" }, { "pl", "Polish" }, { "pt", "Portuguese" }, { "ps", "Pushto" }, { "qu", "Quechua" }, { "rm", "Romansh" }, { "ro", "Romanian" }, { "rn", "Rundi" }, { "ru", "Russian" }, { "sg", "Sango" }, { "sa", "Sanskrit" }, { "si", "Sinhala" }, { "sk", "Slovak" }, { "sl", "Slovenian" }, { "se", "Northern Sami" }, { "sm", "Samoan" }, { "sn", "Shona" }, { "sd", "Sindhi" }, { "so", "Somali" }, { "st", "Sotho, Southern" }, { "es", "Spanish" }, { "sc", "Sardinian" }, { "sr", "Serbian" }, { "ss", "Swati" }, { "su", "Sundanese" }, { "sw", "Swahili" }, { "sv", "Swedish" }, { "ty", "Tahitian" }, { "ta", "Tamil" }, { "tt", "Tatar" }, { "te", "Telugu" }, { "tg", "Tajik" }, { "tl", "Tagalog" }, { "th", "Thai" }, { "bo", "Tibetan" }, { "ti", "Tigrinya" }, { "to", "Tonga (Tonga Islands)" }, { "tn", "Tswana" }, { "ts", "Tsonga" }, { "tk", "Turkmen" }, { "tr", "Turkish" }, { "tw", "Twi" }, { "ug", "Uighur" }, { "uk", "Ukrainian" }, { "ur", "Urdu" }, { "uz", "Uzbek" }, { "ve", "Venda" }, { "vi", "Vietnamese" }, { "vo", "Volapük" }, { "cy", "Welsh" }, { "wa", "Walloon" }, { "wo", "Wolof" }, { "xh", "Xhosa" }, { "yi", "Yiddish" }, { "yo", "Yoruba" }, { "za", "Zhuang" }, { "zu", "Zulu" }, };
@@ -61,7 +62,7 @@ namespace YoutubePlaylistDownloader
                 BitRateTextBox.Text = Subscription.Settings.Bitrate;
                 CaptionsCheckBox.IsChecked = Subscription.Settings.DownloadCaptions;
                 CaptionsLanguagesComboBox.SelectedItem = Languages[Subscription.Settings.CaptionsLanguage ?? "en"];
-                ChannelLogo.Source = new BitmapImage(new Uri(channel.LogoUrl));
+                ChannelLogo.Source = new BitmapImage(new Uri(channel.Thumbnails.FirstOrDefault()?.Url));
                 FilterByLengthCheckBox.IsChecked = Subscription.Settings.FilterVideosByLength;
                 var FilterByLengthShorterOrLongerDropDownItemSource = new[] { FindResource("Longer"), FindResource("Shorter") };
                 FilterByLengthShorterOrLongerDropDown.ItemsSource = FilterByLengthShorterOrLongerDropDownItemSource;

@@ -15,6 +15,7 @@ using YoutubeExplode;
 using YoutubeExplode.Playlists;
 using YoutubeExplode.Videos.Streams;
 using YoutubeExplode.Videos;
+using YoutubeExplode.Common;
 
 namespace YoutubePlaylistDownloader
 {
@@ -133,8 +134,8 @@ namespace YoutubePlaylistDownloader
             if (settings.FilterVideosByLength)
             {
                 Videos = settings.FilterMode ?
-                    Videos.Where(video => video.Duration.TotalMinutes > settings.FilterByLengthValue) :
-                    Videos.Where(video => video.Duration.TotalMinutes < settings.FilterByLengthValue);
+                    Videos.Where(video => video.Duration.Value.TotalMinutes > settings.FilterByLengthValue) :
+                    Videos.Where(video => video.Duration.Value.TotalMinutes < settings.FilterByLengthValue);
             }
 
             int startIndex = settings.SubsetStartIndex <= 0 ? 0 : settings.SubsetStartIndex;
@@ -220,24 +221,24 @@ namespace YoutubePlaylistDownloader
                     if (YoutubeHelpers.TryParsePlaylistId(link, out string playlistId))
                     {
                         basePlaylist = await client.Playlists.GetAsync(playlistId).ConfigureAwait(false);
-                        fullPlaylist = new FullPlaylist(basePlaylist, await client.Playlists.GetVideosAsync(basePlaylist.Id).BufferAsync().ConfigureAwait(false));
+                        fullPlaylist = new FullPlaylist(basePlaylist, await client.Playlists.GetVideosAsync(basePlaylist.Id).CollectAsync().ConfigureAwait(false));
                         await Download(fullPlaylist, new List<PlaylistVideo>());
                     }
                     else if (YoutubeHelpers.TryParseChannelId(link, out string channelId))
                     {
-                        videos = await client.Channels.GetUploadsAsync(channelId).BufferAsync().ConfigureAwait(false);
+                        videos = await client.Channels.GetUploadsAsync(channelId).CollectAsync().ConfigureAwait(false);
                         await Download(null, videos);
                     }
                     else if (YoutubeHelpers.TryParseUsername(link, out string username))
                     {
                         var channel = await client.Channels.GetByUserAsync(username).ConfigureAwait(false);
-                        videos = await client.Channels.GetUploadsAsync(channel.Id).BufferAsync();
+                        videos = await client.Channels.GetUploadsAsync(channel.Id).CollectAsync().ConfigureAwait(false);
                         await Download(null, videos);
                     }
                     else if (YoutubeHelpers.TryParseVideoId(link, out string videoId))
                     {
                         var video = await client.Videos.GetAsync(videoId);
-                        await Download(null, new[] { new PlaylistVideo(video.Id, video.Title, video.Author, video.ChannelId, video.Description, video.Duration, video.Engagement.ViewCount, video.Thumbnails) });
+                        await Download(null, new[] { new PlaylistVideo(video.Id, video.Title, video.Author, video.Duration, video.Thumbnails) });
                     }
                 }
                 catch (Exception ex)
@@ -289,7 +290,7 @@ namespace YoutubePlaylistDownloader
                         downloadSpeeds.Clear();
 
                         var streamInfoSet = await client.Videos.Streams.GetManifestAsync(video.Id);
-                        var bestQuality = streamInfoSet.GetAudioOnly().WithHighestBitrate();
+                        var bestQuality = streamInfoSet.GetAudioOnlyStreams().GetWithHighestBitrate();
                         var cleanFileName = GlobalConsts.CleanFileName(video.Title);
                         var fileLoc = $"{GlobalConsts.TempFolderPath}{cleanFileName}";
 
@@ -315,7 +316,7 @@ namespace YoutubePlaylistDownloader
                             {
                                 try
                                 {
-                                    var precent = Convert.ToInt32(args.StreamLength * 100 / bestQuality.Size.TotalBytes);
+                                    var precent = Convert.ToInt32(args.StreamLength * 100 / bestQuality.Size.Bytes);
                                     CurrentProgressPrecent = precent;
                                     double speedInMB = 0;
                                     var delta = sw.Elapsed - ts;
@@ -564,15 +565,15 @@ namespace YoutubePlaylistDownloader
                     IVideoStreamInfo bestQuality = null;
                     IStreamInfo bestAudio = null;
 
-                    var videoList = streamInfoSet.GetVideoOnly().OrderByDescending(x => x.VideoQuality == Quality);
+                    var videoList = streamInfoSet.GetVideoOnlyStreams().OrderByDescending(x => x.VideoQuality == Quality);
 
                     if (PreferHighestFPS)
-                        videoList = videoList.ThenByDescending(x => x.Framerate).ThenByDescending(x => x.VideoQuality > Quality).ThenByDescending(x => x.VideoQuality);
+                        videoList = videoList.ThenByDescending(x => x.VideoQuality.Framerate).ThenBy(x => Math.Abs(x.VideoQuality.MaxHeight - Quality.MaxHeight));
                     else
-                        videoList = videoList.ThenByDescending(x => x.VideoQuality > Quality).ThenByDescending(x => x.VideoQuality);
+                        videoList = videoList.ThenBy(x => Math.Abs(x.VideoQuality.MaxHeight - Quality.MaxHeight));
 
                     bestQuality = videoList.FirstOrDefault();
-                    bestAudio = streamInfoSet.GetAudioOnly().WithHighestBitrate();
+                    bestAudio = streamInfoSet.GetAudioOnlyStreams().GetWithHighestBitrate();
 
                     var cleanVideoName = GlobalConsts.CleanFileName(video.Title);
                     var fileLoc = $"{GlobalConsts.TempFolderPath}{cleanVideoName}";
@@ -599,7 +600,7 @@ namespace YoutubePlaylistDownloader
                         {
                             try
                             {
-                                var precent = Convert.ToInt32(args.StreamLength * 100 / bestQuality.Size.TotalBytes);
+                                var precent = Convert.ToInt32(args.StreamLength * 100 / bestQuality.Size.Bytes);
                                 CurrentProgressPrecent = precent;
                                 double speedInMB = 0;
                                 var delta = sw.Elapsed - ts;
@@ -666,14 +667,14 @@ namespace YoutubePlaylistDownloader
                                 }
 
                                 var captionsTask = client.Videos.ClosedCaptions.DownloadAsync(captions, captionsLoc, cancellationToken: token);
-                                await Task.WhenAll(videoTask, audioTask, captionsTask);
+                                await ExtensionMethods.WhenAll(videoTask, audioTask, captionsTask);
                                 sw.Stop();
                                 ffmpegArguments = $"-i \"{fileLoc}\" -i \"{audioLoc}\" -i \"{captionsLoc}\" -y -c copy \"{outputFileLoc}\"";
                             }
                             else
                             {
                                 ffmpegArguments = $"-i \"{fileLoc}\" -i \"{audioLoc}\" -y -c copy \"{outputFileLoc}\"";
-                                await Task.WhenAll(videoTask, audioTask);
+                                await ExtensionMethods.WhenAll(videoTask, audioTask);
                                 sw.Stop();
                             }
                         }
