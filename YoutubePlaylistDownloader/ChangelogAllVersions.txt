@@ -1,4 +1,9 @@
-﻿Version 1.8.24:
+﻿Version 1.8.25:
+- Fixed 404 issues
+- Updated libaries
+
+
+Version 1.8.24:
 - Fixed downloading videos not working due to some new cookies youtube added
 
 
