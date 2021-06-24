@@ -1,3 +1,2 @@
-﻿Version 1.8.25:
-- Fixed 404 issues
+﻿Version 1.8.26:
 - Updated libaries
