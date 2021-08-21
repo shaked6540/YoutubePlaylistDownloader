@@ -1,1 +1,1 @@
-https://youtube-playlist-downloader.s3.fr-par.scw.cloud/YoutubePlaylistDownloader.exe
+https://ypd.s3.nl-ams.scw.cloud/YoutubePlaylistDownloader.exe
