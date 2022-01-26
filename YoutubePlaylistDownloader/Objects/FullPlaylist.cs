@@ -9,10 +9,13 @@ namespace YoutubePlaylistDownloader.Objects
         public Playlist BasePlaylist { get; private set; }
         public IEnumerable<PlaylistVideo> Videos { get; private set; }
 
-        public FullPlaylist(Playlist basePlaylist, IEnumerable<PlaylistVideo> videos)
+        public string Title { get; private set; }
+
+        public FullPlaylist(Playlist basePlaylist, IEnumerable<PlaylistVideo> videos, string title = null)
         {
             BasePlaylist = basePlaylist;
             Videos = videos;
+            Title = basePlaylist?.Title ?? title;
         }
     }
 }

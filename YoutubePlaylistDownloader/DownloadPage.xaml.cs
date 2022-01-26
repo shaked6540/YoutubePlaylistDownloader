@@ -16,6 +16,7 @@ using YoutubeExplode.Playlists;
 using YoutubeExplode.Videos.Streams;
 using YoutubeExplode.Videos;
 using YoutubeExplode.Common;
+using YoutubeExplode.Channels;
 
 namespace YoutubePlaylistDownloader
 {
@@ -167,8 +168,18 @@ namespace YoutubePlaylistDownloader
             CaptionsLanguage = settings.CaptionsLanguage;
             SavePath = string.IsNullOrWhiteSpace(savePath) ? GlobalConsts.SaveDirectory : savePath;
 
-            if (settings.SavePlaylistsInDifferentDirectories && playlist?.BasePlaylist != null && !string.IsNullOrWhiteSpace(playlist?.BasePlaylist?.Title))
-                SavePath += $"\\{GlobalConsts.CleanFileName(playlist?.BasePlaylist?.Title)}";
+            if (settings.SavePlaylistsInDifferentDirectories && playlist != null)
+            {
+                if (!string.IsNullOrWhiteSpace(playlist.Title))
+                {
+                    SavePath += $"\\{GlobalConsts.CleanFileName(playlist.Title)}";
+                }
+                else if (!string.IsNullOrWhiteSpace(playlist.BasePlaylist?.Title))
+                {
+                    SavePath += $"\\{GlobalConsts.CleanFileName(playlist?.BasePlaylist?.Title)}";
+                }
+
+            }
 
             if (!Directory.Exists(SavePath))
                 Directory.CreateDirectory(SavePath);
@@ -205,6 +216,7 @@ namespace YoutubePlaylistDownloader
             var client = GlobalConsts.YoutubeClient;
             Playlist basePlaylist;
             FullPlaylist fullPlaylist;
+            Channel channel;
             IEnumerable<PlaylistVideo> videos = new List<PlaylistVideo>();
             var notDownloaded = new List<(string, string)>();
             foreach (var link in links)
@@ -226,14 +238,17 @@ namespace YoutubePlaylistDownloader
                     }
                     else if (YoutubeHelpers.TryParseChannelId(link, out string channelId))
                     {
+                        channel = await client.Channels.GetAsync(channelId).ConfigureAwait(false);
                         videos = await client.Channels.GetUploadsAsync(channelId).CollectAsync().ConfigureAwait(false);
-                        await Download(null, videos);
+                        fullPlaylist = new FullPlaylist(null, null, channel.Title);
+                        await Download(fullPlaylist, videos);
                     }
                     else if (YoutubeHelpers.TryParseUsername(link, out string username))
                     {
-                        var channel = await client.Channels.GetByUserAsync(username).ConfigureAwait(false);
+                        channel = await client.Channels.GetByUserAsync(username).ConfigureAwait(false);
                         videos = await client.Channels.GetUploadsAsync(channel.Id).CollectAsync().ConfigureAwait(false);
-                        await Download(null, videos);
+                        fullPlaylist = new FullPlaylist(null, null, channel.Title);
+                        await Download(fullPlaylist, videos);
                     }
                     else if (YoutubeHelpers.TryParseVideoId(link, out string videoId))
                     {

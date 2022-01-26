@@ -99,7 +99,7 @@ namespace YoutubePlaylistDownloader
                     _ = Task.Run(async () =>
                     {
                         channel = await client.Channels.GetAsync(channelId).ConfigureAwait(false);
-                        list = new FullPlaylist(null, null);
+                        list = new FullPlaylist(null, null, channel.Title);
                         VideoList = await client.Channels.GetUploadsAsync(channel.Id).CollectAsync().ConfigureAwait(false);
                         await UpdatePlaylistInfo(Visibility.Visible, channel.Title, totalVideos: VideoList.Count().ToString(), imageUrl: channel.Thumbnails.FirstOrDefault()?.Url, downloadEnabled: true, showIndexes: true);
                     }).ConfigureAwait(false);
@@ -109,7 +109,7 @@ namespace YoutubePlaylistDownloader
                     _ = Task.Run(async () =>
                     {
                         var channel = await client.Channels.GetByUserAsync(username).ConfigureAwait(false);
-                        list = new FullPlaylist(null, null);
+                        list = new FullPlaylist(null, null, channel.Title);
                         VideoList = await client.Channels.GetUploadsAsync(channel.Id).CollectAsync().ConfigureAwait(false);
                         await UpdatePlaylistInfo(Visibility.Visible, channel.Title,totalVideos: VideoList.Count().ToString(), imageUrl: channel.Thumbnails.FirstOrDefault()?.Url, downloadEnabled: true, showIndexes: true);
                     }).ConfigureAwait(false);
