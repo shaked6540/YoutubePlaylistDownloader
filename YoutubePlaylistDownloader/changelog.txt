@@ -1,2 +1,3 @@
-﻿Version 1.8.29:
-- Fixed downloading channels not being saved into seperate directories
+﻿Version 1.8.30:
+- Pasting/dropping text into the bulk download text box will now add a new line automatically
+- Fixed videos with the same titles overwriting each other
