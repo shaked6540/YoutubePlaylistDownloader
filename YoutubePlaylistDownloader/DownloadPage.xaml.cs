@@ -306,13 +306,14 @@ namespace YoutubePlaylistDownloader
 
                         var streamInfoSet = await client.Videos.Streams.GetManifestAsync(video.Id);
                         var bestQuality = streamInfoSet.GetAudioOnlyStreams().GetWithHighestBitrate();
+                        var cleanFileNameWithID = GlobalConsts.CleanFileName(video.Title + video.Id);
                         var cleanFileName = GlobalConsts.CleanFileName(video.Title);
-                        var fileLoc = $"{GlobalConsts.TempFolderPath}{cleanFileName}";
+                        var fileLoc = $"{GlobalConsts.TempFolderPath}{cleanFileNameWithID}";
 
                         if (AudioOnly)
                             FileType = bestQuality.Container.Name;
 
-                        var outputFileLoc = $"{GlobalConsts.TempFolderPath}{cleanFileName}.{FileType}";
+                        var outputFileLoc = $"{GlobalConsts.TempFolderPath}{cleanFileNameWithID}.{FileType}";
                         var copyFileLoc = $"{SavePath}\\{cleanFileName}.{FileType}";
 
                         CurrentStatus = string.Concat(FindResource("Downloading"));
@@ -408,6 +409,12 @@ namespace YoutubePlaylistDownloader
                                     if (!FileType.Contains("opus") && TagAudioFile)
                                         await GlobalConsts.TagFile(video, indexes[video], outputFileLoc, Playlist);
 
+                                    int copyFileLocCounter = 1;
+                                    while (File.Exists(copyFileLoc))
+                                    {
+                                        copyFileLoc = $"{SavePath}\\{cleanFileName}-{copyFileLocCounter}.{FileType}";
+                                        copyFileLocCounter++;
+                                    }
                                     File.Copy(outputFileLoc, copyFileLoc, true);
                                     File.Delete(outputFileLoc);
 
