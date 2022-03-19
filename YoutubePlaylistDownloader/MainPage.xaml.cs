@@ -43,7 +43,7 @@ namespace YoutubePlaylistDownloader
         public MainPage()
         {
             InitializeComponent();
-
+            DataObject.AddPastingHandler(BulkLinksTextBox, BulkLinksTextBox_OnPaste);
             GlobalConsts.HideHomeButton();
             GlobalConsts.ShowSettingsButton();
             GlobalConsts.ShowAboutButton();
@@ -231,6 +231,34 @@ namespace YoutubePlaylistDownloader
         private bool CanDownload()
         {
             return GlobalConsts.DownloadSettings.AudioOnly || File.Exists(GlobalConsts.FFmpegFilePath);
+        }
+
+        private void BulkLinksTextBox_PreviewDrop(object sender, DragEventArgs e)
+        {
+            var data = e.Data.GetData(DataFormats.Text, true);
+            if (data != null)
+            {
+                string dataAsString = (string)data;
+                dataAsString += Environment.NewLine;
+                BulkLinksTextBox.Text += dataAsString;
+                BulkLinksTextBox.SelectionStart = BulkLinksTextBox.Text.Length;
+                e.Handled = true;
+            }
+        }
+
+        private void BulkLinksTextBox_OnPaste(object sender, DataObjectPastingEventArgs e)
+        {
+            var text = e.SourceDataObject.GetData(DataFormats.Text, true);
+            if (text != null)
+            {
+                var textAsString = (string)text;
+                textAsString += Environment.NewLine;
+                BulkLinksTextBox.Text += textAsString;
+                BulkLinksTextBox.SelectionStart = BulkLinksTextBox.Text.Length;
+                e.CancelCommand();
+                e.Handled = true;
+            }
+            
         }
     }
 }

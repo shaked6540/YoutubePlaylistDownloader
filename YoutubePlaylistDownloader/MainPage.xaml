@@ -75,7 +75,7 @@
             <Controls:MetroTabItem Header="{DynamicResource BulkDownload}">
                 <StackPanel>
                 <ScrollViewer x:Name="BulkScrollViewer" VerticalScrollBarVisibility="Auto" MinWidth="1200" MaxWidth="1200" >
-                    <TextBox x:Name="BulkLinksTextBox" AcceptsReturn="True" TextWrapping="Wrap" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" TextChanged="TextBox_TextChanged_1" FontSize="16" MinHeight="100" />
+                    <TextBox x:Name="BulkLinksTextBox" AcceptsReturn="True" TextWrapping="Wrap" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" TextChanged="TextBox_TextChanged_1" FontSize="16" MinHeight="100" PreviewDrop="BulkLinksTextBox_PreviewDrop"  />
                 </ScrollViewer>
                 <WrapPanel HorizontalAlignment="Center">
                         <Controls:Tile Style="{DynamicResource SmallTileStyle}" x:Name="BulkDownloadButton" Title="{DynamicResource Download}" IsEnabled="False" Click="BulkDownloadButton_Click">
