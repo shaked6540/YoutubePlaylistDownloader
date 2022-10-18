@@ -1,3 +1,2 @@
-﻿Version 1.8.30:
-- Pasting/dropping text into the bulk download text box will now add a new line automatically
-- Fixed videos with the same titles overwriting each other
+﻿Version 1.8.31:
+- Updated libraries

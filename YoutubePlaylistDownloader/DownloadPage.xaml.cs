@@ -406,7 +406,7 @@ namespace YoutubePlaylistDownloader
                                     ffmpegList?.Remove(ffmpeg);
                                     convertingCount--;
 
-                                    if (!FileType.Contains("opus") && TagAudioFile)
+                                    if (TagAudioFile)
                                         await GlobalConsts.TagFile(video, indexes[video], outputFileLoc, Playlist);
 
                                     int copyFileLocCounter = 1;
@@ -465,7 +465,7 @@ namespace YoutubePlaylistDownloader
                             File.Delete(fileLoc);
                             try
                             {
-                                if (!FileType.Contains("opus") && TagAudioFile)
+                                if (TagAudioFile)
                                     await GlobalConsts.TagFile(video, i + 1, copyFileLoc, Playlist);
                             }
                             catch (Exception ex)
