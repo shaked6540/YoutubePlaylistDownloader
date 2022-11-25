@@ -17,6 +17,7 @@ using YoutubeExplode.Videos.Streams;
 using YoutubeExplode.Videos;
 using YoutubeExplode.Common;
 using YoutubeExplode.Channels;
+using MahApps.Metro.Controls.Dialogs;
 
 namespace YoutubePlaylistDownloader
 {
@@ -25,6 +26,7 @@ namespace YoutubePlaylistDownloader
     /// </summary>
     public partial class DownloadPage : UserControl, IDisposable, IDownload
     {
+        private DownloadSettings downloadSettings;
         private FullPlaylist Playlist;
         private string FileType, CaptionsLanguage;
         private int DownloadedCount, StartIndex, EndIndex, Maximum;
@@ -32,7 +34,7 @@ namespace YoutubePlaylistDownloader
         private CancellationTokenSource cts;
         private VideoQuality Quality;
         private string Bitrate;
-        private List<Tuple<string, string>> NotDownloaded;
+        private List<Tuple<PlaylistVideo, string>> NotDownloaded;
         private IEnumerable<PlaylistVideo> Videos;
         private bool AudioOnly, PreferHighestFPS, DownloadCaptions, TagAudioFile;
         private string SavePath;
@@ -125,6 +127,7 @@ namespace YoutubePlaylistDownloader
             bool silent = false, CancellationTokenSource cancellationToken = null)
         {
             InitializeComponent();
+            this.downloadSettings = settings;
             downloadSpeeds = new FixedQueue<double>(50);
 
             if (playlist == null || playlist.BasePlaylist == null)
@@ -157,7 +160,7 @@ namespace YoutubePlaylistDownloader
             ffmpegList = new List<Process>();
             StartIndex = startIndex;
             EndIndex = endIndex;
-            NotDownloaded = new List<Tuple<string, string>>();
+            NotDownloaded = new List<Tuple<PlaylistVideo, string>>();
             Maximum = EndIndex - StartIndex + 1;
             DownloadedVideosProgressBar.Maximum = Maximum;
             Playlist = playlist;
@@ -189,7 +192,7 @@ namespace YoutubePlaylistDownloader
             TagAudioFile = settings.TagAudioFile;
             PreferHighestFPS = settings.PreferHighestFPS;
 
-            if (settings.SetBitrate && !string.IsNullOrWhiteSpace(settings.Bitrate) && settings.Bitrate.All(x=> char.IsDigit(x)))
+            if (settings.SetBitrate && !string.IsNullOrWhiteSpace(settings.Bitrate) && settings.Bitrate.All(x => char.IsDigit(x)))
                 Bitrate = $"-b:a {settings.Bitrate}k";
             else
                 Bitrate = string.Empty;
@@ -211,7 +214,7 @@ namespace YoutubePlaylistDownloader
             GlobalConsts.Downloads.Add(new QueuedDownload(this));
         }
 
-        public static async Task SequenceDownload(string[] links, DownloadSettings settings, bool silent = false)
+        public static async Task SequenceDownload(IEnumerable<string> links, DownloadSettings settings, bool silent = false)
         {
             var client = GlobalConsts.YoutubeClient;
             Playlist basePlaylist;
@@ -255,6 +258,10 @@ namespace YoutubePlaylistDownloader
                         var video = await client.Videos.GetAsync(videoId);
                         await Download(null, new[] { new PlaylistVideo(video.Id, video.Title, video.Author, video.Duration, video.Thumbnails) });
                     }
+                    else
+                    {
+                        throw new Exception(Application.Current.FindResource("NoVideosToDownload").ToString());
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -265,11 +272,22 @@ namespace YoutubePlaylistDownloader
 
             if (notDownloaded.Any())
             {
-                await GlobalConsts.ShowMessage($"{Application.Current.FindResource("CouldntDownload")}",
-                    string.Concat($"{Application.Current.FindResource("ListOfNotDownloadedVideos")}\n",
-                    string.Join("\n", notDownloaded.Select(x => string.Concat(x.Item1, " Reason: ", x.Item2)))));
+                var result = await GlobalConsts.CustomYesNoDialog($"{Application.Current.FindResource("CouldntDownload")}",
+                      string.Concat($"{Application.Current.FindResource("ListOfNotDownloadedVideos")}\n", string.Join("\n", notDownloaded.Select(x => string.Concat(x.Item1, " Reason: ", x.Item2)))),
+                      new MetroDialogSettings()
+                      {
+                          AffirmativeButtonText = $"{Application.Current.FindResource("Retry")}",
+                          NegativeButtonText = $"{Application.Current.FindResource("Back")}",
+                          ColorScheme = MetroDialogColorScheme.Theme,
+                          DefaultButtonFocus = MessageDialogResult.Affirmative,
+                      });
+                if (result == MessageDialogResult.Affirmative)
+                {
+                    _ = DownloadPage.SequenceDownload(notDownloaded.Select(x => x.Item1), settings).ConfigureAwait(false);
+                    GlobalConsts.MainPage.ChangeToQueueTab();
+                    GlobalConsts.LoadPage(GlobalConsts.MainPage.Load());
+                }
             }
-
         }
 
         public async Task StartDownloadingWithConverting(CancellationToken token)
@@ -371,11 +389,11 @@ namespace YoutubePlaylistDownloader
                                         }
                                     }, System.Windows.Threading.DispatcherPriority.Normal, cts.Token);
                                 }
-                                catch(OperationCanceledException)
+                                catch (OperationCanceledException)
                                 {
 
                                 }
-                                catch(Exception ex)
+                                catch (Exception ex)
                                 {
                                     await GlobalConsts.Log(ex.ToString(), "BytesWrittenEventHandler at ProgressStream in DownloadPage");
                                 }
@@ -421,7 +439,7 @@ namespace YoutubePlaylistDownloader
                                     if (Subscription != null)
                                         Subscription.LatestVideoDownloaded = DateTime.UtcNow;
                                 }
-                                catch(Exception ex)
+                                catch (Exception ex)
                                 {
                                     await GlobalConsts.Log(ex.ToString(), "DownloadPage with convert");
                                 }
@@ -488,16 +506,32 @@ namespace YoutubePlaylistDownloader
                     catch (Exception ex)
                     {
                         await GlobalConsts.Log(ex.ToString(), "DownloadPage DownlaodWithConvert");
-                        NotDownloaded.Add(new Tuple<string, string>(video.Title, ex.Message));
+                        NotDownloaded.Add(new Tuple<PlaylistVideo, string>(video, ex.Message));
                     }
                 }
 
-                exit:
+            exit:
 
                 if (NotDownloaded.Any())
-                    await GlobalConsts.ShowMessage($"{FindResource("CouldntDownload")}", string.Concat($"{FindResource("ListOfNotDownloadedVideos")}\n", string.Join("\n", NotDownloaded.Select(x => string.Concat(x.Item1, " Reason: ", x.Item2)))));
+                {
+                    var result = await GlobalConsts.CustomYesNoDialog($"{FindResource("CouldntDownload")}",
+                          string.Concat($"{FindResource("ListOfNotDownloadedVideos")}\n", string.Join("\n", NotDownloaded.Select(x => string.Concat(x.Item1.Title, " Reason: ", x.Item2)))),
+                          new MetroDialogSettings()
+                          {
+                              AffirmativeButtonText = $"{FindResource("Retry")}",
+                              NegativeButtonText = $"{FindResource("Back")}",
+                              ColorScheme = MetroDialogColorScheme.Theme,
+                              DefaultButtonFocus = MessageDialogResult.Affirmative,
+                          });
+                    if (result == MessageDialogResult.Affirmative)
+                    {
+                        _ = DownloadPage.SequenceDownload(NotDownloaded.Select(x => x.Item1.Url), this.downloadSettings).ConfigureAwait(false);
+                        GlobalConsts.MainPage.ChangeToQueueTab();
+                        GlobalConsts.LoadPage(GlobalConsts.MainPage.Load());
+                    }
+                }
 
-                while (ffmpegList.Count > 0 || convertionTasks?.Count(x=> !x.IsCompleted) > 0)
+                while (ffmpegList.Count > 0 || convertionTasks?.Count(x => !x.IsCompleted) > 0)
                 {
                     await Dispatcher.InvokeAsync(() =>
                     {
@@ -520,7 +554,7 @@ namespace YoutubePlaylistDownloader
                     await Task.Delay(1000);
                 }
 
-                await Dispatcher.InvokeAsync(() => 
+                await Dispatcher.InvokeAsync(() =>
                 {
                     string allDone = (string)FindResource("AllDone");
                     CurrentDownloadGrid.Visibility = Visibility.Collapsed;
@@ -655,7 +689,7 @@ namespace YoutubePlaylistDownloader
                                             seconds += 1;
                                         }
                                     }
-                                    catch(Exception ex)
+                                    catch (Exception ex)
                                     {
                                         GlobalConsts.Log(ex.ToString(), "Dispatcher.InvokeAsync at DownloadPage.xaml.cs StartDownloading").Wait();
                                     }
@@ -676,7 +710,7 @@ namespace YoutubePlaylistDownloader
                         {
                             var audioTask = client.Videos.Streams.CopyToAsync(bestAudio, audioStream);
 
-                            caption:
+                        caption:
                             if (DownloadCaptions)
                             {
                                 var captionsInfo = await client.Videos.ClosedCaptions.GetManifestAsync(video.Id);
@@ -730,7 +764,7 @@ namespace YoutubePlaylistDownloader
                             File.Delete(audioLoc);
                             File.Delete(fileLoc);
                         }
-                        catch(Exception ex)
+                        catch (Exception ex)
                         {
                             await GlobalConsts.Log(ex.ToString(), "DownloadPage without convert");
                         }
@@ -764,7 +798,7 @@ namespace YoutubePlaylistDownloader
                             }
                         }));
                     }
-    
+
                     DownloadedCount++;
                     TotalDownloaded = $"({DownloadedCount}/{Maximum})";
 
@@ -776,16 +810,33 @@ namespace YoutubePlaylistDownloader
                 catch (Exception ex)
                 {
                     await GlobalConsts.Log(ex.ToString(), "DownloadPage DownlaodWithConvert");
-                    NotDownloaded.Add(new Tuple<string, string>(video.Title, ex.Message));
+                    NotDownloaded.Add(new Tuple<PlaylistVideo, string>(video, ex.Message));
                 }
             }
 
-            exit:
+        exit:
 
             if (NotDownloaded.Any())
-                await GlobalConsts.ShowMessage($"{FindResource("CouldntDownload")}", string.Concat($"{FindResource("ListOfNotDownloadedVideos")}\n", string.Join("\n", NotDownloaded.Select(x => string.Concat(x.Item1, " Reason: ", x.Item2)))));
+            {
+                var result = await GlobalConsts.CustomYesNoDialog($"{FindResource("CouldntDownload")}",
+                      string.Concat($"{FindResource("ListOfNotDownloadedVideos")}\n", string.Join("\n", NotDownloaded.Select(x => string.Concat(x.Item1.Title, " Reason: ", x.Item2)))),
+                      new MetroDialogSettings()
+                      {
+                          AffirmativeButtonText = $"{FindResource("Retry")}",
+                          NegativeButtonText = $"{FindResource("Back")}",
+                          ColorScheme = MetroDialogColorScheme.Theme,
+                          DefaultButtonFocus = MessageDialogResult.Affirmative,
+                      });
+                if (result == MessageDialogResult.Affirmative)
+                {
+                    _ = DownloadPage.SequenceDownload(NotDownloaded.Select(x => x.Item1.Url), this.downloadSettings).ConfigureAwait(false);
+                    GlobalConsts.MainPage.ChangeToQueueTab();
+                    GlobalConsts.LoadPage(GlobalConsts.MainPage.Load());
+                }
 
-            while (ffmpegList.Count > 0 || convertionTasks?.Count(x=> !x.IsCompleted) > 0)
+            }
+
+            while (ffmpegList.Count > 0 || convertionTasks?.Count(x => !x.IsCompleted) > 0)
             {
                 await Dispatcher.InvokeAsync(() =>
                 {
@@ -833,7 +884,7 @@ namespace YoutubePlaylistDownloader
 
             if (GlobalConsts.DownloadSettings.OpenDestinationFolderWhenDone)
                 OpenFolder_Click(null, null);
-            
+
             Dispose();
         }
 

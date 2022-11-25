@@ -153,4 +153,5 @@ su quattro; in Gestione Attività si vedrà che il programma usa poco più del 7
     <s:String x:Key="Longer">piú lunghi</s:String>
     <s:String x:Key="Shorter">piú corti</s:String>
     <s:String x:Key="FileDoesNotExist">{0} non esiste.</s:String>
+    <s:String x:Key="Retry">Retry</s:String>
 </ResourceDictionary>

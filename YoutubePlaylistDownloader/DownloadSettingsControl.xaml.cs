@@ -199,7 +199,7 @@ namespace YoutubePlaylistDownloader
                 PlaylistEndIndexTextBox.Background = null;
                 if (GlobalConsts.SaveDownloadOptions)
                 {
-                    GlobalConsts.DownloadSettings.SubsetStartIndex = endIndex;
+                    GlobalConsts.DownloadSettings.SubsetEndIndex = endIndex;
                     GlobalConsts.SaveDownloadSettings();
                 }
             }

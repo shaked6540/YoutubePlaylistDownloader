@@ -155,4 +155,5 @@ the file convertion to 2, etc..</s:String>
     <s:String x:Key="Longer">أكبر </s:String>
     <s:String x:Key="Shorter">أقل </s:String>
     <s:String x:Key="FileDoesNotExist">غير موجود{0}</s:String>
+    <s:String x:Key="Retry">Retry</s:String>
 </ResourceDictionary> 

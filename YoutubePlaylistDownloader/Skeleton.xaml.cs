@@ -66,6 +66,11 @@ namespace YoutubePlaylistDownloader
             }
         }
 
+        public Task<MessageDialogResult> CustomYesNoDialog(string title, string message, MetroDialogSettings dialogSettings)
+        {
+            return this.ShowMessageAsync(title, message, MessageDialogStyle.AffirmativeAndNegative, dialogSettings);
+        }
+
         public async Task ShowMessage(string title, string message)
         {
             await this.ShowMessageAsync(title, message);

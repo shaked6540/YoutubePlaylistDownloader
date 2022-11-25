@@ -223,6 +223,11 @@ namespace YoutubePlaylistDownloader
             MetroAnimatedTabControl.SelectedItem = QueueMetroTabItem;
         }
 
+        public void ChangeToQueueTab()
+        {
+            MetroAnimatedTabControl.SelectedItem = QueueMetroTabItem;
+        }
+
         private void TextBox_TextChanged_1(object sender, TextChangedEventArgs e)
         {
             BulkDownloadButton.IsEnabled = !string.IsNullOrWhiteSpace(BulkLinksTextBox.Text);
