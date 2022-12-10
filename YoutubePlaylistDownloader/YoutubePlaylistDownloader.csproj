@@ -99,7 +99,7 @@
       <HintPath>..\packages\morelinq.2.10.0\lib\net40\MoreLinq.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.13.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Sprache, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Sprache.2.2.0\lib\net45\Sprache.dll</HintPath>
@@ -167,8 +167,8 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="YoutubeExplode, Version=6.2.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\YoutubeExplode.6.2.4\lib\net461\YoutubeExplode.dll</HintPath>
+    <Reference Include="YoutubeExplode, Version=6.2.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\YoutubeExplode.6.2.5\lib\net461\YoutubeExplode.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -389,7 +389,7 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\System.Text.Json.6.0.6\build\System.Text.Json.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\System.Text.Json.6.0.6\build\System.Text.Json.targets'))" />
-    <Error Condition="!Exists('..\packages\YoutubeExplode.6.2.4\build\YoutubeExplode.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\YoutubeExplode.6.2.4\build\YoutubeExplode.targets'))" />
+    <Error Condition="!Exists('..\packages\YoutubeExplode.6.2.5\build\YoutubeExplode.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\YoutubeExplode.6.2.5\build\YoutubeExplode.targets'))" />
   </Target>
-  <Import Project="..\packages\YoutubeExplode.6.2.4\build\YoutubeExplode.targets" Condition="Exists('..\packages\YoutubeExplode.6.2.4\build\YoutubeExplode.targets')" />
+  <Import Project="..\packages\YoutubeExplode.6.2.5\build\YoutubeExplode.targets" Condition="Exists('..\packages\YoutubeExplode.6.2.5\build\YoutubeExplode.targets')" />
 </Project>

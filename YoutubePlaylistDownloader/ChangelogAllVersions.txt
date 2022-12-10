@@ -1,4 +1,8 @@
-﻿Version 1.9:
+﻿Version 1.9.1:
+- Fixed application being full screen when maximized
+
+
+Version 1.9:
 - Added a retry button when a download fails
 - Fixed a bug that switched the subsets options values
 - Updated libraries
