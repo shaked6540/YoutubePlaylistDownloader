@@ -22,11 +22,15 @@
     </Controls:MetroWindow.Flyouts>
 
     <!--Set all the UI in 1 UserControl with this window being the skeleton-->
-    <DockPanel LastChildFill="False">
+    <Grid VerticalAlignment="Stretch">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
 
-        <Controls:TransitioningContentControl Height="Auto" HorizontalAlignment="Center" DockPanel.Dock="Top" x:Name="CurrentPage" Margin="0,15,0,0" Transition="Default" />
+        <Controls:TransitioningContentControl Grid.Row="0" Height="Auto" HorizontalAlignment="Center" DockPanel.Dock="Top" x:Name="CurrentPage" Margin="0,15,0,0" Transition="Default" />
 
-        <Grid Width="{Binding ActualWidth, ElementName=SkeletonWindow}" VerticalAlignment="Bottom">
+        <Grid Grid.Row="1" Width="{Binding ActualWidth, ElementName=SkeletonWindow}" VerticalAlignment="Bottom">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
@@ -74,5 +78,6 @@
                 </Controls:Tile>
             </WrapPanel>
         </Grid>
-    </DockPanel>
+    </Grid>
+    
 </Controls:MetroWindow>

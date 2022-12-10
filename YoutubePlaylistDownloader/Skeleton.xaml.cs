@@ -87,7 +87,7 @@ namespace YoutubePlaylistDownloader
         {
 
             WindowStyle = WindowStyle.None;
-            IgnoreTaskbarOnMaximize = true;
+            IgnoreTaskbarOnMaximize = false;
             ShowTitleBar = false;
             ResizeMode = ResizeMode.CanResizeWithGrip;
             Closing += MainWindow_Closing;
