@@ -5,7 +5,7 @@
     
     <s:String x:Key="Title">YouTube Playlist Downloader</s:String>
     <FlowDirection x:Key="FlowDirection">LeftToRight</FlowDirection>
-    <s:String x:Key="InsertYoutubePlaylistLinkHere">Insert a youtube link here</s:String>
+    <s:String x:Key="InsertYoutubePlaylistLinkHere">Insert a YouTube link here</s:String>
     <s:String x:Key="Exit">Exit</s:String>
     <s:String x:Key="ExitMessage">Are you sure you want to exit?</s:String>
     <s:String x:Key="Yes">Yes</s:String>
@@ -22,23 +22,23 @@
     <s:String x:Key="Name">Name: </s:String>
     <s:String x:Key="Description">Description: </s:String>
     <s:String x:Key="Views">Views: </s:String>
-    <s:String x:Key="SaveDirectory">Save videos to: </s:String>
+    <s:String x:Key="SaveDirectory">Save videos to:</s:String>
     <s:String x:Key="CurrentlyDownlading">Currently downloading: </s:String>
     <s:String x:Key="TotalProgress">Downloaded so far: </s:String>
     <s:String x:Key="AllDone">All Done.</s:String>
-    <s:String x:Key="Canceling">Cancelling your downloads, please wait..</s:String>
+    <s:String x:Key="Canceling">Cancelling your downloads, please wait...</s:String>
     <s:String x:Key="Videos">Videos</s:String>
     <s:String x:Key="Download">Download</s:String>
-    <s:String x:Key="ConvertToMp3">Convert videos to </s:String>
+    <s:String x:Key="ConvertToMp3">Convert videos to</s:String>
     <s:String x:Key="StillConverting">Still converting</s:String>
     <s:String x:Key="files">files</s:String>
     <s:String x:Key="Author">Author: </s:String>
     <s:String x:Key="PlaylistTitle">Title: </s:String>
-    <s:String x:Key="Loading">Loading..</s:String>
+    <s:String x:Key="Loading">Loading...</s:String>
     <HorizontalAlignment x:Key="LeftAlignment">Left</HorizontalAlignment>
     <s:String x:Key="About">About</s:String>
     <s:String x:Key="Home">Home</s:String>
-    <s:String x:Key="Prefer">Prefer videos with a resolution of </s:String>
+    <s:String x:Key="Prefer">Prefer videos with a resolution of</s:String>
     <s:String x:Key="AreYouSureExit">Are you sure you want to exit?</s:String>
     <s:String x:Key="TotalVideos">Total videos: </s:String>
     <s:String x:Key="AboutTheProgram">This program was developed by shaked6540 and it is completely free to use without limitation.
@@ -50,19 +50,19 @@ The installer was made using Inno Setup (http://www.jrsoftware.org/isinfo.php)
     
 
 YouTube Playlist Downloader v</s:String>
-    <s:String x:Key="BitRate">and set the bitrate to</s:String>
+    <s:String x:Key="BitRate">and set the bit rate to</s:String>
     <s:String x:Key="NewVersionAvailable">New version available</s:String>
     <s:String x:Key="DoYouWantToUpdate">A new version is available, do you want to update?
-Here's whats new: </s:String>
+Here's what's new:</s:String>
     <s:String x:Key="DownloadingUpdateSetup">Currently downloading: Update Setup</s:String>
     <s:String x:Key="UpdateCancelled">Update was cancelled.</s:String>
-    <s:String x:Key="ErrorWhileUpdating">An error has occured while downloading the update setup, make sure you're connected to the internet
-if you are connected to the internet, try downloading a later time or visit https://github.com/shaked6540/YoutubePlaylistDownloader/issues to see if theres an issue with the download server</s:String>
+    <s:String x:Key="ErrorWhileUpdating">An error has occurred while downloading the update setup, make sure you're connected to the Internet.
+If you are connected to the Internet, try downloading a later time or visit https://github.com/shaked6540/YoutubePlaylistDownloader/issues to see if theres an issue with the download server.</s:String>
     <s:String x:Key="UpdateComplete">Download complete.</s:String>
     <s:String x:Key="UpdateWhenIExit">Update when I exit</s:String>
     <s:String x:Key="UpdateAndExit">Close and update now</s:String>
     <s:String x:Key="UpdateFailed">Update failed</s:String>
-    <s:String x:Key="CannotUpdate">Cannot update at this time, try re-launching the app and make sure you're connected to the internet.
+    <s:String x:Key="CannotUpdate">Cannot update at this time, try re-launching the application and make sure you're connected to the Internet.
 Error message: </s:String>
     <s:String x:Key="CouldntDownload">Some videos could not be downloaded</s:String>
     <s:String x:Key="ListOfNotDownloadedVideos">Here is a list of the videos that could not be downloaded, and the reason why: </s:String>
@@ -70,8 +70,8 @@ Error message: </s:String>
     <s:String x:Key="CheckForUpdates">Check for updates</s:String>
     <s:String x:Key="NoUpdates">No Updates Available</s:String>
     <s:String x:Key="NoUpdatesAvailable">There are no updates available at this time, you have the latest version.</s:String>
-    <s:String x:Key="PlaylistIndex">Download from video number </s:String>
-    <s:String x:Key="UntilIndex">until video number </s:String>
+    <s:String x:Key="PlaylistIndex">Download from video number</s:String>
+    <s:String x:Key="UntilIndex">until video number</s:String>
     <s:String x:Key="LeaveEmptyOrZeroForUntilTheEnd">(leave this empty or enter 0 to download all videos until the end of the playlist)</s:String>
     <s:String x:Key="NoVideosToDownload">Could not find videos to download</s:String>
     <s:String x:Key="ThereAreNoVidoesToDownload">There are no videos to download with the parameters you specified</s:String>
@@ -94,8 +94,9 @@ For example, if you added a subscription to channel "x" on September 1st and cha
         
 Previous videos will not be downloaded, and videos will not be downloaded twice even if you delete a certain video. 
         
-All subscriptions are customizable and have their own settings, to access subscription settings click on "Subscriptions" from the main menu and then click on "Settings" for the channel you want
-Please note that if the program is not running, new videos will not be downloaded
+All subscriptions are customizable and have their own settings, to access subscription settings click on "Subscriptions" from the main menu and then click on "Settings" for the channel you want.
+
+Please note that if the program is not running, new videos will not be downloaded.
     </s:String>
     <s:String x:Key="ContactTheDeveloper">Contact</s:String>
     <s:String x:Key="ContactTheDeveloperHelp">There are several ways to contact me (shaked6540): 
@@ -124,24 +125,25 @@ Ahmed Waaer (Arabic)
 </s:String>
     <s:String x:Key="Search">Search</s:String>
     <s:String x:Key="Queue">Queue</s:String>
-    <s:String x:Key="Downloading">Downloading..</s:String>
-    <s:String x:Key="Converting">Converting..</s:String>
+    <s:String x:Key="Downloading">Downloading...</s:String>
+    <s:String x:Key="Converting">Converting...</s:String>
     <s:String x:Key="DownloadInBackground">Add to queue</s:String>
     <s:String x:Key="Audio">Audio</s:String>
     <s:String x:Key="Video">Video</s:String>
     <s:String x:Key="DownloadCaptions">Download closed captions</s:String>
-    <s:String x:Key="CaptionsLanguage">Closed captions language: </s:String>
-    <s:String x:Key="BulkDownload">Bulk download</s:String>
-    <s:String x:Key="LimitConverstions" >Set the maximum concurrent file convertions to </s:String>
+    <s:String x:Key="CaptionsLanguage">Closed captions language:</s:String>
+    <s:String x:Key="BulkDownload">Bulk Download</s:String>
+    <s:String x:Key="LimitConverstions">Set the maximum concurrent file conversions to</s:String>
     <s:String x:Key="ValueChangeRequiresRestart">(enabling the limit requires a 
 program restart to take effect)</s:String>
-    <s:String x:Key="ConvertionsLimitingExplnation">Every file convertion takes about 1 core completely. For example: if you have a 4
-cores cpu, limiting the program to 3 file convertions at a time will use 3 cores
-out of 4; in Task Manager you will see that the program uses a little more than 75% cpu.
-It is recommended to use 1 less core than what your cpu have. If your cpu have 4 cores,
-use 3 cores by limiting the file convertion to 3, if you have 3 cores, use 2 cores by limiting
-the file convertion to 2, etc..</s:String>
-    <s:String x:Key="FileConvertion">File convertion</s:String>
+    <s:String x:Key="ConvertionsLimitingExplnation">Every file conversion takes about one core completely. For example: if you have a 4
+cores CPU, limiting the program to 3 file conversions at a time will use 3 cores out of 4;
+in Task Manager you will see that the program uses a little more than 75% CPU.
+
+It is recommended to use one less core than what your CPU has. If your CPU has 4 cores,
+use 3 cores by limiting the file conversion to 3, if you have 3 cores, use 2 cores by limiting
+the file conversion to 2, etc.</s:String>
+    <s:String x:Key="FileConvertion">File Conversion</s:String>
     <s:String x:Key="General">General</s:String>
     <s:String x:Key="SavePlaylistInUniqueDirectory">Save every playlist in a different folder</s:String>
     <s:String x:Key="Playlist">Playlist</s:String>
