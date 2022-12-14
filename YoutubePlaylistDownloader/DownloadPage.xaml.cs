@@ -539,7 +539,7 @@ namespace YoutubePlaylistDownloader
                         HeadlineTextBlock.Text = (string)FindResource("AllDone");
                         CurrentDownloadProgressBar.IsIndeterminate = true;
                         TotalDownloadedGrid.Visibility = Visibility.Collapsed;
-                        TotalDownloadsProgressBarTextBlock.Text = $"({DownloadedCount}\\{Maximum})";
+                        TotalDownloadsProgressBarTextBlock.Text = $"({DownloadedCount} {FindResource("Of")} {Maximum})";
                         DownloadedVideosProgressBar.Value = Maximum;
                         ConvertingTextBlock.Visibility = Visibility.Visible;
                         ConvertingTextBlock.Text = status;
@@ -566,7 +566,7 @@ namespace YoutubePlaylistDownloader
                     Title = allDone;
                     HeadlineTextBlock.Text = allDone;
                     TotalDownloadedGrid.Visibility = Visibility.Collapsed;
-                    TotalDownloadsProgressBarTextBlock.Text = $"({DownloadedCount}\\{Maximum})";
+                    TotalDownloadsProgressBarTextBlock.Text = $"({DownloadedCount} {FindResource("Of")} {Maximum})";
                     DownloadedVideosProgressBar.Value = Maximum;
                     CurrentDownloadProgressBarTextBlock.Visibility = Visibility.Collapsed;
                 });
@@ -844,7 +844,7 @@ namespace YoutubePlaylistDownloader
                     HeadlineTextBlock.Text = (string)FindResource("AllDone");
                     CurrentDownloadProgressBar.IsIndeterminate = true;
                     TotalDownloadedGrid.Visibility = Visibility.Collapsed;
-                    TotalDownloadsProgressBarTextBlock.Text = $"({DownloadedCount}\\{Maximum})";
+                    TotalDownloadsProgressBarTextBlock.Text = $"({DownloadedCount} {FindResource("Of")} {Maximum})";
                     DownloadedVideosProgressBar.Value = Maximum;
                     ConvertingTextBlock.Visibility = Visibility.Visible;
                     ConvertingTextBlock.Text = status;
@@ -875,7 +875,7 @@ namespace YoutubePlaylistDownloader
                 Title = allDone;
                 HeadlineTextBlock.Text = allDone;
                 TotalDownloadedGrid.Visibility = Visibility.Collapsed;
-                TotalDownloadsProgressBarTextBlock.Text = $"({DownloadedCount}\\{Maximum})";
+                TotalDownloadsProgressBarTextBlock.Text = $"({DownloadedCount} {FindResource("Of")} {Maximum})";
                 DownloadedVideosProgressBar.Value = Maximum;
                 CurrentDownloadProgressBarTextBlock.Visibility = Visibility.Collapsed;
             });
@@ -898,7 +898,7 @@ namespace YoutubePlaylistDownloader
             CurrentDownloadProgressBar.Value = precent;
             HeadlineTextBlock.Text = (string)FindResource("CurrentlyDownlading") + video.Title;
             CurrentDownloadProgressBarTextBlock.Text = $"{precent}%";
-            TotalDownloadsProgressBarTextBlock.Text = $"{DownloadedCount}\\{Maximum}";
+            TotalDownloadsProgressBarTextBlock.Text = $"{DownloadedCount} {FindResource("Of")} {Maximum}";
             DownloadedVideosProgressBar.Value = DownloadedCount;
         }
 
