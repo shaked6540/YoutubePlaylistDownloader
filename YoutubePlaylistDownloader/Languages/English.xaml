@@ -158,4 +158,5 @@ the file conversion to 2, etc.</s:String>
     <s:String x:Key="Shorter">shorter</s:String>
     <s:String x:Key="FileDoesNotExist">{0} does not exist.</s:String>
     <s:String x:Key="Retry">Retry</s:String>
+    <s:String x:Key="Of">of</s:String>
 </ResourceDictionary> 
