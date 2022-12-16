@@ -1,2 +1,2 @@
-﻿Version 1.9.2:
-- Fixed typos and the "About" button being out of screen when the program is maximized
+﻿Version 1.9.3:
+- Fixed some more full screen issues
