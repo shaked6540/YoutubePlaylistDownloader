@@ -8,66 +8,69 @@
              FlowDirection="{DynamicResource FlowDirection}"
              HorizontalAlignment="Center">
 
-    <StackPanel Margin="50,0">
-        <Label Content="{DynamicResource General}" Foreground="{DynamicResource AccentColorBrush}" FontSize="26" />
-        <StackPanel Margin="10,0,0,0" >
-            <StackPanel Orientation="Horizontal">
-                <Label Content="{DynamicResource SaveDirectory}" Margin="5"  />
-                <TextBox x:Name="SaveDirectoryTextBox" Margin="5" TextChanged="SaveDirectoryTextBox_TextChanged" MouseDoubleClick="TextBox_MouseDoubleClick" HorizontalAlignment="Left" MinWidth="120" />
-                <Controls:Tile Grid.Row="4" Grid.Column="2" Width="30" Height="30" Click="Tile_Click" HorizontalAlignment="Left" >
-                    <iconPacks:PackIconModern Width="20" Height="20" Kind="FolderOpen" Margin="5" />
-                </Controls:Tile>
-            </StackPanel>
-            <CheckBox x:Name="UniquePlaylistDirectoryCheckBox" Content="{DynamicResource SavePlaylistInUniqueDirectory}" Margin="5" />
-            <CheckBox x:Name="OpenDestinationFolderCheckBox" Content="{DynamicResource OpenDestinationFolderOnFinish}" Margin="5" />
-        </StackPanel>
-        <Label Content="{DynamicResource Video}" Foreground="{DynamicResource AccentColorBrush}" FontSize="26"/>
-        <WrapPanel Orientation="Vertical" Margin="10,0,0,0">
-            <StackPanel Orientation="Horizontal" >
-                <CheckBox Content="{DynamicResource Prefer}" Margin="7" x:Name="PreferCheckBox" HorizontalAlignment="Center" IsChecked="False"  />
-                <ComboBox HorizontalContentAlignment="Left" HorizontalAlignment="Center" VerticalContentAlignment="Center" Width="Auto" x:Name="ResulotionDropDown" VerticalAlignment="Center"/>
-            </StackPanel>
-            <CheckBox Margin="7" x:Name="PreferHighestFPSCheckBox" Content="{DynamicResource PreferFPS}" />
-            <CheckBox x:Name="CaptionsCheckBox" Margin="7" Content="{DynamicResource DownloadCaptions}" />
-            <WrapPanel>
-                <Label Content="{DynamicResource CaptionsLanguage}" Margin="7" VerticalAlignment="Center" />
-                <ComboBox Height="10" x:Name="CaptionsLanguagesComboBox" Width="Auto" />
-            </WrapPanel>
-        </WrapPanel>
+    <Grid Margin="50,0">
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+                <Label Content="{DynamicResource General}" Foreground="{DynamicResource AccentColorBrush}" FontSize="26" />
+                <StackPanel Margin="10,0,0,0" >
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="{DynamicResource SaveDirectory}" Margin="5"  />
+                        <TextBox x:Name="SaveDirectoryTextBox" Margin="5" TextChanged="SaveDirectoryTextBox_TextChanged" MouseDoubleClick="TextBox_MouseDoubleClick" HorizontalAlignment="Left" MinWidth="120" />
+                        <Controls:Tile Grid.Row="4" Grid.Column="2" Width="30" Height="30" Click="Tile_Click" HorizontalAlignment="Left" >
+                            <iconPacks:PackIconModern Width="20" Height="20" Kind="FolderOpen" Margin="5" />
+                        </Controls:Tile>
+                    </StackPanel>
+                    <CheckBox x:Name="UniquePlaylistDirectoryCheckBox" Content="{DynamicResource SavePlaylistInUniqueDirectory}" Margin="5" />
+                    <CheckBox x:Name="OpenDestinationFolderCheckBox" Content="{DynamicResource OpenDestinationFolderOnFinish}" Margin="5" />
+                </StackPanel>
+                <Label Content="{DynamicResource Video}" Foreground="{DynamicResource AccentColorBrush}" FontSize="26"/>
+                <WrapPanel Orientation="Vertical" Margin="10,0,0,0">
+                    <StackPanel Orientation="Horizontal" >
+                        <CheckBox Content="{DynamicResource Prefer}" Margin="7" x:Name="PreferCheckBox" HorizontalAlignment="Center" IsChecked="False"  />
+                        <ComboBox HorizontalContentAlignment="Left" HorizontalAlignment="Center" VerticalContentAlignment="Center" Width="Auto" x:Name="ResulotionDropDown" VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <CheckBox Margin="7" x:Name="PreferHighestFPSCheckBox" Content="{DynamicResource PreferFPS}" />
+                    <CheckBox x:Name="CaptionsCheckBox" Margin="7" Content="{DynamicResource DownloadCaptions}" />
+                    <WrapPanel>
+                        <Label Content="{DynamicResource CaptionsLanguage}" Margin="7" VerticalAlignment="Center" />
+                        <ComboBox Height="10" x:Name="CaptionsLanguagesComboBox" Width="Auto" />
+                    </WrapPanel>
+                </WrapPanel>
 
-        <Label Content="{DynamicResource Audio}" Foreground="{DynamicResource AccentColorBrush}" FontSize="26" />
-        <StackPanel Margin="10,0,0,0">
-            <StackPanel Orientation="Horizontal" >
-                <CheckBox Content="{DynamicResource ConvertToMp3}" Margin="7" x:Name="ConvertCheckBox" HorizontalAlignment="Center" IsChecked="False" />
-                <ComboBox HorizontalContentAlignment="Left" HorizontalAlignment="Center" VerticalContentAlignment="Center" Width="Auto" x:Name="ExtensionsDropDown" VerticalAlignment="Center"/>
-                <CheckBox Content="{DynamicResource BitRate}" Margin="7" x:Name="BitrateCheckBox" />
-                <TextBox  Margin="0,7" x:Name="BitRateTextBox" TextAlignment="Center" MinWidth="40" Width="Auto" />
-                <Label Content="kbps" Margin="7" />
+                <Label Content="{DynamicResource Audio}" Foreground="{DynamicResource AccentColorBrush}" FontSize="26" />
+                <StackPanel Margin="10,0,0,0">
+                    <StackPanel Orientation="Horizontal" >
+                        <CheckBox Content="{DynamicResource ConvertToMp3}" Margin="7" x:Name="ConvertCheckBox" HorizontalAlignment="Center" IsChecked="False" />
+                        <ComboBox HorizontalContentAlignment="Left" HorizontalAlignment="Center" VerticalContentAlignment="Center" Width="Auto" x:Name="ExtensionsDropDown" VerticalAlignment="Center"/>
+                        <CheckBox Content="{DynamicResource BitRate}" Margin="7" x:Name="BitrateCheckBox" />
+                        <TextBox  Margin="0,7" x:Name="BitRateTextBox" TextAlignment="Center" MinWidth="40" Width="Auto" />
+                        <Label Content="kbps" Margin="7" />
+                    </StackPanel>
+                    <CheckBox Margin="7" x:Name="TagAudioFileCheckBox" Content="{DynamicResource TagAudioFile}" />
+                    <CheckBox Margin="7" x:Name="AudioOnlyCheckBox" Content="{DynamicResource AudioOnly}" />
+                </StackPanel>
+
+                <Label Content="{DynamicResource Playlist}" Foreground="{DynamicResource AccentColorBrush}" FontSize="26" />
+                <StackPanel Orientation="Horizontal" Margin="10,0,0,0">
+                    <CheckBox Content="{DynamicResource PlaylistIndex}" Margin="7" x:Name="PlaylistIndexCheckBox" />
+                    <TextBox Width="25" x:Name="PlaylistStartIndexTextBox" Text="1" Margin="0,7" TextAlignment="Center"/>
+                    <Label Content="{DynamicResource UntilIndex}" Margin="7" />
+                    <TextBox Width="25" x:Name="PlaylistEndIndexTextBox" Text="" Margin="0,7" TextAlignment="Center"/>
+                    <Label Content="{DynamicResource LeaveEmptyOrZeroForUntilTheEnd}" Margin="7" />
+                </StackPanel>
+
+                <Label Content="{DynamicResource Filter}" Foreground="{DynamicResource AccentColorBrush}" FontSize="26" />
+                <StackPanel Margin="10,0,0,0">
+                    <StackPanel Orientation="Horizontal" >
+                        <CheckBox Content="{DynamicResource DownloadFilter}" Margin="7" x:Name="FilterByLengthCheckBox" HorizontalAlignment="Center" IsChecked="False" />
+                        <ComboBox HorizontalContentAlignment="Left" HorizontalAlignment="Center" VerticalContentAlignment="Center" Width="Auto" x:Name="FilterByLengthShorterOrLongerDropDown" VerticalAlignment="Center"/>
+                        <Label Content="{DynamicResource Than}" Margin="7" />
+                        <TextBox  Margin="0,7" x:Name="FilterByLengthTextBox" TextAlignment="Center" MinWidth="40" Width="Auto" />
+                        <Label Content="{DynamicResource Minutes}" Margin="7" />
+                    </StackPanel>
+                </StackPanel>
             </StackPanel>
-            <CheckBox Margin="7" x:Name="TagAudioFileCheckBox" Content="{DynamicResource TagAudioFile}" />
-            <CheckBox Margin="7" x:Name="AudioOnlyCheckBox" Content="{DynamicResource AudioOnly}" />
-        </StackPanel>
-
-        <Label Content="{DynamicResource Playlist}" Foreground="{DynamicResource AccentColorBrush}" FontSize="26" />
-        <StackPanel Orientation="Horizontal" Margin="10,0,0,0">
-            <CheckBox Content="{DynamicResource PlaylistIndex}" Margin="7" x:Name="PlaylistIndexCheckBox" />
-            <TextBox Width="25" x:Name="PlaylistStartIndexTextBox" Text="1" Margin="0,7" TextAlignment="Center"/>
-            <Label Content="{DynamicResource UntilIndex}" Margin="7" />
-            <TextBox Width="25" x:Name="PlaylistEndIndexTextBox" Text="" Margin="0,7" TextAlignment="Center"/>
-            <Label Content="{DynamicResource LeaveEmptyOrZeroForUntilTheEnd}" Margin="7" />
-        </StackPanel>
-
-        <Label Content="{DynamicResource Filter}" Foreground="{DynamicResource AccentColorBrush}" FontSize="26" />
-        <StackPanel Margin="10,0,0,0">
-            <StackPanel Orientation="Horizontal" >
-                <CheckBox Content="{DynamicResource DownloadFilter}" Margin="7" x:Name="FilterByLengthCheckBox" HorizontalAlignment="Center" IsChecked="False" />
-                <ComboBox HorizontalContentAlignment="Left" HorizontalAlignment="Center" VerticalContentAlignment="Center" Width="Auto" x:Name="FilterByLengthShorterOrLongerDropDown" VerticalAlignment="Center"/>
-                <Label Content="{DynamicResource Than}" Margin="7" />
-                <TextBox  Margin="0,7" x:Name="FilterByLengthTextBox" TextAlignment="Center" MinWidth="40" Width="Auto" />
-                <Label Content="{DynamicResource Minutes}" Margin="7" />
-            </StackPanel>
-        </StackPanel>
-
-    </StackPanel>
+        </ScrollViewer>
+    </Grid>
 
 </UserControl>

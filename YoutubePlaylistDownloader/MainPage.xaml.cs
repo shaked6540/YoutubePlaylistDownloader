@@ -53,20 +53,6 @@ namespace YoutubePlaylistDownloader
             VideoList = new List<PlaylistVideo>();
             client = GlobalConsts.YoutubeClient;
 
-            void UpdateSize(object s, SizeChangedEventArgs e)
-            {
-                double height = GlobalConsts.GetOffset() - (HeadlineStackPanel.ActualHeight + 75);
-                GridScrollViewer.Height = height;
-                QueueScrollViewer.Height = height;
-                BulkScrollViewer.Height = height - 110;
-                GridScrollViewer.UpdateLayout();
-                QueueScrollViewer.UpdateLayout();
-                BulkScrollViewer.UpdateLayout();
-            }
-
-            GlobalConsts.Current.SizeChanged += UpdateSize;
-            Unloaded += (s, e) => GlobalConsts.Current.SizeChanged -= UpdateSize;
-
             GlobalConsts.MainPage = this;
         }
 
