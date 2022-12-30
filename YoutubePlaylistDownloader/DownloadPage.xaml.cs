@@ -199,7 +199,7 @@ namespace YoutubePlaylistDownloader
 
             StillDownloading = true;
 
-            ImageUrl = $"https://img.youtube.com/vi/{Videos?.FirstOrDefault()?.Id}/0.jpg";
+            ImageUrl = $"https://img.youtube.com/vi/{Videos?.FirstOrDefault()?.Id}/maxresdefault.jpg";
             Title = playlist?.BasePlaylist?.Title;
             CurrentTitle = (string)FindResource("Loading");
             TotalDownloaded = $"(0/{Maximum})";

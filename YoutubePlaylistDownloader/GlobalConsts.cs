@@ -419,7 +419,7 @@ namespace YoutubePlaylistDownloader
             {
                 var picLoc = $"{TempFolderPath}{CleanFileName(video.Title)}.jpg";
                 using (var wb = new WebClient())
-                    File.WriteAllBytes(picLoc, await wb.DownloadDataTaskAsync($"https://img.youtube.com/vi/{video.Id}/0.jpg").ConfigureAwait(false));
+                    File.WriteAllBytes(picLoc, await wb.DownloadDataTaskAsync($"https://img.youtube.com/vi/{video.Id}/maxresdefault.jpg").ConfigureAwait(false));
 
                 t.Tag.Pictures = new TagLib.IPicture[] { new TagLib.Picture(picLoc) };
             }
