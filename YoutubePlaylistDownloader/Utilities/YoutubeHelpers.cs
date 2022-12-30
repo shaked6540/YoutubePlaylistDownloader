@@ -181,9 +181,17 @@ namespace YoutubePlaylistDownloader.Utilities
 
             // https://www.youtube.com/user/TheTyrrr
             var regularMatch = Regex.Match(userUrl, @"youtube\..+?/user/(.*?)(?:\?|&|/|$)").Groups[1].Value;
-            if (!string.IsNullOrWhiteSpace(regularMatch) && ValidateUsername(regularMatch))
+            if (ValidateUsername(regularMatch))
             {
                 username = regularMatch;
+                return true;
+            }
+
+            // https://www.youtube.com/@LesIngenieurs
+            var nicknameFormat = Regex.Match(userUrl, @"youtube\..+?/@(.+)").Groups[1].Value;
+            if (ValidateUsername(nicknameFormat))
+            {
+                username = nicknameFormat;
                 return true;
             }
 
