@@ -1,4 +1,9 @@
-﻿Version 1.9.3:
+﻿Version 1.9.4:
+- The program will now download the highest quality thumbnail available
+- Added support for the new channel format (e.g. youtube.com/@username)
+
+
+Version 1.9.3:
 - Fixed some more full screen issues
 
 
