@@ -1,5 +1,8 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.ComponentModel;
+using System.Linq;
+using YoutubeExplode.Playlists;
 using YoutubeExplode.Videos.Streams;
 
 namespace YoutubePlaylistDownloader.Objects
@@ -72,12 +75,16 @@ namespace YoutubePlaylistDownloader.Objects
         [DefaultValue(4.0)]
         public double FilterByLengthValue { get; set; }
 
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
+        [DefaultValue("$title")]
+        public string FilenamePattern { get; set; } = "$title";
+
 
         [JsonConstructor]
         public DownloadSettings(string saveForamt, bool audioOnly, VideoQuality quality, bool preferHighestFPS,
             bool preferQuality, bool convert, bool setBitrate, string bitrate, bool downloadCaptions, string captionsLanguage,
             bool savePlaylistsInDifferentDirectories, bool subset, int subsetStartIndex, int subsetEndIndex, bool openDestinationFolderWhenDone,
-            bool tagAudioFile, bool filterVideosByLength, bool filterMode, double filterByLengthValue)
+            bool tagAudioFile, bool filterVideosByLength, bool filterMode, double filterByLengthValue, string filenamePattern)
         {
             SaveFormat = saveForamt;
             AudioOnly = audioOnly;
@@ -98,6 +105,7 @@ namespace YoutubePlaylistDownloader.Objects
             FilterVideosByLength = filterVideosByLength;
             FilterMode = filterMode;
             FilterByLengthValue = filterByLengthValue;
+            FilenamePattern = filenamePattern;
         }
 
         public DownloadSettings(DownloadSettings settings)
@@ -121,9 +129,64 @@ namespace YoutubePlaylistDownloader.Objects
             FilterVideosByLength = settings.FilterVideosByLength;
             FilterMode = settings.FilterMode;
             FilterByLengthValue = settings.FilterByLengthValue;
+            FilenamePattern = settings.FilenamePattern;
+        }
+
+        public string GetFilenameByPattern(PlaylistVideo video, int vIndex, string file, FullPlaylist playlist = null)
+        {
+            if (video == null)
+                return file;
+
+            var genre = video.Title.Split('[', ']').ElementAtOrDefault(1);
+            string artist = "", vTitle = "";
+
+            if (genre == null)
+                genre = string.Empty;
+
+            else if (genre.Length >= video.Title.Length)
+                genre = string.Empty;
+
+
+            var title = video.Title;
+
+            if (!string.IsNullOrWhiteSpace(genre))
+            {
+                title = video.Title.Replace($"[{genre}]", string.Empty);
+                var rm = title.Split('[', ']', '【', '】').ElementAtOrDefault(1);
+                if (!string.IsNullOrWhiteSpace(rm))
+                    title = title.Replace($"[{rm}]", string.Empty);
+            }
+            title = title.TrimStart(' ', '-', '[', ']');
+            var lowerGenre = genre.ToLower();
+            if (new[] { "download", "out now", "mostercat", "video", "lyric", "release", "ncs" }.Any(x => lowerGenre.Contains(x)))
+                genre = string.Empty;
+
+            var index = title.LastIndexOf('-');
+            if (index > 0)
+            {
+                vTitle = title.Substring(index + 1).Trim(' ', '-');
+                if (string.IsNullOrWhiteSpace(vTitle))
+                {
+                    index = title.IndexOf('-');
+                    if (index > 0)
+                        vTitle = title.Substring(index + 1).Trim(' ', '-');
+                }
+                artist = string.Join(", ", title.Substring(0, index - 1).Trim().Split(new string[] { "&", "feat.", "feat", "ft.", " ft ", "Feat.", " x ", " X " }, StringSplitOptions.RemoveEmptyEntries));
+            }
+            var result = FilenamePattern
+                .Replace("$title", title)
+                .Replace("$index", vIndex.ToString())
+                .Replace("$artist", artist)
+                .Replace("$songtitle", vTitle)
+                .Replace("$channel", video.Author.ChannelTitle)
+                .Replace("$videoid", video.Id)
+                .Replace("$playlist", playlist.Title)
+                .Replace("$genre", genre);
+            
+            return string.IsNullOrWhiteSpace(result) ? title : result;
         }
 
         public DownloadSettings Clone() => new DownloadSettings(this);
-        
+
     }
 }

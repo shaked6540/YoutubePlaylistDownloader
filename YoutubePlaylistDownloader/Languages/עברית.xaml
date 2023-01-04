@@ -156,5 +156,20 @@ the file convertion to 2, etc..</s:String>
     <s:String x:Key="Shorter">קצרים</s:String>
     <s:String x:Key="FileDoesNotExist">{0} לא קיים.</s:String>
     <s:String x:Key="Retry">נסה שוב</s:String>
-    <s:String x:Key="Of">of</s:String>
+    <s:String x:Key="Of">מתוך</s:String>
+    <s:String x:Key="FileNamePattern">תבנית שם קובץ: </s:String>
+    <s:String x:Key="ResetToDefault">ברירת מחדל</s:String>
+    <s:String x:Key="FileNamePatternTitle">תבנית שם קובץ</s:String>
+    <s:String x:Key="FileNamePattenExplanation">The file name pattern allows you to give the downloaded files dynamic names based on these parameters:
+$title: The title of the video
+$index: The index of the video in the playlist
+$artist: The name of the artist of the song (if applicable)
+$songtitle: The title of the song
+$channel: The name of the channel that uploaded the video
+$videoid: The unique ID of the video (taken from the video url)
+$playlist: The title of the plyalist
+
+So for example, if my file name pattern is "song: [$playlist] $artist - $songtitle ($channel) $index" the result file name would be "song: [Example] Infected Mushroom - Spitfire (Monstercat) 1"
+You can add any other text between the parameters, only the parameters will be replaced.
+Please note that not all the parameters are always available (for example, when downloading a single video the $playlisttitle variable would not be available), and in case they are missing they will be removed from the file name</s:String>
 </ResourceDictionary>

@@ -48,7 +48,15 @@
                     </FlowDocument>
                 </RichTextBox>
             </Controls:MetroTabItem>
-
+            <Controls:MetroTabItem Header="{DynamicResource FileNamePatternTitle}">
+                <RichTextBox MaxWidth="1200" Width="600" Margin="5,0,0,0" BorderThickness="0" Cursor="Arrow" IsReadOnly="True" IsReadOnlyCaretVisible="False" Height="Auto" >
+                    <FlowDocument>
+                        <Paragraph>
+                            <Run FontSize="14" Text="{DynamicResource FileNamePattenExplanation}" />
+                        </Paragraph>
+                    </FlowDocument>
+                </RichTextBox>
+            </Controls:MetroTabItem>
         </Controls:MetroAnimatedTabControl>
     </StackPanel>
 </UserControl>

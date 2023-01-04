@@ -325,7 +325,7 @@ namespace YoutubePlaylistDownloader
                         var streamInfoSet = await client.Videos.Streams.GetManifestAsync(video.Id);
                         var bestQuality = streamInfoSet.GetAudioOnlyStreams().GetWithHighestBitrate();
                         var cleanFileNameWithID = GlobalConsts.CleanFileName(video.Title + video.Id);
-                        var cleanFileName = GlobalConsts.CleanFileName(video.Title);
+                        var cleanFileName = GlobalConsts.CleanFileName(downloadSettings.GetFilenameByPattern(video, i, title, Playlist));
                         var fileLoc = $"{GlobalConsts.TempFolderPath}{cleanFileNameWithID}";
 
                         if (AudioOnly)

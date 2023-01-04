@@ -63,6 +63,7 @@ namespace YoutubePlaylistDownloader
             FilterByLengthShorterOrLongerDropDown.ItemsSource = FilterByLengthShorterOrLongerDropDownItemSource;
             FilterByLengthShorterOrLongerDropDown.SelectedItem = settings.FilterMode ? FilterByLengthShorterOrLongerDropDownItemSource[0] : FilterByLengthShorterOrLongerDropDownItemSource[1];
             FilterByLengthTextBox.Text = settings.FilterByLengthValue.ToString();
+            FileNamePattenTextBox.Text = settings.FilenamePattern;
 
             SubscribeToEvents();
 
@@ -133,7 +134,7 @@ namespace YoutubePlaylistDownloader
             {
                 GlobalConsts.DownloadSettings.FilterMode = FilterByLengthShorterOrLongerDropDown.SelectedItem.Equals(FindResource("Longer"));
                 GlobalConsts.SaveDownloadSettings();
-            } 
+            }
         }
 
         private void FilterByLengthCheckBox_Checked(object sender, RoutedEventArgs e)
@@ -445,6 +446,17 @@ namespace YoutubePlaylistDownloader
             TextBox_MouseDoubleClick(sender, null);
         }
 
+        private void RestPatternToDefault_Click(object sender, RoutedEventArgs e)
+        {
+            GlobalConsts.DownloadSettings.FilenamePattern = "$title";
+            FileNamePattenTextBox.Text = GlobalConsts.DownloadSettings.FilenamePattern;
+            GlobalConsts.SaveDownloadSettings();
+        }
 
+        private void FileNamePattenTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            GlobalConsts.DownloadSettings.FilenamePattern = FileNamePattenTextBox.Text;
+            GlobalConsts.SaveDownloadSettings();
+        }
     }
 }

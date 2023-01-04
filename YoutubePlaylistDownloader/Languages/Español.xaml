@@ -154,4 +154,19 @@ Se recomienda utilizar 1 núcleo menos de los que tienes disponibles. Si tu comp
     <s:String x:Key="FileDoesNotExist">{0} does not exist.</s:String>
     <s:String x:Key="Retry">Retry</s:String>
     <s:String x:Key="Of">of</s:String>
+    <s:String x:Key="FileNamePattern">File name pattern: </s:String>
+    <s:String x:Key="ResetToDefault">Reset to default</s:String>
+    <s:String x:Key="FileNamePatternTitle">File Name Pattern</s:String>
+    <s:String x:Key="FileNamePattenExplanation">The file name pattern allows you to give the downloaded files dynamic names based on these parameters:
+$title: The title of the video
+$index: The index of the video in the playlist
+$artist: The name of the artist of the song (if applicable)
+$songtitle: The title of the song
+$channel: The name of the channel that uploaded the video
+$videoid: The unique ID of the video (taken from the video url)
+$playlist: The title of the plyalist
+
+So for example, if my file name pattern is "song: [$playlist] $artist - $songtitle ($channel) $index" the result file name would be "song: [Example] Infected Mushroom - Spitfire (Monstercat) 1"
+You can add any other text between the parameters, only the parameters will be replaced.
+Please note that not all the parameters are always available (for example, when downloading a single video the $playlisttitle variable would not be available), and in case they are missing they will be removed from the file name</s:String>
 </ResourceDictionary> 

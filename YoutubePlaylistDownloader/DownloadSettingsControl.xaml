@@ -22,6 +22,13 @@
                     </StackPanel>
                     <CheckBox x:Name="UniquePlaylistDirectoryCheckBox" Content="{DynamicResource SavePlaylistInUniqueDirectory}" Margin="5" />
                     <CheckBox x:Name="OpenDestinationFolderCheckBox" Content="{DynamicResource OpenDestinationFolderOnFinish}" Margin="5" />
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="{DynamicResource FileNamePattern}" Margin="5"  />
+                        <TextBox x:Name="FileNamePattenTextBox" TextChanged="FileNamePattenTextBox_TextChanged" Margin="5" HorizontalAlignment="Left" MinWidth="120" />
+                        <Controls:Tile Grid.Row="4" Grid.Column="2" Height="30" Width="100" Click="RestPatternToDefault_Click" HorizontalAlignment="Left" >
+                            <Label Content="{DynamicResource ResetToDefault}" />
+                        </Controls:Tile>
+                    </StackPanel>
                 </StackPanel>
                 <Label Content="{DynamicResource Video}" Foreground="{DynamicResource AccentColorBrush}" FontSize="26"/>
                 <WrapPanel Orientation="Vertical" Margin="10,0,0,0">
