@@ -1,3 +1,3 @@
-﻿Version 1.9.5:
+﻿Version 1.9.6:
 - Fixed a bug that caused some playlist info to not be loaded
 - Added a file name pattern option, check out the Help section to learn more about it

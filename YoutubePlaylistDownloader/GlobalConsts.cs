@@ -37,7 +37,7 @@ namespace YoutubePlaylistDownloader
         public static readonly string FFmpegFilePath;
         private static readonly string ConfigFilePath;
         private static readonly string ErrorFilePath;
-        public static readonly Version VERSION = new Version(1, 9, 5);
+        public static readonly Version VERSION = new Version(1, 9, 6);
         public static bool UpdateOnExit;
         public static string UpdateSetupLocation;
         public static bool OptionExpanderIsExpanded;
@@ -382,7 +382,7 @@ namespace YoutubePlaylistDownloader
             t.Tag.Track = (uint)vIndex;
             //t.Tag.Year = (uint)video.UploadDate.Year;
             ///t.Tag.DateTagged = video.UploadDate.UtcDateTime;
-            t.Tag.AlbumArtists = new[] { playlist?.BasePlaylist?.Author.Title };
+            t.Tag.AlbumArtists = new[] { playlist?.BasePlaylist?.Author?.ChannelTitle };
             var lowerGenre = genre.ToLower();
             if (new[] { "download", "out now", "mostercat", "video", "lyric", "release", "ncs" }.Any(x => lowerGenre.Contains(x)))
                 genre = string.Empty;
