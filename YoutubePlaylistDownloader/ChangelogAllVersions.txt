@@ -1,4 +1,9 @@
-﻿Version 1.9.4:
+﻿Version 1.9.5:
+- Fixed a bug that caused some playlist info to not be loaded
+- Added a file name pattern option, check out the Help section to learn more about it
+
+
+Version 1.9.4:
 - The program will now download the highest quality thumbnail available
 - Added support for the new channel format (e.g. youtube.com/@username)
 

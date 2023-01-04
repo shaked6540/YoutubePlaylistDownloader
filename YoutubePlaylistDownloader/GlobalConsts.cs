@@ -37,7 +37,7 @@ namespace YoutubePlaylistDownloader
         public static readonly string FFmpegFilePath;
         private static readonly string ConfigFilePath;
         private static readonly string ErrorFilePath;
-        public static readonly Version VERSION = new Version(1, 9, 4);
+        public static readonly Version VERSION = new Version(1, 9, 5);
         public static bool UpdateOnExit;
         public static string UpdateSetupLocation;
         public static bool OptionExpanderIsExpanded;
@@ -78,7 +78,7 @@ namespace YoutubePlaylistDownloader
             get
             {
                 if (downloadSettings == null)
-                    downloadSettings = new DownloadSettings("mp3", false, YoutubeHelpers.High720, false, false, false, false, "192", false, "en", false, false, 0, 0, false, true, false, true, 4);
+                    downloadSettings = new DownloadSettings("mp3", false, YoutubeHelpers.High720, false, false, false, false, "192", false, "en", false, false, 0, 0, false, true, false, true, 4, "$title");
 
                 return downloadSettings;
             }
@@ -227,7 +227,7 @@ namespace YoutubePlaylistDownloader
             ActualConvertionsLimit = 2;
             LimitConvertions = true;
 
-            DownloadSettings = new DownloadSettings("mp3", false, YoutubeHelpers.High720, false, false, false, false, "192", false, "en", false, false, 0, 0, false, true, false, true, 4);
+            DownloadSettings = new DownloadSettings("mp3", false, YoutubeHelpers.High720, false, false, false, false, "192", false, "en", false, false, 0, 0, false, true, false, true, 4, "$title");
             SaveConsts();
         }
         public static void LoadConsts()
@@ -461,12 +461,12 @@ namespace YoutubePlaylistDownloader
                     {
                         Log(ex2.ToString(), "Delete download settings file path").Wait();
                     }
-                    downloadSettings = new DownloadSettings("mp3", false, YoutubeHelpers.High720, false, false, false, false, "192", false, "en", false, false, 0, 0, false, true, false, true, 4);
+                    downloadSettings = new DownloadSettings("mp3", false, YoutubeHelpers.High720, false, false, false, false, "192", false, "en", false, false, 0, 0, false, true, false, true, 4, "$title");
                 }
             }
             else
             {
-                downloadSettings = new DownloadSettings("mp3", false, YoutubeHelpers.High720, false, false, false, false, "192", false, "en", false, false, 0, 0, false, true, false, true, 4);
+                downloadSettings = new DownloadSettings("mp3", false, YoutubeHelpers.High720, false, false, false, false, "192", false, "en", false, false, 0, 0, false, true, false, true, 4, "$title");
             }
         }
         public static void SaveDownloadSettings()
