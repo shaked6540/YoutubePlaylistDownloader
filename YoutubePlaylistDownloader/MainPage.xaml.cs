@@ -100,6 +100,16 @@ namespace YoutubePlaylistDownloader
                         await UpdatePlaylistInfo(Visibility.Visible, channel.Title,totalVideos: VideoList.Count().ToString(), imageUrl: channel.Thumbnails.FirstOrDefault()?.Url, downloadEnabled: true, showIndexes: true);
                     }).ConfigureAwait(false);
                 }
+                else if (YoutubeHelpers.TryParseHandle(PlaylistLinkTextBox.Text, out string handle))
+                {
+                    _ = Task.Run(async () =>
+                    {
+                        var channel = await client.Channels.GetByHandleAsync(handle).ConfigureAwait(false);
+                        list = new FullPlaylist(null, null, channel.Title);
+                        VideoList = await client.Channels.GetUploadsAsync(channel.Id).CollectAsync().ConfigureAwait(false);
+                        await UpdatePlaylistInfo(Visibility.Visible, channel.Title, totalVideos: VideoList.Count().ToString(), imageUrl: channel.Thumbnails.FirstOrDefault()?.Url, downloadEnabled: true, showIndexes: true);
+                    }).ConfigureAwait(false);
+                }
                 else if (YoutubeHelpers.TryParseVideoId(PlaylistLinkTextBox.Text, out string videoId))
                 {
                     _ = Task.Run(async () =>

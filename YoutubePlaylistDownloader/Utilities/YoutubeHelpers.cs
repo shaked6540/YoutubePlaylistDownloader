@@ -187,11 +187,21 @@ namespace YoutubePlaylistDownloader.Utilities
                 return true;
             }
 
+            return false;
+        }
+
+        public static bool TryParseHandle(string handleUrl, out string handle)
+        {
+            handle = default;
+
+            if (string.IsNullOrWhiteSpace(handleUrl))
+                return false;
+
             // https://www.youtube.com/@LesIngenieurs
-            var nicknameFormat = Regex.Match(userUrl, @"youtube\..+?/@(.+)").Groups[1].Value;
-            if (ValidateUsername(nicknameFormat))
+            var handleFormat = Regex.Match(handleUrl, @"youtube\..+?/@(.+)").Groups[1].Value;
+            if (ValidateUsername(handleFormat))
             {
-                username = nicknameFormat;
+                handle = handleFormat;
                 return true;
             }
 
