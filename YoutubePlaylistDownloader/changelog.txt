@@ -1,2 +1,2 @@
-﻿Version 1.9.7:
-- Fixed handle urls (e.g youtube.com/@someone) not being parsed correctly
+﻿Version 1.9.8:
+- Fixed some file name pattern bugs
