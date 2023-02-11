@@ -631,7 +631,7 @@ namespace YoutubePlaylistDownloader
                     bestQuality = videoList.FirstOrDefault();
                     bestAudio = streamInfoSet.GetAudioOnlyStreams().GetWithHighestBitrate();
 
-                    var cleanVideoName = GlobalConsts.CleanFileName(video.Title);
+                    var cleanVideoName = GlobalConsts.CleanFileName(downloadSettings.GetFilenameByPattern(video, i, title, Playlist));
                     var fileLoc = $"{GlobalConsts.TempFolderPath}{cleanVideoName}";
                     var outputFileLoc = $"{GlobalConsts.TempFolderPath}{cleanVideoName}.mkv";
                     var copyFileLoc = $"{SavePath}\\{cleanVideoName}.mkv";

@@ -175,14 +175,14 @@ namespace YoutubePlaylistDownloader.Objects
             }
             var result = FilenamePattern
                 .Replace("$title", title)
-                .Replace("$index", vIndex.ToString())
+                .Replace("$index", (vIndex + 1).ToString())
                 .Replace("$artist", artist)
                 .Replace("$songtitle", vTitle)
                 .Replace("$channel", video.Author.ChannelTitle)
                 .Replace("$videoid", video.Id)
-                .Replace("$playlist", playlist.Title)
+                .Replace("$playlist", playlist?.Title)
                 .Replace("$genre", genre);
-            
+
             return string.IsNullOrWhiteSpace(result) ? title : result;
         }
 
