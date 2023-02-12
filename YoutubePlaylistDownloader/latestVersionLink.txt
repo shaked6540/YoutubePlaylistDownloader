@@ -1,1 +1,1 @@
-https://ypd.s3.nl-ams.scw.cloud/YoutubePlaylistDownloader.exe
+https://github.com/shaked6540/YoutubePlaylistDownloader/releases/download/1.9.8/YoutubePlaylistDownloader.exe
