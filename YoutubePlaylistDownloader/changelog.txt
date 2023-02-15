@@ -1,2 +1,2 @@
-﻿Version 1.9.8:
-- Fixed some file name pattern bugs
+﻿Version 1.9.9:
+- Added some animations and design improvements (Note: this update is just cosmetics, there are no new features)
