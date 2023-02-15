@@ -56,6 +56,16 @@
         <Setter Property="TextOptions.TextRenderingMode" Value="ClearType" />
         <Setter Property="TitleFontSize" Value="16" />
         <Setter Property="Width" Value="250" />
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Background" Value="{DynamicResource AccentColorBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource TransparentWhiteBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{DynamicResource AccentColorBrush2}"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource BlackBrush}" />
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
     <Style x:Key="SmallTileStyle" TargetType="Controls:Tile">
@@ -64,6 +74,16 @@
         <Setter Property="TextOptions.TextRenderingMode" Value="ClearType" />
         <Setter Property="TitleFontSize" Value="12" />
         <Setter Property="Width" Value="122" />
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Background" Value="{DynamicResource AccentColorBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource TransparentWhiteBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{DynamicResource AccentColorBrush2}"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource BlackBrush}" />
+            </Trigger>
+        </Style.Triggers>
     </Style>
     
     <Style x:Key="ButtonTile" TargetType="Controls:Tile">
@@ -74,6 +94,29 @@
         <Setter Property="CountFontSize" Value="14" />
         <Setter Property="Width" Value="Auto" />
         <Setter Property="Margin" Value="2" />
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Background" Value="{DynamicResource AccentColorBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource TransparentWhiteBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{DynamicResource AccentColorBrush2}"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource BlackBrush}" />
+            </Trigger>
+        </Style.Triggers>
     </Style>
-    
+
+    <Style TargetType="Controls:Tile">
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Background" Value="{DynamicResource AccentColorBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource TransparentWhiteBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{DynamicResource AccentColorBrush2}"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource BlackBrush}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
 </ResourceDictionary>
