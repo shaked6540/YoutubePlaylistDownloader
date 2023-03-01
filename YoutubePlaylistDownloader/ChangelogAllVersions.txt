@@ -1,4 +1,8 @@
-﻿Version 1.9.9:
+﻿Version 1.9.10:
+- Fixed downloads being very slow because of recent YouTube changes
+
+
+Version 1.9.9:
 - Added some animations and design improvements (Note: this update is just cosmetics, there are no new features)
 
 
