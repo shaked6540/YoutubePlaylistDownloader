@@ -1,4 +1,10 @@
-﻿Version 1.9.10:
+﻿Version 1.9.11:
+- Fixed "cannot access a closed stream"
+- Upgraded the program to use .NET 7
+- New folder browsing dialog
+
+
+Version 1.9.10:
 - Fixed downloads being very slow because of recent YouTube changes
 
 
