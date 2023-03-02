@@ -8,7 +8,7 @@
              FlowDirection="{DynamicResource FlowDirection}">
     <StackPanel x:Name="DownloadProgressStackPanel" Width="1200" MaxWidth="1280">
 
-        <TextBlock x:Name="HeadlineTextBlock" HorizontalAlignment="Center" Text="{DynamicResource Loading}" FontSize="24" Foreground="{DynamicResource AccentColorBrush}" Margin="5" />
+        <TextBlock x:Name="HeadlineTextBlock" HorizontalAlignment="Center" Text="{DynamicResource Loading}" FontSize="24" Foreground="{DynamicResource MahApps.Brushes.Accent}" Margin="5" />
         <Grid x:Name="CurrentDownloadGrid">
             <Controls:MetroProgressBar Margin="10" Height="30" x:Name="CurrentDownloadProgressBar" Minimum="0" Maximum="100"/>
             <TextBlock x:Name="CurrentDownloadProgressBarTextBlock" VerticalAlignment="Center" HorizontalAlignment="Center" />
@@ -18,9 +18,9 @@
             <TextBlock x:Name="TotalDownloadsProgressBarTextBlock" VerticalAlignment="Center" HorizontalAlignment="Center"/>
         </Grid>
 
-        <TextBlock x:Name="ConvertingTextBlock" Visibility="Collapsed"  HorizontalAlignment="Center" FontSize="16" Foreground="{DynamicResource AccentColorBrush}" Margin="5" />
+        <TextBlock x:Name="ConvertingTextBlock" Visibility="Collapsed"  HorizontalAlignment="Center" FontSize="16" Foreground="{DynamicResource MahApps.Brushes.Accent}" Margin="5" />
 
-        <TextBlock Visibility="Collapsed" x:Name="DownloadSpeedTextBlock" HorizontalAlignment="Left" FontSize="18" Foreground="{DynamicResource AccentColorBrush2}" Margin="10"/>
+        <TextBlock Visibility="Collapsed" x:Name="DownloadSpeedTextBlock" HorizontalAlignment="Left" FontSize="18" Foreground="{DynamicResource MahApps.Brushes.Accent2}" Margin="10"/>
 
 
         <WrapPanel HorizontalAlignment="Center">

@@ -16,7 +16,6 @@ namespace YoutubePlaylistDownloader
             InitializeComponent();
             GlobalConsts.HideHelpButton();
             GlobalConsts.ShowAboutButton();
-            GlobalConsts.ShowSubscriptionsButton();
             GlobalConsts.ShowHomeButton();
             GlobalConsts.ShowSettingsButton();
         }

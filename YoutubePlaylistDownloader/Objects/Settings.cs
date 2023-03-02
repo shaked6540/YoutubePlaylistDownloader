@@ -65,5 +65,7 @@ namespace YoutubePlaylistDownloader.Objects
             ConfirmExit = confirmExit;
         }
 
+        public Settings() { }
+
     }
 }

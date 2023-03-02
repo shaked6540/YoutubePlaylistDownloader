@@ -1,6 +1,7 @@
 ﻿using MahApps.Metro.Controls.Dialogs;
 using System;
 using System.Net;
+using System.Net.Http;
 using System.Windows.Controls;
 
 namespace YoutubePlaylistDownloader
@@ -17,7 +18,6 @@ namespace YoutubePlaylistDownloader
             GlobalConsts.ShowHomeButton();
             GlobalConsts.ShowSettingsButton();
             GlobalConsts.ShowHelpButton();
-            GlobalConsts.ShowSubscriptionsButton();
 
             AboutRun.Text += GlobalConsts.VERSION;
         }
@@ -26,33 +26,35 @@ namespace YoutubePlaylistDownloader
         {
             try
             {
-                using (var wc = new WebClient())
+                using var client = new HttpClient();
+                client.DefaultRequestHeaders.CacheControl = new System.Net.Http.Headers.CacheControlHeaderValue() { NoCache = true };
+                var response = await client.GetStringAsync("https://raw.githubusercontent.com/shaked6540/YoutubePlaylistDownloader/master/YoutubePlaylistDownloader/latestVersionWithRevision.txt");
+                var latestVersion = Version.Parse(response);
+
+                if (latestVersion > GlobalConsts.VERSION)
                 {
-                    var latestVersion = Version.Parse(await wc.DownloadStringTaskAsync("https://raw.githubusercontent.com/shaked6540/YoutubePlaylistDownloader/master/YoutubePlaylistDownloader/latestVersionWithRevision.txt"));
-
-                    if (latestVersion > GlobalConsts.VERSION)
+                    var changelog = await client.GetStringAsync("https://raw.githubusercontent.com/shaked6540/YoutubePlaylistDownloader/master/YoutubePlaylistDownloader/changelog.txt");
+                    var dialogSettings = new MetroDialogSettings()
                     {
-                        var changelog = await wc.DownloadStringTaskAsync("https://raw.githubusercontent.com/shaked6540/YoutubePlaylistDownloader/master/YoutubePlaylistDownloader/changelog.txt");
-                        var dialogSettings = new MetroDialogSettings()
-                        {
-                            AffirmativeButtonText = $"{FindResource("UpdateNow")}",
-                            NegativeButtonText = $"{FindResource("No")}",
-                            FirstAuxiliaryButtonText = $"{FindResource("UpdateWhenIExit")}",
-                            ColorScheme = MetroDialogColorScheme.Theme,
-                            DefaultButtonFocus = MessageDialogResult.Affirmative,
-                        };
-                        var update = await GlobalConsts.Current.ShowMessageAsync($"{FindResource("NewVersionAvailable")}", $"{FindResource("DoYouWantToUpdate")}\n{changelog}",
-                            MessageDialogStyle.AffirmativeAndNegativeAndSingleAuxiliary, dialogSettings);
-                        if (update == MessageDialogResult.Affirmative)
-                            GlobalConsts.LoadPage(new DownloadUpdate(latestVersion, changelog));
+                        AffirmativeButtonText = $"{FindResource("UpdateNow")}",
+                        NegativeButtonText = $"{FindResource("No")}",
+                        FirstAuxiliaryButtonText = $"{FindResource("UpdateWhenIExit")}",
+                        ColorScheme = MetroDialogColorScheme.Theme,
+                        DefaultButtonFocus = MessageDialogResult.Affirmative,
+                    };
+                    var update = await GlobalConsts.Current.ShowMessageAsync($"{FindResource("NewVersionAvailable")}", $"{FindResource("DoYouWantToUpdate")}\n{changelog}",
+                        MessageDialogStyle.AffirmativeAndNegativeAndSingleAuxiliary, dialogSettings);
+                    if (update == MessageDialogResult.Affirmative)
+                        GlobalConsts.LoadPage(new DownloadUpdate(latestVersion, changelog));
 
-                        else if (update == MessageDialogResult.FirstAuxiliary)
-                        {
-                            GlobalConsts.UpdateControl = new DownloadUpdate(latestVersion, changelog, true).UpdateLaterStillDownloading();
-                        }
+                    else if (update == MessageDialogResult.FirstAuxiliary)
+                    {
+                        GlobalConsts.UpdateControl = new DownloadUpdate(latestVersion, changelog, true).UpdateLaterStillDownloading();
                     }
-                    else
-                        await GlobalConsts.ShowMessage($"{FindResource("NoUpdates")}", $"{FindResource("NoUpdatesAvailable")}");
+                }
+                else
+                {
+                    await GlobalConsts.ShowMessage($"{FindResource("NoUpdates")}", $"{FindResource("NoUpdatesAvailable")}");
                 }
             }
             catch (Exception ex)

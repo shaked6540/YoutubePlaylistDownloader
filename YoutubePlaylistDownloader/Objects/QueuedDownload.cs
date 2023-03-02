@@ -61,7 +61,7 @@ namespace YoutubePlaylistDownloader.Objects
                 Margin = margin,
                 BorderThickness = new Thickness(1)
             };
-            border.SetResourceReference(Border.BorderBrushProperty, "BlackBrush");
+            border.BorderBrush = System.Windows.Media.Brushes.White;
 
             border.Child = DisplayGrid;
 

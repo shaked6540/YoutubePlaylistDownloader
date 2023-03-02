@@ -1,4 +1,5 @@
-﻿using MahApps.Metro;
+﻿using ControlzEx.Theming;
+using MahApps.Metro;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
@@ -19,12 +20,12 @@ namespace YoutubePlaylistDownloader
             FillAccents();
             FillLanguages();
 
-            if (GlobalConsts.Theme.Name == "BaseDark") NightModeCheckBox.IsChecked = true;
-            CheckForUpdatesCheckBox.IsChecked = GlobalConsts.CheckForProgramUpdates;
-            SaveDownloadOptionsCheckBox.IsChecked = GlobalConsts.SaveDownloadOptions;
-            LimitConvertionsCheckBox.IsChecked = GlobalConsts.LimitConvertions;
-            ConfirmOnExitCheckBox.IsChecked = GlobalConsts.ConfirmExit;
-            ActualConvertionTextBox.Text = GlobalConsts.ActualConvertionsLimit.ToString();
+            if (GlobalConsts.settings.Theme == "Dark") NightModeCheckBox.IsChecked = true;
+            CheckForUpdatesCheckBox.IsChecked = GlobalConsts.settings.CheckForProgramUpdates;
+            SaveDownloadOptionsCheckBox.IsChecked = GlobalConsts.settings.SaveDownloadOptions;
+            LimitConvertionsCheckBox.IsChecked = GlobalConsts.settings.LimitConvertions;
+            ConfirmOnExitCheckBox.IsChecked = GlobalConsts.settings.ConfirmExit;
+            ActualConvertionTextBox.Text = GlobalConsts.settings.ActualConvertionsLimit.ToString();
             ActualConvertionTextBox.TextChanged += ActualConvertionTextBox_TextChanged;
 
             NightModeCheckBox.Checked += NightModeCheckBox_Checked;
@@ -34,43 +35,40 @@ namespace YoutubePlaylistDownloader
             GlobalConsts.ShowHomeButton();
             GlobalConsts.ShowAboutButton();
             GlobalConsts.ShowHelpButton();
-            GlobalConsts.ShowSubscriptionsButton();
         }
 
         private void FillLanguages()
         {
             var languages = ((string)FindResource("LanguageList")).Split(';');
             LanguageComboBox.ItemsSource = languages;
-            LanguageComboBox.SelectedItem = GlobalConsts.Language;
+            LanguageComboBox.SelectedItem = GlobalConsts.settings.Language;
         }
 
         private void FillAccents()
         {
-            var accents = ThemeManager.Accents;
+            var accents = ThemeManager.Current.ColorSchemes;
             comboBox.ItemsSource = accents;
-            comboBox.DisplayMemberPath = "Name";
-            comboBox.SelectedItem = ((IEnumerable<Accent>)comboBox.ItemsSource).FirstOrDefault(x => x.Name == GlobalConsts.Accent.Name);
+            comboBox.SelectedItem = ((IEnumerable<string>)comboBox.ItemsSource).FirstOrDefault(x => x == GlobalConsts.settings.Accent);
         }
 
         private void NightModeCheckBox_Unchecked(object sender, RoutedEventArgs e)
         {
-            ThemeManager.ChangeAppTheme(Application.Current, "BaseDark");
-            ThemeManager.ChangeAppTheme(Application.Current, "BaseLight");
-            GlobalConsts.Theme = ThemeManager.GetAppTheme("BaseLight");
+            ThemeManager.Current.ChangeTheme(Application.Current, $"Dark.{GlobalConsts.settings.Accent}");
+            ThemeManager.Current.ChangeTheme(Application.Current, $"Light.{GlobalConsts.settings.Accent}");
+            GlobalConsts.settings.Theme = "Light";
         }
 
         private void NightModeCheckBox_Checked(object sender, RoutedEventArgs e)
         {
-            ThemeManager.ChangeAppTheme(Application.Current, "BaseLight");
-            ThemeManager.ChangeAppTheme(Application.Current, "BaseDark");
-            GlobalConsts.Theme = ThemeManager.GetAppTheme("BaseDark");
+            ThemeManager.Current.ChangeTheme(Application.Current, $"Light.{GlobalConsts.settings.Accent}");
+            ThemeManager.Current.ChangeTheme(Application.Current, $"Dark.{GlobalConsts.settings.Accent}");
+            GlobalConsts.settings.Theme = "Dark";
         }
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var style = ThemeManager.DetectAppStyle();
-            ThemeManager.ChangeAppStyle(Application.Current, (Accent)comboBox.SelectedItem, style.Item1);
-            GlobalConsts.Accent = (Accent)comboBox.SelectedItem;
+            ThemeManager.Current.ChangeTheme(Application.Current, $"{GlobalConsts.settings.Theme}.{comboBox.SelectedItem}");
+            GlobalConsts.settings.Accent = (string)comboBox.SelectedItem;
         }
 
         private void Exit_Click(object sender, RoutedEventArgs e)
@@ -87,37 +85,37 @@ namespace YoutubePlaylistDownloader
 
         private void CheckBox_Checked(object sender, RoutedEventArgs e)
         {
-            GlobalConsts.CheckForProgramUpdates = CheckForUpdatesCheckBox.IsChecked.Value;
+            GlobalConsts.settings.CheckForProgramUpdates = CheckForUpdatesCheckBox.IsChecked.Value;
         }
 
         private void CheckBox_Unchecked(object sender, RoutedEventArgs e)
         {
-            GlobalConsts.CheckForProgramUpdates = CheckForUpdatesCheckBox.IsChecked.Value;
+            GlobalConsts.settings.CheckForProgramUpdates = CheckForUpdatesCheckBox.IsChecked.Value;
         }
 
         private void SaveDownloadOptionsCheckBox_Checked(object sender, RoutedEventArgs e)
         {
-            GlobalConsts.SaveDownloadOptions = SaveDownloadOptionsCheckBox.IsChecked.Value;
+            GlobalConsts.settings.SaveDownloadOptions = SaveDownloadOptionsCheckBox.IsChecked.Value;
         }
 
         private void SaveDownloadOptionsCheckBox_Unchecked(object sender, RoutedEventArgs e)
         {
-            GlobalConsts.SaveDownloadOptions = SaveDownloadOptionsCheckBox.IsChecked.Value;
+            GlobalConsts.settings.SaveDownloadOptions = SaveDownloadOptionsCheckBox.IsChecked.Value;
         }
 
         private void LimitConvertionsCheckBox_Checked(object sender, RoutedEventArgs e)
         {
-            GlobalConsts.LimitConvertions = LimitConvertionsCheckBox.IsChecked.Value;
+            GlobalConsts.settings.LimitConvertions = LimitConvertionsCheckBox.IsChecked.Value;
         }
 
         private void LimitConvertionsCheckBox_Unchecked(object sender, RoutedEventArgs e)
         {
-            GlobalConsts.LimitConvertions = LimitConvertionsCheckBox.IsChecked.Value;
+            GlobalConsts.settings.LimitConvertions = LimitConvertionsCheckBox.IsChecked.Value;
         }
 
         private void ActualConvertionTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (int.TryParse(ActualConvertionTextBox.Text, out var actual) && actual > 0 && actual < GlobalConsts.MaximumConverstionsCount)
+            if (int.TryParse(ActualConvertionTextBox.Text, out var actual) && actual > 0 && actual < GlobalConsts.settings.MaximumConverstionsCount)
             {
                 ActualConvertionTextBox.Background = null;
                 int delta = actual - GlobalConsts.ConversionsLocker.CurrentCount;
@@ -131,7 +129,7 @@ namespace YoutubePlaylistDownloader
                         GlobalConsts.ConversionsLocker.Wait();
                     }
                 }
-                GlobalConsts.ActualConvertionsLimit = actual;
+                GlobalConsts.settings.ActualConvertionsLimit = actual;
             }
             else
             {
@@ -141,12 +139,12 @@ namespace YoutubePlaylistDownloader
 
         private void ConfirmOnExitCheckBox_Checked(object sender, RoutedEventArgs e)
         {
-            GlobalConsts.ConfirmExit = ConfirmOnExitCheckBox.IsChecked.Value;
+            GlobalConsts.settings.ConfirmExit = ConfirmOnExitCheckBox.IsChecked.Value;
         }
 
         private void ConfirmOnExitCheckBox_Unchecked(object sender, RoutedEventArgs e)
         {
-            GlobalConsts.ConfirmExit = ConfirmOnExitCheckBox.IsChecked.Value;
+            GlobalConsts.settings.ConfirmExit = ConfirmOnExitCheckBox.IsChecked.Value;
         }
     }
 }

@@ -19,7 +19,7 @@ namespace YoutubePlaylistDownloader
 {
     public partial class MainPage : UserControl
     {
-        private YoutubeClient client;
+        private readonly YoutubeClient client;
         private FullPlaylist list = null;
         private IEnumerable<PlaylistVideo> VideoList;
         private Channel channel = null;
@@ -48,8 +48,6 @@ namespace YoutubePlaylistDownloader
             GlobalConsts.ShowSettingsButton();
             GlobalConsts.ShowAboutButton();
             GlobalConsts.ShowHelpButton();
-            GlobalConsts.ShowSubscriptionsButton();
-
             VideoList = new List<PlaylistVideo>();
             client = GlobalConsts.YoutubeClient;
 
@@ -62,7 +60,6 @@ namespace YoutubePlaylistDownloader
             GlobalConsts.ShowSettingsButton();
             GlobalConsts.ShowAboutButton();
             GlobalConsts.ShowHelpButton();
-            GlobalConsts.ShowSubscriptionsButton();
             return this;
         }
 
@@ -117,7 +114,7 @@ namespace YoutubePlaylistDownloader
                         var video = await client.Videos.GetAsync(videoId);
                         VideoList = new List<PlaylistVideo> { new PlaylistVideo(video.Id, video.Title, video.Author, video.Duration, video.Thumbnails) };
                         list = new FullPlaylist(null, null);
-                        await UpdatePlaylistInfo(Visibility.Visible, video.Title, video.Author.Title, video.Engagement.ViewCount.ToString(), string.Empty, $"https://img.youtube.com/vi/{video.Id}/maxresdefault.jpg", true, false);
+                        await UpdatePlaylistInfo(Visibility.Visible, video.Title, video.Author.ChannelTitle, video.Engagement.ViewCount.ToString(), string.Empty, $"https://img.youtube.com/vi/{video.Id}/maxresdefault.jpg", true, false);
 
                     }).ConfigureAwait(false);
                 }
@@ -193,7 +190,7 @@ namespace YoutubePlaylistDownloader
                     return;
                 }
 
-                new DownloadPage(list, GlobalConsts.DownloadSettings.Clone(), silent: true, videos: VideoList);
+                _ = new DownloadPage(list, GlobalConsts.DownloadSettings.Clone(), silent: true, videos: VideoList);
                 VideoList= new List<PlaylistVideo>();
                 PlaylistLinkTextBox.Text = string.Empty;
             }
@@ -229,7 +226,7 @@ namespace YoutubePlaylistDownloader
             BulkDownloadButton.IsEnabled = !string.IsNullOrWhiteSpace(BulkLinksTextBox.Text);
         }
 
-        private bool CanDownload()
+        private static bool CanDownload()
         {
             return GlobalConsts.DownloadSettings.AudioOnly || File.Exists(GlobalConsts.FFmpegFilePath);
         }

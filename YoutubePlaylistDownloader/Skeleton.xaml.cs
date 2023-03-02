@@ -3,6 +3,7 @@ using MahApps.Metro.Controls.Dialogs;
 using System;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -25,7 +26,7 @@ namespace YoutubePlaylistDownloader
             //Go to main menu
             GlobalConsts.LoadPage(new MainPage());
 
-            if (GlobalConsts.CheckForProgramUpdates)
+            if (GlobalConsts.settings.CheckForProgramUpdates)
                 CheckForUpdates().ConfigureAwait(false);
         }
 
@@ -33,30 +34,30 @@ namespace YoutubePlaylistDownloader
         {
             try
             {
-                using (var wc = new WebClient() { CachePolicy = new System.Net.Cache.RequestCachePolicy(System.Net.Cache.RequestCacheLevel.NoCacheNoStore) })
-                {
-                    var latestVersion = Version.Parse(await wc.DownloadStringTaskAsync("https://raw.githubusercontent.com/shaked6540/YoutubePlaylistDownloader/master/YoutubePlaylistDownloader/latestVersionWithRevision.txt"));
-                    
-                    if (latestVersion > GlobalConsts.VERSION)
-                    {
-                        var changelog = await wc.DownloadStringTaskAsync("https://raw.githubusercontent.com/shaked6540/YoutubePlaylistDownloader/master/YoutubePlaylistDownloader/changelog.txt");
-                        var dialogSettings = new MetroDialogSettings()
-                        {
-                            AffirmativeButtonText = $"{FindResource("UpdateNow")}",
-                            NegativeButtonText = $"{FindResource("No")}",
-                            FirstAuxiliaryButtonText = $"{FindResource("UpdateWhenIExit")}",
-                            ColorScheme = MetroDialogColorScheme.Theme,
-                            DefaultButtonFocus = MessageDialogResult.Affirmative,
-                        };
-                        var update = await this.ShowMessageAsync($"{FindResource("NewVersionAvailable")}", $"{FindResource("DoYouWantToUpdate")}\n{changelog}",
-                            MessageDialogStyle.AffirmativeAndNegativeAndSingleAuxiliary, dialogSettings);
-                        if (update == MessageDialogResult.Affirmative)
-                            GlobalConsts.LoadPage(new DownloadUpdate(latestVersion, changelog));
+                using var client = new HttpClient();
+                client.DefaultRequestHeaders.CacheControl = new System.Net.Http.Headers.CacheControlHeaderValue() { NoCache = true };
+                var response = await client.GetStringAsync("https://raw.githubusercontent.com/shaked6540/YoutubePlaylistDownloader/master/YoutubePlaylistDownloader/latestVersionWithRevision.txt");
+                var latestVersion = Version.Parse(response);
 
-                        else if (update == MessageDialogResult.FirstAuxiliary)
-                        {
-                            GlobalConsts.UpdateControl = new DownloadUpdate(latestVersion, changelog, true).UpdateLaterStillDownloading();
-                        }
+                if (latestVersion > GlobalConsts.VERSION)
+                {
+                    var changelog = await client.GetStringAsync("https://raw.githubusercontent.com/shaked6540/YoutubePlaylistDownloader/master/YoutubePlaylistDownloader/changelog.txt");
+                    var dialogSettings = new MetroDialogSettings()
+                    {
+                        AffirmativeButtonText = $"{FindResource("UpdateNow")}",
+                        NegativeButtonText = $"{FindResource("No")}",
+                        FirstAuxiliaryButtonText = $"{FindResource("UpdateWhenIExit")}",
+                        ColorScheme = MetroDialogColorScheme.Theme,
+                        DefaultButtonFocus = MessageDialogResult.Affirmative,
+                    };
+                    var update = await this.ShowMessageAsync($"{FindResource("NewVersionAvailable")}", $"{FindResource("DoYouWantToUpdate")}\n{changelog}",
+                        MessageDialogStyle.AffirmativeAndNegativeAndSingleAuxiliary, dialogSettings);
+                    if (update == MessageDialogResult.Affirmative)
+                        GlobalConsts.LoadPage(new DownloadUpdate(latestVersion, changelog));
+
+                    else if (update == MessageDialogResult.FirstAuxiliary)
+                    {
+                        GlobalConsts.UpdateControl = new DownloadUpdate(latestVersion, changelog, true).UpdateLaterStillDownloading();
                     }
                 }
             }
@@ -96,33 +97,28 @@ namespace YoutubePlaylistDownloader
 
         private async void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (!exit && GlobalConsts.ConfirmExit)
+            if (!exit && GlobalConsts.settings.ConfirmExit)
             {
                 e.Cancel = true;
 
                 var exitMessage = $"{FindResource("ExitMessage")}";
 
-                bool loadSubPage = false;
-                DownloadPage page = SubscriptionManager.Subscriptions.FirstOrDefault(x => x.StillDownloading())?.GetDownloadPage();
-                if (page != null)
-                {
-                    exitMessage = $"{FindResource("StillDownloadingSubscriptionsExit")}";
-                    loadSubPage = true;
-                }
                 var res = await ShowYesNoDialog((string)FindResource("Exit"), exitMessage);
                 if (res == MessageDialogResult.Affirmative)
                 {
-                    if (GlobalConsts.UpdateLater && !GlobalConsts.UpdateFinishedDownloading)
-                    {
-                        GlobalConsts.LoadPage(GlobalConsts.UpdateControl?.UpdateLaterStillDownloading());
-                        return;
-                    }
+
                     exit = true;
-                    page = null;
                     Close();
                 }
-                else if (loadSubPage)
-                    GlobalConsts.LoadPage(page);
+            }
+            else if (GlobalConsts.UpdateOnExit)
+            {
+                if (GlobalConsts.UpdateLater && !GlobalConsts.UpdateFinishedDownloading)
+                {
+                    e.Cancel = true;
+                    GlobalConsts.LoadPage(GlobalConsts.UpdateControl?.UpdateLaterStillDownloading());
+                    return;
+                }
             }
         }
 
@@ -144,11 +140,6 @@ namespace YoutubePlaylistDownloader
         private void Help_Click(object sender, RoutedEventArgs e)
         {
             GlobalConsts.LoadPage(new Help());
-        }
-
-        private void SubscriptionsButton_Click(object sender, RoutedEventArgs e)
-        {
-            GlobalConsts.LoadPage(new SubscriptionsPage());
         }
     }
 }

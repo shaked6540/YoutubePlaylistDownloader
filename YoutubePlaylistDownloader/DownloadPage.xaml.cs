@@ -26,24 +26,30 @@ namespace YoutubePlaylistDownloader
     /// </summary>
     public partial class DownloadPage : UserControl, IDisposable, IDownload
     {
-        private DownloadSettings downloadSettings;
+        private readonly DownloadSettings downloadSettings;
         private FullPlaylist Playlist;
-        private string FileType, CaptionsLanguage;
-        private int DownloadedCount, StartIndex, EndIndex, Maximum;
+        private string FileType;
+        private readonly string CaptionsLanguage;
+        private int DownloadedCount;
+        private readonly int StartIndex;
+        private readonly int EndIndex;
+        private readonly int Maximum;
         private List<Process> ffmpegList;
-        private CancellationTokenSource cts;
-        private VideoQuality Quality;
+        private readonly CancellationTokenSource cts;
+        private readonly VideoQuality Quality;
         private string Bitrate;
         private List<Tuple<PlaylistVideo, string>> NotDownloaded;
         private IEnumerable<PlaylistVideo> Videos;
-        private bool AudioOnly, PreferHighestFPS, DownloadCaptions, TagAudioFile;
-        private string SavePath;
-        private Subscription Subscription;
+        private readonly bool AudioOnly;
+        private readonly bool PreferHighestFPS;
+        private bool DownloadCaptions;
+        private readonly bool TagAudioFile;
+        private readonly string SavePath;
         const int megaBytes = 1 << 20;
-        private bool silent;
+        private readonly bool silent;
         private FixedQueue<double> downloadSpeeds;
-        private Dictionary<PlaylistVideo, int> indexes = new Dictionary<PlaylistVideo, int>();
-        private List<Task> convertionTasks = new List<Task>();
+        private readonly Dictionary<PlaylistVideo, int> indexes = new();
+        private readonly List<Task> convertionTasks = new();
 
         public bool StillDownloading;
 
@@ -59,7 +65,7 @@ namespace YoutubePlaylistDownloader
             set
             {
                 title = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Title"));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Title)));
             }
         }
 
@@ -69,7 +75,7 @@ namespace YoutubePlaylistDownloader
             set
             {
                 totalDownloaded = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("TotalDownloaded"));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TotalDownloaded)));
             }
         }
 
@@ -88,7 +94,7 @@ namespace YoutubePlaylistDownloader
             set
             {
                 downloadPrecent = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("CurrentProgressPrecent"));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentProgressPrecent)));
             }
         }
 
@@ -98,7 +104,7 @@ namespace YoutubePlaylistDownloader
             set
             {
                 currentDownloadSpeed = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("CurrentDownloadSpeed"));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentDownloadSpeed)));
             }
         }
 
@@ -108,7 +114,7 @@ namespace YoutubePlaylistDownloader
             set
             {
                 currentTitle = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("CurrentTitle"));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentTitle)));
             }
         }
 
@@ -118,12 +124,12 @@ namespace YoutubePlaylistDownloader
             set
             {
                 currentStatus = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("CurrentStatus"));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentStatus)));
             }
         }
 
 
-        public DownloadPage(FullPlaylist playlist, DownloadSettings settings, string savePath = "", IEnumerable<PlaylistVideo> videos = null, Subscription subscription = null,
+        public DownloadPage(FullPlaylist playlist, DownloadSettings settings, string savePath = "", IEnumerable<PlaylistVideo> videos = null,
             bool silent = false, CancellationTokenSource cancellationToken = null)
         {
             InitializeComponent();
@@ -152,7 +158,6 @@ namespace YoutubePlaylistDownloader
                 GlobalConsts.HideSettingsButton();
                 GlobalConsts.HideAboutButton();
                 GlobalConsts.HideHomeButton();
-                GlobalConsts.HideSubscriptionsButton();
                 GlobalConsts.HideHelpButton();
             }
 
@@ -169,7 +174,7 @@ namespace YoutubePlaylistDownloader
             Quality = settings.Quality;
             DownloadCaptions = settings.DownloadCaptions;
             CaptionsLanguage = settings.CaptionsLanguage;
-            SavePath = string.IsNullOrWhiteSpace(savePath) ? GlobalConsts.SaveDirectory : savePath;
+            SavePath = string.IsNullOrWhiteSpace(savePath) ? GlobalConsts.settings.SaveDirectory : savePath;
 
             if (settings.SavePlaylistsInDifferentDirectories && playlist != null)
             {
@@ -187,7 +192,6 @@ namespace YoutubePlaylistDownloader
             if (!Directory.Exists(SavePath))
                 Directory.CreateDirectory(SavePath);
 
-            Subscription = subscription;
             AudioOnly = settings.AudioOnly;
             TagAudioFile = settings.TagAudioFile;
             PreferHighestFPS = settings.PreferHighestFPS;
@@ -322,7 +326,7 @@ namespace YoutubePlaylistDownloader
 
                         downloadSpeeds.Clear();
 
-                        var streamInfoSet = await client.Videos.Streams.GetManifestAsync(video.Id);
+                        var streamInfoSet = await client.Videos.Streams.GetManifestAsync(video.Id, token);
                         var bestQuality = streamInfoSet.GetAudioOnlyStreams().GetWithHighestBitrate();
                         var cleanFileNameWithID = GlobalConsts.CleanFileName(video.Title + video.Id);
                         var cleanFileName = GlobalConsts.CleanFileName(downloadSettings.GetFilenameByPattern(video, i, title, Playlist));
@@ -341,8 +345,8 @@ namespace YoutubePlaylistDownloader
 
                         using (var stream = new ProgressStream(File.Create(fileLoc)))
                         {
-                            Stopwatch sw = new Stopwatch();
-                            TimeSpan ts = new TimeSpan(0);
+                            Stopwatch sw = new();
+                            TimeSpan ts = new(0);
                             int seconds = 1;
                             string downloadSpeedText = (string)FindResource("DownloadSpeed");
 
@@ -436,15 +440,13 @@ namespace YoutubePlaylistDownloader
                                     File.Copy(outputFileLoc, copyFileLoc, true);
                                     File.Delete(outputFileLoc);
 
-                                    if (Subscription != null)
-                                        Subscription.LatestVideoDownloaded = DateTime.UtcNow;
                                 }
                                 catch (Exception ex)
                                 {
                                     await GlobalConsts.Log(ex.ToString(), "DownloadPage with convert");
                                 }
                             };
-                            if (!GlobalConsts.LimitConvertions)
+                            if (!GlobalConsts.settings.LimitConvertions)
                             {
                                 ffmpeg.Start();
                                 convertingCount++;
@@ -470,15 +472,12 @@ namespace YoutubePlaylistDownloader
                                     {
                                         await GlobalConsts.Log(ex.ToString(), "ConvertionLocker at StartDownloadingWithConverting at DownloadPage.xaml.cs");
                                     }
-                                }));
+                                }, token));
                             }
                         }
                         else
                         {
                             File.Copy(fileLoc, copyFileLoc, true);
-
-                            if (Subscription != null)
-                                Subscription.LatestVideoDownloaded = DateTime.UtcNow;
 
                             File.Delete(fileLoc);
                             try
@@ -491,9 +490,6 @@ namespace YoutubePlaylistDownloader
                                 await GlobalConsts.Log(ex.ToString(), "TagFile at download with convert playlist");
                             }
                         }
-
-                        if (Subscription != null)
-                            Subscription.DownloadedVideos.Add(video.Id);
 
                         DownloadedCount++;
                         TotalDownloaded = $"({DownloadedCount}/{Maximum})";
@@ -551,7 +547,7 @@ namespace YoutubePlaylistDownloader
                         Title = string.Concat(FindResource("Converting"));
 
                     });
-                    await Task.Delay(1000);
+                    await Task.Delay(1000, token);
                 }
 
                 await Dispatcher.InvokeAsync(() =>
@@ -617,7 +613,7 @@ namespace YoutubePlaylistDownloader
 
                     downloadSpeeds.Clear();
 
-                    var streamInfoSet = await client.Videos.Streams.GetManifestAsync(video.Id);
+                    var streamInfoSet = await client.Videos.Streams.GetManifestAsync(video.Id, token);
                     IVideoStreamInfo bestQuality = null;
                     IStreamInfo bestAudio = null;
 
@@ -647,8 +643,8 @@ namespace YoutubePlaylistDownloader
 
                     using (var stream = new ProgressStream(File.Create(fileLoc)))
                     {
-                        Stopwatch sw = new Stopwatch();
-                        TimeSpan ts = new TimeSpan(0);
+                        Stopwatch sw = new();
+                        TimeSpan ts = new(0);
                         int seconds = 1;
                         string downloadSpeedText = (string)FindResource("DownloadSpeed");
 
@@ -708,12 +704,12 @@ namespace YoutubePlaylistDownloader
                         var videoTask = client.Videos.Streams.CopyToAsync(bestQuality, stream, cancellationToken: token);
                         using (var audioStream = File.Create(audioLoc))
                         {
-                            var audioTask = client.Videos.Streams.CopyToAsync(bestAudio, audioStream);
+                            var audioTask = client.Videos.Streams.CopyToAsync(bestAudio, audioStream, cancellationToken: token);
 
                         caption:
                             if (DownloadCaptions)
                             {
-                                var captionsInfo = await client.Videos.ClosedCaptions.GetManifestAsync(video.Id);
+                                var captionsInfo = await client.Videos.ClosedCaptions.GetManifestAsync(video.Id, token);
                                 var captions = captionsInfo.TryGetByLanguage(CaptionsLanguage);
 
                                 if (captions == null)
@@ -757,9 +753,6 @@ namespace YoutubePlaylistDownloader
                             convertingCount--;
                             File.Copy(outputFileLoc, copyFileLoc, true);
 
-                            if (Subscription != null)
-                                Subscription.DownloadedVideos.Add(video.Id);
-
                             File.Delete(outputFileLoc);
                             File.Delete(audioLoc);
                             File.Delete(fileLoc);
@@ -770,7 +763,7 @@ namespace YoutubePlaylistDownloader
                         }
                     };
 
-                    if (!GlobalConsts.LimitConvertions)
+                    if (!GlobalConsts.settings.LimitConvertions)
                     {
                         ffmpeg.Start();
                         convertingCount++;
@@ -796,7 +789,7 @@ namespace YoutubePlaylistDownloader
                             {
                                 await GlobalConsts.Log(ex.ToString(), "ConvertionLocker at StartDownloading at DownloadPage.xaml.cs");
                             }
-                        }));
+                        }, token));
                     }
 
                     DownloadedCount++;
@@ -855,11 +848,8 @@ namespace YoutubePlaylistDownloader
                     CurrentProgressPrecent = 100;
                     Title = string.Concat(FindResource("Converting"));
                 });
-                await Task.Delay(1000);
+                await Task.Delay(1000, token);
             }
-
-            if (Subscription != null)
-                Subscription.LatestVideoDownloaded = DateTime.UtcNow;
 
             StillDownloading = false;
 
@@ -908,8 +898,6 @@ namespace YoutubePlaylistDownloader
             GlobalConsts.HideAboutButton();
             GlobalConsts.HideHomeButton();
             GlobalConsts.HideHelpButton();
-            GlobalConsts.HideSubscriptionsButton();
-
             return this;
         }
 
@@ -926,7 +914,7 @@ namespace YoutubePlaylistDownloader
         {
             try
             {
-                Process.Start(SavePath);
+                Process.Start(Environment.GetEnvironmentVariable("WINDIR") + @"\explorer.exe", SavePath);
             }
             catch (Exception ex)
             {
@@ -967,7 +955,6 @@ namespace YoutubePlaylistDownloader
             {
                 if (disposing)
                 {
-                    Subscription?.Dispose();
                     cts?.Cancel(true);
                     cts?.Dispose();
                     try
@@ -989,7 +976,6 @@ namespace YoutubePlaylistDownloader
                 Bitrate = null;
                 NotDownloaded = null;
                 Videos = null;
-                Subscription = null;
                 downloadSpeeds = null;
                 title = null;
                 currentTitle = null;

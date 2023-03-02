@@ -1,11 +1,11 @@
-﻿using MahApps.Metro;
+﻿using ControlzEx.Theming;
 using MahApps.Metro.Controls.Dialogs;
 using Newtonsoft.Json;
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Net;
+using System.Net.Http;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -15,7 +15,6 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using YoutubeExplode;
 using YoutubeExplode.Playlists;
-using YoutubeExplode.Videos;
 using YoutubePlaylistDownloader.Objects;
 using YoutubePlaylistDownloader.Utilities;
 
@@ -26,59 +25,35 @@ namespace YoutubePlaylistDownloader
         #region Const Variables
         public static Skeleton Current;
         public static MainPage MainPage;
-        public static AppTheme Theme;
-        public static Accent Accent;
         public static Brush ErrorBrush;
-        public static readonly WebClient WebClient;
-        public static string Language;
         public static readonly string TempFolderPath;
-        public static string SaveDirectory;
+        //public static string SaveDirectory;
         public static readonly string CurrentDir;
         public static readonly string FFmpegFilePath;
         private static readonly string ConfigFilePath;
         private static readonly string ErrorFilePath;
-        public static readonly Version VERSION = new Version(1, 9, 10);
+        public static readonly Version VERSION = new(1, 9, 11);
         public static bool UpdateOnExit;
         public static string UpdateSetupLocation;
-        public static bool OptionExpanderIsExpanded;
         public static bool UpdateFinishedDownloading;
         public static bool UpdateLater;
         public static DownloadUpdate UpdateControl;
         public static readonly string ChannelSubscriptionsFilePath;
-        private static bool checkForSubscriptionUpdates;
-        public static bool CheckForProgramUpdates;
         public static TimeSpan SubscriptionsUpdateDelay;
         private static DownloadSettings downloadSettings;
-        public static bool SaveDownloadOptions;
         public static readonly string DownloadSettingsFilePath;
         public static readonly ObservableCollection<QueuedDownload> Downloads;
-        public static bool LimitConvertions;
-        public static int MaximumConverstionsCount, ActualConvertionsLimit;
         private static SemaphoreSlim convertionLocker;
-        public static bool ConfirmExit;
+        public static Objects.Settings settings;
 
-        public static bool CheckForSubscriptionUpdates
-        {
-            get => checkForSubscriptionUpdates;
-            set
-            {
-                checkForSubscriptionUpdates = value;
-                if (checkForSubscriptionUpdates)
-                    SubscriptionManager.UpdateAllSubscriptions();
-                else
-                    SubscriptionManager.CancelAll();
-            }
-
-        }
-        public static AppTheme Opposite { get { return Theme.Name == "BaseLight" ? ThemeManager.GetAppTheme("BaseDark") : ThemeManager.GetAppTheme("BaseLight"); } }
-        public static YoutubeClient YoutubeClient { get => new YoutubeClient(); }
-        public static SemaphoreSlim ConversionsLocker { get => convertionLocker; set { if (convertionLocker == null) convertionLocker = value; } }
+        public static string OppositeTheme { get => settings.Theme == "Light" ? "Dark" : "Light"; }
+        public static YoutubeClient YoutubeClient { get => new(); }
+        public static SemaphoreSlim ConversionsLocker { get => convertionLocker; set { convertionLocker ??= value; } }
         public static DownloadSettings DownloadSettings
         {
             get
             {
-                if (downloadSettings == null)
-                    downloadSettings = new DownloadSettings("mp3", false, YoutubeHelpers.High720, false, false, false, false, "192", false, "en", false, false, 0, 0, false, true, false, true, 4, "$title");
+                downloadSettings ??= new DownloadSettings("mp3", false, YoutubeHelpers.High720, false, false, false, false, "192", false, "en", false, false, 0, 0, false, true, false, true, 4, "$title");
 
                 return downloadSettings;
             }
@@ -88,8 +63,8 @@ namespace YoutubePlaylistDownloader
                 {
                     downloadSettings = value;
 
-                    if (SaveDownloadOptions)
-                        File.WriteAllText(DownloadSettingsFilePath, Newtonsoft.Json.JsonConvert.SerializeObject(downloadSettings));
+                    if (settings.SaveDownloadOptions)
+                        File.WriteAllText(DownloadSettingsFilePath, JsonConvert.SerializeObject(downloadSettings));
                 }
             }
         }
@@ -117,18 +92,15 @@ namespace YoutubePlaylistDownloader
                 Directory.CreateDirectory(appDataPath);
 
             ErrorBrush = Brushes.Crimson;
-            Language = "English";
-            SaveDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos);
+            settings = new()
+            {
+                Language = "English"
+            };
             TempFolderPath = string.Concat(Path.GetTempPath(), "YoutubePlaylistDownloader\\");
             UpdateOnExit = false;
             UpdateLater = false;
             UpdateSetupLocation = string.Empty;
-            WebClient = new WebClient
-            {
-                CachePolicy = new System.Net.Cache.RequestCachePolicy(System.Net.Cache.RequestCacheLevel.NoCacheNoStore)
-            };
             SubscriptionsUpdateDelay = TimeSpan.FromMinutes(1);
-            checkForSubscriptionUpdates = false;
             Downloads.CollectionChanged += Downloads_CollectionChanged;
         }
 
@@ -136,10 +108,6 @@ namespace YoutubePlaylistDownloader
         #region Const Methods
 
         #region Buttons
-        public static void HideSubscriptionsButton()
-        {
-            Current.SubscriptionsButton.Visibility = Visibility.Collapsed;
-        }
         public static void HideHelpButton()
         {
             Current.HelpButton.Visibility = Visibility.Collapsed;
@@ -172,10 +140,6 @@ namespace YoutubePlaylistDownloader
         {
             Current.HomeButton.Visibility = Visibility.Visible;
         }
-        public static void ShowSubscriptionsButton()
-        {
-            Current.SubscriptionsButton.Visibility = Visibility.Visible;
-        }
         #endregion
 
         public static async Task ShowMessage(string title, string message)
@@ -201,9 +165,7 @@ namespace YoutubePlaylistDownloader
         {
             try
             {
-                var settings = new Objects.Settings(Theme.Name, Accent.Name, Language, SaveDirectory, OptionExpanderIsExpanded, CheckForSubscriptionUpdates, CheckForProgramUpdates, SubscriptionsUpdateDelay, SaveDownloadOptions, MaximumConverstionsCount, ActualConvertionsLimit, LimitConvertions, ConfirmExit);
-                File.WriteAllText(ConfigFilePath, Newtonsoft.Json.JsonConvert.SerializeObject(settings));
-                SubscriptionManager.SaveSubscriptions();
+                File.WriteAllText(ConfigFilePath, JsonConvert.SerializeObject(settings));
                 SaveDownloadSettings();
             }
             catch (Exception ex)
@@ -214,19 +176,7 @@ namespace YoutubePlaylistDownloader
         public static void RestoreDefualts()
         {
             Log("Restoring defaults", "RestoreDefaults at GlobalConsts").Wait();
-
-            Theme = ThemeManager.GetAppTheme("BaseDark");
-            Accent = ThemeManager.GetAccent("Red");
-            Language = "English";
-            OptionExpanderIsExpanded = true;
-            checkForSubscriptionUpdates = false;
-            CheckForProgramUpdates = true;
-            SubscriptionsUpdateDelay = TimeSpan.FromMinutes(1);
-            SaveDownloadOptions = true;
-            MaximumConverstionsCount = 20;
-            ActualConvertionsLimit = 2;
-            LimitConvertions = true;
-
+            settings = new Objects.Settings("Dark", "Red", "English", Environment.GetFolderPath(Environment.SpecialFolder.MyVideos), false, false, true, TimeSpan.FromMinutes(1), true, 20, 2, true, true);
             DownloadSettings = new DownloadSettings("mp3", false, YoutubeHelpers.High720, false, false, false, false, "192", false, "en", false, false, 0, 0, false, true, false, true, 4, "$title");
             SaveConsts();
         }
@@ -243,22 +193,8 @@ namespace YoutubePlaylistDownloader
 
             try
             {
-                var settings = Newtonsoft.Json.JsonConvert.DeserializeObject<Objects.Settings>(File.ReadAllText(ConfigFilePath));
-                Theme = ThemeManager.GetAppTheme(settings.Theme);
-                Accent = ThemeManager.GetAccent(settings.Accent);
-                Language = settings.Language;
-                SaveDirectory = settings.SaveDirectory;
-                OptionExpanderIsExpanded = settings.OptionExpanderIsExpanded;
-                CheckForSubscriptionUpdates = settings.CheckForSubscriptionUpdates;
-                CheckForProgramUpdates = settings.CheckForProgramUpdates;
-                SubscriptionsUpdateDelay = settings.SubscriptionsDelay;
-                SaveDownloadOptions = settings.SaveDownloadOptions;
-                MaximumConverstionsCount = settings.MaximumConverstionsCount;
-                ActualConvertionsLimit = settings.ActualConvertionsLimit;
-                LimitConvertions = settings.LimitConvertions;
-                ConfirmExit = settings.ConfirmExit;
-
-                ConversionsLocker = new SemaphoreSlim(ActualConvertionsLimit, MaximumConverstionsCount);
+                settings = JsonConvert.DeserializeObject<Objects.Settings>(File.ReadAllText(ConfigFilePath));
+                ConversionsLocker = new SemaphoreSlim(settings.ActualConvertionsLimit, settings.MaximumConverstionsCount);
 
                 LoadDownloadSettings();
             }
@@ -288,7 +224,7 @@ namespace YoutubePlaylistDownloader
         {
             if (Directory.Exists(Path.GetTempPath() + "YoutubePlaylistDownloader"))
             {
-                DirectoryInfo di = new DirectoryInfo(Path.GetTempPath() + "YoutubePlaylistDownloader");
+                DirectoryInfo di = new(Path.GetTempPath() + "YoutubePlaylistDownloader");
 
                 foreach (FileInfo file in di.GetFiles())
                     try { file.Delete(); } catch { };
@@ -299,33 +235,41 @@ namespace YoutubePlaylistDownloader
         }
         private static void UpdateTheme()
         {
-            ThemeManager.ChangeAppStyle(Application.Current, Accent, Opposite);
-            ThemeManager.ChangeAppTheme(Application.Current, Theme.Name);
+            try
+            {
+                ThemeManager.Current.ChangeTheme(Application.Current, $"{OppositeTheme}.{settings.Accent}");
+                ThemeManager.Current.ChangeTheme(Application.Current, $"{settings.Theme}.{settings.Accent}");
+            }
+            catch (Exception ex)
+            {
+                RestoreDefualts();
+                Log(ex.ToString(), "UpdateTheme").ConfigureAwait(false);
+            }
         }
         private static void UpdateLanguage()
         {
             ResourceDictionary toRemove = Application.Current.Resources.MergedDictionaries.First(x => x.Source.OriginalString.Contains("English"));
-            ResourceDictionary r = new ResourceDictionary()
+            ResourceDictionary r = new()
             {
-                Source = new Uri($"/Languages/{Language}.xaml", UriKind.Relative)
+                Source = new Uri($"/Languages/{settings.Language}.xaml", UriKind.Relative)
             };
             Application.Current.Resources.MergedDictionaries.Add(r);
             Application.Current.Resources.MergedDictionaries.Remove(toRemove);
         }
         public static void ChangeLanguage(string nLang)
         {
-            ResourceDictionary toRemove = Application.Current.Resources.MergedDictionaries.First(x => x.Source.OriginalString.Contains(Language));
-            ResourceDictionary r = new ResourceDictionary()
+            ResourceDictionary toRemove = Application.Current.Resources.MergedDictionaries.First(x => x.Source?.OriginalString.Contains(settings.Language) ?? false);
+            ResourceDictionary r = new()
             {
                 Source = new Uri($"/Languages/{nLang}.xaml", UriKind.Relative)
             };
             Application.Current.Resources.MergedDictionaries.Add(r);
             Application.Current.Resources.MergedDictionaries.Remove(toRemove);
-            Language = nLang;
+            settings.Language = nLang;
         }
         public static async Task Log(string message, object sender)
         {
-            using StreamWriter sw = new StreamWriter(ErrorFilePath, true);
+            using StreamWriter sw = new(ErrorFilePath, true);
             await sw.WriteLineAsync($"[{DateTime.Now.ToUniversalTime()}], [{sender}]:\n\n{message}\n\n").ConfigureAwait(false);
 
         }
@@ -353,7 +297,7 @@ namespace YoutubePlaylistDownloader
         public static async Task TagFile(PlaylistVideo video, int vIndex, string file, FullPlaylist playlist = null)
         {
             if (video == null)
-                throw new ArgumentNullException($"{nameof(video)} was null, can't tag a file without a video title");
+                throw new ArgumentNullException(nameof(video));
 
             var genre = video.Title.Split('[', ']').ElementAtOrDefault(1);
 
@@ -404,23 +348,23 @@ namespace YoutubePlaylistDownloader
             var index = title.LastIndexOf('-');
             if (index > 0)
             {
-                var vTitle = title.Substring(index + 1).Trim(' ', '-');
+                var vTitle = title[(index + 1)..].Trim(' ', '-');
                 if (string.IsNullOrWhiteSpace(vTitle))
                 {
                     index = title.IndexOf('-');
                     if (index > 0)
-                        vTitle = title.Substring(index + 1).Trim(' ', '-');
+                        vTitle = title[(index + 1)..].Trim(' ', '-');
                 }
                 t.Tag.Title = vTitle;
-                t.Tag.Performers = title.Substring(0, index - 1).Trim().Split(new string[] { "&", "feat.", "feat", "ft.", " ft ", "Feat.", " x ", " X " }, StringSplitOptions.RemoveEmptyEntries);
+                t.Tag.Performers = title[..(index - 1)].Trim().Split(new string[] { "&", "feat.", "feat", "ft.", " ft ", "Feat.", " x ", " X " }, StringSplitOptions.RemoveEmptyEntries);
             }
 
             try
             {
                 var picLoc = $"{TempFolderPath}{CleanFileName(video.Title)}.jpg";
-                using (var wb = new WebClient())
-                    File.WriteAllBytes(picLoc, await wb.DownloadDataTaskAsync($"https://img.youtube.com/vi/{video.Id}/maxresdefault.jpg").ConfigureAwait(false));
-
+                using var http = new HttpClient();
+                var response = await http.GetAsync($"https://img.youtube.com/vi/{video.Id}/maxresdefault.jpg").ConfigureAwait(false);
+                await response.Content.CopyToAsync(File.Create(picLoc)).ConfigureAwait(false);
                 t.Tag.Pictures = new TagLib.IPicture[] { new TagLib.Picture(picLoc) };
             }
             catch { }
@@ -457,7 +401,7 @@ namespace YoutubePlaylistDownloader
                         if (File.Exists(DownloadSettingsFilePath))
                             File.Delete(DownloadSettingsFilePath);
                     }
-                    catch(Exception ex2)
+                    catch (Exception ex2)
                     {
                         Log(ex2.ToString(), "Delete download settings file path").Wait();
                     }

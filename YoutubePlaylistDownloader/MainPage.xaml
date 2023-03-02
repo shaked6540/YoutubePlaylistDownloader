@@ -12,7 +12,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" HorizontalAlignment="Center" Text="{DynamicResource Title}" FontSize="24" Foreground="{DynamicResource AccentColorBrush}" Margin="5" />
+        <TextBlock Grid.Row="0" HorizontalAlignment="Center" Text="{DynamicResource Title}" FontSize="24" Foreground="{DynamicResource MahApps.Brushes.Accent}" Margin="5" />
 
         <Controls:MetroAnimatedTabControl Grid.Row="1" x:Name="MetroAnimatedTabControl">
             <Controls:MetroTabItem Header="{DynamicResource Search}">

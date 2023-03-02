@@ -1,7 +1,9 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Net;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -15,9 +17,7 @@ namespace YoutubePlaylistDownloader
     /// </summary>
     public partial class DownloadUpdate : UserControl, IDownload
     {
-        private Version latestVersion;
         private bool downloadFinished;
-        private string updateSetupLocation;
 
         private string title, currentTitle, currentStatus, totalDownloaded, currentDownloadSpeed;
         private int downloadPrecent;
@@ -31,7 +31,7 @@ namespace YoutubePlaylistDownloader
             set
             {
                 title = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Title"));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Title)));
             }
         }
 
@@ -41,7 +41,7 @@ namespace YoutubePlaylistDownloader
             set
             {
                 totalDownloaded = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("TotalDownloaded"));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TotalDownloaded)));
             }
         }
 
@@ -60,7 +60,7 @@ namespace YoutubePlaylistDownloader
             set
             {
                 downloadPrecent = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("CurrentProgressPrecent"));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentProgressPrecent)));
             }
         }
 
@@ -70,7 +70,7 @@ namespace YoutubePlaylistDownloader
             set
             {
                 currentDownloadSpeed = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("CurrentDownloadSpeed"));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentDownloadSpeed)));
             }
         }
 
@@ -80,7 +80,7 @@ namespace YoutubePlaylistDownloader
             set
             {
                 currentTitle = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("CurrentTitle"));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentTitle)));
             }
         }
 
@@ -90,9 +90,11 @@ namespace YoutubePlaylistDownloader
             set
             {
                 currentStatus = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("CurrentStatus"));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentStatus)));
             }
         }
+        private HttpClient httpClient;
+        private CancellationTokenSource cancellationTokenSource;
 
         public DownloadUpdate(Version latestVersion, string changelog, bool updateLater = false)
         {
@@ -102,13 +104,11 @@ namespace YoutubePlaylistDownloader
                 GlobalConsts.HideSettingsButton();
                 GlobalConsts.HideAboutButton();
                 GlobalConsts.HideHomeButton();
-                GlobalConsts.HideSubscriptionsButton();
                 GlobalConsts.HideHelpButton();
             }
-            this.latestVersion = latestVersion;
             ChangelogRun.Text = changelog;
             downloadFinished = false;
-            updateSetupLocation = $"{GlobalConsts.TempFolderPath}Setup {latestVersion}.exe";
+            GlobalConsts.UpdateSetupLocation = $"{GlobalConsts.TempFolderPath}Setup {latestVersion}.exe";
 
             ImageUrl = $"https://raw.githubusercontent.com/shaked6540/YoutubePlaylistDownloader/master/YoutubePlaylistDownloader/finalIcon.ico";
             Title = $"{FindResource("DownloadingUpdateSetup")}";
@@ -116,6 +116,9 @@ namespace YoutubePlaylistDownloader
             TotalDownloaded = $"(0/1)";
             CurrentProgressPrecent = 0;
             CurrentDownloadSpeed = string.Empty;
+            httpClient = new HttpClient();
+            httpClient.DefaultRequestHeaders.CacheControl = new System.Net.Http.Headers.CacheControlHeaderValue() { NoCache = true };
+            cancellationTokenSource = new CancellationTokenSource();
 
             StartUpdate().ConfigureAwait(false);
 
@@ -125,13 +128,30 @@ namespace YoutubePlaylistDownloader
         private async Task StartUpdate()
         {
             await Dispatcher.InvokeAsync(() => HeadlineTextBlock.Text = $"{FindResource("DownloadingUpdateSetup")}");
-            var downloadLink = await GlobalConsts.WebClient.DownloadStringTaskAsync("https://raw.githubusercontent.com/shaked6540/YoutubePlaylistDownloader/master/YoutubePlaylistDownloader/latestVersionLink.txt");
-            GlobalConsts.WebClient.DownloadProgressChanged += DownloadProgressChanged;
-            GlobalConsts.WebClient.DownloadFileCompleted += DownloadFileCompleted;
-            GlobalConsts.WebClient.DownloadFileAsync(new Uri(downloadLink), updateSetupLocation);
+            using var fs = new ProgressStream(new FileStream(GlobalConsts.UpdateSetupLocation, FileMode.Create));
+            fs.BytesWritten += DownloadProgressChanged;
+            var latestVersionLink = await httpClient.GetAsync("https://raw.githubusercontent.com/shaked6540/YoutubePlaylistDownloader/master/YoutubePlaylistDownloader/latestVersionLink.txt").ConfigureAwait(false);
+            var response = await httpClient.GetAsync(await latestVersionLink.Content.ReadAsStringAsync().ConfigureAwait(false)).ConfigureAwait(false);
+            await Dispatcher.InvokeAsync(() => CurrentDownloadProgressBar.Maximum = response.Content.Headers.ContentLength ?? 0);
+            await response.Content.CopyToAsync(fs, cancellationTokenSource.Token).ContinueWith(async a =>
+            {
+                if (GlobalConsts.UpdateLater)
+                    await DownloadCompletedLater(this, new AsyncCompletedEventArgs(null, a.IsCanceled, null));
+                else
+                    await DownloadFileCompleted(this, new AsyncCompletedEventArgs(null, a.IsCanceled, null));
+            });
         }
 
-        private async void DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
+        private async void DownloadProgressChanged(object sender, ProgressStreamReportEventArgs args)
+        {
+            await Dispatcher.InvokeAsync(() =>
+            {
+                CurrentDownloadProgressBar.Value += args.BytesMoved;
+                CurrentDownloadProgressBarTextBlock.Text = $"{(CurrentDownloadProgressBar.Value / CurrentDownloadProgressBar.Maximum) * 100}%";
+            });
+        }
+
+        private async Task DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
         {
             if (e.Cancelled)
             {
@@ -139,8 +159,6 @@ namespace YoutubePlaylistDownloader
                 {
                     string cancelled = $"{FindResource("UpdateCancelled")}";
                     HeadlineTextBlock.Text = cancelled;
-                    CurrentStatus = cancelled;
-                    Title = string.Empty;
                     CurrentDownloadGrid.Visibility = Visibility.Collapsed;
                 });
             }
@@ -152,8 +170,6 @@ namespace YoutubePlaylistDownloader
                     UpdateLaterButton.Visibility = Visibility.Collapsed;
                     CurrentDownloadGrid.Visibility = Visibility.Collapsed;
                     HeadlineTextBlock.Text = error;
-                    CurrentStatus = error;
-                    Title = string.Empty;
                 });
                 await GlobalConsts.ShowMessage($"{FindResource($"Error")}", $"{FindResource("ErrorWhileUpdating")}");
             }
@@ -163,9 +179,6 @@ namespace YoutubePlaylistDownloader
                 {
                     string complete = $"{FindResource("UpdateComplete")}";
                     HeadlineTextBlock.Text = complete;
-                    CurrentStatus = complete;
-                    Title = string.Empty;
-                    TotalDownloaded = "(1/1)";
                     CurrentDownloadGrid.Visibility = Visibility.Collapsed;
                     UpdateNowButton.Visibility = Visibility.Visible;
                     UpdateLaterButton.Visibility = Visibility.Visible;
@@ -176,29 +189,20 @@ namespace YoutubePlaylistDownloader
             }
         }
 
-        private async void DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
-        {
-            await Dispatcher.InvokeAsync(() =>
-            {
-                CurrentDownloadProgressBar.Value = e.ProgressPercentage;
-                CurrentProgressPrecent = e.ProgressPercentage;
-                CurrentDownloadProgressBarTextBlock.Text = $"{e.ProgressPercentage}%";
-            });
-        }
-
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
             if (downloadFinished)
             {
-                Process.Start(updateSetupLocation);
+                Process.Start(GlobalConsts.UpdateSetupLocation);
                 Environment.Exit(0);
             }
             else
             {
                 try
                 {
-                    GlobalConsts.WebClient.CancelAsync();
-                    GlobalConsts.WebClient.Dispose();
+                    cancellationTokenSource.Cancel();
+                    httpClient.CancelPendingRequests();
+                    httpClient.Dispose();
                     GlobalConsts.UpdateOnExit = false;
                     GlobalConsts.UpdateSetupLocation = string.Empty;
                     GlobalConsts.UpdateLater = false;
@@ -215,35 +219,35 @@ namespace YoutubePlaylistDownloader
             GlobalConsts.UpdateOnExit = true;
             GlobalConsts.UpdateControl = this;
             GlobalConsts.UpdateLater = true;
-            GlobalConsts.WebClient.DownloadFileCompleted += DownloadCompletedLater;
-            GlobalConsts.WebClient.DownloadFileCompleted -= DownloadFileCompleted;
-            GlobalConsts.UpdateSetupLocation = updateSetupLocation;
             GlobalConsts.LoadPage(GlobalConsts.MainPage.Load());
         }
 
-        private async void DownloadCompletedLater(object sender, AsyncCompletedEventArgs e)
-     
-   {
-            if (e.Error != null)
+        private async Task DownloadCompletedLater(object sender, AsyncCompletedEventArgs e)
+
+        {
+            await Dispatcher.InvokeAsync(async () =>
             {
-                GlobalConsts.UpdateOnExit = false;
-                GlobalConsts.UpdateSetupLocation = string.Empty;
-                await GlobalConsts.ShowMessage($"{FindResource("UpdateFailed")}", $"{string.Concat(FindResource("CannotUpdate"), e.Error.Message)}");
-            }
-            else if (e.Cancelled)
-            {
-                GlobalConsts.UpdateOnExit = false;
-                GlobalConsts.UpdateSetupLocation = string.Empty;
-                await GlobalConsts.ShowMessage($"{FindResource("UpdateFailed")}", $"{string.Concat(FindResource("UpdateCancelled"), e.Error.Message)}");
-            }
-            else
-            {
-                downloadFinished = true;
-                GlobalConsts.UpdateFinishedDownloading = true;
-                GlobalConsts.UpdateLater = true;
-                UpdateNowButton.Visibility = Visibility.Visible;
-                BackButton.Visibility = Visibility.Collapsed;
-            }
+                if (e.Error != null)
+                {
+                    GlobalConsts.UpdateOnExit = false;
+                    GlobalConsts.UpdateSetupLocation = string.Empty;
+                    await GlobalConsts.ShowMessage($"{FindResource("UpdateFailed")}", $"{string.Concat(FindResource("CannotUpdate"), e.Error.Message)}");
+                }
+                else if (e.Cancelled)
+                {
+                    GlobalConsts.UpdateOnExit = false;
+                    GlobalConsts.UpdateSetupLocation = string.Empty;
+                    await GlobalConsts.ShowMessage($"{FindResource("UpdateFailed")}", $"{string.Concat(FindResource("UpdateCancelled"), e.Error?.Message ?? "")}");
+                }
+                else
+                {
+                    downloadFinished = true;
+                    GlobalConsts.UpdateFinishedDownloading = true;
+                    GlobalConsts.UpdateLater = true;
+                    UpdateNowButton.Visibility = Visibility.Visible;
+                    BackButton.Visibility = Visibility.Collapsed;
+                }
+            });
         }
 
         public DownloadUpdate UpdateLaterStillDownloading()
@@ -261,8 +265,8 @@ namespace YoutubePlaylistDownloader
         {
             if (!downloadFinished)
             {
-                GlobalConsts.WebClient.CancelAsync();
-                GlobalConsts.WebClient.Dispose();
+                httpClient.CancelPendingRequests();
+                httpClient.Dispose();
                 GlobalConsts.UpdateOnExit = false;
                 GlobalConsts.UpdateSetupLocation = string.Empty;
                 GlobalConsts.UpdateLater = false;
@@ -272,9 +276,6 @@ namespace YoutubePlaylistDownloader
                 GlobalConsts.UpdateOnExit = true;
                 GlobalConsts.UpdateControl = this;
                 GlobalConsts.UpdateLater = true;
-                GlobalConsts.WebClient.DownloadFileCompleted += DownloadCompletedLater;
-                GlobalConsts.WebClient.DownloadFileCompleted -= DownloadFileCompleted;
-                GlobalConsts.UpdateSetupLocation = updateSetupLocation;
             }
         }
 
@@ -294,13 +295,8 @@ namespace YoutubePlaylistDownloader
                 {
 
                 }
-                updateSetupLocation = null;
-                currentTitle = null;
-                currentStatus = null;
-                totalDownloaded = null;
-                currentDownloadSpeed = null;
-                PropertyChanged = null;
-
+                httpClient = null;
+                GlobalConsts.UpdateSetupLocation = null;
                 disposedValue = true;
             }
         }

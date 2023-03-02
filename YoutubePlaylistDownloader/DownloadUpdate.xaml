@@ -8,7 +8,7 @@
              FlowDirection="{DynamicResource FlowDirection}">
     <StackPanel x:Name="DownloadProgressStackPanel" Width="1200" MaxWidth="1280">
 
-        <TextBlock x:Name="HeadlineTextBlock" HorizontalAlignment="Center" Text="{DynamicResource Loading}" FontSize="24" Foreground="{DynamicResource AccentColorBrush}" Margin="5" />
+        <TextBlock x:Name="HeadlineTextBlock" HorizontalAlignment="Center" Text="{DynamicResource Loading}" FontSize="24" Foreground="{DynamicResource MahApps.Brushes.Accent}" Margin="5" />
         <Grid x:Name="CurrentDownloadGrid">
             <Controls:MetroProgressBar Margin="10" Height="30" x:Name="CurrentDownloadProgressBar" Minimum="0" Maximum="100"/>
             <TextBlock x:Name="CurrentDownloadProgressBarTextBlock" VerticalAlignment="Center" HorizontalAlignment="Center" />
@@ -28,7 +28,7 @@
             <RichTextBox Width="1200" Margin="0,50,0,0" MaxWidth="1280" BorderThickness="0" Cursor="Arrow" IsReadOnly="True" IsReadOnlyCaretVisible="False"  >
                 <FlowDocument>
                     <Paragraph Margin="50,0,0,0">
-                        <Run Foreground="{DynamicResource AccentColorBrush}" Text="{DynamicResource WhatsNew}" FontSize="24" />
+                        <Run Foreground="{DynamicResource MahApps.Brushes.Accent}" Text="{DynamicResource WhatsNew}" FontSize="24" />
                     </Paragraph>
                     <Paragraph Margin="100,0,0,0" FontSize="16">
                         <Run x:Name="ChangelogRun"/>

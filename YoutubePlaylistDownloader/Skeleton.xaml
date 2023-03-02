@@ -8,7 +8,7 @@
                       Width="1280"
                       Height="720"
                       x:Name="SkeletonWindow"
-                      GlowBrush="{DynamicResource BlackBrush}"
+                      GlowBrush="White"
                       BorderThickness="0"
                       Title="{DynamicResource Title}"
                       FlowDirection="{DynamicResource FlowDirection}">
@@ -46,12 +46,6 @@
                     <WrapPanel>
                         <iconPacks:PackIconModern Width="40" Margin="5" Height="40" Kind="Settings" />
                         <TextBlock Text="{DynamicResource Settings}" VerticalAlignment="Center" FontSize="24" Margin="2.5,5,7.5,5" />
-                    </WrapPanel>
-                </Controls:Tile>
-                <Controls:Tile Click="SubscriptionsButton_Click" x:Name="SubscriptionsButton" Height="50" Width="Auto" Margin="5,5,5,5" VerticalAlignment="Bottom" >
-                    <WrapPanel>
-                        <iconPacks:PackIconModern Width="40" Margin="5" Height="40" Kind="List" />
-                        <TextBlock Text="{DynamicResource Subscriptions}" VerticalAlignment="Center" FontSize="24" Margin="2.5,5,7.5,5" />
                     </WrapPanel>
                 </Controls:Tile>
             </WrapPanel>
