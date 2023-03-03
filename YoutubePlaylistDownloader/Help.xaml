@@ -20,16 +20,6 @@
 
     <StackPanel>
         <Controls:MetroAnimatedTabControl HorizontalAlignment="Center">
-
-            <Controls:MetroTabItem Header="{DynamicResource Subscriptions}">
-                <RichTextBox MaxWidth="1200" Width="600" Margin="5,0,0,0" BorderThickness="0" Cursor="Arrow" IsReadOnly="True" IsReadOnlyCaretVisible="False" Height="Auto" >
-                    <FlowDocument>
-                        <Paragraph>
-                            <Run x:Name="SubscriptionsRun" FontSize="14" Text="{DynamicResource SubscriptionsHelp}" />
-                        </Paragraph>
-                    </FlowDocument>
-                </RichTextBox>
-            </Controls:MetroTabItem>
             <Controls:MetroTabItem Header="{DynamicResource ContactTheDeveloper}">
                 <RichTextBox MaxWidth="1200" Width="600" Margin="5,0,0,0" BorderThickness="0" Cursor="Arrow" IsReadOnly="True" IsReadOnlyCaretVisible="False" Height="Auto" >
                     <FlowDocument>

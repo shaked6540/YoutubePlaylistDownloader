@@ -154,11 +154,11 @@ namespace YoutubePlaylistDownloader
                 Current.DefaultFlyout.IsOpen = false;
             return await Current.ShowYesNoDialog(title, message).ConfigureAwait(false);
         }
-        public async static Task<MessageDialogResult> CustomYesNoDialog(string title, string message, MetroDialogSettings dialogSettings)
+        public static Task ShowSelectableDialog(string title, string message, Action retryAction)
         {
             if (Current.DefaultFlyout.IsOpen)
                 Current.DefaultFlyout.IsOpen = false;
-            return await Current.CustomYesNoDialog(title, message, dialogSettings).ConfigureAwait(false);
+            return Current.ShowSelectableDialog(title, message, retryAction);
         }
         public static void LoadPage(UserControl page) => Current.CurrentPage.Content = page;
         public static void SaveConsts()

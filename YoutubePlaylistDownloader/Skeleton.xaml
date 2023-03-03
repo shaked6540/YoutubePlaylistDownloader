@@ -3,6 +3,7 @@
                       xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
                       xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
                       MinWidth="1280"
                       MinHeight="720"
                       Width="1280"
@@ -21,13 +22,15 @@
         </Controls:FlyoutsControl>
     </Controls:MetroWindow.Flyouts>
 
+
+
+
     <!--Set all the UI in 1 UserControl with this window being the skeleton-->
     <Grid VerticalAlignment="Stretch">
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-
         <Controls:TransitioningContentControl Grid.Row="0" Height="Auto" HorizontalAlignment="Center" DockPanel.Dock="Top" x:Name="CurrentPage" Margin="0,15,0,0" Transition="Default" />
 
         <Grid Grid.Row="1" VerticalAlignment="Bottom">

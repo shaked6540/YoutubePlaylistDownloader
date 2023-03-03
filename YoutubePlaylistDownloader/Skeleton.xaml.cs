@@ -1,11 +1,15 @@
 ﻿using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
+using MoreLinq;
 using System;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Windows.Input;
 
 namespace YoutubePlaylistDownloader
 {
@@ -50,6 +54,7 @@ namespace YoutubePlaylistDownloader
                         ColorScheme = MetroDialogColorScheme.Theme,
                         DefaultButtonFocus = MessageDialogResult.Affirmative,
                     };
+
                     var update = await this.ShowMessageAsync($"{FindResource("NewVersionAvailable")}", $"{FindResource("DoYouWantToUpdate")}\n{changelog}",
                         MessageDialogStyle.AffirmativeAndNegativeAndSingleAuxiliary, dialogSettings);
                     if (update == MessageDialogResult.Affirmative)
@@ -71,7 +76,77 @@ namespace YoutubePlaylistDownloader
         {
             return this.ShowMessageAsync(title, message, MessageDialogStyle.AffirmativeAndNegative, dialogSettings);
         }
+        public async Task ShowSelectableDialog(string title, string message, Action retryAction, Action cancelAction = null)
+        {
 
+            await Dispatcher.InvokeAsync(async () =>
+            {
+                UserControl uc = new UserControl();
+
+                var grid = new Grid();
+                grid.ColumnDefinitions.Add(new ColumnDefinition());
+                grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLength.Auto });
+                grid.RowDefinitions.Add(new RowDefinition());
+                grid.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
+
+                var text = new Run(message);
+                Paragraph paragraph = new();
+                paragraph.Inlines.Add(text);
+
+                var contentTextBox = new RichTextBox
+                {
+                    IsReadOnly = true,
+                    BorderThickness = new Thickness(0),
+                    Cursor = Cursors.Pen,
+                    Height = double.NaN,
+                    IsReadOnlyCaretVisible = false
+                };
+                contentTextBox.Document.Blocks.Add(paragraph);
+                Grid.SetColumn(contentTextBox, 0);
+                Grid.SetColumnSpan(contentTextBox, 2);
+                Grid.SetRow(contentTextBox, 0);
+
+                var retryButton = new Button()
+                {
+                    Style = (Style)FindResource("MahApps.Styles.Button.Dialogs.Accent"),
+                    Content = FindResource("Retry"),
+                    HorizontalAlignment = HorizontalAlignment.Right,
+                    Margin = new Thickness(5),
+                    Width = 100,
+                    Height = 40
+                };
+                var backButton = new Button()
+                {
+                    Style = (Style)FindResource("MahApps.Styles.Button.Dialogs"),
+                    Content = FindResource("Back"),
+                    HorizontalAlignment = HorizontalAlignment.Right,
+                    Margin = new Thickness(5),
+                    Width = 100,
+                    Height = 40
+                };
+
+                Grid.SetRow(retryButton, 1);
+                Grid.SetColumn(retryButton, 0);
+                Grid.SetRow(backButton, 1);
+                Grid.SetColumn(backButton, 1);
+
+                retryButton.Click += (a, b) => retryAction();
+
+                if (cancelAction != null)
+                {
+                    backButton.Click += (a, b) => cancelAction();
+                }
+
+                grid.Children.Add(contentTextBox);
+                grid.Children.Add(backButton);
+                grid.Children.Add(retryButton);
+                uc.Content = grid;
+                var dialog = new CustomDialog() { Content = uc, Title = title };
+                backButton.Click += async (a, b) => await Dispatcher.InvokeAsync(async () => await this.HideMetroDialogAsync(dialog));
+                await this.ShowMetroDialogAsync(dialog);
+
+            });
+        }
         public async Task ShowMessage(string title, string message)
         {
             await this.ShowMessageAsync(title, message);

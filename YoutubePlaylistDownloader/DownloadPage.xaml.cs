@@ -276,21 +276,14 @@ namespace YoutubePlaylistDownloader
 
             if (notDownloaded.Any())
             {
-                var result = await GlobalConsts.CustomYesNoDialog($"{Application.Current.FindResource("CouldntDownload")}",
+                await GlobalConsts.ShowSelectableDialog($"{Application.Current.FindResource("CouldntDownload")}",
                       string.Concat($"{Application.Current.FindResource("ListOfNotDownloadedVideos")}\n", string.Join("\n", notDownloaded.Select(x => string.Concat(x.Item1, " Reason: ", x.Item2)))),
-                      new MetroDialogSettings()
+                      () =>
                       {
-                          AffirmativeButtonText = $"{Application.Current.FindResource("Retry")}",
-                          NegativeButtonText = $"{Application.Current.FindResource("Back")}",
-                          ColorScheme = MetroDialogColorScheme.Theme,
-                          DefaultButtonFocus = MessageDialogResult.Affirmative,
+                          _ = DownloadPage.SequenceDownload(notDownloaded.Select(x => x.Item1), settings).ConfigureAwait(false);
+                          GlobalConsts.MainPage.ChangeToQueueTab();
+                          GlobalConsts.LoadPage(GlobalConsts.MainPage.Load());
                       });
-                if (result == MessageDialogResult.Affirmative)
-                {
-                    _ = DownloadPage.SequenceDownload(notDownloaded.Select(x => x.Item1), settings).ConfigureAwait(false);
-                    GlobalConsts.MainPage.ChangeToQueueTab();
-                    GlobalConsts.LoadPage(GlobalConsts.MainPage.Load());
-                }
             }
         }
 
@@ -510,21 +503,14 @@ namespace YoutubePlaylistDownloader
 
                 if (NotDownloaded.Any())
                 {
-                    var result = await GlobalConsts.CustomYesNoDialog($"{FindResource("CouldntDownload")}",
+                    await GlobalConsts.ShowSelectableDialog($"{FindResource("CouldntDownload")}",
                           string.Concat($"{FindResource("ListOfNotDownloadedVideos")}\n", string.Join("\n", NotDownloaded.Select(x => string.Concat(x.Item1.Title, " Reason: ", x.Item2)))),
-                          new MetroDialogSettings()
+                          () =>
                           {
-                              AffirmativeButtonText = $"{FindResource("Retry")}",
-                              NegativeButtonText = $"{FindResource("Back")}",
-                              ColorScheme = MetroDialogColorScheme.Theme,
-                              DefaultButtonFocus = MessageDialogResult.Affirmative,
+                              _ = DownloadPage.SequenceDownload(NotDownloaded.Select(x => x.Item1.Url), this.downloadSettings).ConfigureAwait(false);
+                              GlobalConsts.MainPage.ChangeToQueueTab();
+                              GlobalConsts.LoadPage(GlobalConsts.MainPage.Load());
                           });
-                    if (result == MessageDialogResult.Affirmative)
-                    {
-                        _ = DownloadPage.SequenceDownload(NotDownloaded.Select(x => x.Item1.Url), this.downloadSettings).ConfigureAwait(false);
-                        GlobalConsts.MainPage.ChangeToQueueTab();
-                        GlobalConsts.LoadPage(GlobalConsts.MainPage.Load());
-                    }
                 }
 
                 while (ffmpegList.Count > 0 || convertionTasks?.Count(x => !x.IsCompleted) > 0)
@@ -811,22 +797,14 @@ namespace YoutubePlaylistDownloader
 
             if (NotDownloaded.Any())
             {
-                var result = await GlobalConsts.CustomYesNoDialog($"{FindResource("CouldntDownload")}",
+                await GlobalConsts.ShowSelectableDialog($"{FindResource("CouldntDownload")}",
                       string.Concat($"{FindResource("ListOfNotDownloadedVideos")}\n", string.Join("\n", NotDownloaded.Select(x => string.Concat(x.Item1.Title, " Reason: ", x.Item2)))),
-                      new MetroDialogSettings()
+                      () =>
                       {
-                          AffirmativeButtonText = $"{FindResource("Retry")}",
-                          NegativeButtonText = $"{FindResource("Back")}",
-                          ColorScheme = MetroDialogColorScheme.Theme,
-                          DefaultButtonFocus = MessageDialogResult.Affirmative,
+                          _ = DownloadPage.SequenceDownload(NotDownloaded.Select(x => x.Item1.Url), this.downloadSettings).ConfigureAwait(false);
+                          GlobalConsts.MainPage.ChangeToQueueTab();
+                          GlobalConsts.LoadPage(GlobalConsts.MainPage.Load());
                       });
-                if (result == MessageDialogResult.Affirmative)
-                {
-                    _ = DownloadPage.SequenceDownload(NotDownloaded.Select(x => x.Item1.Url), this.downloadSettings).ConfigureAwait(false);
-                    GlobalConsts.MainPage.ChangeToQueueTab();
-                    GlobalConsts.LoadPage(GlobalConsts.MainPage.Load());
-                }
-
             }
 
             while (ffmpegList.Count > 0 || convertionTasks?.Count(x => !x.IsCompleted) > 0)
