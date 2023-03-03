@@ -160,6 +160,7 @@ the file convertion to 2, etc..</s:String>
     <s:String x:Key="FileNamePattern">תבנית שם קובץ: </s:String>
     <s:String x:Key="ResetToDefault">ברירת מחדל</s:String>
     <s:String x:Key="FileNamePatternTitle">תבנית שם קובץ</s:String>
+    <s:String x:Key="SkipExisting">דלג על קבצים קיימים</s:String>
     <s:String x:Key="FileNamePattenExplanation">The file name pattern allows you to give the downloaded files dynamic names based on these parameters:
 $title: The title of the video
 $index: The index of the video in the playlist

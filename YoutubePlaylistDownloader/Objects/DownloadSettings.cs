@@ -80,7 +80,7 @@ namespace YoutubePlaylistDownloader.Objects
         public string FilenamePattern { get; set; } = "$title";
 
 		[JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
-		[DefaultValue(true)]
+		[DefaultValue(false)]
 		public bool SkipExisting { get; set; }
 
 
