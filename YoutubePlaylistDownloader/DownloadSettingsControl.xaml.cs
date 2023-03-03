@@ -66,6 +66,7 @@ namespace YoutubePlaylistDownloader
             FilterByLengthShorterOrLongerDropDown.SelectedItem = settings.FilterMode ? FilterByLengthShorterOrLongerDropDownItemSource[0] : FilterByLengthShorterOrLongerDropDownItemSource[1];
             FilterByLengthTextBox.Text = settings.FilterByLengthValue.ToString();
             FileNamePattenTextBox.Text = settings.FilenamePattern;
+            SkipExistingCheckbox.IsChecked = settings.SkipExisting;
 
             SubscribeToEvents();
 
@@ -103,7 +104,9 @@ namespace YoutubePlaylistDownloader
             FilterByLengthCheckBox.Unchecked += FilterByLengthCheckBox_Checked;
             FilterByLengthShorterOrLongerDropDown.SelectionChanged += FilterByLengthShorterOrLongerDropDown_SelectionChanged;
             FilterByLengthTextBox.TextChanged += FilterByLengthTextBox_TextChanged;
-        }
+			SkipExistingCheckbox.Checked += SkipExistingCheckBox_Checked;
+			SkipExistingCheckbox.Unchecked += SkipExistingCheckBox_Unchecked;
+		}
 
         private void FilterByLengthTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -458,5 +461,20 @@ namespace YoutubePlaylistDownloader
             GlobalConsts.DownloadSettings.FilenamePattern = FileNamePattenTextBox.Text;
             GlobalConsts.SaveDownloadSettings();
         }
-    }
+
+		private void SkipExistingCheckBox_Checked(object sender, RoutedEventArgs e) {
+			if (GlobalConsts.settings.SaveDownloadOptions) {
+				GlobalConsts.DownloadSettings.SkipExisting = SkipExistingCheckbox.IsChecked.Value;
+				GlobalConsts.SaveDownloadSettings();
+			}
+		}
+
+		private void SkipExistingCheckBox_Unchecked(object sender, RoutedEventArgs e) {
+			if (GlobalConsts.settings.SaveDownloadOptions) {
+				GlobalConsts.DownloadSettings.SkipExisting = SkipExistingCheckbox.IsChecked.Value;
+				GlobalConsts.SaveDownloadSettings();
+			}
+		}
+
+	}
 }

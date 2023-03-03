@@ -29,6 +29,7 @@
                             <Label Content="{DynamicResource ResetToDefault}" />
                         </Controls:Tile>
                     </StackPanel>
+                    <CheckBox x:Name="SkipExistingCheckbox" Content="{DynamicResource SkipExisting}" Margin="5" />
                 </StackPanel>
                 <Label Content="{DynamicResource Video}" Foreground="{DynamicResource MahApps.Brushes.Accent}" FontSize="26"/>
                 <WrapPanel Orientation="Vertical" Margin="10,0,0,0">

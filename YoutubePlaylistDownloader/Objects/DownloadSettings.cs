@@ -79,12 +79,16 @@ namespace YoutubePlaylistDownloader.Objects
         [DefaultValue("$title")]
         public string FilenamePattern { get; set; } = "$title";
 
+		[JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
+		[DefaultValue(true)]
+		public bool SkipExisting { get; set; }
 
-        [JsonConstructor]
+
+		[JsonConstructor]
         public DownloadSettings(string saveForamt, bool audioOnly, VideoQuality quality, bool preferHighestFPS,
             bool preferQuality, bool convert, bool setBitrate, string bitrate, bool downloadCaptions, string captionsLanguage,
             bool savePlaylistsInDifferentDirectories, bool subset, int subsetStartIndex, int subsetEndIndex, bool openDestinationFolderWhenDone,
-            bool tagAudioFile, bool filterVideosByLength, bool filterMode, double filterByLengthValue, string filenamePattern)
+            bool tagAudioFile, bool filterVideosByLength, bool filterMode, double filterByLengthValue, string filenamePattern, bool skipExisting)
         {
             SaveFormat = saveForamt;
             AudioOnly = audioOnly;
@@ -106,6 +110,7 @@ namespace YoutubePlaylistDownloader.Objects
             FilterMode = filterMode;
             FilterByLengthValue = filterByLengthValue;
             FilenamePattern = filenamePattern;
+            SkipExisting = skipExisting;
         }
 
         public DownloadSettings(DownloadSettings settings)
@@ -130,6 +135,7 @@ namespace YoutubePlaylistDownloader.Objects
             FilterMode = settings.FilterMode;
             FilterByLengthValue = settings.FilterByLengthValue;
             FilenamePattern = settings.FilenamePattern;
+            SkipExisting = settings.SkipExisting;
         }
 
         public string GetFilenameByPattern(PlaylistVideo video, int vIndex, string file, FullPlaylist playlist = null)
