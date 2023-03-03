@@ -166,7 +166,7 @@ namespace YoutubePlaylistDownloader.Utilities
             if (username.Length > 20)
                 return false;
 
-            return !Regex.IsMatch(username, @"[^0-9a-zA-Z]");
+            return !Regex.IsMatch(username, @"[^0-9a-zA-Z_]");
         }
 
         /// <summary>
