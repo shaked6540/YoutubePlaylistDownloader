@@ -1,4 +1,10 @@
-﻿Version 1.9.11:
+﻿Version 1.9.12:
+- It is now possible to select text in the error dialog when download fails
+- Added an option to skip files that are already downloaded (Thanks to revmods https://github.com/revmods)
+- Fixed downloading videos from users with underscores in their names
+
+
+Version 1.9.11:
 - Fixed "cannot access a closed stream"
 - Upgraded the program to use .NET 7
 - New folder browsing dialog
