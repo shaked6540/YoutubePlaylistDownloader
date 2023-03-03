@@ -126,6 +126,7 @@ Ahmed Waaer (Arabic)
     <s:String x:Key="Search">Search</s:String>
     <s:String x:Key="Queue">Queue</s:String>
     <s:String x:Key="Downloading">Downloading...</s:String>
+    <s:String x:Key="Skipping">File Already Exists, Skipping...</s:String>
     <s:String x:Key="Converting">Converting...</s:String>
     <s:String x:Key="DownloadInBackground">Add to queue</s:String>
     <s:String x:Key="Audio">Audio</s:String>
@@ -160,6 +161,7 @@ the file conversion to 2, etc.</s:String>
     <s:String x:Key="Retry">Retry</s:String>
     <s:String x:Key="Of">of</s:String>
     <s:String x:Key="FileNamePattern">File name pattern: </s:String>
+    <s:String x:Key="SkipExisting">Skip files that already exist</s:String>
     <s:String x:Key="ResetToDefault">Reset to default</s:String>
     <s:String x:Key="FileNamePatternTitle">File Name Pattern</s:String>
     <s:String x:Key="FileNamePattenExplanation">The file name pattern allows you to give the downloaded files dynamic names based on these parameters:

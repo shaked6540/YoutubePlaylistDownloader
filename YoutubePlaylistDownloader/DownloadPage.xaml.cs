@@ -58,7 +58,7 @@ namespace YoutubePlaylistDownloader
         public event PropertyChangedEventHandler PropertyChanged;
 
         public string ImageUrl { get; private set; }
-
+        
         public string Title
         {
             get => title;
@@ -338,7 +338,19 @@ namespace YoutubePlaylistDownloader
                         var outputFileLoc = $"{GlobalConsts.TempFolderPath}{cleanFileNameWithID}.{FileType}";
                         var copyFileLoc = $"{SavePath}\\{cleanFileName}.{FileType}";
 
-                        CurrentStatus = string.Concat(FindResource("Downloading"));
+						if (GlobalConsts.DownloadSettings.SkipExisting && File.Exists(copyFileLoc)) {
+							CurrentStatus = string.Concat(FindResource("Skipping"));
+							CurrentTitle = video.Title;
+							CurrentProgressPrecent = 0;
+							CurrentDownloadSpeed = "0 MiB/s";
+
+							DownloadedCount++;
+							TotalDownloaded = $"({DownloadedCount}/{Maximum})";
+
+							continue;
+						}
+
+						CurrentStatus = string.Concat(FindResource("Downloading"));
                         CurrentTitle = video.Title;
                         CurrentProgressPrecent = 0;
                         CurrentDownloadSpeed = "0 MiB/s";
@@ -634,7 +646,19 @@ namespace YoutubePlaylistDownloader
                     var audioLoc = $"{GlobalConsts.TempFolderPath}{cleanVideoName}.{bestAudio.Container.Name}";
                     var captionsLoc = $"{GlobalConsts.TempFolderPath}{cleanVideoName}.srt";
 
-                    CurrentStatus = string.Concat(FindResource("Downloading"));
+					if (GlobalConsts.DownloadSettings.SkipExisting && File.Exists(copyFileLoc)) {
+						CurrentStatus = string.Concat(FindResource("Skipping"));
+						CurrentTitle = video.Title;
+						CurrentProgressPrecent = 0;
+						CurrentDownloadSpeed = "0 MiB/s";
+
+						DownloadedCount++;
+						TotalDownloaded = $"({DownloadedCount}/{Maximum})";
+
+						continue;
+					}
+
+					CurrentStatus = string.Concat(FindResource("Downloading"));
                     CurrentTitle = video.Title;
                     CurrentProgressPrecent = 0;
                     CurrentDownloadSpeed = "0 MiB/s";
