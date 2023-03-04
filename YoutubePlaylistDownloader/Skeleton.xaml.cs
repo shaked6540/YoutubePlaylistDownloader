@@ -86,6 +86,8 @@ namespace YoutubePlaylistDownloader
                 var grid = new Grid();
                 grid.ColumnDefinitions.Add(new ColumnDefinition());
                 grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLength.Auto });
+                grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLength.Auto });
+                grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLength.Auto });
                 grid.RowDefinitions.Add(new RowDefinition());
                 grid.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
 
@@ -103,7 +105,7 @@ namespace YoutubePlaylistDownloader
                 };
                 contentTextBox.Document.Blocks.Add(paragraph);
                 Grid.SetColumn(contentTextBox, 0);
-                Grid.SetColumnSpan(contentTextBox, 2);
+                Grid.SetColumnSpan(contentTextBox, 10);
                 Grid.SetRow(contentTextBox, 0);
 
                 var retryButton = new Button()
@@ -112,7 +114,7 @@ namespace YoutubePlaylistDownloader
                     Content = FindResource("Retry"),
                     HorizontalAlignment = HorizontalAlignment.Right,
                     Margin = new Thickness(5),
-                    Width = 100,
+                    MinWidth = 100,
                     Height = 40
                 };
                 var backButton = new Button()
@@ -121,14 +123,38 @@ namespace YoutubePlaylistDownloader
                     Content = FindResource("Back"),
                     HorizontalAlignment = HorizontalAlignment.Right,
                     Margin = new Thickness(5),
-                    Width = 100,
+                    MinWidth = 100,
+                    Height = 40
+                };
+
+                var copyToClipboardButton = new Button()
+                {
+                    Style = (Style)FindResource("MahApps.Styles.Button.Dialogs"),
+                    Content = FindResource("CopyToClipboard"),
+                    HorizontalAlignment = HorizontalAlignment.Right,
+                    Margin = new Thickness(5),
+                    MinWidth = 125,
+                    Width = double.NaN,
+                    Height = 40
+                };
+                var saveToTextFileButton = new Button()
+                {
+                    Style = (Style)FindResource("MahApps.Styles.Button.Dialogs"),
+                    Content = FindResource("SaveToTextFile"),
+                    HorizontalAlignment = HorizontalAlignment.Right,
+                    Margin = new Thickness(5),
+                    MinWidth = 100,
                     Height = 40
                 };
 
                 Grid.SetRow(retryButton, 1);
-                Grid.SetColumn(retryButton, 0);
+                Grid.SetColumn(retryButton, 3);
                 Grid.SetRow(backButton, 1);
-                Grid.SetColumn(backButton, 1);
+                Grid.SetColumn(backButton, 2);
+                Grid.SetRow(copyToClipboardButton, 1);
+                Grid.SetColumn(copyToClipboardButton, 1);
+                Grid.SetRow(saveToTextFileButton, 1);
+                Grid.SetColumn(saveToTextFileButton, 0);
 
                 retryButton.Click += (a, b) => retryAction();
 
@@ -137,11 +163,27 @@ namespace YoutubePlaylistDownloader
                     backButton.Click += (a, b) => cancelAction();
                 }
 
+                copyToClipboardButton.Click += (a, b) => Clipboard.SetText(message);
+                saveToTextFileButton.Click += (a, b) =>
+                {
+                    Microsoft.Win32.SaveFileDialog fileDialog = new();
+                    fileDialog.FileName = "Videos not downloaded";
+                    fileDialog.DefaultExt = ".txt";
+                    fileDialog.Filter = "Text documents (.txt)|*.txt";
+                    if (fileDialog.ShowDialog() == true)
+                    {
+                        System.IO.File.WriteAllText(fileDialog.FileName, message);
+                    }
+                };
+
                 grid.Children.Add(contentTextBox);
                 grid.Children.Add(backButton);
                 grid.Children.Add(retryButton);
+                grid.Children.Add(copyToClipboardButton);
+                grid.Children.Add(saveToTextFileButton);
                 uc.Content = grid;
                 var dialog = new CustomDialog() { Content = uc, Title = title };
+                retryButton.Click += async (a, b) => await Dispatcher.InvokeAsync(async () => await this.HideMetroDialogAsync(dialog));
                 backButton.Click += async (a, b) => await Dispatcher.InvokeAsync(async () => await this.HideMetroDialogAsync(dialog));
                 await this.ShowMetroDialogAsync(dialog);
 
