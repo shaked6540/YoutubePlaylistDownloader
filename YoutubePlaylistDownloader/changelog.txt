@@ -1,4 +1,3 @@
-﻿Version 1.9.12:
-- It is now possible to select text in the error dialog when download fails
-- Added an option to skip files that are already downloaded (Thanks to revmods https://github.com/revmods)
-- Fixed downloading videos from users with underscores in their names
+﻿Version 1.9.13:
+- Added copy to clipboard and save as text file buttons when download fails (Thanks Kazzymax for sponsoring this feature)
+- Fixed song cover picture not being added when converting
