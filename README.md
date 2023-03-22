@@ -11,10 +11,9 @@ A simple program to download whole playlists\channels or even single videos from
 - No ads, open source and free
 - Convert videos to a lot of popular formats
 - Themes, and user friendly interface
-- Automatic tagging of artists, album, title, rating and genre based on the video title (rating is based on the likes and dislike ratio)
+- Automatic tagging of artists, album, title and genre based on the video title
 - Comfortable update system
 - Multi-language support (Currently the only available translations are Hebrew, English, Chinese, Italian and Brazilian-Portuguese though)
-- Automatically download new videos from channels
 
 ## Screenshots
 ![Gif](https://i.imgur.com/bQw4fVm.gif "Gif")
