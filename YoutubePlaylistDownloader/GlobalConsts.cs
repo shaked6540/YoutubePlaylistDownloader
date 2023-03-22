@@ -32,7 +32,7 @@ namespace YoutubePlaylistDownloader
         public static readonly string FFmpegFilePath;
         private static readonly string ConfigFilePath;
         private static readonly string ErrorFilePath;
-        public static readonly Version VERSION = new(1, 9, 13);
+        public static readonly Version VERSION = new(1, 9, 12);
         public static bool UpdateOnExit;
         public static string UpdateSetupLocation;
         public static bool UpdateFinishedDownloading;
@@ -364,10 +364,16 @@ namespace YoutubePlaylistDownloader
                 var picLoc = $"{TempFolderPath}{CleanFileName(video.Title)}.jpg";
                 using var http = new HttpClient();
                 var response = await http.GetAsync($"https://img.youtube.com/vi/{video.Id}/maxresdefault.jpg").ConfigureAwait(false);
-                await response.Content.CopyToAsync(File.Create(picLoc)).ConfigureAwait(false);
+                using (var picStream = File.Create(picLoc))
+                {
+                    await response.Content.CopyToAsync(picStream).ConfigureAwait(false);
+                }
                 t.Tag.Pictures = new TagLib.IPicture[] { new TagLib.Picture(picLoc) };
             }
-            catch { }
+            catch (Exception ex)
+            {
+                await Log("Failed to save picture at TagFile", ex.ToString()).ConfigureAwait(false);
+            }
 
             t.Save();
         }
