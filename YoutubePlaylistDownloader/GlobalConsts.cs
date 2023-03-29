@@ -2,6 +2,8 @@
 using MahApps.Metro.Controls.Dialogs;
 using Newtonsoft.Json;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
@@ -15,6 +17,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using YoutubeExplode;
 using YoutubeExplode.Playlists;
+using YoutubeExplode.Videos;
 using YoutubePlaylistDownloader.Objects;
 using YoutubePlaylistDownloader.Utilities;
 
@@ -294,70 +297,54 @@ namespace YoutubePlaylistDownloader
 
             return sanitisedNamePart;
         }
-        public static async Task TagFile(PlaylistVideo video, int vIndex, string file, FullPlaylist playlist = null)
+
+        static async Task TagMusicFile(Video videoDesc, string file, PlaylistVideo video)
         {
-            if (video == null)
-                throw new ArgumentNullException(nameof(video));
+            // Index YouTube Auto Generated Description
+            
+            String[] DescriptionLines = videoDesc.Description.Split("\n");
+            String title = "";
+            List<String> artists = new List<string>();
+            String album = "";
+            String copyright = "";
+            DateTime releasedate = DateTime.Now;
+            String moreInfo = "";
+            int startMoreInfo = 0;
 
-            var genre = video.Title.Split('[', ']').ElementAtOrDefault(1);
-
-
-            if (genre == null)
-                genre = string.Empty;
-
-            else if (genre.Length >= video.Title.Length)
-                genre = string.Empty;
-
-
-            var title = video.Title;
-
-            if (!string.IsNullOrWhiteSpace(genre))
+            for (int i = 0; i < DescriptionLines.Length; i++)
             {
-                title = video.Title.Replace($"[{genre}]", string.Empty);
-                var rm = title.Split('[', ']', '【', '】').ElementAtOrDefault(1);
-                if (!string.IsNullOrWhiteSpace(rm))
-                    title = title.Replace($"[{rm}]", string.Empty);
-            }
-            title = title.TrimStart(' ', '-', '[', ']');
+                if (DescriptionLines[i].Contains("·"))
+                {
+                    String[] line = DescriptionLines[i].Split("·");
+                    title = line[0];
+                    for (int i2 = 1; i2 < line.Length; i2++)
+                    {
+                        artists.Add(line[i2]);
+                    }
 
+                    album = DescriptionLines[i + 2];
+                    copyright = DescriptionLines[i + 4];
+                    releasedate = DateTime.Parse(DescriptionLines[i + 6].Split(":")[1]);
+                    startMoreInfo = i + 8;
+                }
+            }
+
+            for (int i = startMoreInfo; i < DescriptionLines.Length - 2; i++)
+                moreInfo = moreInfo + "\n" + DescriptionLines[i];
+
+            
+            // Create Audio File w/ Tags
+            
             var t = TagLib.File.Create(file);
 
-            t.Tag.Album = playlist?.BasePlaylist?.Title;
-            t.Tag.Track = (uint)vIndex;
-            //t.Tag.Year = (uint)video.UploadDate.Year;
-            ///t.Tag.DateTagged = video.UploadDate.UtcDateTime;
-            t.Tag.AlbumArtists = new[] { playlist?.BasePlaylist?.Author?.ChannelTitle };
-            var lowerGenre = genre.ToLower();
-            if (new[] { "download", "out now", "mostercat", "video", "lyric", "release", "ncs" }.Any(x => lowerGenre.Contains(x)))
-                genre = string.Empty;
-            else
-                t.Tag.Genres = genre.Split('/', '\\');
 
-            //try
-            //{
-            //    TagLib.Id3v2.Tag.DefaultVersion = 3;
-            //    TagLib.Id3v2.Tag.ForceDefaultVersion = true;
-            //    var frame = TagLib.Id3v2.PopularimeterFrame.Get((TagLib.Id3v2.Tag)t.GetTag(TagLib.TagTypes.Id3v2, true), "WindowsUser", true);
-            //    frame.Rating = Convert.ToByte((video.Engagement.LikeCount * 255) / (video.Engagement.LikeCount + video.Engagement.DislikeCount));
-            //}
-            //catch
-            //{
-
-            //}
-
-            var index = title.LastIndexOf('-');
-            if (index > 0)
-            {
-                var vTitle = title[(index + 1)..].Trim(' ', '-');
-                if (string.IsNullOrWhiteSpace(vTitle))
-                {
-                    index = title.IndexOf('-');
-                    if (index > 0)
-                        vTitle = title[(index + 1)..].Trim(' ', '-');
-                }
-                t.Tag.Title = vTitle;
-                t.Tag.Performers = title[..(index - 1)].Trim().Split(new string[] { "&", "feat.", "feat", "ft.", " ft ", "Feat.", " x ", " X " }, StringSplitOptions.RemoveEmptyEntries);
-            }
+            string[] AlbumArtists = artists.Select(i => i.ToString()).ToArray();
+            t.Tag.Title = title;
+            t.Tag.Performers = AlbumArtists;
+            t.Tag.Copyright = copyright;
+            t.Tag.Year = (uint)releasedate.Year;
+            t.Tag.Comment = moreInfo;
+            t.Tag.Album = album;
 
             try
             {
@@ -376,6 +363,99 @@ namespace YoutubePlaylistDownloader
             }
 
             t.Save();
+        }
+
+        public static async Task TagFile(PlaylistVideo video, int vIndex, string file, FullPlaylist playlist = null)
+        {
+            if (video == null)
+                throw new ArgumentNullException(nameof(video));
+
+            var genre = video.Title.Split('[', ']').ElementAtOrDefault(1);
+
+            Video videoDesc = await YoutubeClient.Videos.GetAsync(video.Id);
+
+            if (videoDesc.Description.Contains("Auto-generated by YouTube."))
+            {
+                await TagMusicFile(videoDesc, file, video);
+            }
+            else
+            {
+                if (genre == null)
+                    genre = string.Empty;
+
+                else if (genre.Length >= video.Title.Length)
+                    genre = string.Empty;
+
+
+                var title = video.Title;
+
+                if (!string.IsNullOrWhiteSpace(genre))
+                {
+                    title = video.Title.Replace($"[{genre}]", string.Empty);
+                    var rm = title.Split('[', ']', '【', '】').ElementAtOrDefault(1);
+                    if (!string.IsNullOrWhiteSpace(rm))
+                        title = title.Replace($"[{rm}]", string.Empty);
+                }
+                title = title.TrimStart(' ', '-', '[', ']');
+
+                var t = TagLib.File.Create(file);
+
+                t.Tag.Album = playlist?.BasePlaylist?.Title;
+                t.Tag.Track = (uint)vIndex;
+                //t.Tag.Year = (uint)video.UploadDate.Year;
+                ///t.Tag.DateTagged = video.UploadDate.UtcDateTime;
+                t.Tag.AlbumArtists = new[] { playlist?.BasePlaylist?.Author?.ChannelTitle };
+                var lowerGenre = genre.ToLower();
+                if (new[] { "download", "out now", "mostercat", "video", "lyric", "release", "ncs" }.Any(x => lowerGenre.Contains(x)))
+                    genre = string.Empty;
+                else
+                    t.Tag.Genres = genre.Split('/', '\\');
+
+                //try
+                //{
+                //    TagLib.Id3v2.Tag.DefaultVersion = 3;
+                //    TagLib.Id3v2.Tag.ForceDefaultVersion = true;
+                //    var frame = TagLib.Id3v2.PopularimeterFrame.Get((TagLib.Id3v2.Tag)t.GetTag(TagLib.TagTypes.Id3v2, true), "WindowsUser", true);
+                //    frame.Rating = Convert.ToByte((video.Engagement.LikeCount * 255) / (video.Engagement.LikeCount + video.Engagement.DislikeCount));
+                //}
+                //catch
+                //{
+
+                //}
+
+                var index = title.LastIndexOf('-');
+                if (index > 0)
+                {
+                    var vTitle = title[(index + 1)..].Trim(' ', '-');
+                    if (string.IsNullOrWhiteSpace(vTitle))
+                    {
+                        index = title.IndexOf('-');
+                        if (index > 0)
+                            vTitle = title[(index + 1)..].Trim(' ', '-');
+                    }
+                    t.Tag.Title = vTitle;
+                    t.Tag.Performers = title[..(index - 1)].Trim().Split(new string[] { "&", "feat.", "feat", "ft.", " ft ", "Feat.", " x ", " X " }, StringSplitOptions.RemoveEmptyEntries);
+                }
+
+                try
+                {
+                    var picLoc = $"{TempFolderPath}{CleanFileName(video.Title)}.jpg";
+                    using var http = new HttpClient();
+                    var response = await http.GetAsync($"https://img.youtube.com/vi/{video.Id}/maxresdefault.jpg").ConfigureAwait(false);
+                    using (var picStream = File.Create(picLoc))
+                    {
+                        await response.Content.CopyToAsync(picStream).ConfigureAwait(false);
+                    }
+                    t.Tag.Pictures = new TagLib.IPicture[] { new TagLib.Picture(picLoc) };
+                }
+                catch (Exception ex)
+                {
+                    await Log("Failed to save picture at TagFile", ex.ToString()).ConfigureAwait(false);
+                }
+
+                t.Save();
+            }
+
         }
         public static void LoadFlyoutPage(UserControl page)
         {
