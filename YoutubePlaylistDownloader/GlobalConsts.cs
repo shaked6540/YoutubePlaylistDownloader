@@ -318,7 +318,7 @@ namespace YoutubePlaylistDownloader
             var artists = new List<string>();
             string album = "";
             string copyright = "";
-            DateTime releaseDate = DateTime.Now;
+            DateTime releaseDate = fullVideo.UploadDate.DateTime;
             int commentIndex = 0;
 
             for (int i = 0; i < description.Length; i++)
@@ -331,8 +331,17 @@ namespace YoutubePlaylistDownloader
                     artists.AddRange(line.Skip(1));
                     album = description[i + 2];
                     copyright = description[i + 4];
-                    releaseDate = DateTime.Parse(description[i + 6].Split(":")[1]);
-                    commentIndex = i + 8;
+                    if (description[i + 6].StartsWith("Released on:")) // Check if Video Description specifies a Release Date
+                    {
+                        releaseDate = DateTime.Parse(description[i + 6].Split(":")[1]);
+                        commentIndex = i + 8;
+                    } 
+                    else
+                    {
+                        // Fallback to Video Upload Date if no Date is found in the Description
+                        commentIndex = i + 6;
+                    }
+                    
                     break;
                 }
             }
