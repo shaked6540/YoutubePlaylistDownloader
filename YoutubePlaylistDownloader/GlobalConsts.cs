@@ -2,15 +2,12 @@
 using MahApps.Metro.Controls.Dialogs;
 using Newtonsoft.Json;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.DirectoryServices;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Reflection;
 using System.Text.RegularExpressions;
@@ -18,7 +15,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
 using YoutubeExplode;
 using YoutubeExplode.Playlists;
 using YoutubeExplode.Videos;
@@ -302,93 +298,136 @@ namespace YoutubePlaylistDownloader
             return sanitisedNamePart;
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Interoperability", "CA1416:Plattformkompatibilität überprüfen", Justification = "<Ausstehend>")]
-        static async Task TagMusicFile(Video videoDesc, string file, int vIndex)
+        static void CropAndSaveImage(byte[] imageBytes, string picLoc)
+        {
+            using var imageBuffer = new MemoryStream(imageBytes);
+            using var src = Bitmap.FromStream(imageBuffer);
+            var cropRect = new Rectangle((src.Width - src.Height) / 2, 0, src.Height, src.Height);
+            using var target = new Bitmap(cropRect.Width, cropRect.Height);
+            using var g = Graphics.FromImage(target);
+            g.DrawImage(src, new Rectangle(0, 0, target.Width, target.Height), cropRect, GraphicsUnit.Pixel);
+            target.Save(picLoc, ImageFormat.Jpeg);
+        }
+
+        static async Task<bool> TagMusicFile(Video fullVideo, string file, int vIndex)
         {
             // Index YouTube Auto Generated Description
+            bool found = false;
+            string[] description = fullVideo.Description.Split("\n");
+            string title = "";
+            var artists = new List<string>();
+            string album = "";
+            string copyright = "";
+            DateTime releaseDate = DateTime.Now;
+            int commentIndex = 0;
 
-            String[] DescriptionLines = videoDesc.Description.Split("\n");
-            String title = "";
-            List<String> artists = new List<string>();
-            String album = "";
-            String copyright = "";
-            DateTime releasedate = DateTime.Now;
-            String moreInfo = "";
-            int startMoreInfo = 0;
-
-            for (int i = 0; i < DescriptionLines.Length; i++)
+            for (int i = 0; i < description.Length; i++)
             {
-                if (DescriptionLines[i].Contains("·"))
+                if (description[i].Contains('·'))
                 {
-                    String[] line = DescriptionLines[i].Split("·");
+                    found = true;
+                    string[] line = description[i].Split("·");
                     title = line[0];
-                    for (int i2 = 1; i2 < line.Length; i2++)
-                    {
-                        artists.Add(line[i2]);
-                    }
-
-                    album = DescriptionLines[i + 2];
-                    copyright = DescriptionLines[i + 4];
-                    releasedate = DateTime.Parse(DescriptionLines[i + 6].Split(":")[1]);
-                    startMoreInfo = i + 8;
+                    artists.AddRange(line.Skip(1));
+                    album = description[i + 2];
+                    copyright = description[i + 4];
+                    releaseDate = DateTime.Parse(description[i + 6].Split(":")[1]);
+                    commentIndex = i + 8;
+                    break;
                 }
             }
 
-            for (int i = startMoreInfo; i < DescriptionLines.Length - 2; i++)
-                moreInfo = moreInfo + "\n" + DescriptionLines[i];
+            if (!found)
+            {
+                return false;
+            }
+
+            var t = TagLib.File.Create(file);
+            t.Tag.Title = title;
+            t.Tag.Performers = artists.ToArray();
+            t.Tag.Copyright = copyright;
+            t.Tag.Year = (uint)releaseDate.Year;
+            t.Tag.Comment = string.Join("\n", description[commentIndex..]);
+            t.Tag.Album = album;
+            t.Tag.Track = (uint)vIndex;
+            var picLoc = $"{TempFolderPath}{CleanFileName(fullVideo.Title)}.jpg";
+            try
+            {
+                using (var httpClient = new HttpClient())
+                {
+                    var imageContent = await httpClient.GetByteArrayAsync($"https://img.youtube.com/vi/{fullVideo.Id}/maxresdefault.jpg").ConfigureAwait(false);
+                    CropAndSaveImage(imageContent, picLoc);
+                }
 
 
-            // Create Audio File w/ Tags
+                t.Tag.Pictures = new TagLib.IPicture[] { new TagLib.Picture(picLoc) };
+            }
+            catch (Exception ex)
+            {
+                await Log("Failed to save picture at TagMusicFile", ex.ToString()).ConfigureAwait(false);
+            }
+
+            t.Save();
+            return true;
+        }
+
+        public static async Task TagFileBasedOnTitle(PlaylistVideo video, int vIndex, string file, FullPlaylist playlist = null)
+        {
+            var genre = video.Title.Split('[', ']').ElementAtOrDefault(1);
+            if (genre == null)
+                genre = string.Empty;
+
+            else if (genre.Length >= video.Title.Length)
+                genre = string.Empty;
+
+
+            var title = video.Title;
+
+            if (!string.IsNullOrWhiteSpace(genre))
+            {
+                title = video.Title.Replace($"[{genre}]", string.Empty);
+                var rm = title.Split('[', ']', '【', '】').ElementAtOrDefault(1);
+                if (!string.IsNullOrWhiteSpace(rm))
+                    title = title.Replace($"[{rm}]", string.Empty);
+            }
+            title = title.TrimStart(' ', '-', '[', ']');
 
             var t = TagLib.File.Create(file);
 
-
-            string[] AlbumArtists = artists.Select(i => i.ToString()).ToArray();
-            t.Tag.Title = title;
-            t.Tag.Performers = AlbumArtists;
-            t.Tag.Copyright = copyright;
-            t.Tag.Year = (uint)releasedate.Year;
-            t.Tag.Comment = moreInfo;
-            t.Tag.Album = album;
+            t.Tag.Album = playlist?.BasePlaylist?.Title;
             t.Tag.Track = (uint)vIndex;
+            //t.Tag.Year = (uint)video.UploadDate.Year;
+            ///t.Tag.DateTagged = video.UploadDate.UtcDateTime;
+            t.Tag.AlbumArtists = new[] { playlist?.BasePlaylist?.Author?.ChannelTitle };
+            var lowerGenre = genre.ToLower();
+            if (new[] { "download", "out now", "mostercat", "video", "lyric", "release", "ncs" }.Any(x => lowerGenre.Contains(x)))
+                genre = string.Empty;
+            else
+                t.Tag.Genres = genre.Split('/', '\\');
+
+            var index = title.LastIndexOf('-');
+            if (index > 0)
+            {
+                var vTitle = title[(index + 1)..].Trim(' ', '-');
+                if (string.IsNullOrWhiteSpace(vTitle))
+                {
+                    index = title.IndexOf('-');
+                    if (index > 0)
+                        vTitle = title[(index + 1)..].Trim(' ', '-');
+                }
+                t.Tag.Title = vTitle;
+                t.Tag.Performers = title[..(index - 1)].Trim().Split(new string[] { "&", "feat.", "feat", "ft.", " ft ", "Feat.", " x ", " X " }, StringSplitOptions.RemoveEmptyEntries);
+            }
 
             try
             {
-                // Resize Image to match 4:3 aspect ratio
-
-                var picLoc = $"{TempFolderPath}{CleanFileName(videoDesc.Title)}.jpg";
-
-                using (var httpClient = new HttpClient())
+                var picLoc = $"{TempFolderPath}{CleanFileName(video.Title)}.jpg";
+                using var http = new HttpClient();
+                var response = await http.GetAsync($"https://img.youtube.com/vi/{video.Id}/maxresdefault.jpg").ConfigureAwait(false);
+                using (var picStream = File.Create(picLoc))
                 {
-                    //Issue the GET request to a URL and read the response into a 
-                    //stream that can be used to load the image
-                    var imageContent = await httpClient.GetByteArrayAsync($"https://img.youtube.com/vi/{videoDesc.Id}/maxresdefault.jpg");
-
-                    using (var imageBuffer = new MemoryStream(imageContent))
-                    {
-                        var image = System.Drawing.Image.FromStream(imageBuffer);
-
-                        Rectangle cropRect = new Rectangle(280, 0, 720, 720);
-
-                        using (Bitmap src = image as Bitmap)
-                        {
-                            using (Bitmap target = new Bitmap(cropRect.Width, cropRect.Height))
-                            {
-                                using (Graphics g = Graphics.FromImage(target))
-                                {
-                                    g.DrawImage(src, new Rectangle(0, 0, target.Width, target.Height),
-                                        cropRect,
-                                        GraphicsUnit.Pixel);
-
-                                    target.Save(picLoc, ImageFormat.Jpeg);
-                                    target.Dispose();
-                                }
-                            }
-                        }
-                    }
+                    await response.Content.CopyToAsync(picStream).ConfigureAwait(false);
                 }
-
-                
                 t.Tag.Pictures = new TagLib.IPicture[] { new TagLib.Picture(picLoc) };
             }
             catch (Exception ex)
@@ -404,92 +443,17 @@ namespace YoutubePlaylistDownloader
             if (video == null)
                 throw new ArgumentNullException(nameof(video));
 
-            var genre = video.Title.Split('[', ']').ElementAtOrDefault(1);
-
-            Video videoDesc = await YoutubeClient.Videos.GetAsync(video.Id);
-
-            if (videoDesc.Description.Contains("Auto-generated by YouTube."))
+            if (!video.Title.Contains('-'))
             {
-                await TagMusicFile(videoDesc, file, vIndex);
-            }
-            else
-            {
-                if (genre == null)
-                    genre = string.Empty;
-
-                else if (genre.Length >= video.Title.Length)
-                    genre = string.Empty;
-
-
-                var title = video.Title;
-
-                if (!string.IsNullOrWhiteSpace(genre))
+                Video fullVideo = await YoutubeClient.Videos.GetAsync(video.Id).ConfigureAwait(false);
+                if (fullVideo.Description.Contains("Auto-generated by YouTube."))
                 {
-                    title = video.Title.Replace($"[{genre}]", string.Empty);
-                    var rm = title.Split('[', ']', '【', '】').ElementAtOrDefault(1);
-                    if (!string.IsNullOrWhiteSpace(rm))
-                        title = title.Replace($"[{rm}]", string.Empty);
+                    if (await TagMusicFile(fullVideo, file, vIndex))
+                        return;
                 }
-                title = title.TrimStart(' ', '-', '[', ']');
-
-                var t = TagLib.File.Create(file);
-
-                t.Tag.Album = playlist?.BasePlaylist?.Title;
-                t.Tag.Track = (uint)vIndex;
-                //t.Tag.Year = (uint)video.UploadDate.Year;
-                ///t.Tag.DateTagged = video.UploadDate.UtcDateTime;
-                t.Tag.AlbumArtists = new[] { playlist?.BasePlaylist?.Author?.ChannelTitle };
-                var lowerGenre = genre.ToLower();
-                if (new[] { "download", "out now", "mostercat", "video", "lyric", "release", "ncs" }.Any(x => lowerGenre.Contains(x)))
-                    genre = string.Empty;
-                else
-                    t.Tag.Genres = genre.Split('/', '\\');
-
-                //try
-                //{
-                //    TagLib.Id3v2.Tag.DefaultVersion = 3;
-                //    TagLib.Id3v2.Tag.ForceDefaultVersion = true;
-                //    var frame = TagLib.Id3v2.PopularimeterFrame.Get((TagLib.Id3v2.Tag)t.GetTag(TagLib.TagTypes.Id3v2, true), "WindowsUser", true);
-                //    frame.Rating = Convert.ToByte((video.Engagement.LikeCount * 255) / (video.Engagement.LikeCount + video.Engagement.DislikeCount));
-                //}
-                //catch
-                //{
-
-                //}
-
-                var index = title.LastIndexOf('-');
-                if (index > 0)
-                {
-                    var vTitle = title[(index + 1)..].Trim(' ', '-');
-                    if (string.IsNullOrWhiteSpace(vTitle))
-                    {
-                        index = title.IndexOf('-');
-                        if (index > 0)
-                            vTitle = title[(index + 1)..].Trim(' ', '-');
-                    }
-                    t.Tag.Title = vTitle;
-                    t.Tag.Performers = title[..(index - 1)].Trim().Split(new string[] { "&", "feat.", "feat", "ft.", " ft ", "Feat.", " x ", " X " }, StringSplitOptions.RemoveEmptyEntries);
-                }
-
-                try
-                {
-                    var picLoc = $"{TempFolderPath}{CleanFileName(video.Title)}.jpg";
-                    using var http = new HttpClient();
-                    var response = await http.GetAsync($"https://img.youtube.com/vi/{video.Id}/maxresdefault.jpg").ConfigureAwait(false);
-                    using (var picStream = File.Create(picLoc))
-                    {
-                        await response.Content.CopyToAsync(picStream).ConfigureAwait(false);
-                    }
-                    t.Tag.Pictures = new TagLib.IPicture[] { new TagLib.Picture(picLoc) };
-                }
-                catch (Exception ex)
-                {
-                    await Log("Failed to save picture at TagFile", ex.ToString()).ConfigureAwait(false);
-                }
-
-                t.Save();
             }
 
+            await TagFileBasedOnTitle(video, vIndex, file, playlist);
         }
         public static void LoadFlyoutPage(UserControl page)
         {
@@ -511,7 +475,7 @@ namespace YoutubePlaylistDownloader
             {
                 try
                 {
-                    downloadSettings = Newtonsoft.Json.JsonConvert.DeserializeObject<DownloadSettings>(File.ReadAllText(DownloadSettingsFilePath));
+                    downloadSettings = JsonConvert.DeserializeObject<DownloadSettings>(File.ReadAllText(DownloadSettingsFilePath));
                 }
                 catch (Exception ex)
                 {
