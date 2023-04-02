@@ -1,4 +1,8 @@
-﻿Version 1.9.13:
+﻿Version 1.9.14:
+- Added support for tagging YouTube auto-generated music (Thanks zLeqitEclipse for this)
+
+
+Version 1.9.13:
 - Added copy to clipboard and save as text file buttons when download fails (Thanks Kazzymax for sponsoring this feature)
 - Fixed song cover picture not being added when converting
 
