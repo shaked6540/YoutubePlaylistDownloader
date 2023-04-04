@@ -434,8 +434,16 @@ namespace YoutubePlaylistDownloader
                                     convertingCount--;
 
                                     if (TagAudioFile)
-                                        await GlobalConsts.TagFile(video, indexes[video], outputFileLoc, Playlist);
-
+                                    {
+                                        var afterTagName = await GlobalConsts.TagFile(video, indexes[video], outputFileLoc, Playlist);
+                                        FileType = new String(copyFileLoc.Skip(copyFileLoc.LastIndexOf('.')+1).ToArray());
+                                        if (afterTagName != outputFileLoc)
+                                        {
+                                            video = new PlaylistVideo(video.Id, afterTagName, video.Author, video.Duration, video.Thumbnails);
+                                            cleanFileName = GlobalConsts.CleanFileName(downloadSettings.GetFilenameByPattern(video, i, title, Playlist));
+                                            copyFileLoc = $"{SavePath}\\{cleanFileName}.{FileType}";
+                                        } 
+                                    }
                                     int copyFileLocCounter = 1;
                                     while (File.Exists(copyFileLoc))
                                     {
@@ -488,7 +496,15 @@ namespace YoutubePlaylistDownloader
                             try
                             {
                                 if (TagAudioFile)
-                                    await GlobalConsts.TagFile(video, i + 1, copyFileLoc, Playlist);
+                                {
+                                    var afterTagName = await GlobalConsts.TagFile(video, i + 1, copyFileLoc, Playlist);
+                                    if (afterTagName != outputFileLoc)
+                                    {
+                                        video = new PlaylistVideo(video.Id, afterTagName, video.Author, video.Duration, video.Thumbnails);
+                                        cleanFileName = GlobalConsts.CleanFileName(downloadSettings.GetFilenameByPattern(video, i, title, Playlist));
+                                        copyFileLoc = $"{SavePath}\\{cleanFileName}.{FileType}";
+                                    }
+                                }
                             }
                             catch (Exception ex)
                             {
