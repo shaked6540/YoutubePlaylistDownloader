@@ -79,19 +79,19 @@
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-		<PackageReference Include="morelinq" Version="2.10.0" />
-		<PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+		<PackageReference Include="morelinq" Version="3.4.2" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 		<PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
 		<PackageReference Include="System.Security.Cryptography.Algorithms" Version="4.3.1" />
 		<PackageReference Include="System.Security.Cryptography.X509Certificates" Version="4.3.2" />
 		<PackageReference Include="taglib-sharp-netstandard2.0" Version="2.1.0" />
-		<PackageReference Include="Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers" Version="0.4.410601">
+		<PackageReference Include="Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers" Version="0.4.421302">
 			<PrivateAssets>all</PrivateAssets>
 		</PackageReference>
 		<PackageReference Include="MahApps.Metro" Version="2.4.9" />
 		<PackageReference Include="MahApps.Metro.IconPacks" Version="4.11.0" />
 		<PackageReference Include="Microsoft.Windows.Compatibility" Version="7.0.0" />
-		<PackageReference Include="YoutubeExplode" Version="6.2.11" />
+		<PackageReference Include="YoutubeExplode" Version="6.2.12" />
 	</ItemGroup>
 	<ItemGroup>
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
