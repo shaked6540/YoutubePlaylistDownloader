@@ -78,7 +78,6 @@
 		</BootstrapperPackage>
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="FParsec" Version="1.0.3" />
 		<PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
 		<PackageReference Include="morelinq" Version="2.10.0" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
