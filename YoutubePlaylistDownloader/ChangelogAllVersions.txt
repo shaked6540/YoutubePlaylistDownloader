@@ -1,4 +1,8 @@
-﻿Version 1.9.15:
+﻿Version 1.9.16:
+- Fixed "403 Forbidden" error on some videos
+
+
+Version 1.9.15:
 - Fixed some bugs when tagging YouTube auto-generated music
 
 
