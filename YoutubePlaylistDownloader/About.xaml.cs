@@ -1,6 +1,5 @@
 ﻿using MahApps.Metro.Controls.Dialogs;
 using System;
-using System.Net;
 using System.Net.Http;
 using System.Windows.Controls;
 

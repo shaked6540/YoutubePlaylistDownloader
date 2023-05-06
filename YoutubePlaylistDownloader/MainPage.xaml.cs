@@ -1,19 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using YoutubeExplode;
-using YoutubeExplode.Playlists;
-using YoutubeExplode.Videos;
-using YoutubeExplode.Videos.Streams;
 using YoutubeExplode.Channels;
-using YoutubePlaylistDownloader.Utilities;
-using YoutubePlaylistDownloader.Objects;
-using System.IO;
 using YoutubeExplode.Common;
+using YoutubeExplode.Playlists;
+using YoutubeExplode.Videos.Streams;
+using YoutubePlaylistDownloader.Objects;
+using YoutubePlaylistDownloader.Utilities;
 
 namespace YoutubePlaylistDownloader
 {
