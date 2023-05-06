@@ -1,6 +1,7 @@
 ﻿using MoreLinq;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -8,16 +9,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using YoutubePlaylistDownloader.Objects;
-using YoutubePlaylistDownloader.Utilities;
-using System.ComponentModel;
-using YoutubeExplode;
+using YoutubeExplode.Channels;
+using YoutubeExplode.Common;
 using YoutubeExplode.Playlists;
 using YoutubeExplode.Videos.Streams;
-using YoutubeExplode.Videos;
-using YoutubeExplode.Common;
-using YoutubeExplode.Channels;
-using MahApps.Metro.Controls.Dialogs;
+using YoutubePlaylistDownloader.Objects;
+using YoutubePlaylistDownloader.Utilities;
 
 namespace YoutubePlaylistDownloader
 {

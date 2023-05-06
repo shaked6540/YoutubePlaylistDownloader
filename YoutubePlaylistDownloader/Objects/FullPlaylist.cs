@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using YoutubeExplode.Playlists;
-using YoutubeExplode.Videos;
 
 namespace YoutubePlaylistDownloader.Objects
 {

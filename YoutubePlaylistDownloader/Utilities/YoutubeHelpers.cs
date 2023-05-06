@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Text.RegularExpressions;
-using YoutubeExplode.Common;
 using YoutubeExplode.Videos.Streams;
 
 namespace YoutubePlaylistDownloader.Utilities
