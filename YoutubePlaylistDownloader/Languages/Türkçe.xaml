@@ -3,7 +3,7 @@
                     xmlns:s="clr-namespace:System;assembly=mscorlib"
                     xml:space="preserve">
     
-    <s:String x:Key="Title">YouTube Liste İndirici</s:String>
+    <s:String x:Key="Title">YouTube Oynatma Listesi İndirici</s:String>
     <FlowDirection x:Key="FlowDirection">LeftToRight</FlowDirection>
     <s:String x:Key="InsertYoutubePlaylistLinkHere">Youtube Linkini Buraya Kopyalayınız</s:String>
     <s:String x:Key="Exit">Çıkış</s:String>
@@ -25,8 +25,8 @@
     <s:String x:Key="SaveDirectory">Dosyayı kaydet: </s:String>
     <s:String x:Key="CurrentlyDownlading">Geçerli İndirme: </s:String>
     <s:String x:Key="TotalProgress">Şimdiye kadar indirilen: </s:String>
-    <s:String x:Key="AllDone">Hepsi Tamam.</s:String>
-    <s:String x:Key="Canceling">İndirme işlemi iptal ediliyor,lütfen bekleyin..</s:String>
+    <s:String x:Key="AllDone">Hepsi Tamamlandı.</s:String>
+    <s:String x:Key="Canceling">İndirme işlemi iptal ediliyor,lütfen bekleyin...</s:String>
     <s:String x:Key="Videos">Videolar</s:String>
     <s:String x:Key="Download">İndir</s:String>
     <s:String x:Key="ConvertToMp3">Videoyu Dönüştür </s:String>
@@ -46,14 +46,14 @@ Ancak, bu programın size getireceği herhangi bir yasal sorundan sorumlu değil
 Bildiğim kadarıyla, YouTube web sitelerinden video indirmeye izin vermiyor.
 Bu programın tam kaynak kodu https://github.com/shaked6540/YoutubePlaylistDownloader adresinde bulunabilir.
         
-Yükleyici, Inno Kurulumu kullanılarak yapıldı (http://www.jrsoftware.org/isinfo.php)
+Yükleyici, Inno Setup kullanılarak yapıldı (http://www.jrsoftware.org/isinfo.php)
     
 
 YouTube Oynatma Listesi İndiricisi v</s:String>
-    <s:String x:Key="BitRate">ve bit hızını ayarla</s:String>
+    <s:String x:Key="BitRate">ve bit hızını ayarla:</s:String>
     <s:String x:Key="NewVersionAvailable">Yeni versiyon kullanılabilir</s:String>
     <s:String x:Key="DoYouWantToUpdate">Yeni versiyon kullanılabilir. İndirmek ister misiniz?
-Burada yeni güncellemeler var: </s:String>
+Neler yeni: </s:String>
     <s:String x:Key="DownloadingUpdateSetup">Şuan indirilen: Güncelleme Kurulumu</s:String>
     <s:String x:Key="UpdateCancelled">Güncelleme iptal edildi.</s:String>
     <s:String x:Key="ErrorWhileUpdating">Güncelleme ayarları indirilirken bir hata oluştu, internete bağlı olduğunuzdan emin olun.
@@ -85,26 +85,27 @@ Hata mesajı: </s:String>
     <s:String x:Key="PreferFPS">En yüksek FPS oranına sahip videoları tercih et</s:String>
     <s:String x:Key="AudioOnly">Başka bir formata dönüştürmeden temiz ses dosyası indirin</s:String>
     <s:String x:Key="StillDownloadingSubscriptionsExit">Program hala abonelik videolarınızı indiriyor, evet'e tıklamak programı kapatır ve siz programı yeniden açana kadar bu videolar indirilmez
-Çıkmak istediğine emin misin?</s:String>
+Çıkmak istediğinize emin misiniz?</s:String>
     <s:String x:Key="LastVideoDownloadDate">Son güncelleme zamanı: </s:String>
     <s:String x:Key="Help">Yardım</s:String>
-    <s:String x:Key="SubscriptionsHelp">Abonelikler, programın abonelik eklendikten sonra çıkan videoları otomatik olarak indireceği kanallardır
+    <s:String x:Key="SubscriptionsHelp">Abonelikler, programın abonelik eklendikten sonra çıkan videoları otomatik olarak indireceği kanallardır.
         
 Örneğin, 1 Eylül’de "x" kanalına bir abonelik eklerseniz ve "x" kanalı 2 Eylül’de bir video yüklediyseniz, otomatik olarak indirilir.
         
-Belirli bir videoyu silseniz bile önceki videolar indirilmeyecek ve videolar iki kez indirilmeyecek.
+Önceki videolar indirilmeyecek ve belirli bir videoyu silseniz bile videolar iki kez indirilmeyecektir.
         
-Tüm abonelikler özelleştirilebilir ve kendi ayarlarına sahip, abonelik ayarlarına erişmek için ana menüden "Abonelikler" i ve ardından istediğiniz kanal için "Ayarlar" ı tıklayın
+Tüm abonelikler özelleştirilebilir ve kendi ayarlarına sahiptir, abonelik ayarlarına erişmek için ana menüden "Abonelikler" i ve ardından istediğiniz kanal için "Ayarlar" ı tıklayın.
+        
 Program çalışmıyorsa, yeni videoların indirilmeyeceğini lütfen unutmayın.
     </s:String>
     <s:String x:Key="ContactTheDeveloper">İletişim</s:String>
     <s:String x:Key="ContactTheDeveloperHelp">Benimle iletişim kurmanın birkaç yolu var (shaked6540):
         
-İlki Reddit, bana Reddit ile ilgili bir mesaj gönderirseniz size en kısa sürede cevap vereceğim, bu benim profil bağlantım: https://www.reddit.com/user/shaked6540/
+İlki Reddit, bana Reddit üzerinden bir mesaj gönderirseniz size en kısa sürede cevap veririm. Profil bağlantım: https://www.reddit.com/user/shaked6540/
         
-Bana ulaşmanın ikinci yolu anlaşmazlıktan geçiyor, bu proje için bir anlaşmazlık sunucusu kurdum, bana söyleyecek bir şeyiniz olmasa bile katılmaktan çekinmeyin: https://discord.gg/eXeVCqE
+Bana ulaşmanın ikinci yolu Discord. Bu proje için bir Discord sunucusu kurdum, bana söyleyecek bir şeyiniz olmasa bile katılmaktan çekinmeyin: https://discord.gg/eXeVCqE
         
-Benimle iletişim kurmanın üçüncü yolu GitHub'dan geçiyor, sadece yeni bir sayı aç ve en kısa sürede yanıt vermeye çalışacağım, işte bir link: https://github.com/shaked6540/YoutubePlaylistDownloader/issues</s:String>
+Benimle iletişim kurmanın üçüncü yolu GitHub'dan geçiyor, sadece yeni bir konu başlığı (issue) oluşturun, en kısa sürede yanıt vermeye çalışacağım. İşte bağlantı: https://github.com/shaked6540/YoutubePlaylistDownloader/issues</s:String>
     <s:String x:Key="AutomaticallyCheckForUpdates">Programı başlattığımda güncellemeleri otomatik olarak kontrol et</s:String>
     <s:String x:Key="WhatsNew">Neler Yeni?</s:String>
     <s:String x:Key="SubscriptionsUpdateDelay">Her abonliği güncelleyin</s:String>
@@ -117,7 +118,7 @@ Benimle iletişim kurmanın üçüncü yolu GitHub'dan geçiyor, sadece yeni bir
 Dong Cunrui (董存瑞)
 RichyZ99
 Jhonatan Lima (Heremitus)
-İskender ALPSAKARYA (Türkçe)
+İskender ALPSAKARYA, Alp Eren GENÇOĞLU (Türkçe)
 Luis Duenas (Español)
 Stephan Komov (Deutsch)
 Elta (Français)
@@ -125,55 +126,57 @@ Ahmed Waaer (Arabic)
 </s:String>
     <s:String x:Key="Search">Arama</s:String>
     <s:String x:Key="Queue">Kuyruk</s:String>
-    <s:String x:Key="Downloading">İndiriliyor..</s:String>
-    <s:String x:Key="Converting">Dönüştürülüyor..</s:String>
+    <s:String x:Key="Downloading">İndiriliyor...</s:String>
+    <s:String x:Key="Skipping">Dosya zaten mevcut, Atlanıyor...</s:String>
+    <s:String x:Key="Converting">Dönüştürülüyor...</s:String>
     <s:String x:Key="DownloadInBackground">Kuyruğa ekle</s:String>
     <s:String x:Key="Audio">Ses</s:String>
     <s:String x:Key="Video">Video</s:String>
-    <s:String x:Key="DownloadCaptions">Kapalı başlıkları indir</s:String>
-    <s:String x:Key="CaptionsLanguage">Kapalı başlık dili: </s:String>
+    <s:String x:Key="DownloadCaptions">Altyazıları indir</s:String>
+    <s:String x:Key="CaptionsLanguage">Altyazı dili: </s:String>
     <s:String x:Key="BulkDownload">Toplu İndirme</s:String>
     <s:String x:Key="LimitConverstions" >Eşzamanlı en çok dosya dönüşümü </s:String>
     <s:String x:Key="ValueChangeRequiresRestart">(limitin geçerli olması için
 programı yeniden başlatmalısınız)</s:String>
-    <s:String x:Key="ConvertionsLimitingExplnation">Her dosya dönüştürme işlemi yaklaşık 1 işlemci çekirdeğini kullanır. Örneğin: 4 çekirdekli işlemciniz varsa
-, bir seferde program 3 dosya dönüştürmeye izin verecek ve 3 işlemci çekirdeği kullanacaktır.
-Görev Yöneticisi'nde programın% 75'ten az CPU kullandığını göreceksiniz.
+    <s:String x:Key="ConvertionsLimitingExplnation">Her dosya dönüştürme işlemi yaklaşık 1 işlemci çekirdeğini kullanır. Örneğin: 4 çekirdekli işlemciniz varsa,
+programı bir seferde 3 dosya dönüştürmeye izin verdiğinizde 3 işlemci çekirdeği kullanacaktır.
+Görev Yöneticisi'nde programın %75'ten biraz daha fazla CPU kullandığını göreceksiniz.
+        
 CPU'nuzdan 1 çekirdek daha az kullanmanız önerilir. Eğer CPU'nuz 4 çekirdekliyse,
 dosya dönüştürmeyi 3 ile sınırlandırarak 3 çekirdek kullanın, 3 çekirdeğiniz varsa, 2 çekirdeği sınırlayarak
 2'ye dosya dönüştürmeyi seçmelisiniz.</s:String>
     <s:String x:Key="FileConvertion">Dosya Dönüştürme</s:String>
-    <s:String x:Key="General">General</s:String>
-    <s:String x:Key="SavePlaylistInUniqueDirectory">Save every playlist in a different folder</s:String>
-    <s:String x:Key="Playlist">Playlist</s:String>
-    <s:String x:Key="OpenDestinationFolder">Open destination folder</s:String>
-    <s:String x:Key="ConfirmExit">Confirmation on exit</s:String>
-    <s:String x:Key="OpenDestinationFolderOnFinish">Open destination folder when done</s:String>
-    <s:String x:Key="TagAudioFile">Add tags and cover picture to audio files</s:String>
-    <s:String x:Key="Than">than</s:String>
-    <s:String x:Key="Filter">Filter</s:String>
-    <s:String x:Key="DownloadFilter">Only download videos</s:String>
-    <s:String x:Key="Longer">longer</s:String>
-    <s:String x:Key="Shorter">shorter</s:String>
-    <s:String x:Key="FileDoesNotExist">{0} does not exist.</s:String>
-    <s:String x:Key="Retry">Retry</s:String>
-    <s:String x:Key="Of">of</s:String>
-    <s:String x:Key="FileNamePattern">File name pattern: </s:String>
-    <s:String x:Key="ResetToDefault">Reset to default</s:String>
-    <s:String x:Key="FileNamePatternTitle">File Name Pattern</s:String>
-    <s:String x:Key="SkipExisting">Skip files that already exist</s:String>
-    <s:String x:Key="FileNamePattenExplanation">The file name pattern allows you to give the downloaded files dynamic names based on these parameters:
-$title: The title of the video
-$index: The index of the video in the playlist
-$artist: The name of the artist of the song (if applicable)
-$songtitle: The title of the song
-$channel: The name of the channel that uploaded the video
-$videoid: The unique ID of the video (taken from the video url)
-$playlist: The title of the plyalist
+    <s:String x:Key="General">Genel</s:String>
+    <s:String x:Key="SavePlaylistInUniqueDirectory">Her oynatma listesini farklı klasöre kaydet</s:String>
+    <s:String x:Key="Playlist">Oynatma listesi</s:String>
+    <s:String x:Key="OpenDestinationFolder">Hedef klasörü aç</s:String>
+    <s:String x:Key="ConfirmExit">Çıkışta onayla</s:String>
+    <s:String x:Key="OpenDestinationFolderOnFinish">Bittiğinde hedef klasörü aç</s:String>
+    <s:String x:Key="TagAudioFile">Ses dosyalarına etiketleri ve kapak resmini ekle</s:String>
+    <s:String x:Key="Than"></s:String>
+    <s:String x:Key="Filter">Filtre</s:String>
+    <s:String x:Key="DownloadFilter">sadece şu videoları indir</s:String>
+    <s:String x:Key="Longer">daha uzun</s:String>
+    <s:String x:Key="Shorter">daha kısa</s:String>
+    <s:String x:Key="FileDoesNotExist">{0} mevcut değil.</s:String>
+    <s:String x:Key="Retry">Yeniden dene</s:String>
+    <s:String x:Key="Of">/</s:String>
+    <s:String x:Key="FileNamePattern">Dosya adı paterni: </s:String>
+    <s:String x:Key="ResetToDefault">Varsayılana ayarla</s:String>
+    <s:String x:Key="FileNamePatternTitle">Dosya adı paterni</s:String>
+    <s:String x:Key="SkipExisting">Varolan dosyaları geç</s:String>
+    <s:String x:Key="FileNamePattenExplanation">Dosya adı paterni, indirilen dosyaları şu parametrelere bağlı olarak dinamik isimlendirmeye olanak sağlar:
+$title: Videonun başlığı
+$index: Videonun oynatma listesindeki sırası 
+$artist: Şarkı sanatçısının ismi (varsa)
+$songtitle: Şarkı ismi 
+$channel: Videoyu yükleyen kanalın ismi
+$videoid: Videonun özgün ID'si (video URL'inden alınır)
+$playlist: Oynatma listesinin ismi 
 
-So for example, if my file name pattern is "song: [$playlist] $artist - $songtitle ($channel) $index" the result file name would be "song: [Example] Infected Mushroom - Spitfire (Monstercat) 1"
-You can add any other text between the parameters, only the parameters will be replaced.
-Please note that not all the parameters are always available (for example, when downloading a single video the $playlisttitle variable would not be available), and in case they are missing they will be removed from the file name</s:String>
-    <s:String x:Key="CopyToClipboard">Copy to clipboard</s:String>
-    <s:String x:Key="SaveToTextFile">Save to text file</s:String>
+Örneğin, dosya adı paterni şu şekildeyse -> "şarkı: [$playlist] $artist - $songtitle ($channel) $index" çıktı dosya ismi şu şekilde olur -> "song: [Example] Infected Mushroom - Spitfire (Monstercat) 1"
+Parametreler arasına istendiği gibi metin eklenebilir, sadece parametreler değiştirilecektir. 
+Bütün parametrelerin her zaman geçerli olamayabileceği dikkate alınmalıdır (örneğin, tek bir video indirirken $playlist parametresi mevcut olmayacaktır), ve geçersiz olması durumunda dosya ismine dahil edilmeyecektir.</s:String>
+    <s:String x:Key="CopyToClipboard">Panoya kopyala</s:String>
+    <s:String x:Key="SaveToTextFile">Metin dosyasına kaydet</s:String>
 </ResourceDictionary> 
