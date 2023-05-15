@@ -1,0 +1,182 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:s="clr-namespace:System;assembly=mscorlib"
+                    xml:space="preserve">
+    
+    <s:String x:Key="Title">YouTube Playlist Downloader</s:String>
+    <FlowDirection x:Key="FlowDirection">LeftToRight</FlowDirection>
+    <s:String x:Key="InsertYoutubePlaylistLinkHere">Tutaj wstaw link do YouTuba</s:String>
+    <s:String x:Key="Exit">Wyjście</s:String>
+    <s:String x:Key="ExitMessage">Czy na pewno chcesz wyjść?</s:String>
+    <s:String x:Key="Yes">Tak</s:String>
+    <s:String x:Key="No">Nie</s:String>
+    <s:String x:Key="Error">Błąd</s:String>
+    <s:String x:Key="ErrorMessage">Podczas wykonywania akcji wystąpił nieoczekiwany błąd. W celu naprawy błędu skontaktuj się z administratorem.</s:String>
+    <s:String x:Key="Settings">Ustawienia</s:String>
+    <s:String x:Key="Preferences">Preferencje</s:String>
+    <s:String x:Key="Theme">Akcent</s:String>
+    <s:String x:Key="Language">Język</s:String>
+    <s:String x:Key="Back">Wstecz</s:String>
+    <s:String x:Key="SaveAndBackToDownload">Zapisz i wróć do głównego menu</s:String>
+    <s:String x:Key="DarkTheme">Motyw ciemny</s:String>
+    <s:String x:Key="Name">Nazwa: </s:String>
+    <s:String x:Key="Description">Opis: </s:String>
+    <s:String x:Key="Views">Wyświetlenia: </s:String>
+    <s:String x:Key="SaveDirectory">Zapisz wideo do:</s:String>
+    <s:String x:Key="CurrentlyDownlading">Obecnie pobierane: </s:String>
+    <s:String x:Key="TotalProgress">Dotychczas pobrane: </s:String>
+    <s:String x:Key="AllDone">Ukończono.</s:String>
+    <s:String x:Key="Canceling">Anulowanie pobierania, proszę czekać...</s:String>
+    <s:String x:Key="Videos">Filmy</s:String>
+    <s:String x:Key="Download">Pobierz</s:String>
+    <s:String x:Key="ConvertToMp3">Konwertuj pliki do</s:String>
+    <s:String x:Key="StillConverting">Wciąż konvertuję</s:String>
+    <s:String x:Key="files">pliki</s:String>
+    <s:String x:Key="Author">Autor: </s:String>
+    <s:String x:Key="PlaylistTitle">Tytuł: </s:String>
+    <s:String x:Key="Loading">Wczytywanie...</s:String>
+    <HorizontalAlignment x:Key="LeftAlignment">Left</HorizontalAlignment>
+    <s:String x:Key="About">O programie</s:String>
+    <s:String x:Key="Home">Strona główna</s:String>
+    <s:String x:Key="Prefer">Preferuj fily o rodzielczości</s:String>
+    <s:String x:Key="AreYouSureExit">Czy jesteś pewien że chcesz wyjść?</s:String>
+    <s:String x:Key="TotalVideos">Ilość filmów: </s:String>
+    <s:String x:Key="AboutTheProgram">Ten program został napisany przez shaked6540 i jest całkowicie darmowy do użytku bez ograniczeń.
+Niemniej, autor nie ponosi odpowiedzialności za żadne szkody powstałe w wyniku korzystania z programu, 
+w szczególności że YouTube nie pozwala na pobieranie plików ze swojej strony. 
+Pełny kod źródłowy tego oprogramowania jest dostepny na stronie https://github.com/shaked6540/YoutubePlaylistDownloader
+        
+Instalator opracowano przy użyciu Inno Setup (http://www.jrsoftware.org/isinfo.php)
+    
+
+YouTube Playlist Downloader v</s:String>
+    <s:String x:Key="BitRate">ustaw bit rate na</s:String>
+    <s:String x:Key="NewVersionAvailable">Dostępna jest nowa wersja</s:String>
+    <s:String x:Key="DoYouWantToUpdate">Dostepna jest nowa wersja, czy chcesz pobrać akutalizację?
+Lista zmian:</s:String>
+    <s:String x:Key="DownloadingUpdateSetup">Pobieranie: instalator atualizacji</s:String>
+    <s:String x:Key="UpdateCancelled">Aktualizacja została anulowana.</s:String>
+    <s:String x:Key="ErrorWhileUpdating">Wystąpił błąd podczas pobierania aktualizaji, upewnij się że komputerma dostęp do internetu.
+Jeśli pobieranie nie powiodło się mimo aktywnego połączenia internetowego, spróbuj pobrać ponownie później lub sprawdź bieżące problemy z serwerem pod adresem https://github.com/shaked6540/YoutubePlaylistDownloader/issues</s:String>
+    <s:String x:Key="UpdateComplete">Pobieranie ukończone.</s:String>
+    <s:String x:Key="UpdateWhenIExit">Uaktualnij przy wyjściu.</s:String>
+    <s:String x:Key="UpdateAndExit">Zamknij aplikację i uaktualnij teraz</s:String>
+    <s:String x:Key="UpdateFailed">Instalacja aktualizacji nie powiodła się</s:String>
+    <s:String x:Key="CannotUpdate">Nie udało się zainstalować uaktualnienia, spróbuj uruchomić aplikację ponownie i upewnić się że komputer jest podłączony do sieci.
+Treść błędu: </s:String>
+    <s:String x:Key="CouldntDownload">Niektóre filmy nie mogły zostać pobrane</s:String>
+    <s:String x:Key="ListOfNotDownloadedVideos">Oto lista filmów których nie udało się pobrać, wraz z przyczyną błędu: </s:String>
+    <s:String x:Key="Options">Opcje</s:String>
+    <s:String x:Key="CheckForUpdates">Szukaj aktualizacji</s:String>
+    <s:String x:Key="NoUpdates">Brak dostepnych aktualizacji</s:String>
+    <s:String x:Key="NoUpdatesAvailable">Tym razem nie są dostepne żadne uaktualnienia, posiadasz najnowszą wersję programu.</s:String>
+    <s:String x:Key="PlaylistIndex">Pobieranie od pliku numer</s:String>
+    <s:String x:Key="UntilIndex">do pliku number</s:String>
+    <s:String x:Key="LeaveEmptyOrZeroForUntilTheEnd">(pozostaw puste lub wpisz 0 by pobrać całą playlistę)</s:String>
+    <s:String x:Key="NoVideosToDownload">Nie znaleziono plików do pobrania</s:String>
+    <s:String x:Key="ThereAreNoVidoesToDownload">Nie znaleziono plików do pobrania dla zadanych parametrów</s:String>
+    <s:String x:Key="UpdateNow">Uaktualnij teraz</s:String>
+    <s:String x:Key="Subscriptions">Subskrypcje</s:String>
+    <s:String x:Key="AutomaticllyDownloadSubscriptions">Automatycznie pobieraj nowe filmy z tych kanałów</s:String>
+    <s:String x:Key="InsertChannelLink">Wstaw link do kanłu tutaj</s:String>
+    <s:String x:Key="Remove">Usuń</s:String>
+    <s:String x:Key="Id">ID: </s:String>
+    <s:String x:Key="Save">Zapisz</s:String>
+    <s:String x:Key="PreferFPS">Preferuj filmy z najwyższą liczbą klatek</s:String>
+    <s:String x:Key="AudioOnly">Pobierz sam dźwięk, bez konwersji na inne formaty</s:String>
+    <s:String x:Key="StillDownloadingSubscriptionsExit">Program wciąż pobiera pliki wideo dla wybraych subskrypcji, wciśnięce "tak" zamknie program a pliki nie zostaną pobrane aż do następnego uruchomienia programu.
+Czy jesteś pewien że chcesz wyjść?</s:String>
+    <s:String x:Key="LastVideoDownloadDate">Data ostaniej aktualizacji: </s:String>
+    <s:String x:Key="Help">Pomoc</s:String>
+    <s:String x:Key="SubscriptionsHelp">Subskrypcje to kanały, z których program automatycznie pobierze każdy film, który pojawi się po dodaniu subskrypcji
+        
+Na przykład, jeśli subskrypcja została dodana do kanału „x” 1 września, a kanał „x” przesłał film 2 września, zostanie on automatycznie pobrany.
+        
+Poprzednie filmy nie zostaną pobrane, a filmy nie zostaną pobrane dwukrotnie, nawet jeśli usuniesz określony film.
+        
+Wszystkie subskrypcje można dostosować i mają własne ustawienia. Aby uzyskać dostęp do ustawień subskrypcji, kliknij „Subskrypcje” w menu głównym, a następnie kliknij „Ustawienia” dla żądanego kanału.
+
+Należy pamiętać, że jeśli program nie jest uruchomiony, nowe filmy nie zostaną pobrane.
+    </s:String>
+    <s:String x:Key="ContactTheDeveloper">Kontakt</s:String>
+    <s:String x:Key="ContactTheDeveloperHelp">Istnieje kilka sposobów, aby się ze mną skontaktować (shaked6540):
+        
+Pierwszym z nich jest Reddit, po prostu wyślij mi wiadomość na Reddit, a ja odpowiem tak szybko, jak to możliwe, to jest mój link do profilu: https://www.reddit.com/user/shaked6540/
+        
+Drugim sposobem na skontaktowanie się ze mną jest discord, założyłem serwer discord dla tego projektu, możesz dołączyć, nawet jeśli nie masz mi nic do powiedzenia: https://discord.gg/eXeVCqE
+        
+Trzecim sposobem skontaktowania się ze mną jest GitHub, po prostu otwórz nowy problem, a ja postaram się odpowiedzieć tak szybko, jak to możliwe, oto link: https://github.com/shaked6540/YoutubePlaylistDownloader/issues</s:String>
+    <s:String x:Key="AutomaticallyCheckForUpdates">Sprawdzaj dostepność aktualizacji przy starcie programu</s:String>
+    <s:String x:Key="WhatsNew">Nowości</s:String>
+    <s:String x:Key="SubscriptionsUpdateDelay">Uaktualniaj subskrypcje co</s:String>
+    <s:String x:Key="Minutes">minut</s:String>
+    <s:String x:Key="SaveDownloadOptions">Zapisz moje preferencje pobierania</s:String>
+    <s:String x:Key="DownloadSpeed">Prędkość pobierania: </s:String>
+    <s:String x:Key="Changelog">Lista zmian</s:String>
+    <s:String x:Key="DongChunrui">Dong Cunrui (董存瑞)</s:String>
+    <s:String x:Key="CreditsAndContributors">Podziękowania dla osób zajmującyh się dodawaniem tłmuaczeń dla programu: 
+Dong Cunrui (董存瑞)
+RichyZ99
+Jhonatan Lima (Heremitus)
+İskender ALPSAKARYA, Alp Eren GENÇOĞLU (Türkçe)
+Stephan Komov (Deutsch)
+Elta (Français)
+Ahmed Waaer (Arabic)
+Bartlomiej Szmolke (Polski)  
+</s:String>
+    <s:String x:Key="Search">Szukaj</s:String>
+    <s:String x:Key="Queue">Kolejka</s:String>
+    <s:String x:Key="Downloading">Pobieranie...</s:String>
+    <s:String x:Key="Skipping">Plik już istniej, pomijam...</s:String>
+    <s:String x:Key="Converting">Konwertowanie...</s:String>
+    <s:String x:Key="DownloadInBackground">Zakolejkuj</s:String>
+    <s:String x:Key="Audio">Audio</s:String>
+    <s:String x:Key="Video">Wideo</s:String>
+    <s:String x:Key="DownloadCaptions">Pobierz wraz z napisami</s:String>
+    <s:String x:Key="CaptionsLanguage">Język napisów:</s:String>
+    <s:String x:Key="BulkDownload">List pobierania</s:String>
+    <s:String x:Key="LimitConverstions">Maksymalna liczba równolegle pobieranych plików</s:String>
+    <s:String x:Key="ValueChangeRequiresRestart">(włączenie limitu wymaga 
+ponownego uruchomienia programu)</s:String>
+    <s:String x:Key="ConvertionsLimitingExplnation">Każda konwersja plików zajmuje całkowicie jeden rdzeń. Na przykład: jeśli masz 4
+rdzenie procesora, ograniczenie programu do konwersji plików 3 na raz spowoduje użycie 3 rdzeni z 4;
+w Menedżerze zadań zobaczysz, że program zużywa nieco więcej niż 75% procesora.
+
+Zaleca się użycie jednego rdzenia mniej niż posiada procesor. Jeśli twój procesor ma 4 rdzenie,
+użyj 3 rdzeni, ograniczając konwersję plików do 3, jeśli masz 3 rdzenie, użyj 2 rdzeni, ograniczając
+konwersja pliku do 2 itd.</s:String>
+    <s:String x:Key="FileConvertion">Konwersja plików</s:String>
+    <s:String x:Key="General">Główne</s:String>
+    <s:String x:Key="SavePlaylistInUniqueDirectory">Zapisz każdą playlistę w osobnym folderze</s:String>
+    <s:String x:Key="Playlist">Playlista</s:String>
+    <s:String x:Key="OpenDestinationFolder">Otwórz folder zapisu plików</s:String>
+    <s:String x:Key="ConfirmExit">Potwierdzenie zakończenia programu</s:String>
+    <s:String x:Key="OpenDestinationFolderOnFinish">Otwórz folder docelowy po zakończeniu poberania</s:String>
+    <s:String x:Key="TagAudioFile">dodawaj tagi i okładkę do plików muzycznych</s:String>
+    <s:String x:Key="Than">niż</s:String>
+    <s:String x:Key="Filter">Filter</s:String>
+    <s:String x:Key="DownloadFilter">Pobierz tylko wideo</s:String>
+    <s:String x:Key="Longer">dłuższe</s:String>
+    <s:String x:Key="Shorter">krótsze</s:String>
+    <s:String x:Key="FileDoesNotExist">{0} nie istnieje.</s:String>
+    <s:String x:Key="Retry">Ponów</s:String>
+    <s:String x:Key="Of">z</s:String>
+    <s:String x:Key="FileNamePattern">Wzorzec nazw plików: </s:String>
+    <s:String x:Key="SkipExisting">Pomiń istniejące pliki</s:String>
+    <s:String x:Key="ResetToDefault">Domyślne</s:String>
+    <s:String x:Key="FileNamePatternTitle">Wzorzec nazw plików</s:String>
+    <s:String x:Key="FileNamePattenExplanation">Wzorzec nazw plików pozwala na nadanie pobranym plikom dynamicznych nazw w oparciu o te parametry:
+$title: Tytuł filmu
+$index: Pozycja filmu na playliście
+$artist: Nazwa artysty (jeśli dostępna)
+$songtitle: Tytuł piosenki
+$channel: Nazwa kanału na którym zuploadowano film
+$videoid: Unikalny identyfikator filmu (na podstawie adresu url)
+$playlist: Tytuł playlisty
+
+Na przykład, jeśli mój wzorzec nazwy pliku to "song: [$playlist] $artist - $songtitle ($channel) $index" nazwa pliku wynikowego to "song: [Example] Infected Mushroom - Spitfire (Monstercat) 1"
+Możesz dodać dowolny inny tekst między parametrami, tylko parametry zostaną zastąpione.
+Należy pamiętać, że nie wszystkie parametry są zawsze dostępne (na przykład podczas pobierania pojedynczego filmu zmienna $playlisttitle byłaby niedostępna), aw przypadku ich braku zostaną usunięte z nazwy plikus</s:String>
+    <s:String x:Key="CopyToClipboard">Copy to clipboard</s:String>
+    <s:String x:Key="SaveToTextFile">Save to text file</s:String>
+</ResourceDictionary> 
