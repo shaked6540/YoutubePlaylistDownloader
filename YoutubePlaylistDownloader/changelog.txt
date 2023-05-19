@@ -1,2 +1,3 @@
-﻿Version 1.9.16:
-- Fixed "403 Forbidden" error on some videos
+﻿Version 1.9.17:
+- Added Polish translation (Thanks Bartlomiej Szmolke)
+- Corrected some Turkish (Türkçe) translations (Thanks Alp Eren GENÇOĞLU) 
