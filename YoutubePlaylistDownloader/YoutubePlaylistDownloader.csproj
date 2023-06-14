@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<TargetFramework>net7.0-windows</TargetFramework>
 		<OutputType>WinExe</OutputType>
@@ -90,7 +90,7 @@
 		</PackageReference>
 		<PackageReference Include="MahApps.Metro" Version="2.4.9" />
 		<PackageReference Include="MahApps.Metro.IconPacks" Version="4.11.0" />
-		<PackageReference Include="Microsoft.Windows.Compatibility" Version="7.0.0" />
+		<PackageReference Include="Microsoft.Windows.Compatibility" Version="7.0.3" />
 		<PackageReference Include="YoutubeExplode" Version="6.2.15" />
 	</ItemGroup>
 	<ItemGroup>
