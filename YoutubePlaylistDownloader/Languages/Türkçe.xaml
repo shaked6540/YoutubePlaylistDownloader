@@ -30,6 +30,7 @@
     <s:String x:Key="Videos">Videolar</s:String>
     <s:String x:Key="Download">İndir</s:String>
     <s:String x:Key="ConvertToMp3">Videoyu Dönüştür </s:String>
+    <s:String x:Key="FormatOf">and format of</s:String>
     <s:String x:Key="StillConverting">Dönüştürülüyor</s:String>
     <s:String x:Key="files">dosyalar</s:String>
     <s:String x:Key="Author">Yazar: </s:String>

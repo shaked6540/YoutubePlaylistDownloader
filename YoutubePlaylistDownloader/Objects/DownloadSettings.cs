@@ -14,6 +14,9 @@ namespace YoutubePlaylistDownloader.Objects
         public string SavePath { get; set; }
 
         [JsonProperty]
+        public string VideoSaveFormat { get; set; }
+
+        [JsonProperty]
         public string SaveFormat { get; set; }
 
         [JsonProperty]
@@ -85,12 +88,13 @@ namespace YoutubePlaylistDownloader.Objects
 
 
 		[JsonConstructor]
-        public DownloadSettings(string saveForamt, bool audioOnly, VideoQuality quality, bool preferHighestFPS,
+        public DownloadSettings(string videoSaveFormat, string saveFormat, bool audioOnly, VideoQuality quality, bool preferHighestFPS,
             bool preferQuality, bool convert, bool setBitrate, string bitrate, bool downloadCaptions, string captionsLanguage,
             bool savePlaylistsInDifferentDirectories, bool subset, int subsetStartIndex, int subsetEndIndex, bool openDestinationFolderWhenDone,
             bool tagAudioFile, bool filterVideosByLength, bool filterMode, double filterByLengthValue, string filenamePattern, bool skipExisting)
         {
-            SaveFormat = saveForamt;
+            VideoSaveFormat = videoSaveFormat;
+            SaveFormat = saveFormat;
             AudioOnly = audioOnly;
             Quality = quality;
             PreferHighestFPS = preferHighestFPS;
@@ -115,6 +119,7 @@ namespace YoutubePlaylistDownloader.Objects
 
         public DownloadSettings(DownloadSettings settings)
         {
+            VideoSaveFormat = settings.VideoSaveFormat;
             SaveFormat = settings.SaveFormat;
             AudioOnly = settings.AudioOnly;
             Quality = settings.Quality;

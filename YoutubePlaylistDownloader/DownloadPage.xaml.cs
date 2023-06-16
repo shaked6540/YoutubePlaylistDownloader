@@ -26,6 +26,7 @@ namespace YoutubePlaylistDownloader
         private readonly DownloadSettings downloadSettings;
         private FullPlaylist Playlist;
         private string FileType;
+        private string VideoFileTypes;
         private readonly string CaptionsLanguage;
         private int DownloadedCount;
         private readonly int StartIndex;
@@ -167,6 +168,7 @@ namespace YoutubePlaylistDownloader
             DownloadedVideosProgressBar.Maximum = Maximum;
             Playlist = playlist;
             FileType = settings.SaveFormat;
+            VideoFileTypes = settings.VideoSaveFormat;
             DownloadedCount = 0;
             Quality = settings.Quality;
             DownloadCaptions = settings.DownloadCaptions;
@@ -640,8 +642,8 @@ namespace YoutubePlaylistDownloader
 
                     var cleanVideoName = GlobalConsts.CleanFileName(downloadSettings.GetFilenameByPattern(video, i, title, Playlist));
                     var fileLoc = $"{GlobalConsts.TempFolderPath}{cleanVideoName}";
-                    var outputFileLoc = $"{GlobalConsts.TempFolderPath}{cleanVideoName}.mkv";
-                    var copyFileLoc = $"{SavePath}\\{cleanVideoName}.mkv";
+                    var outputFileLoc = $"{GlobalConsts.TempFolderPath}{cleanVideoName}.{VideoFileTypes}";
+                    var copyFileLoc = $"{SavePath}\\{cleanVideoName}.{VideoFileTypes}";
                     var audioLoc = $"{GlobalConsts.TempFolderPath}{cleanVideoName}.{bestAudio.Container.Name}";
                     var captionsLoc = $"{GlobalConsts.TempFolderPath}{cleanVideoName}.srt";
 
@@ -988,6 +990,7 @@ namespace YoutubePlaylistDownloader
                 disposedValue = true;
                 Videos = null;
                 FileType = null;
+                VideoFileTypes = null;
                 Bitrate = null;
                 NotDownloaded = null;
                 Videos = null;

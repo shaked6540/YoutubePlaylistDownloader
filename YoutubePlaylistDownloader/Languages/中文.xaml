@@ -30,6 +30,7 @@
     <s:String x:Key="Videos">视频</s:String>
     <s:String x:Key="Download">下载</s:String>
     <s:String x:Key="ConvertToMp3">转换视频成 </s:String>
+    <s:String x:Key="FormatOf">and format of</s:String>
     <s:String x:Key="StillConverting">还转变</s:String>
     <s:String x:Key="files">文件</s:String>
     <s:String x:Key="Author">作者: </s:String>
