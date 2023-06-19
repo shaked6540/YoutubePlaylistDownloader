@@ -36,6 +36,8 @@
                     <StackPanel Orientation="Horizontal" >
                         <CheckBox Content="{DynamicResource Prefer}" Margin="7" x:Name="PreferCheckBox" HorizontalAlignment="Center" IsChecked="False"  />
                         <ComboBox HorizontalContentAlignment="Left" HorizontalAlignment="Center" VerticalContentAlignment="Center" Width="Auto" x:Name="ResulotionDropDown" VerticalAlignment="Center"/>
+                        <Label Content="{DynamicResource FormatOf}" />
+                        <ComboBox HorizontalContentAlignment="Left" HorizontalAlignment="Center" VerticalContentAlignment="Center" Width="Auto" x:Name="VideoExtensionsDropDown" VerticalAlignment="Center"/>
                     </StackPanel>
                     <CheckBox Margin="7" x:Name="PreferHighestFPSCheckBox" Content="{DynamicResource PreferFPS}" />
                     <CheckBox x:Name="CaptionsCheckBox" Margin="7" Content="{DynamicResource DownloadCaptions}" />

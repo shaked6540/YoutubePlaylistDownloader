@@ -27,6 +27,7 @@ namespace YoutubePlaylistDownloader
             { "3072p", YoutubeHelpers.High3072 },
             { "4320p", YoutubeHelpers.High4320 }
         };
+        private readonly string[] VideoFileTypes = { "mp4", "mkv"};
 
         private readonly string[] FileTypes = { "mp3", "aac", "opus", "wav", "flac", "m4a", "ogg", "webm" };
 
@@ -39,12 +40,14 @@ namespace YoutubePlaylistDownloader
             InitializeComponent();
 
             ResulotionDropDown.ItemsSource = Resolutions.Keys;
+            VideoExtensionsDropDown.ItemsSource = VideoFileTypes;
             ExtensionsDropDown.ItemsSource = FileTypes;
             CaptionsLanguagesComboBox.ItemsSource = Languages.Values;
 
             var settings = GlobalConsts.DownloadSettings;
             SaveDirectoryTextBox.Text = GlobalConsts.settings.SaveDirectory;
             ExtensionsDropDown.SelectedItem = settings.SaveFormat;
+            VideoExtensionsDropDown.SelectedItem = settings.VideoSaveFormat;
             ResulotionDropDown.SelectedItem = Resolutions.FirstOrDefault(x => x.Value == settings.Quality).Key;
             PreferCheckBox.IsChecked = settings.PreferQuality;
             PreferHighestFPSCheckBox.IsChecked = settings.PreferHighestFPS;
@@ -85,6 +88,7 @@ namespace YoutubePlaylistDownloader
             ConvertCheckBox.Checked += ConvertCheckBox_Checked;
             ConvertCheckBox.Unchecked += ConvertCheckBox_Unchecked;
             ExtensionsDropDown.SelectionChanged += ExtensionsDropDown_SelectionChanged;
+            VideoExtensionsDropDown.SelectionChanged += VideoExtensionsDropDown_SelectionChanged;
             BitrateCheckBox.Checked += BitrateCheckBox_Checked;
             BitrateCheckBox.Unchecked += BitrateCheckBox_Unchecked;
             BitRateTextBox.TextChanged += BitRateTextBox_TextChanged;
@@ -334,6 +338,7 @@ namespace YoutubePlaylistDownloader
             {
                 GlobalConsts.DownloadSettings.Convert = ConvertCheckBox.IsChecked.Value;
                 GlobalConsts.DownloadSettings.SaveFormat = (string)ExtensionsDropDown.SelectedItem;
+                GlobalConsts.DownloadSettings.VideoSaveFormat = (string)VideoExtensionsDropDown.SelectedItem;
                 GlobalConsts.SaveDownloadSettings();
             }
         }
@@ -352,6 +357,15 @@ namespace YoutubePlaylistDownloader
             if (GlobalConsts.settings.SaveDownloadOptions)
             {
                 GlobalConsts.DownloadSettings.SaveFormat = (string)ExtensionsDropDown.SelectedItem;
+                GlobalConsts.SaveDownloadSettings();
+            }
+        }
+
+        private void VideoExtensionsDropDown_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (GlobalConsts.settings.SaveDownloadOptions)
+            {
+                GlobalConsts.DownloadSettings.VideoSaveFormat = (string)VideoExtensionsDropDown.SelectedItem;
                 GlobalConsts.SaveDownloadSettings();
             }
         }

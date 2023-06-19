@@ -36,6 +36,7 @@ namespace YoutubePlaylistDownloader
             { "3072p", YoutubeHelpers.High3072 },
             { "4320p", YoutubeHelpers.High4320 }
         };
+        private readonly string[] VideoFileTypes = { "mp4", "mkv"};
 
         private readonly string[] FileTypes = { "mp3", "aac", "opus", "wav", "flac", "m4a", "ogg", "webm" };
 

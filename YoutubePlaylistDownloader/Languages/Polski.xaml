@@ -30,6 +30,7 @@
     <s:String x:Key="Videos">Filmy</s:String>
     <s:String x:Key="Download">Pobierz</s:String>
     <s:String x:Key="ConvertToMp3">Konwertuj pliki do</s:String>
+    <s:String x:Key="FormatOf">and format of</s:String>
     <s:String x:Key="StillConverting">Wciąż konvertuję</s:String>
     <s:String x:Key="files">pliki</s:String>
     <s:String x:Key="Author">Autor: </s:String>
