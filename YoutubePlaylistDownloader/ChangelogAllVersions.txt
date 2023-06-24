@@ -1,4 +1,9 @@
-﻿Version 1.9.18:
+﻿Version 1.9.19:
+- Added mp4 video support
+- Added YouTube shorts video support
+
+
+Version 1.9.18:
 - Fixed downloads not working
 
 
