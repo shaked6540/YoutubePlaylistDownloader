@@ -26,7 +26,7 @@ namespace YoutubePlaylistDownloader
         private readonly DownloadSettings downloadSettings;
         private FullPlaylist Playlist;
         private string FileType;
-        private string VideoFileTypes;
+        private string VideoSaveFormat;
         private readonly string CaptionsLanguage;
         private int DownloadedCount;
         private readonly int StartIndex;
@@ -168,7 +168,7 @@ namespace YoutubePlaylistDownloader
             DownloadedVideosProgressBar.Maximum = Maximum;
             Playlist = playlist;
             FileType = settings.SaveFormat;
-            VideoFileTypes = settings.VideoSaveFormat;
+            VideoSaveFormat = settings.VideoSaveFormat;
             DownloadedCount = 0;
             Quality = settings.Quality;
             DownloadCaptions = settings.DownloadCaptions;
@@ -642,8 +642,8 @@ namespace YoutubePlaylistDownloader
 
                     var cleanVideoName = GlobalConsts.CleanFileName(downloadSettings.GetFilenameByPattern(video, i, title, Playlist));
                     var fileLoc = $"{GlobalConsts.TempFolderPath}{cleanVideoName}";
-                    var outputFileLoc = $"{GlobalConsts.TempFolderPath}{cleanVideoName}.{VideoFileTypes}";
-                    var copyFileLoc = $"{SavePath}\\{cleanVideoName}.{VideoFileTypes}";
+                    var outputFileLoc = $"{GlobalConsts.TempFolderPath}{cleanVideoName}.{VideoSaveFormat}";
+                    var copyFileLoc = $"{SavePath}\\{cleanVideoName}.{VideoSaveFormat}";
                     var audioLoc = $"{GlobalConsts.TempFolderPath}{cleanVideoName}.{bestAudio.Container.Name}";
                     var captionsLoc = $"{GlobalConsts.TempFolderPath}{cleanVideoName}.srt";
 
@@ -746,7 +746,15 @@ namespace YoutubePlaylistDownloader
                                 var captionsTask = client.Videos.ClosedCaptions.DownloadAsync(captions, captionsLoc, cancellationToken: token);
                                 await ExtensionMethods.WhenAll(videoTask, audioTask, captionsTask);
                                 sw.Stop();
-                                ffmpegArguments = $"-i \"{fileLoc}\" -i \"{audioLoc}\" -i \"{captionsLoc}\" -y -c copy \"{outputFileLoc}\"";
+                                if (VideoSaveFormat != "mkv")
+                                {
+                                    ffmpegArguments = $"-i \"{fileLoc}\" -i \"{audioLoc}\" -y -c copy \"{outputFileLoc}\"";
+                                    File.Copy(captionsLoc, $"{SavePath}\\{cleanVideoName}.srt");
+                                }
+                                else
+                                {
+                                    ffmpegArguments = $"-i \"{fileLoc}\" -i \"{audioLoc}\" -i \"{captionsLoc}\" -y -c copy \"{outputFileLoc}\"";
+                                }
                             }
                             else
                             {
@@ -990,7 +998,7 @@ namespace YoutubePlaylistDownloader
                 disposedValue = true;
                 Videos = null;
                 FileType = null;
-                VideoFileTypes = null;
+                VideoSaveFormat = null;
                 Bitrate = null;
                 NotDownloaded = null;
                 Videos = null;

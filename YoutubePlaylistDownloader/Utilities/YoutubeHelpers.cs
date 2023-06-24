@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Text.RegularExpressions;
+using YoutubeExplode.Playlists;
+using YoutubeExplode.Videos;
 using YoutubeExplode.Videos.Streams;
 
 namespace YoutubePlaylistDownloader.Utilities
@@ -31,29 +33,14 @@ namespace YoutubePlaylistDownloader.Utilities
             if (string.IsNullOrWhiteSpace(videoUrl))
                 return false;
 
-            // https://www.youtube.com/watch?v=yIVRs6YSbOM
-            var regularMatch = Regex.Match(videoUrl, @"youtube\..+?/watch.*?v=(.*?)(?:&|/|$)").Groups[1].Value;
-            if (!string.IsNullOrWhiteSpace(regularMatch) && ValidateVideoId(regularMatch))
+            VideoId? result = VideoId.TryParse(videoUrl);
+
+            if (result != null)
             {
-                videoId = regularMatch;
+                videoId = result.Value;
                 return true;
             }
 
-            // https://youtu.be/yIVRs6YSbOM
-            var shortMatch = Regex.Match(videoUrl, @"youtu\.be/(.*?)(?:\?|&|/|$)").Groups[1].Value;
-            if (!string.IsNullOrWhiteSpace(shortMatch) && ValidateVideoId(shortMatch))
-            {
-                videoId = shortMatch;
-                return true;
-            }
-
-            // https://www.youtube.com/embed/yIVRs6YSbOM
-            var embedMatch = Regex.Match(videoUrl, @"youtube\..+?/embed/(.*?)(?:\?|&|/|$)").Groups[1].Value;
-            if (!string.IsNullOrWhiteSpace(embedMatch) && ValidateVideoId(embedMatch))
-            {
-                videoId = embedMatch;
-                return true;
-            }
 
             return false;
         }
@@ -74,30 +61,7 @@ namespace YoutubePlaylistDownloader.Utilities
             if (string.IsNullOrWhiteSpace(playlistId))
                 return false;
 
-            // Watch later playlist is special
-            if (playlistId == "WL")
-                return true;
-
-            // My Mix playlist is special
-            if (playlistId == "RDMM")
-                return true;
-
-            // Other playlist IDs should start with these two characters
-            if (!playlistId.StartsWith("PL", StringComparison.Ordinal) &&
-                !playlistId.StartsWith("RD", StringComparison.Ordinal) &&
-                !playlistId.StartsWith("UL", StringComparison.Ordinal) &&
-                !playlistId.StartsWith("UU", StringComparison.Ordinal) &&
-                !playlistId.StartsWith("PU", StringComparison.Ordinal) &&
-                !playlistId.StartsWith("OL", StringComparison.Ordinal) &&
-                !playlistId.StartsWith("LL", StringComparison.Ordinal) &&
-                !playlistId.StartsWith("FL", StringComparison.Ordinal))
-                return false;
-
-            // Playlist IDs vary a lot in lengths
-            if (playlistId.Length < 13)
-                return false;
-
-            return !Regex.IsMatch(playlistId, @"[^0-9a-zA-Z_\-]");
+            return PlaylistId.TryParse(playlistId) != null;
         }
 
         /// <summary>

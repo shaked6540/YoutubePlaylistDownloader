@@ -29,7 +29,7 @@
     <s:String x:Key="Videos">סרטונים</s:String>
     <s:String x:Key="Download">הורד</s:String>
     <s:String x:Key="ConvertToMp3">המר את הסרטונים ל </s:String>
-    <s:String x:Key="FormatOf">and format of</s:String>
+    <s:String x:Key="SaveVideoFormat">שמור סרטונים בפורמט </s:String>
     <s:String x:Key="StillConverting">עדיין ממיר</s:String>
     <s:String x:Key="files">קבצים</s:String>
     <s:String x:Key="Author">בעלים: </s:String>

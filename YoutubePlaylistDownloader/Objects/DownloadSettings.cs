@@ -13,7 +13,8 @@ namespace YoutubePlaylistDownloader.Objects
         [JsonProperty]
         public string SavePath { get; set; }
 
-        [JsonProperty]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
+        [DefaultValue("mkv")]
         public string VideoSaveFormat { get; set; }
 
         [JsonProperty]
@@ -88,12 +89,12 @@ namespace YoutubePlaylistDownloader.Objects
 
 
 		[JsonConstructor]
-        public DownloadSettings(string videoSaveFormat, string saveFormat, bool audioOnly, VideoQuality quality, bool preferHighestFPS,
+        public DownloadSettings(string saveFormat, bool audioOnly, VideoQuality quality, bool preferHighestFPS,
             bool preferQuality, bool convert, bool setBitrate, string bitrate, bool downloadCaptions, string captionsLanguage,
             bool savePlaylistsInDifferentDirectories, bool subset, int subsetStartIndex, int subsetEndIndex, bool openDestinationFolderWhenDone,
-            bool tagAudioFile, bool filterVideosByLength, bool filterMode, double filterByLengthValue, string filenamePattern, bool skipExisting)
+            bool tagAudioFile, bool filterVideosByLength, bool filterMode, double filterByLengthValue, string filenamePattern, bool skipExisting,
+            string videoSaveFormat)
         {
-            VideoSaveFormat = videoSaveFormat;
             SaveFormat = saveFormat;
             AudioOnly = audioOnly;
             Quality = quality;
@@ -115,11 +116,11 @@ namespace YoutubePlaylistDownloader.Objects
             FilterByLengthValue = filterByLengthValue;
             FilenamePattern = filenamePattern;
             SkipExisting = skipExisting;
+            VideoSaveFormat = videoSaveFormat;
         }
 
         public DownloadSettings(DownloadSettings settings)
         {
-            VideoSaveFormat = settings.VideoSaveFormat;
             SaveFormat = settings.SaveFormat;
             AudioOnly = settings.AudioOnly;
             Quality = settings.Quality;
@@ -141,6 +142,7 @@ namespace YoutubePlaylistDownloader.Objects
             FilterByLengthValue = settings.FilterByLengthValue;
             FilenamePattern = settings.FilenamePattern;
             SkipExisting = settings.SkipExisting;
+            VideoSaveFormat = settings.VideoSaveFormat;
         }
 
         public string GetFilenameByPattern(PlaylistVideo video, int vIndex, string file, FullPlaylist playlist = null)
