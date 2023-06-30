@@ -644,7 +644,7 @@ namespace YoutubePlaylistDownloader
                     var fileLoc = $"{GlobalConsts.TempFolderPath}{cleanVideoName}";
                     var outputFileLoc = $"{GlobalConsts.TempFolderPath}{cleanVideoName}.{VideoSaveFormat}";
                     var copyFileLoc = $"{SavePath}\\{cleanVideoName}.{VideoSaveFormat}";
-                    var audioLoc = $"{GlobalConsts.TempFolderPath}{cleanVideoName}.{bestAudio.Container.Name}";
+                    var audioLoc = $"{GlobalConsts.TempFolderPath}{cleanVideoName}-audio.{bestAudio.Container.Name}";
                     var captionsLoc = $"{GlobalConsts.TempFolderPath}{cleanVideoName}.srt";
 
 					if (GlobalConsts.DownloadSettings.SkipExisting && File.Exists(copyFileLoc)) {
