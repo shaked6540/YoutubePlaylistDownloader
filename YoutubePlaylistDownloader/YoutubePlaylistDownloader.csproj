@@ -79,7 +79,7 @@
 		<PackageReference Include="MahApps.Metro" Version="2.4.9" />
 		<PackageReference Include="MahApps.Metro.IconPacks" Version="4.11.0" />
 		<PackageReference Include="Microsoft.Windows.Compatibility" Version="7.0.4" />
-		<PackageReference Include="YoutubeExplode" Version="6.2.16" />
+		<PackageReference Include="YoutubeExplode" Version="6.3.2" />
 	</ItemGroup>
 	<ItemGroup>
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />

@@ -1,4 +1,8 @@
-﻿Version 1.9.20:
+﻿Version 1.9.21:
+- Updated libraries
+
+
+Version 1.9.20:
 - Fixed a bug where some videos would only download the audio part if mp4 is selected
 - Updated libraries
 
