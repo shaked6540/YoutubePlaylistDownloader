@@ -1,0 +1,183 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:s="clr-namespace:System;assembly=mscorlib"
+                    xml:space="preserve">
+    
+    <s:String x:Key="Title">YouTube Playlist Downloader</s:String>
+    <FlowDirection x:Key="FlowDirection">LeftToRight</FlowDirection>
+    <s:String x:Key="InsertYoutubePlaylistLinkHere">Вставьте сюда YouTube ссылку</s:String>
+    <s:String x:Key="Exit">Выйти</s:String>
+    <s:String x:Key="ExitMessage">Вы действительно хотите выйти?</s:String>
+    <s:String x:Key="Yes">Да</s:String>
+    <s:String x:Key="No">Нет</s:String>
+    <s:String x:Key="Error">Ошибка</s:String>
+    <s:String x:Key="ErrorMessage">При выполнении этого действия возникла непредвиденная ошибка. Пожалуйста, свяжитесь со своим администратором для её решения.</s:String>
+    <s:String x:Key="Settings">Настройки</s:String>
+    <s:String x:Key="Preferences">Предпочтения</s:String>
+    <s:String x:Key="Theme">Цвет</s:String>
+    <s:String x:Key="Language">Язык</s:String>
+    <s:String x:Key="Back">Назад</s:String>
+    <s:String x:Key="SaveAndBackToDownload">Сохранить и вернуться в главное меню</s:String>
+    <s:String x:Key="DarkTheme">Тёмная тема</s:String>
+    <s:String x:Key="Name">Название: </s:String>
+    <s:String x:Key="Description">Описание: </s:String>
+    <s:String x:Key="Views">Просмотры: </s:String>
+    <s:String x:Key="SaveDirectory">Сохранять видео в:</s:String>
+    <s:String x:Key="CurrentlyDownlading">Скачивается: </s:String>
+    <s:String x:Key="TotalProgress">Уже загрузилось: </s:String>
+    <s:String x:Key="AllDone">Готово.</s:String>
+    <s:String x:Key="Canceling">Ваши загрузки отменяются, пожалуйста, подождите...</s:String>
+    <s:String x:Key="Videos">Видео</s:String>
+    <s:String x:Key="Download">Скачать</s:String>
+    <s:String x:Key="ConvertToMp3">Конвертировать видео в</s:String>
+    <s:String x:Key="SaveVideoFormat">Сохранить видео как </s:String>
+    <s:String x:Key="StillConverting">Всё еще конвертируется</s:String>
+    <s:String x:Key="files">файлы</s:String>
+    <s:String x:Key="Author">Автор: </s:String>
+    <s:String x:Key="PlaylistTitle">Название: </s:String>
+    <s:String x:Key="Loading">Загрузка...</s:String>
+    <HorizontalAlignment x:Key="LeftAlignment">Left</HorizontalAlignment>
+    <s:String x:Key="About">О программе</s:String>
+    <s:String x:Key="Home">Домой</s:String>
+    <s:String x:Key="Prefer">Предпочтительное разрешение видео</s:String>
+    <s:String x:Key="AreYouSureExit">Вы действительно хотите выйти?</s:String>
+    <s:String x:Key="TotalVideos">Всего видео: </s:String>
+    <s:String x:Key="AboutTheProgram">Эта программа была разработана shaked6540, и она полностью бесплатна для использования без лимитов.
+Однако я не несу ответственность за какие-либо легальные проблемы, которые данная программа может у вас вызвать,
+ведь, насколько я знаю, YouTube не разрешает загружать видео с их сайта.
+Полный исходный код этой программы может быть найден на https://github.com/shaked6540/YoutubePlaylistDownloader
+        
+Установщик этой программы был создан с помощью Inno Setup (http://www.jrsoftware.org/isinfo.php)
+    
+
+YouTube Playlist Downloader v</s:String>
+    <s:String x:Key="BitRate">и установить битрейт</s:String>
+    <s:String x:Key="NewVersionAvailable">Новая версия доступна</s:String>
+    <s:String x:Key="DoYouWantToUpdate">Новая версия доступна, хотите ли вы обновить программу?
+Вот что нового:</s:String>
+    <s:String x:Key="DownloadingUpdateSetup">Загружается: Установщик Обновления</s:String>
+    <s:String x:Key="UpdateCancelled">Обновление было отменено.</s:String>
+    <s:String x:Key="ErrorWhileUpdating">Возникла ошибка при загрузке установщика обновления. Убедитесь, что вы подключены к Интернету.
+Если вы подключены к Интернету, попробуйте повторить попытку позже или посетите https://github.com/shaked6540/YoutubePlaylistDownloader/issues , чтобы проверить, есть ли проблемы с сервером загрузки.</s:String>
+    <s:String x:Key="UpdateComplete">Загрузка завершена.</s:String>
+    <s:String x:Key="UpdateWhenIExit">Обновить при выходе</s:String>
+    <s:String x:Key="UpdateAndExit">Закрыть и обновить сейчас</s:String>
+    <s:String x:Key="UpdateFailed">Ошибка обновления</s:String>
+    <s:String x:Key="CannotUpdate">Не удалось обновить. Попробуйте перезапустить приложение и убедитесь, что вы подключены к Интернету.
+Текст ошибки: </s:String>
+    <s:String x:Key="CouldntDownload">Некоторые видео не удалось загрузить</s:String>
+    <s:String x:Key="ListOfNotDownloadedVideos">Вот список видео, которые не удалось загрузить, и причины ошибок: </s:String>
+    <s:String x:Key="Options">Опции</s:String>
+    <s:String x:Key="CheckForUpdates">Проверить наличие обновлений</s:String>
+    <s:String x:Key="NoUpdates">Доступных обновлений не найдено</s:String>
+    <s:String x:Key="NoUpdatesAvailable">Сейчас нет доступных обновлений, вы используете последнюю версию.</s:String>
+    <s:String x:Key="PlaylistIndex">Загрузить с видео номер</s:String>
+    <s:String x:Key="UntilIndex">по видео номер</s:String>
+    <s:String x:Key="LeaveEmptyOrZeroForUntilTheEnd">(оставьте это окно пустым или введите 0, чтобы загрузить все видео до конца плейлиста)</s:String>
+    <s:String x:Key="NoVideosToDownload">Не удалось найти видео для загрузки</s:String>
+    <s:String x:Key="ThereAreNoVidoesToDownload">Нет видео для загрузки с заданными вами параметрами</s:String>
+    <s:String x:Key="UpdateNow">Обновить сейчас</s:String>
+    <s:String x:Key="Subscriptions">Подписки</s:String>
+    <s:String x:Key="AutomaticllyDownloadSubscriptions">Автоматически загружать новые видео с этих каналов</s:String>
+    <s:String x:Key="InsertChannelLink">Вставьте сюда ссылку на канал</s:String>
+    <s:String x:Key="Remove">Удалить</s:String>
+    <s:String x:Key="Id">ID: </s:String>
+    <s:String x:Key="Save">Сохранить</s:String>
+    <s:String x:Key="PreferFPS">Отдать предпочтение видео с наивысшей частотой кадров в секунду</s:String>
+    <s:String x:Key="AudioOnly">Загрузить только аудио, не конвертируя в другой формат</s:String>
+    <s:String x:Key="StillDownloadingSubscriptionsExit">Программа всё ещё загружает видео из ваших подписок. Нажатие кнопки "Да" закроет программу, и эти видео не будут загружены, пока вы снова не откроете программу.
+Вы действительно хотите выйти?</s:String>
+    <s:String x:Key="LastVideoDownloadDate">Последний раз обновлено: </s:String>
+    <s:String x:Key="Help">Помощь</s:String>
+    <s:String x:Key="SubscriptionsHelp">Подписки – это каналы, с котрых программа будет автоматически загружать видео, вышедшие после того, как вы добавили подписку на канал.
+
+Например, если вы добавили подписку на канал "x" 1-ого сентября и канал "x" выложил видео 2-ого сентября, оно будет автоматически загружено.
+
+Предыдущие видео не будут загружены, также видео не будут загружено дважды, даже если вы его удалите.
+
+Все подписки можно настроить, и у каждой есть собственные настройки. Чтобы открыть настройки подписки, нажмите на "Подписки" в основном меню, а затем нажмите на "Настройки" канала, который вы хотите настроить.
+
+Пожалуйста, обратите внимание, что если программа закрыта, новые видео не будут загружены.
+    </s:String>
+    <s:String x:Key="ContactTheDeveloper">Связь</s:String>
+    <s:String x:Key="ContactTheDeveloperHelp">Есть несколько способов связаться со мной (shaked6540): 
+        
+Первый способ – Reddit. Просто отправьте мне сообщение на Reddit, и я отвечу на него, как только смогу. Вот ссылка на мой профиль: https://www.reddit.com/user/shaked6540/ 
+        
+Второй способ связаться со мной – через discord. Я создал сервер discord для этого проекта, можете присоединиться к нему, даже если вы не хотите со мной связаться: https://discord.gg/eXeVCqE 
+        
+Третий способ связаться со мной – через GitHub, просто создайте новую "проблему", и я постараюсь ответить, как только смогу, вот ссылка: https://github.com/shaked6540/YoutubePlaylistDownloader/issues</s:String>
+    <s:String x:Key="AutomaticallyCheckForUpdates">Автоматически проверять наличие обновлений при запуске программы</s:String>
+    <s:String x:Key="WhatsNew">Что нового?</s:String>
+    <s:String x:Key="SubscriptionsUpdateDelay">Обновлять подписки каждые</s:String>
+    <s:String x:Key="Minutes">минут</s:String>
+    <s:String x:Key="SaveDownloadOptions">Сохранить мои предпочтения загрузки</s:String>
+    <s:String x:Key="DownloadSpeed">Скорость загрузки: </s:String>
+    <s:String x:Key="Changelog">Список изменений</s:String>
+    <s:String x:Key="DongChunrui">Dong Cunrui (董存瑞)</s:String>
+    <s:String x:Key="CreditsAndContributors">Большое спасибо этим людям за перевод этой программы:
+Dong Cunrui (董存瑞)
+RichyZ99
+Jhonatan Lima (Heremitus)
+İskender ALPSAKARYA, Alp Eren GENÇOĞLU (Türkçe)
+Stephan Komov (Deutsch)
+Elta (Français)
+Ahmed Waaer (Arabic)
+Bartlomiej Szmolke (Polski)
+Timofey Dedov (Русский)  
+</s:String>
+    <s:String x:Key="Search">Поиск</s:String>
+    <s:String x:Key="Queue">Очередь</s:String>
+    <s:String x:Key="Downloading">Скачивается...</s:String>
+    <s:String x:Key="Skipping">Файл Уже Существует, Пропуск...</s:String>
+    <s:String x:Key="Converting">Конвертируется...</s:String>
+    <s:String x:Key="DownloadInBackground">Добавить в очередь</s:String>
+    <s:String x:Key="Audio">Аудио</s:String>
+    <s:String x:Key="Video">Видео</s:String>
+    <s:String x:Key="DownloadCaptions">Скачать субтитры</s:String>
+    <s:String x:Key="CaptionsLanguage">Язык субтитров:</s:String>
+    <s:String x:Key="BulkDownload">Массовая загрузка</s:String>
+    <s:String x:Key="LimitConverstions">Установить максимальное количество одновременных конвертаций</s:String>
+    <s:String x:Key="ValueChangeRequiresRestart">(установка лимита требует
+    перезапуск программы для вступления изменений в силу)</s:String>
+    <s:String x:Key="ConvertionsLimitingExplnation">Конвертация каждого файла занимает около одного ядра. Например, если у вас 4
+ядра ЦП, лимитация программы до 3 конвертаций файлов одновременно поможет использовать 3 ядра из 4;
+в Диспетчере Задач вы увидите, что программа использует немного больше чем 75% ЦП.
+
+Рекомендовано использовать на одно ядро меньше, чем имеет ваш ЦП. Если у вашего ЦП 4 ядра,
+используйте 3 ядра, лимитируя конвертацию файлов до 3. Если у вас 3 ядра, используйте 2 ядра, лимитируя конвертацию файлов до 2, и так далее.</s:String>
+    <s:String x:Key="FileConvertion">Конвертация файлов</s:String>
+    <s:String x:Key="General">Основные</s:String>
+    <s:String x:Key="SavePlaylistInUniqueDirectory">Сохранить каждый плейлист в свою папку</s:String>
+    <s:String x:Key="Playlist">Плейлист</s:String>
+    <s:String x:Key="OpenDestinationFolder">Открыть целевую папку</s:String>
+    <s:String x:Key="ConfirmExit">Подтверждение при выходе</s:String>
+    <s:String x:Key="OpenDestinationFolderOnFinish">Открыть целевую папку по окончании</s:String>
+    <s:String x:Key="TagAudioFile">Добавить тэги и обложку к аудиофайлам</s:String>
+    <s:String x:Key="Than">чем</s:String>
+    <s:String x:Key="Filter">Фильтр</s:String>
+    <s:String x:Key="DownloadFilter">Загружать видео только</s:String>
+    <s:String x:Key="Longer">длиннее</s:String>
+    <s:String x:Key="Shorter">короче</s:String>
+    <s:String x:Key="FileDoesNotExist">{0} не существует.</s:String>
+    <s:String x:Key="Retry">Повторить</s:String>
+    <s:String x:Key="Of">из</s:String>
+    <s:String x:Key="FileNamePattern">Формат имени файла: </s:String>
+    <s:String x:Key="SkipExisting">Пропустить уже существующие файлы</s:String>
+    <s:String x:Key="ResetToDefault">Сбросить</s:String>
+    <s:String x:Key="FileNamePatternTitle">Формат имени файла</s:String>
+    <s:String x:Key="FileNamePattenExplanation">Формат имени файла позволяет вам дать загруженным файлам динамичные названия, основываясь на этих параметрах:
+$title: Название видео
+$index: Номер видео в плейлисте
+$artist: Имя автора песни (если возможно)
+$songtitle: Название песни
+$channel: Название канала, выложевшего видео
+$videoid: Уникальный ID видео (взятый из URL видео)
+$playlist: Название плейлиста
+
+Так, например, если мой формат файла "song: [$playlist] $artist - $songtitle ($channel) $index", в результате название файла будет "song: [Example] Infected Mushroom - Spitfire (Monstercat) 1"
+Вы можете добавлять любой текст между параметрами, только сами параметры будут заменены.
+Пожалуйста, обратите внимание, что не все параметры всегда будут доступны (например, когда вы загружаете только одно видео, переменная $playlisttitle будет недоступна), и в этом случае, они будут удалены из названия файла</s:String>
+    <s:String x:Key="CopyToClipboard">Скопировать в буфер обмена</s:String>
+    <s:String x:Key="SaveToTextFile">Сохранить в текстовый файл</s:String>
+</ResourceDictionary>
