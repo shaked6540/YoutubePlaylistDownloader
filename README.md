@@ -1,5 +1,7 @@
 # YouTube Playlist Downloader
 
+# The project is on hitaus until the war in Israel is over. Stand with Israel!
+
 ## If the files don't show up after you download a playlist, try running the program as administrator or change the save directory to a different drive! (C drive is usually protected by windows, save it under D or any other drive)
 
 ## What is it?
