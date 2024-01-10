@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFramework>net7.0-windows</TargetFramework>
+		<TargetFramework>net8.0-windows7.0</TargetFramework>
 		<OutputType>WinExe</OutputType>
 		<IsWebBootstrapper>false</IsWebBootstrapper>
 		<PublishUrl>publish\</PublishUrl>
@@ -78,10 +78,23 @@
 		</PackageReference>
 		<PackageReference Include="MahApps.Metro" Version="2.4.9" />
 		<PackageReference Include="MahApps.Metro.IconPacks" Version="4.11.0" />
-		<PackageReference Include="Microsoft.Windows.Compatibility" Version="7.0.4" />
-		<PackageReference Include="YoutubeExplode" Version="6.3.2" />
+		<PackageReference Include="Microsoft.Windows.Compatibility" Version="8.0.1" />
+		<PackageReference Include="YoutubeExplode" Version="6.3.11" />
 	</ItemGroup>
 	<ItemGroup>
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Compile Update="Properties\Settings.Designer.cs">
+	    <DesignTimeSharedInput>True</DesignTimeSharedInput>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>Settings.settings</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+	<ItemGroup>
+	  <None Update="Properties\Settings.settings">
+	    <Generator>SettingsSingleFileGenerator</Generator>
+	    <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+	  </None>
 	</ItemGroup>
 </Project>
