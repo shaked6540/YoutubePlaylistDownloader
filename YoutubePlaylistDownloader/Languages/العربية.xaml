@@ -101,11 +101,9 @@ if you are connected to the internet, try downloading a later time or visit http
     <s:String x:Key="ContactTheDeveloper">التواصل</s:String>
     <s:String x:Key="ContactTheDeveloperHelp">هناك عدة طرق للتواصل معي (shaked6540): 
         
-The first one is Reddit, simply send me a message on Reddit and I will respond as soon as I can, this is my profile link: https://www.reddit.com/user/shaked6540/ 
-        
-The second way to contact me is through discord, I've set up a discord server for this project, feel free to join even if you don't have anything to say to me: https://discord.gg/eXeVCqE 
-        
-The third way to contact me is through GitHub, simply open a new issue and I will try to respond as soon as possible, here is a link: https://github.com/shaked6540/YoutubePlaylistDownloader/issues</s:String>
+The first one is Reddit, simply send me a message on Reddit and I will respond as soon as I can, this is my profile link: https://www.reddit.com/user/shaked6540/
+
+The second way to contact me is through GitHub, simply open a new issue and I will try to respond as soon as possible, here is a link: https://github.com/shaked6540/YoutubePlaylistDownloader/issues</s:String>
     <s:String x:Key="AutomaticallyCheckForUpdates">Automatically check for updates when I start the program</s:String>
     <s:String x:Key="WhatsNew">ما الجديد ؟</s:String>
     <s:String x:Key="SubscriptionsUpdateDelay">تحديث الاشتراكات كل</s:String>

@@ -102,9 +102,7 @@ YouTube Playlist Downloader v</s:String>
     <s:String x:Key="ContactTheDeveloper">Связь</s:String>
     <s:String x:Key="ContactTheDeveloperHelp">Есть несколько способов связаться со мной (shaked6540): 
         
-Первый способ – Reddit. Просто отправьте мне сообщение на Reddit, и я отвечу на него, как только смогу. Вот ссылка на мой профиль: https://www.reddit.com/user/shaked6540/ 
-        
-Второй способ связаться со мной – через discord. Я создал сервер discord для этого проекта, можете присоединиться к нему, даже если вы не хотите со мной связаться: https://discord.gg/eXeVCqE 
+Первый способ – Reddit. Просто отправьте мне сообщение на Reddit, и я отвечу на него, как только смогу. Вот ссылка на мой профиль: https://www.reddit.com/user/shaked6540/
         
 Третий способ связаться со мной – через GitHub, просто создайте новую "проблему", и я постараюсь ответить, как только смогу, вот ссылка: https://github.com/shaked6540/YoutubePlaylistDownloader/issues</s:String>
     <s:String x:Key="AutomaticallyCheckForUpdates">Автоматически проверять наличие обновлений при запуске программы</s:String>

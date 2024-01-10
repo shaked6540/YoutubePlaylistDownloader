@@ -101,9 +101,7 @@ Te recordamos que si la aplicación no se encuentra en ejecución, no se descarg
     <s:String x:Key="ContactTheDeveloper">Contacto</s:String>
     <s:String x:Key="ContactTheDeveloperHelp">Hay varias maneras de contactarme (shaked6540):
 
-La primera es en Reddit, solo enviame un mensaje en Reddit y respondere en cuanto pueda, este es mi perfil https://www.reddit.com/user/shaked6540/ 
-
-La segunda es a través de Discord, prepare un servidor de Discord para este proyecto, sientete libre de unirte aunque no tengas nada que decirme: https://discord.gg/eXeVCqE
+La primera es en Reddit, solo enviame un mensaje en Reddit y respondere en cuanto pueda, este es mi perfil https://www.reddit.com/user/shaked6540/
 
 La tercera manera de contactarme es a través de Github, simplemente abre un nuevo issue e intentare responder lo mas rápido posible, aqui esta el link: https://github.com/shaked6540/YoutubePlaylistDownloader/issues</s:String>
     <s:String x:Key="AutomaticallyCheckForUpdates">Buscar actualizaciones automáticamente cuando inicia la aplicación</s:String>

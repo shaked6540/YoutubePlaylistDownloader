@@ -100,9 +100,7 @@ Neue Videos können nur heruntergeladen werden, während das Programm ausgeführ
     </s:String>
     <s:String x:Key="ContactTheDeveloper">Kontakt</s:String>
     <s:String x:Key="ContactTheDeveloperHelp">Es gibt verschiedene Wege, mich (shaked6540) zu kontaktieren: 
-- Reddit: Schicken Sie mir einfach eine Nachricht und ich antworte, so schnell ich kann: https://www.reddit.com/u/shaked6540/ 
-        
-- Discord: Ich habe für dieses Projekt einen Discord-Server eingerichtet, treten Sie ihm gerne bei: https://discord.gg/eXeVCqE 
+- Reddit: Schicken Sie mir einfach eine Nachricht und ich antworte, so schnell ich kann: https://www.reddit.com/u/shaked6540/
 
 - GitHub: Eröffnen Sie einfach ein sogenanntes "Issue" und ich antworte, so schnell ich kann: https://github.com/shaked6540/YoutubePlaylistDownloader/issues</s:String>
     <s:String x:Key="AutomaticallyCheckForUpdates">Automatisch nach Aktualisierungen suchen, wenn ich das Programm starte</s:String>

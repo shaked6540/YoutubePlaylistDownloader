@@ -101,9 +101,7 @@ Veuillez noter que si le programme n'est pas en cours d'exécution, les nouvelle
     <s:String x:Key="ContactTheDeveloper">Contact</s:String>
     <s:String x:Key="ContactTheDeveloperHelp">Il y a plusieurs moyens de me contacter (shaked6540): 
         
-Le premier moyen est Reddit, envoyez-moi simplement un message sur Reddit et je vous répondrai dès que possible, voilà mon lien de profil: https://www.reddit.com/user/shaked6540/ 
-        
-Le second moyen de me contacter est sur discord, j'ai mis en place un serveur discord pour ce projet, n'hésitez pas à me rejoindre même si vous n'avez rien à me dire: https://discord.gg/eXeVCqE 
+Le premier moyen est Reddit, envoyez-moi simplement un message sur Reddit et je vous répondrai dès que possible, voilà mon lien de profil: https://www.reddit.com/user/shaked6540/
         
 Le troisième moyen de me contacter est sur GitHub, créez simplement une nouvelle requête (issues) et j'essaierai de répondre dans les plus brefs délais, voici le lien: https://github.com/shaked6540/YoutubePlaylistDownloader/issues</s:String>
     <s:String x:Key="AutomaticallyCheckForUpdates">Rechercher automatiquement les mises à jour lorsque je lance le programme</s:String>

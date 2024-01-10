@@ -89,7 +89,6 @@ YouTube Playlist Downloader v</s:String>
     </s:String>
     <s:String x:Key="ContactTheDeveloper">联络我</s:String>
     <s:String x:Key="ContactTheDeveloperHelp">有联的方法络我 (shaked6540):首先是 reddit. 我的 reddit 是 https://www.reddit.com/user/shaked6540/. 请发给我 PM 我会尽快回复您.
-我的專案 discord 是 https://discord.gg/eXeVCqE.
 我的 github 是 https://github.com/shaked6540/YoutubePlaylistDownloader/issues</s:String>
     <s:String x:Key="AutomaticallyCheckForUpdates">自动检查更新</s:String>
     <s:String x:Key="WhatsNew">新功能</s:String>
