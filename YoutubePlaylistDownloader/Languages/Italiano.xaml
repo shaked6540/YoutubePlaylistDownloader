@@ -101,9 +101,7 @@ Attenzione: se il programma è spento, non scaricherà alcun video.
     <s:String x:Key="ContactTheDeveloper">Contatti</s:String>
     <s:String x:Key="ContactTheDeveloperHelp">Ci sono molti modi per contattarmi (shaked6540): 
         
-Il primo metodo è con Reddit: inviami un messaggio su Reddit e risponderò il prima possibile. Ecco il link al mio profilo: https://www.reddit.com/user/shaked6540/ 
-        
-Il secondo metodo è con Discord: il progetto ha un server Discord suo proprio; entra pure, anche se non hai nulla da dirmi riguardo a questo programma: https://discord.gg/eXeVCqE 
+Il primo metodo è con Reddit: inviami un messaggio su Reddit e risponderò il prima possibile. Ecco il link al mio profilo: https://www.reddit.com/user/shaked6540/
         
 Il terzo metodo è con GitHub: compila una nuova richiesta e cercherò di rispondere il prima possibile. Ecco il  link: https://github.com/shaked6540/YoutubePlaylistDownloader/issues</s:String>
     <s:String x:Key="AutomaticallyCheckForUpdates">Cerca automaticamente aggiornamenti all'avvio del programma</s:String>

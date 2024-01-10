@@ -103,8 +103,6 @@ YouTube Playlist Downloader v</s:String>
         
 הראשונה היא Reddit, פשוט לשלוח לי הודעה ב Reddit ואני יגיב ברגע שאני יכול, זה קישור הפרופיל שלי: https://www.reddit.com/user/shaked6540/
         
-הדרך השנייה ליצור איתי קשר היא דרך discord, אני כבר להגדיר שרת discord עבור פרוייקט זה, אל תהסס להצטרף גם אם אין לך מה להגיד לי: https://discord.gg/eXeVCqE
-        
 הדרך השלישית ליצור איתי קשר היא באמצעות GitHub, פשוט לפתוח בעיה חדשה ואני אנסה להגיב בהקדם האפשרי, הנה קישור: https://github.com/shaked6540/YoutubePlaylistDownloader/issues</s:String>
     <s:String x:Key="AutomaticallyCheckForUpdates">חפש אוטומטית עדכונים כאשר אני מפעיל את התוכנית</s:String>
     <s:String x:Key="WhatsNew">מה חדש?</s:String>

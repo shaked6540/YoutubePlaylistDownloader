@@ -104,8 +104,6 @@ Należy pamiętać, że jeśli program nie jest uruchomiony, nowe filmy nie zost
         
 Pierwszym z nich jest Reddit, po prostu wyślij mi wiadomość na Reddit, a ja odpowiem tak szybko, jak to możliwe, to jest mój link do profilu: https://www.reddit.com/user/shaked6540/
         
-Drugim sposobem na skontaktowanie się ze mną jest discord, założyłem serwer discord dla tego projektu, możesz dołączyć, nawet jeśli nie masz mi nic do powiedzenia: https://discord.gg/eXeVCqE
-        
 Trzecim sposobem skontaktowania się ze mną jest GitHub, po prostu otwórz nowy problem, a ja postaram się odpowiedzieć tak szybko, jak to możliwe, oto link: https://github.com/shaked6540/YoutubePlaylistDownloader/issues</s:String>
     <s:String x:Key="AutomaticallyCheckForUpdates">Sprawdzaj dostepność aktualizacji przy starcie programu</s:String>
     <s:String x:Key="WhatsNew">Nowości</s:String>

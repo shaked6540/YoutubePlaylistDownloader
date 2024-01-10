@@ -104,8 +104,6 @@ Program çalışmıyorsa, yeni videoların indirilmeyeceğini lütfen unutmayın
         
 İlki Reddit, bana Reddit üzerinden bir mesaj gönderirseniz size en kısa sürede cevap veririm. Profil bağlantım: https://www.reddit.com/user/shaked6540/
         
-Bana ulaşmanın ikinci yolu Discord. Bu proje için bir Discord sunucusu kurdum, bana söyleyecek bir şeyiniz olmasa bile katılmaktan çekinmeyin: https://discord.gg/eXeVCqE
-        
 Benimle iletişim kurmanın üçüncü yolu GitHub'dan geçiyor, sadece yeni bir konu başlığı (issue) oluşturun, en kısa sürede yanıt vermeye çalışacağım. İşte bağlantı: https://github.com/shaked6540/YoutubePlaylistDownloader/issues</s:String>
     <s:String x:Key="AutomaticallyCheckForUpdates">Programı başlattığımda güncellemeleri otomatik olarak kontrol et</s:String>
     <s:String x:Key="WhatsNew">Neler Yeni?</s:String>
