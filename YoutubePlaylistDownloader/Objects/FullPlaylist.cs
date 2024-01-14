@@ -1,20 +1,9 @@
-﻿using System.Collections.Generic;
-using YoutubeExplode.Playlists;
+﻿namespace YoutubePlaylistDownloader.Objects;
 
-namespace YoutubePlaylistDownloader.Objects
+public class FullPlaylist(Playlist basePlaylist, IEnumerable<PlaylistVideo> videos, string title = null)
 {
-    public class FullPlaylist
-    {
-        public Playlist BasePlaylist { get; private set; }
-        public IEnumerable<PlaylistVideo> Videos { get; private set; }
+    public Playlist BasePlaylist { get; private set; } = basePlaylist;
+    public IEnumerable<PlaylistVideo> Videos { get; private set; } = videos;
 
-        public string Title { get; private set; }
-
-        public FullPlaylist(Playlist basePlaylist, IEnumerable<PlaylistVideo> videos, string title = null)
-        {
-            BasePlaylist = basePlaylist;
-            Videos = videos;
-            Title = basePlaylist?.Title ?? title;
-        }
-    }
+    public string Title { get; private set; } = basePlaylist?.Title ?? title;
 }

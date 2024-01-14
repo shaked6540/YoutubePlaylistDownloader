@@ -35,7 +35,7 @@
                                 <iconPacks:PackIconModern Panel.ZIndex="5" HorizontalAlignment="Center" Grid.Row="0" Kind="Cog" Width="20" Height="20" Margin="0" />
                                 <TextBlock Panel.ZIndex="0" Grid.Row="1" Text="{DynamicResource Options}" FontSize="10" VerticalAlignment="Bottom"  />
                             </Grid>
-                            </Controls:Tile>
+                        </Controls:Tile>
                         <TextBox Grid.Column="1" HorizontalAlignment="Stretch"  x:Name="PlaylistLinkTextBox" Margin="5" FontSize="18" TextChanged="TextBox_TextChanged" Style="{StaticResource SeachBarPlaceHolder}" Tag="{DynamicResource InsertYoutubePlaylistLinkHere}"  />
                     </Grid>
                     <ScrollViewer Grid.Row="1" x:Name="GridScrollViewer" VerticalScrollBarVisibility="Auto">
