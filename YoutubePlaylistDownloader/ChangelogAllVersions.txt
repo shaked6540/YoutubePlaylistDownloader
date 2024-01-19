@@ -1,4 +1,8 @@
-﻿Version 1.9.22:
+﻿Version 1.9.23:
+- Fixed Cookie error
+
+
+Version 1.9.22:
 - Updated libraries
 
 

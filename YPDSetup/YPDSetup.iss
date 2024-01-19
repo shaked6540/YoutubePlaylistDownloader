@@ -7,8 +7,8 @@
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
 AppId={{444538EE-4F35-4245-AEAE-6C149BB852B8}
 AppName=YouTube Playlist Downloader
-AppVersion=1.9.22
-AppVerName=YouTube Playlist Downloader 1.9.22
+AppVersion=1.9.23
+AppVerName=YouTube Playlist Downloader 1.9.23
 AppPublisher=shaked6540
 AppPublisherURL=https://github.com/shaked6540/YoutubePlaylistDownloader
 AppSupportURL=https://github.com/shaked6540/YoutubePlaylistDownloader
@@ -17,7 +17,7 @@ DefaultDirName={commonpf}\YouTube Playlist Downloader
 DefaultGroupName=YouTube Playlist Downloader
 AllowNoIcons=yes
 LicenseFile=..\YoutubePlaylistDownloader\bin\Release\License.txt
-OutputDir=D:\Inno output\1.9.22
+OutputDir=D:\Inno output\1.9.23
 OutputBaseFilename=YoutubePlaylistDownloader
 SetupIconFile=..\YoutubePlaylistDownloader\finalIcon.ico
 Compression=lzma
@@ -32,7 +32,7 @@ Name: "hebrew"; MessagesFile: "compiler:Languages\Hebrew.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}";
 
 [Files]
-Source: "..\YoutubePlaylistDownloader\bin\Release\net7.0-windows\*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\YoutubePlaylistDownloader\bin\Release\net8.0-windows7.0\*"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\bin\bin32\ffmpeg.exe"; DestDir: "{app}"; Flags: ignoreversion
 
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files        
