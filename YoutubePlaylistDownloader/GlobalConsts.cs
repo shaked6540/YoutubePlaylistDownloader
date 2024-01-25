@@ -5,14 +5,14 @@ static class GlobalConsts
     #region Const Variables
     public static Skeleton Current;
     public static MainPage MainPage;
-    public static Brush ErrorBrush;
+    public static System.Windows.Media.Brush ErrorBrush;
     public static readonly string TempFolderPath;
     //public static string SaveDirectory;
     public static readonly string CurrentDir;
     public static readonly string FFmpegFilePath;
     private static readonly string ConfigFilePath;
     private static readonly string ErrorFilePath;
-    public static readonly Version VERSION = new(1, 9, 22);
+    public static readonly Version VERSION = new(1, 9, 23);
     public static bool UpdateOnExit;
     public static string UpdateSetupLocation;
     public static bool UpdateFinishedDownloading;
@@ -46,7 +46,7 @@ static class GlobalConsts
                     File.WriteAllText(DownloadSettingsFilePath, JsonConvert.SerializeObject(downloadSettings));
             }
         }
-    }
+    }7
 
     #endregion
 
