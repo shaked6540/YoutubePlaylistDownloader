@@ -1,23 +1,15 @@
-﻿using System.Collections.Generic;
+﻿namespace YoutubePlaylistDownloader.Objects;
 
-namespace YoutubePlaylistDownloader.Objects
+class FixedQueue<T>(int size) : Queue<T>()
 {
-    class FixedQueue<T> : Queue<T>
+    private readonly int size = size;
+
+    public new void Enqueue(T item)
     {
-        private readonly int size;
+        while (Count >= size)
+            Dequeue();
 
-        public FixedQueue(int size) : base()
-        {
-            this.size = size;
-        }
-
-        public new void Enqueue(T item)
-        {
-            while (base.Count >= size)
-                base.Dequeue();
-
-            base.Enqueue(item);
-        }
-
+        base.Enqueue(item);
     }
+
 }

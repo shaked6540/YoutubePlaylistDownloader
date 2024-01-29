@@ -1,19 +1,16 @@
-﻿using System.Windows.Controls;
+﻿namespace YoutubePlaylistDownloader;
 
-namespace YoutubePlaylistDownloader
+/// <summary>
+/// Interaction logic for Help.xaml
+/// </summary>
+public partial class Help : UserControl
 {
-    /// <summary>
-    /// Interaction logic for Help.xaml
-    /// </summary>
-    public partial class Help : UserControl
+    public Help()
     {
-        public Help()
-        {
-            InitializeComponent();
-            GlobalConsts.HideHelpButton();
-            GlobalConsts.ShowAboutButton();
-            GlobalConsts.ShowHomeButton();
-            GlobalConsts.ShowSettingsButton();
-        }
+        InitializeComponent();
+        GlobalConsts.HideHelpButton();
+        GlobalConsts.ShowAboutButton();
+        GlobalConsts.ShowHomeButton();
+        GlobalConsts.ShowSettingsButton();
     }
 }
