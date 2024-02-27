@@ -46,7 +46,7 @@ static class GlobalConsts
                     File.WriteAllText(DownloadSettingsFilePath, JsonConvert.SerializeObject(downloadSettings));
             }
         }
-    }7
+    }
 
     #endregion
 
