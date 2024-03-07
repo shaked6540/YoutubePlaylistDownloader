@@ -383,7 +383,7 @@ static class GlobalConsts
         return $"{string.Join(", ", artists)} - {title}";
     }
 
-    public static async Task<string> TagFileBasedOnTitle(PlaylistVideo video, int vIndex, string file, FullPlaylist playlist = null)
+    public static async Task<string> TagFileBasedOnTitle(IVideo video, int vIndex, string file, FullPlaylist playlist = null)
     {
         var genre = video.Title.Split('[', ']').ElementAtOrDefault(1);
         if (genre == null)
@@ -450,7 +450,7 @@ static class GlobalConsts
         return file;
     }
 
-    public static async Task<string> TagFile(PlaylistVideo video, int vIndex, string file, FullPlaylist playlist = null)
+    public static async Task<string> TagFile(IVideo video, int vIndex, string file, FullPlaylist playlist = null)
     {
         ArgumentNullException.ThrowIfNull(video);
 

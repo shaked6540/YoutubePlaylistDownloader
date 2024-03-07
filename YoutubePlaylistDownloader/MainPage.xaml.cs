@@ -4,7 +4,7 @@ public partial class MainPage : UserControl
 {
     private readonly YoutubeClient client;
     private FullPlaylist list = null;
-    private IEnumerable<PlaylistVideo> VideoList;
+    private IEnumerable<IVideo> VideoList;
     private Channel channel = null;
     private readonly Dictionary<string, VideoQuality> Resolutions = new()
     {
@@ -32,7 +32,7 @@ public partial class MainPage : UserControl
         GlobalConsts.ShowSettingsButton();
         GlobalConsts.ShowAboutButton();
         GlobalConsts.ShowHelpButton();
-        VideoList = new List<PlaylistVideo>();
+        VideoList = new List<IVideo>();
         client = GlobalConsts.YoutubeClient;
 
         GlobalConsts.MainPage = this;
@@ -55,7 +55,7 @@ public partial class MainPage : UserControl
             {
                 _ = Task.Run(async () =>
                 {
-                    var basePlaylist = await client.Playlists.GetAsync(playlistId).ConfigureAwait(false);
+                    var basePlaylist = await client.Playlists.GetAsync(playlistId.Value).ConfigureAwait(false);
                     list = new FullPlaylist(basePlaylist, await client.Playlists.GetVideosAsync(basePlaylist.Id).CollectAsync().ConfigureAwait(false));
                     VideoList = new List<PlaylistVideo>();
                     await UpdatePlaylistInfo(Visibility.Visible, list.BasePlaylist.Title, list.BasePlaylist.Author?.ChannelTitle ?? "", "", list.Videos.Count().ToString(), $"https://img.youtube.com/vi/{list?.Videos?.FirstOrDefault()?.Id}/maxresdefault.jpg", true, true);
@@ -96,7 +96,7 @@ public partial class MainPage : UserControl
                 _ = Task.Run(async () =>
                 {
                     var video = await client.Videos.GetAsync(videoId);
-                    VideoList = new List<PlaylistVideo> { new(playlistId, video.Id, video.Title, video.Author, video.Duration, video.Thumbnails) };
+                    VideoList = new List<Video> { video };
                     list = new FullPlaylist(null, null);
                     await UpdatePlaylistInfo(Visibility.Visible, video.Title, video.Author.ChannelTitle, video.Engagement.ViewCount.ToString(), string.Empty, $"https://img.youtube.com/vi/{video.Id}/maxresdefault.jpg", true, false);
 
@@ -126,7 +126,7 @@ public partial class MainPage : UserControl
             }
 
             GlobalConsts.LoadPage(new DownloadPage(list, GlobalConsts.DownloadSettings.Clone(), videos: VideoList));
-            VideoList = new List<PlaylistVideo>();
+            VideoList = new List<IVideo>();
             PlaylistLinkTextBox.Text = string.Empty;
         }
     }
@@ -175,7 +175,7 @@ public partial class MainPage : UserControl
             }
 
             _ = new DownloadPage(list, GlobalConsts.DownloadSettings.Clone(), silent: true, videos: VideoList);
-            VideoList = new List<PlaylistVideo>();
+            VideoList = new List<IVideo>();
             PlaylistLinkTextBox.Text = string.Empty;
         }
     }

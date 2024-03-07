@@ -61,7 +61,7 @@ public static partial class YoutubeHelpers
     /// <summary>
     /// Tries to parse playlist ID from a YouTube playlist URL.
     /// </summary>
-    public static bool TryParsePlaylistId(string playlistUrl, out string playlistId)
+    public static bool TryParsePlaylistId(string playlistUrl, out PlaylistId? playlistId)
     {
         playlistId = default;
 
@@ -72,7 +72,7 @@ public static partial class YoutubeHelpers
         var regularMatch = RegularRegex().Match(playlistUrl).Groups[1].Value;
         if (!string.IsNullOrWhiteSpace(regularMatch) && ValidatePlaylistId(regularMatch))
         {
-            playlistId = regularMatch;
+            playlistId = PlaylistId.Parse(regularMatch);
             return true;
         }
 
@@ -80,7 +80,7 @@ public static partial class YoutubeHelpers
         var compositeMatch = CompositeRegex().Match(playlistUrl).Groups[1].Value;
         if (!string.IsNullOrWhiteSpace(compositeMatch) && ValidatePlaylistId(compositeMatch))
         {
-            playlistId = compositeMatch;
+            playlistId = PlaylistId.Parse(compositeMatch);
             return true;
         }
 
@@ -88,7 +88,7 @@ public static partial class YoutubeHelpers
         var shortCompositeMatch = ShortLinkRegex().Match(playlistUrl).Groups[1].Value;
         if (!string.IsNullOrWhiteSpace(shortCompositeMatch) && ValidatePlaylistId(shortCompositeMatch))
         {
-            playlistId = shortCompositeMatch;
+            playlistId = PlaylistId.Parse(shortCompositeMatch);
             return true;
         }
 
@@ -96,7 +96,7 @@ public static partial class YoutubeHelpers
         var embedCompositeMatch = EmbedRegex().Match(playlistUrl).Groups[1].Value;
         if (!string.IsNullOrWhiteSpace(embedCompositeMatch) && ValidatePlaylistId(embedCompositeMatch))
         {
-            playlistId = embedCompositeMatch;
+            playlistId = PlaylistId.Parse(embedCompositeMatch);
             return true;
         }
 
