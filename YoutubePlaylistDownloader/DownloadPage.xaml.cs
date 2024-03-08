@@ -416,7 +416,8 @@ public partial class DownloadPage : UserControl, IDisposable, IDownload
 
                                 if (TagAudioFile)
                                 {
-                                    var afterTagName = await GlobalConsts.TagFile(video, indexes[video], outputFileLoc, Playlist);
+                                    var videoIndex = indexes[video];
+                                    var afterTagName = await GlobalConsts.TagFile(video, videoIndex, outputFileLoc, Playlist);
                                     FileType = new string(copyFileLoc.Skip(copyFileLoc.LastIndexOf('.') + 1).ToArray());
                                     if (afterTagName != outputFileLoc)
                                     {
@@ -425,7 +426,7 @@ public partial class DownloadPage : UserControl, IDisposable, IDownload
                                             video = new PlaylistVideo(playlistId.Value, video.Id, afterTagName, video.Author, video.Duration, video.Thumbnails);
                                         }
 
-                                        cleanFileName = GlobalConsts.CleanFileName(downloadSettings.GetFilenameByPattern(video, i, title, Playlist));
+                                        cleanFileName = GlobalConsts.CleanFileName(downloadSettings.GetFilenameByPattern(video, videoIndex - 1, title, Playlist));
                                         copyFileLoc = $"{SavePath}\\{cleanFileName}.{FileType}";
                                     }
                                 }
