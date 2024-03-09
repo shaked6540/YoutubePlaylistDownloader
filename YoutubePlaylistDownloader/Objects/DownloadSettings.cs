@@ -138,7 +138,7 @@ public class DownloadSettings
         VideoSaveFormat = settings.VideoSaveFormat;
     }
 
-    public string GetFilenameByPattern(PlaylistVideo video, int vIndex, string file, FullPlaylist playlist = null)
+    public string GetFilenameByPattern(IVideo video, int vIndex, string file, FullPlaylist playlist = null)
     {
         if (video == null)
             return file;

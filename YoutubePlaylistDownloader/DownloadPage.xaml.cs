@@ -18,8 +18,8 @@ public partial class DownloadPage : UserControl, IDisposable, IDownload
     private readonly CancellationTokenSource cts;
     private readonly VideoQuality Quality;
     private string Bitrate;
-    private List<Tuple<PlaylistVideo, string>> NotDownloaded;
-    private IEnumerable<PlaylistVideo> Videos;
+    private List<Tuple<IVideo, string>> NotDownloaded;
+    private IEnumerable<IVideo> Videos;
     private readonly bool AudioOnly;
     private readonly bool PreferHighestFPS;
     private bool DownloadCaptions;
@@ -28,7 +28,7 @@ public partial class DownloadPage : UserControl, IDisposable, IDownload
     const int megaBytes = 1 << 20;
     private readonly bool silent;
     private FixedQueue<double> downloadSpeeds;
-    private readonly Dictionary<PlaylistVideo, int> indexes = [];
+    private readonly Dictionary<IVideo, int> indexes = [];
     private readonly List<Task> convertionTasks = [];
 
     public bool StillDownloading;
@@ -106,7 +106,7 @@ public partial class DownloadPage : UserControl, IDisposable, IDownload
     }
 
 
-    public DownloadPage(FullPlaylist playlist, DownloadSettings settings, string savePath = "", IEnumerable<PlaylistVideo> videos = null,
+    public DownloadPage(FullPlaylist playlist, DownloadSettings settings, string savePath = "", IEnumerable<IVideo> videos = null,
         bool silent = false, CancellationTokenSource cancellationToken = null)
     {
         InitializeComponent();
@@ -185,7 +185,7 @@ public partial class DownloadPage : UserControl, IDisposable, IDownload
         CurrentDownloadSpeed = $"{FindResource("DownloadSpeed")}: 0 MiB/s";
 
         if (settings.Convert || settings.AudioOnly)
-            StartDownloadingWithConverting(playlist.BasePlaylist.Id, cts.Token).ConfigureAwait(false);
+            StartDownloadingWithConverting(playlist.BasePlaylist?.Id, cts.Token).ConfigureAwait(false);
         else
             StartDownloading(cts.Token).ConfigureAwait(false);
 
@@ -198,11 +198,11 @@ public partial class DownloadPage : UserControl, IDisposable, IDownload
         Playlist basePlaylist;
         FullPlaylist fullPlaylist;
         Channel channel;
-        IEnumerable<PlaylistVideo> videos = new List<PlaylistVideo>();
+        IEnumerable<IVideo> videos = new List<IVideo>();
         var notDownloaded = new List<(string, string)>();
         foreach (var link in links)
         {
-            async Task Download(FullPlaylist playlistD, IEnumerable<PlaylistVideo> videosD)
+            async Task Download(FullPlaylist playlistD, IEnumerable<IVideo> videosD)
             {
                 await Application.Current.Dispatcher.InvokeAsync(() =>
                 {
@@ -213,9 +213,9 @@ public partial class DownloadPage : UserControl, IDisposable, IDownload
             {
                 if (YoutubeHelpers.TryParsePlaylistId(link, out var playlistId))
                 {
-                    basePlaylist = await client.Playlists.GetAsync(playlistId).ConfigureAwait(false);
+                    basePlaylist = await client.Playlists.GetAsync(playlistId.Value).ConfigureAwait(false);
                     fullPlaylist = new FullPlaylist(basePlaylist, await client.Playlists.GetVideosAsync(basePlaylist.Id).CollectAsync().ConfigureAwait(false));
-                    await Download(fullPlaylist, new List<PlaylistVideo>());
+                    await Download(fullPlaylist, new List<IVideo>());
                 }
                 else if (YoutubeHelpers.TryParseChannelId(link, out var channelId))
                 {
@@ -233,8 +233,14 @@ public partial class DownloadPage : UserControl, IDisposable, IDownload
                 }
                 else if (YoutubeHelpers.TryParseVideoId(link, out var videoId))
                 {
-                    var video = await client.Videos.GetAsync(videoId);
-                    await Download(null, new[] { new PlaylistVideo(playlistId, video.Id, video.Title, video.Author, video.Duration, video.Thumbnails) });
+                    IVideo video = await client.Videos.GetAsync(videoId);
+
+                    if (playlistId.HasValue)
+                    {
+                        video = new PlaylistVideo(playlistId.Value, video.Id, video.Title, video.Author, video.Duration, video.Thumbnails);
+                    }
+
+                    await Download(null, new[] { video });
                 }
                 else
                 {
@@ -261,7 +267,7 @@ public partial class DownloadPage : UserControl, IDisposable, IDownload
         }
     }
 
-    public async Task StartDownloadingWithConverting(PlaylistId playlistId, CancellationToken token)
+    public async Task StartDownloadingWithConverting(PlaylistId? playlistId, CancellationToken token)
     {
         try
         {
@@ -279,7 +285,7 @@ public partial class DownloadPage : UserControl, IDisposable, IDownload
             {
                 var video = Videos.ElementAtOrDefault(i);
 
-                if (video == default(PlaylistVideo))
+                if (video == default(IVideo))
                     goto exit;
 
                 indexes.Add(video, i + 1);
@@ -414,7 +420,11 @@ public partial class DownloadPage : UserControl, IDisposable, IDownload
                                     FileType = new string(copyFileLoc.Skip(copyFileLoc.LastIndexOf('.') + 1).ToArray());
                                     if (afterTagName != outputFileLoc)
                                     {
-                                        video = new PlaylistVideo(playlistId, video.Id, afterTagName, video.Author, video.Duration, video.Thumbnails);
+                                        if (playlistId.HasValue)
+                                        {
+                                            video = new PlaylistVideo(playlistId.Value, video.Id, afterTagName, video.Author, video.Duration, video.Thumbnails);
+                                        }
+
                                         cleanFileName = GlobalConsts.CleanFileName(downloadSettings.GetFilenameByPattern(video, i, title, Playlist));
                                         copyFileLoc = $"{SavePath}\\{cleanFileName}.{FileType}";
                                     }
@@ -475,7 +485,11 @@ public partial class DownloadPage : UserControl, IDisposable, IDownload
                                 var afterTagName = await GlobalConsts.TagFile(video, i + 1, copyFileLoc, Playlist);
                                 if (afterTagName != outputFileLoc)
                                 {
-                                    video = new PlaylistVideo(playlistId, video.Id, afterTagName, video.Author, video.Duration, video.Thumbnails);
+                                    if (playlistId.HasValue)
+                                    {
+                                        video = new PlaylistVideo(playlistId.Value, video.Id, afterTagName, video.Author, video.Duration, video.Thumbnails);
+                                    }
+
                                     cleanFileName = GlobalConsts.CleanFileName(downloadSettings.GetFilenameByPattern(video, i, title, Playlist));
                                     copyFileLoc = $"{SavePath}\\{cleanFileName}.{FileType}";
                                 }
@@ -498,7 +512,7 @@ public partial class DownloadPage : UserControl, IDisposable, IDownload
                 catch (Exception ex)
                 {
                     await GlobalConsts.Log(ex.ToString(), "DownloadPage DownlaodWithConvert");
-                    NotDownloaded.Add(new Tuple<PlaylistVideo, string>(video, ex.Message));
+                    NotDownloaded.Add(new Tuple<IVideo, string>(video, ex.Message));
                 }
             }
 
@@ -589,7 +603,7 @@ public partial class DownloadPage : UserControl, IDisposable, IDownload
         {
             var video = Videos.ElementAtOrDefault(i);
 
-            if (video == default(PlaylistVideo))
+            if (video == default(IVideo))
                 goto exit;
 
             try
@@ -812,7 +826,7 @@ public partial class DownloadPage : UserControl, IDisposable, IDownload
             catch (Exception ex)
             {
                 await GlobalConsts.Log(ex.ToString(), "DownloadPage DownlaodWithConvert");
-                NotDownloaded.Add(new Tuple<PlaylistVideo, string>(video, ex.Message));
+                NotDownloaded.Add(new Tuple<IVideo, string>(video, ex.Message));
             }
         }
 
@@ -884,7 +898,7 @@ public partial class DownloadPage : UserControl, IDisposable, IDownload
         GlobalConsts.LoadPage(GlobalConsts.MainPage.Load());
     }
 
-    private void Update(int percent, PlaylistVideo video)
+    private void Update(int percent, IVideo video)
     {
         CurrentDownloadProgressBar.Value = percent;
         HeadlineTextBlock.Text = (string)FindResource("CurrentlyDownlading") + video.Title;
