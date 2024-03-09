@@ -23,7 +23,7 @@
     <s:String x:Key="Description">Beschreibung: </s:String>
     <s:String x:Key="Views">Aufrufe: </s:String>
     <s:String x:Key="SaveDirectory">Videos speichern unter: </s:String>
-    <s:String x:Key="CurrentlyDownlading">Derzeit herunterladend: </s:String>
+    <s:String x:Key="CurrentlyDownloading">Derzeit herunterladend: </s:String>
     <s:String x:Key="TotalProgress">Bis jetzt heruntergeladen: </s:String>
     <s:String x:Key="AllDone">Fertig.</s:String>
     <s:String x:Key="Canceling">Downloads werden abgebrochen, bitte warten Sie...</s:String>
@@ -74,7 +74,7 @@ Fehlermeldung: </s:String>
     <s:String x:Key="UntilIndex">bis Video Nr. </s:String>
     <s:String x:Key="LeaveEmptyOrZeroForUntilTheEnd">(lassen Sie dies leer oder geben Sie 0 ein, um alle Video bis zum Ende der Playlist herunterzuladen)</s:String>
     <s:String x:Key="NoVideosToDownload">konnte keine Videos zum Herunterladen finden</s:String>
-    <s:String x:Key="ThereAreNoVidoesToDownload">Es gibt keine herunterladbaren Videos mit den von Ihnen angegebenen Parametern.</s:String>
+    <s:String x:Key="ThereAreNoVideosToDownload">Es gibt keine herunterladbaren Videos mit den von Ihnen angegebenen Parametern.</s:String>
     <s:String x:Key="UpdateNow">jetzt aktualisieren</s:String>
     <s:String x:Key="Subscriptions">Abonnements</s:String>
     <s:String x:Key="AutomaticllyDownloadSubscriptions">Automatisch alle Videos dieser Kanäle herunterladen</s:String>
@@ -136,11 +136,11 @@ Timofey Dedov (Русский)
     <s:String x:Key="LimitConverstions" >Maximale gleichzeitige Konvertierungen: </s:String>
     <s:String x:Key="ValueChangeRequiresRestart">(aktivieren dieser Beschränkung erfordert
 einen Neustart des Programmes)</s:String>
-    <s:String x:Key="ConvertionsLimitingExplnation">Jede Datei-Konvertierung benötigt etwa einen Kern.
+    <s:String x:Key="ConversionsLimitingExplanation">Jede Datei-Konvertierung benötigt etwa einen Kern.
 Haben Sie eine CPU mit vier Kernen und beschränken Sie das Programm auf drei gleichzeitige Konvertierungen, so werden Sie im Task-Manager sehen, dass das Programm ungefähr 75% der CPU benutzt.
 Ich empfehle, einen Kern weniger zu benutzen und dementsprechend eine gleichzeitige Konvetierung weniger einzustellen, als Ihre CPU-Kerne hat.
 Beispiel: Hat Ihre CPU hat vier Kerne, so stellen Sie drei gleichzeitge Konvertierungen ein.</s:String>
-    <s:String x:Key="FileConvertion">Konvertierung</s:String>
+    <s:String x:Key="FileConversion">Konvertierung</s:String>
     <s:String x:Key="General">Allgemein</s:String>
     <s:String x:Key="SavePlaylistInUniqueDirectory">Jede Playlist in einem anderen Ordner speichern</s:String>
     <s:String x:Key="Playlist">Playlist</s:String>

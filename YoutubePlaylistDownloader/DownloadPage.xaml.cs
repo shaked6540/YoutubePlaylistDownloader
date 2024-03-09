@@ -29,7 +29,7 @@ public partial class DownloadPage : UserControl, IDisposable, IDownload
     private readonly bool silent;
     private FixedQueue<double> downloadSpeeds;
     private readonly Dictionary<IVideo, int> indexes = [];
-    private readonly List<Task> convertionTasks = [];
+    private readonly List<Task> conversionTasks = [];
 
     public bool StillDownloading;
 
@@ -273,14 +273,14 @@ public partial class DownloadPage : UserControl, IDisposable, IDownload
         {
             if (StartIndex > Videos.Count() - 1)
             {
-                await GlobalConsts.ShowMessage($"{FindResource("NoVideosToDownload")}", $"{FindResource("ThereAreNoVidoesToDownload")}");
+                await GlobalConsts.ShowMessage($"{FindResource("NoVideosToDownload")}", $"{FindResource("ThereAreNoVideosToDownload")}");
                 StillDownloading = false;
                 GlobalConsts.LoadPage(GlobalConsts.MainPage.Load());
             }
 
             var client = GlobalConsts.YoutubeClient;
             var convertingCount = 0;
-            convertionTasks.Clear();
+            conversionTasks.Clear();
             for (var i = StartIndex; i <= EndIndex; i++)
             {
                 var video = Videos.ElementAtOrDefault(i);
@@ -444,7 +444,7 @@ public partial class DownloadPage : UserControl, IDisposable, IDownload
                                 await GlobalConsts.Log(ex.ToString(), "DownloadPage with convert");
                             }
                         };
-                        if (!GlobalConsts.settings.LimitConvertions)
+                        if (!GlobalConsts.settings.LimitConversions)
                         {
                             ffmpeg.Start();
                             convertingCount++;
@@ -452,7 +452,7 @@ public partial class DownloadPage : UserControl, IDisposable, IDownload
                         }
                         else
                         {
-                            convertionTasks.Add(Task.Run(async () =>
+                            conversionTasks.Add(Task.Run(async () =>
                             {
                                 try
                                 {
@@ -468,7 +468,7 @@ public partial class DownloadPage : UserControl, IDisposable, IDownload
                                 }
                                 catch (Exception ex)
                                 {
-                                    await GlobalConsts.Log(ex.ToString(), "ConvertionLocker at StartDownloadingWithConverting at DownloadPage.xaml.cs");
+                                    await GlobalConsts.Log(ex.ToString(), "ConversionsLocker at StartDownloadingWithConverting at DownloadPage.xaml.cs");
                                 }
                             }, token));
                         }
@@ -511,7 +511,7 @@ public partial class DownloadPage : UserControl, IDisposable, IDownload
                 }
                 catch (Exception ex)
                 {
-                    await GlobalConsts.Log(ex.ToString(), "DownloadPage DownlaodWithConvert");
+                    await GlobalConsts.Log(ex.ToString(), "DownloadPage DownloadWithConvert");
                     NotDownloaded.Add(new Tuple<IVideo, string>(video, ex.Message));
                 }
             }
@@ -530,7 +530,7 @@ public partial class DownloadPage : UserControl, IDisposable, IDownload
                       });
             }
 
-            while (ffmpegList.Count > 0 || convertionTasks?.Count(x => !x.IsCompleted) > 0)
+            while (ffmpegList.Count > 0 || conversionTasks?.Count(x => !x.IsCompleted) > 0)
             {
                 await Dispatcher.InvokeAsync(() =>
                 {
@@ -581,7 +581,7 @@ public partial class DownloadPage : UserControl, IDisposable, IDownload
         }
         finally
         {
-            await Task.WhenAll(convertionTasks);
+            await Task.WhenAll(conversionTasks);
             StillDownloading = false;
             Dispose();
         }
@@ -591,14 +591,14 @@ public partial class DownloadPage : UserControl, IDisposable, IDownload
     {
         if (StartIndex > Videos.Count() - 1)
         {
-            await GlobalConsts.ShowMessage($"{FindResource("NoVideosToDownload")}", $"{FindResource("ThereAreNoVidoesToDownload")}");
+            await GlobalConsts.ShowMessage($"{FindResource("NoVideosToDownload")}", $"{FindResource("ThereAreNoVideosToDownload")}");
             StillDownloading = false;
             GlobalConsts.LoadPage(GlobalConsts.MainPage.Load());
         }
 
         var client = GlobalConsts.YoutubeClient;
         var convertingCount = 0;
-        convertionTasks.Clear();
+        conversionTasks.Clear();
         for (var i = StartIndex; i <= EndIndex; i++)
         {
             var video = Videos.ElementAtOrDefault(i);
@@ -786,7 +786,7 @@ public partial class DownloadPage : UserControl, IDisposable, IDownload
                     }
                 };
 
-                if (!GlobalConsts.settings.LimitConvertions)
+                if (!GlobalConsts.settings.LimitConversions)
                 {
                     ffmpeg.Start();
                     convertingCount++;
@@ -794,7 +794,7 @@ public partial class DownloadPage : UserControl, IDisposable, IDownload
                 }
                 else
                 {
-                    convertionTasks.Add(Task.Run(async () =>
+                    conversionTasks.Add(Task.Run(async () =>
                     {
                         try
                         {
@@ -810,7 +810,7 @@ public partial class DownloadPage : UserControl, IDisposable, IDownload
                         }
                         catch (Exception ex)
                         {
-                            await GlobalConsts.Log(ex.ToString(), "ConvertionLocker at StartDownloading at DownloadPage.xaml.cs");
+                            await GlobalConsts.Log(ex.ToString(), "ConversionsLocker at StartDownloading at DownloadPage.xaml.cs");
                         }
                     }, token));
                 }
@@ -825,7 +825,7 @@ public partial class DownloadPage : UserControl, IDisposable, IDownload
             }
             catch (Exception ex)
             {
-                await GlobalConsts.Log(ex.ToString(), "DownloadPage DownlaodWithConvert");
+                await GlobalConsts.Log(ex.ToString(), "DownloadPage DownloadWithConvert");
                 NotDownloaded.Add(new Tuple<IVideo, string>(video, ex.Message));
             }
         }
@@ -844,7 +844,7 @@ public partial class DownloadPage : UserControl, IDisposable, IDownload
                   });
         }
 
-        while (ffmpegList.Count > 0 || convertionTasks?.Count(x => !x.IsCompleted) > 0)
+        while (ffmpegList.Count > 0 || conversionTasks?.Count(x => !x.IsCompleted) > 0)
         {
             await Dispatcher.InvokeAsync(() =>
             {
@@ -885,7 +885,7 @@ public partial class DownloadPage : UserControl, IDisposable, IDownload
             CurrentDownloadProgressBarTextBlock.Visibility = Visibility.Collapsed;
         });
 
-        await Task.WhenAll(convertionTasks);
+        await Task.WhenAll(conversionTasks);
 
         if (GlobalConsts.DownloadSettings.OpenDestinationFolderWhenDone)
             OpenFolder_Click(null, null);
@@ -901,7 +901,7 @@ public partial class DownloadPage : UserControl, IDisposable, IDownload
     private void Update(int percent, IVideo video)
     {
         CurrentDownloadProgressBar.Value = percent;
-        HeadlineTextBlock.Text = (string)FindResource("CurrentlyDownlading") + video.Title;
+        HeadlineTextBlock.Text = (string)FindResource("CurrentlyDownloading") + video.Title;
         CurrentDownloadProgressBarTextBlock.Text = $"{percent}%";
         TotalDownloadsProgressBarTextBlock.Text = $"{DownloadedCount} {FindResource("Of")} {Maximum}";
         DownloadedVideosProgressBar.Value = DownloadedCount;

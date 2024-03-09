@@ -22,7 +22,7 @@
     <s:String x:Key="Description">תיאור: </s:String>
     <s:String x:Key="Views">צפיות: </s:String>
     <s:String x:Key="SaveDirectory">שמור סרטונים למיקום: </s:String>
-    <s:String x:Key="CurrentlyDownlading">כרגע מוריד: </s:String>
+    <s:String x:Key="CurrentlyDownloading">כרגע מוריד: </s:String>
     <s:String x:Key="TotalProgress">סך הכל הורדות: </s:String>
     <s:String x:Key="AllDone">הכל בוצע</s:String>
     <s:String x:Key="Canceling">מבטל את ההורדת, אנא המתן..</s:String>
@@ -75,7 +75,7 @@ YouTube Playlist Downloader v</s:String>
     <s:String x:Key="UntilIndex">עד סרטון מספר </s:String>
     <s:String x:Key="LeaveEmptyOrZeroForUntilTheEnd">(השאר ריק או הזן 0 כדי להוריד את כל הסרטונים עד סוף הרשימה)</s:String>
     <s:String x:Key="NoVideosToDownload">לא ניתן למצוא סרטונים להורדה</s:String>
-    <s:String x:Key="ThereAreNoVidoesToDownload">אין סרטונים להורדה עם הפרמטרים שציינת</s:String>
+    <s:String x:Key="ThereAreNoVideosToDownload">אין סרטונים להורדה עם הפרמטרים שציינת</s:String>
     <s:String x:Key="UpdateNow">עדכן עכשיו</s:String>
     <s:String x:Key="Subscriptions">הרשמות</s:String>
     <s:String x:Key="AutomaticllyDownloadSubscriptions">הורד באופן אוטומטי סרטונים חדשים מערוצים אלה</s:String>
@@ -136,13 +136,13 @@ Timofey Dedov (Русский)
     <s:String x:Key="LimitConverstions" >קבע את מספר ההמרות המקסימלי ל </s:String>
     <s:String x:Key="ValueChangeRequiresRestart">(enabling the limit requires a 
 program restart to take effect)</s:String>
-    <s:String x:Key="ConvertionsLimitingExplnation">Every file convertion takes about 1 core completely. For example: if you have a 4
-cores cpu, limiting the program to 3 file convertions at a time will use 3 cores
+    <s:String x:Key="ConversionsLimitingExplanation">Every file conversion takes about 1 core completely. For example: if you have a 4
+cores cpu, limiting the program to 3 file conversions at a time will use 3 cores
 out of 4; in Task Manager you will see that the program uses a little more than 75% cpu.
 It is recommended to use 1 less core than what your cpu have. If your cpu have 4 cores,
-use 3 cores by limiting the file convertion to 3, if you have 3 cores, use 2 cores by limiting
-the file convertion to 2, etc..</s:String>
-    <s:String x:Key="FileConvertion">המרת קבצים</s:String>
+use 3 cores by limiting the file conversion to 3, if you have 3 cores, use 2 cores by limiting
+the file conversion to 2, etc..</s:String>
+    <s:String x:Key="FileConversion">המרת קבצים</s:String>
     <s:String x:Key="General">כללי</s:String>
     <s:String x:Key="SavePlaylistInUniqueDirectory">שמור כל פלייליסט לתיקייה נפרדת</s:String>
     <s:String x:Key="Playlist">פליילסט</s:String>

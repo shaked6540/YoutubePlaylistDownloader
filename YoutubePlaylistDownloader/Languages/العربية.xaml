@@ -23,7 +23,7 @@
     <s:String x:Key="Description"> :الوصف</s:String>
     <s:String x:Key="Views">  :عدد المشاهدات</s:String>
     <s:String x:Key="SaveDirectory"> :حفظ مقاطع الفيديو الى</s:String>
-    <s:String x:Key="CurrentlyDownlading"> :يتم التحميل حاليا</s:String>
+    <s:String x:Key="CurrentlyDownloading"> :يتم التحميل حاليا</s:String>
     <s:String x:Key="TotalProgress"> :تم التنزيل حتى الان </s:String>
     <s:String x:Key="AllDone">تم</s:String>
     <s:String x:Key="Canceling">جاري الغاء التحميل ...انتظر </s:String>
@@ -75,7 +75,7 @@ if you are connected to the internet, try downloading a later time or visit http
     <s:String x:Key="UntilIndex">حتى رقم الفيديو</s:String>
     <s:String x:Key="LeaveEmptyOrZeroForUntilTheEnd">(leave this empty or enter 0 to download all videos until the end of the playlist)</s:String>
     <s:String x:Key="NoVideosToDownload">تعذر العثور على مقاطع الفيديو للتنزيل</s:String>
-    <s:String x:Key="ThereAreNoVidoesToDownload">لا توجد مقاطع فيديو لتنزيلها بالمعلمات بالخصائص التي حددتها</s:String>
+    <s:String x:Key="ThereAreNoVideosToDownload">لا توجد مقاطع فيديو لتنزيلها بالمعلمات بالخصائص التي حددتها</s:String>
     <s:String x:Key="UpdateNow">تحديث الان</s:String>
     <s:String x:Key="Subscriptions">الاشتراكات</s:String>
     <s:String x:Key="AutomaticllyDownloadSubscriptions">تحميل مقاطع الفيديو الجديدة من هذه القنوات اوتوماتيكيا</s:String>
@@ -136,13 +136,13 @@ Timofey Dedov (Русский)
     <s:String x:Key="LimitConverstions" >قم بتعيين الحد الأقصى لتحويلات الملفات المتزامنة إلى </s:String>
     <s:String x:Key="ValueChangeRequiresRestart">لن يتم تمكين الحد
 الا عند اعادة تشغيل البرنامج </s:String>
-    <s:String x:Key="ConvertionsLimitingExplnation">يستغرق كل تحويل ملف  نواة واحدة . على سبيل المثال: إذا كان لديك اربع انوية 
+    <s:String x:Key="ConversionsLimitingExplanation">يستغرق كل تحويل ملف  نواة واحدة . على سبيل المثال: إذا كان لديك اربع انوية 
 سيتم استخدام 3 انوية من الاربعة 
 cpu في مدير المهام ستلاحظ ان البرنامج يستخدم حوالى 75% من
 It is recommended to use 1 less core than what your cpu have. If your cpu have 4 cores,
-use 3 cores by limiting the file convertion to 3, if you have 3 cores, use 2 cores by limiting
-the file convertion to 2, etc..</s:String>
-    <s:String x:Key="FileConvertion">تحويل الملف</s:String>
+use 3 cores by limiting the file conversion to 3, if you have 3 cores, use 2 cores by limiting
+the file conversion to 2, etc..</s:String>
+    <s:String x:Key="FileConversion">تحويل الملف</s:String>
     <s:String x:Key="General">عام</s:String>
     <s:String x:Key="SavePlaylistInUniqueDirectory">أحفظ كل قائمة تشغيل في مجلد مختلف</s:String>
     <s:String x:Key="Playlist">قائمة تشغيل </s:String>

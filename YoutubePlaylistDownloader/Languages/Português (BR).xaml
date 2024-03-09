@@ -23,7 +23,7 @@
     <s:String x:Key="Description">Descrição: </s:String>
     <s:String x:Key="Views">Visualizações: </s:String>
     <s:String x:Key="SaveDirectory">Salvar vídeos para: </s:String>
-    <s:String x:Key="CurrentlyDownlading">Download em andamento: </s:String>
+    <s:String x:Key="CurrentlyDownloading">Download em andamento: </s:String>
     <s:String x:Key="TotalProgress">Baixados até agora: </s:String>
     <s:String x:Key="AllDone">Tudo feito.</s:String>
     <s:String x:Key="Canceling">Cancelando seus downloads, por favor aguarde...</s:String>
@@ -74,7 +74,7 @@ Mensagem de erro: </s:String>
     <s:String x:Key="UntilIndex">até o número do vídeo </s:String>
     <s:String x:Key="LeaveEmptyOrZeroForUntilTheEnd">(deixe isso vazio ou coloque 0 para baixar todos os vídeos até o final da playlist)</s:String>
     <s:String x:Key="NoVideosToDownload">Não foi possível localizar vídeos para baixar</s:String>
-    <s:String x:Key="ThereAreNoVidoesToDownload">Não há vídeos para baixar com os parâmetros que você especificou</s:String>
+    <s:String x:Key="ThereAreNoVideosToDownload">Não há vídeos para baixar com os parâmetros que você especificou</s:String>
     <s:String x:Key="UpdateNow">Atualizar agora</s:String>
     <s:String x:Key="Subscriptions">Inscrições</s:String>
     <s:String x:Key="AutomaticllyDownloadSubscriptions">Baixar automaticamente vídeos novos deste canal</s:String>
@@ -134,16 +134,16 @@ Timofey Dedov (Русский)
     <s:String x:Key="DownloadCaptions">Faça o download de legendas ocultas</s:String>
     <s:String x:Key="CaptionsLanguage">Idioma das legendas ocultas: </s:String>
     <s:String x:Key="BulkDownload">Bulk download</s:String>
-    <s:String x:Key="LimitConverstions" >Set the maximum concurrent file convertions to </s:String>
+    <s:String x:Key="LimitConverstions" >Set the maximum concurrent file conversions to </s:String>
     <s:String x:Key="ValueChangeRequiresRestart">(enabling the limit requires a 
 program restart to take effect)</s:String>
-    <s:String x:Key="ConvertionsLimitingExplnation">Every file convertion takes about 1 core completely. For example: if you have a 4
-cores cpu, limiting the program to 3 file convertions at a time will use 3 cores
+    <s:String x:Key="ConversionsLimitingExplanation">Every file conversion takes about 1 core completely. For example: if you have a 4
+cores cpu, limiting the program to 3 file conversions at a time will use 3 cores
 out of 4; in Task Manager you will see that the program uses a little more than 75% cpu.
 It is recommended to use 1 less core than what your cpu have. If your cpu have 4 cores,
-use 3 cores by limiting the file convertion to 3, if you have 3 cores, use 2 cores by limiting
-the file convertion to 2, etc..</s:String>
-    <s:String x:Key="FileConvertion">File convertion</s:String>
+use 3 cores by limiting the file conversion to 3, if you have 3 cores, use 2 cores by limiting
+the file conversion to 2, etc..</s:String>
+    <s:String x:Key="FileConversion">File conversion</s:String>
     <s:String x:Key="General">General</s:String>
     <s:String x:Key="SavePlaylistInUniqueDirectory">Save every playlist in a different folder</s:String>
     <s:String x:Key="Playlist">Playlist</s:String>
