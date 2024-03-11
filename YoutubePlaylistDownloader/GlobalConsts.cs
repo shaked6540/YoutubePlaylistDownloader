@@ -23,12 +23,12 @@ static class GlobalConsts
     private static DownloadSettings downloadSettings;
     public static readonly string DownloadSettingsFilePath;
     public static readonly ObservableCollection<QueuedDownload> Downloads;
-    private static SemaphoreSlim convertionLocker;
+    private static SemaphoreSlim conversionLocker;
     public static Objects.Settings settings;
 
     public static string OppositeTheme => settings.Theme == "Light" ? "Dark" : "Light";
     public static YoutubeClient YoutubeClient => new();
-    public static SemaphoreSlim ConversionsLocker { get => convertionLocker; set => convertionLocker ??= value; }
+    public static SemaphoreSlim ConversionsLocker { get => conversionLocker; set => conversionLocker ??= value; }
     public static DownloadSettings DownloadSettings
     {
         get
@@ -173,7 +173,7 @@ static class GlobalConsts
         try
         {
             settings = JsonConvert.DeserializeObject<Objects.Settings>(File.ReadAllText(ConfigFilePath));
-            ConversionsLocker = new SemaphoreSlim(settings.ActualConvertionsLimit, settings.MaximumConverstionsCount);
+            ConversionsLocker = new SemaphoreSlim(settings.ActualConversionsLimit, settings.MaximumConversionsCount);
 
             LoadDownloadSettings();
         }

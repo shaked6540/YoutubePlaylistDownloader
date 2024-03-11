@@ -15,10 +15,10 @@ public partial class Settings : UserControl
         if (GlobalConsts.settings.Theme == "Dark") NightModeCheckBox.IsChecked = true;
         CheckForUpdatesCheckBox.IsChecked = GlobalConsts.settings.CheckForProgramUpdates;
         SaveDownloadOptionsCheckBox.IsChecked = GlobalConsts.settings.SaveDownloadOptions;
-        LimitConvertionsCheckBox.IsChecked = GlobalConsts.settings.LimitConvertions;
+        LimitConversionsCheckBox.IsChecked = GlobalConsts.settings.LimitConversions;
         ConfirmOnExitCheckBox.IsChecked = GlobalConsts.settings.ConfirmExit;
-        ActualConvertionTextBox.Text = GlobalConsts.settings.ActualConvertionsLimit.ToString();
-        ActualConvertionTextBox.TextChanged += ActualConvertionTextBox_TextChanged;
+        ActualConversionTextBox.Text = GlobalConsts.settings.ActualConversionsLimit.ToString();
+        ActualConversionTextBox.TextChanged += ActualConversionTextBox_TextChanged;
 
         NightModeCheckBox.Checked += NightModeCheckBox_Checked;
         NightModeCheckBox.Unchecked += NightModeCheckBox_Unchecked;
@@ -95,21 +95,21 @@ public partial class Settings : UserControl
         GlobalConsts.settings.SaveDownloadOptions = SaveDownloadOptionsCheckBox.IsChecked.Value;
     }
 
-    private void LimitConvertionsCheckBox_Checked(object sender, RoutedEventArgs e)
+    private void LimitConversionsCheckBox_Checked(object sender, RoutedEventArgs e)
     {
-        GlobalConsts.settings.LimitConvertions = LimitConvertionsCheckBox.IsChecked.Value;
+        GlobalConsts.settings.LimitConversions = LimitConversionsCheckBox.IsChecked.Value;
     }
 
-    private void LimitConvertionsCheckBox_Unchecked(object sender, RoutedEventArgs e)
+    private void LimitConversionsCheckBox_Unchecked(object sender, RoutedEventArgs e)
     {
-        GlobalConsts.settings.LimitConvertions = LimitConvertionsCheckBox.IsChecked.Value;
+        GlobalConsts.settings.LimitConversions = LimitConversionsCheckBox.IsChecked.Value;
     }
 
-    private void ActualConvertionTextBox_TextChanged(object sender, TextChangedEventArgs e)
+    private void ActualConversionTextBox_TextChanged(object sender, TextChangedEventArgs e)
     {
-        if (int.TryParse(ActualConvertionTextBox.Text, out var actual) && actual > 0 && actual < GlobalConsts.settings.MaximumConverstionsCount)
+        if (int.TryParse(ActualConversionTextBox.Text, out var actual) && actual > 0 && actual < GlobalConsts.settings.MaximumConversionsCount)
         {
-            ActualConvertionTextBox.Background = null;
+            ActualConversionTextBox.Background = null;
             var delta = actual - GlobalConsts.ConversionsLocker.CurrentCount;
             if (delta > 0)
                 GlobalConsts.ConversionsLocker.Release(delta);
@@ -121,11 +121,11 @@ public partial class Settings : UserControl
                     GlobalConsts.ConversionsLocker.Wait();
                 }
             }
-            GlobalConsts.settings.ActualConvertionsLimit = actual;
+            GlobalConsts.settings.ActualConversionsLimit = actual;
         }
         else
         {
-            ActualConvertionTextBox.Background = GlobalConsts.ErrorBrush;
+            ActualConversionTextBox.Background = GlobalConsts.ErrorBrush;
         }
     }
 

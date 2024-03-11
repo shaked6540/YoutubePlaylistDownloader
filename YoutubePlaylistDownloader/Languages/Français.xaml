@@ -23,7 +23,7 @@
     <s:String x:Key="Description">Description: </s:String>
     <s:String x:Key="Views">Vues: </s:String>
     <s:String x:Key="SaveDirectory">Sauvegarder les vidéos sous: </s:String>
-    <s:String x:Key="CurrentlyDownlading">Téléchargement en cours: </s:String>
+    <s:String x:Key="CurrentlyDownloading">Téléchargement en cours: </s:String>
     <s:String x:Key="TotalProgress">Téléchargé jusqu'à présent: </s:String>
     <s:String x:Key="AllDone">Terminé.</s:String>
     <s:String x:Key="Canceling">Annulation de vos téléchargements, veuillez patienter...</s:String>
@@ -75,7 +75,7 @@ Message d'erreur: </s:String>
     <s:String x:Key="UntilIndex">jusqu'au numéro de vidéo </s:String>
     <s:String x:Key="LeaveEmptyOrZeroForUntilTheEnd">(laissez ce champ vide ou entrez 0 pour télécharger toutes les vidéos jusqu'à la fin de la playlist)</s:String>
     <s:String x:Key="NoVideosToDownload">Impossible de trouver les vidéos à télécharger</s:String>
-    <s:String x:Key="ThereAreNoVidoesToDownload">Il n'y a pas de vidéos à télécharger avec les paramètres que vous avez spécifiés</s:String>
+    <s:String x:Key="ThereAreNoVideosToDownload">Il n'y a pas de vidéos à télécharger avec les paramètres que vous avez spécifiés</s:String>
     <s:String x:Key="UpdateNow">Mettre à jour maintenant</s:String>
     <s:String x:Key="Subscriptions">Abonnements</s:String>
     <s:String x:Key="AutomaticllyDownloadSubscriptions">Télécharger automatiquement les nouvelles vidéos de ces chaines</s:String>
@@ -136,13 +136,13 @@ Timofey Dedov (Русский)
     <s:String x:Key="LimitConverstions" >Définissez la conversion de fichier simultanée maximale à </s:String>
     <s:String x:Key="ValueChangeRequiresRestart">(l'activation de la limite nécessite un
 redémarrage du programme pour prendre effet)</s:String>
-    <s:String x:Key="ConvertionsLimitingExplnation">Chaque conversion de fichier prend environ 1 cœur complétement. Par exemple: si vous avez un 4
+    <s:String x:Key="ConversionsLimitingExplanation">Chaque conversion de fichier prend environ 1 cœur complétement. Par exemple: si vous avez un 4
 cœurs cpu, limiter le programme à 3 conversions de fichiers à la fois utilisera 3 cœurs
 sur 4; dans le Gestionnaire des tâches, vous verrez que le programme utilise un peu plus de 75% du processeur.
 Il est recommandé d'utiliser 1 cœur de moins que ce que possède votre processeur. Si votre processeur a 4 cœurs,
 utilisez 3 cœurs en limitant la conversion de fichier à 3, si vous avez 3 cœurs, utilisez 2 cœurs en limitant
 la conversion du fichier à 2, etc.</s:String>
-    <s:String x:Key="FileConvertion">Conversion de fichiers</s:String>
+    <s:String x:Key="FileConversion">Conversion de fichiers</s:String>
     <s:String x:Key="General">Général</s:String>
     <s:String x:Key="SavePlaylistInUniqueDirectory">Enregistrer chaque playlist dans un dossier différent</s:String>
     <s:String x:Key="Playlist">Playlist</s:String>

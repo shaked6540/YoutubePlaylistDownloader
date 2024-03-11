@@ -23,7 +23,7 @@
     <s:String x:Key="Description">Description: </s:String>
     <s:String x:Key="Views">Views: </s:String>
     <s:String x:Key="SaveDirectory">Save videos to:</s:String>
-    <s:String x:Key="CurrentlyDownlading">Currently downloading: </s:String>
+    <s:String x:Key="CurrentlyDownloading">Currently downloading: </s:String>
     <s:String x:Key="TotalProgress">Downloaded so far: </s:String>
     <s:String x:Key="AllDone">All Done.</s:String>
     <s:String x:Key="Canceling">Cancelling your downloads, please wait...</s:String>
@@ -75,7 +75,7 @@ Error message: </s:String>
     <s:String x:Key="UntilIndex">until video number</s:String>
     <s:String x:Key="LeaveEmptyOrZeroForUntilTheEnd">(leave this empty or enter 0 to download all videos until the end of the playlist)</s:String>
     <s:String x:Key="NoVideosToDownload">Could not find videos to download</s:String>
-    <s:String x:Key="ThereAreNoVidoesToDownload">There are no videos to download with the parameters you specified</s:String>
+    <s:String x:Key="ThereAreNoVideosToDownload">There are no videos to download with the parameters you specified</s:String>
     <s:String x:Key="UpdateNow">Update now</s:String>
     <s:String x:Key="Subscriptions">Subscriptions</s:String>
     <s:String x:Key="AutomaticllyDownloadSubscriptions">Automatically download new videos from these channels</s:String>
@@ -138,14 +138,14 @@ Timofey Dedov (Русский)
     <s:String x:Key="LimitConverstions">Set the maximum concurrent file conversions to</s:String>
     <s:String x:Key="ValueChangeRequiresRestart">(enabling the limit requires a 
 program restart to take effect)</s:String>
-    <s:String x:Key="ConvertionsLimitingExplnation">Every file conversion takes about one core completely. For example: if you have a 4
+    <s:String x:Key="ConversionsLimitingExplanation">Every file conversion takes about one core completely. For example: if you have a 4
 cores CPU, limiting the program to 3 file conversions at a time will use 3 cores out of 4;
 in Task Manager you will see that the program uses a little more than 75% CPU.
 
 It is recommended to use one less core than what your CPU has. If your CPU has 4 cores,
 use 3 cores by limiting the file conversion to 3, if you have 3 cores, use 2 cores by limiting
 the file conversion to 2, etc.</s:String>
-    <s:String x:Key="FileConvertion">File Conversion</s:String>
+    <s:String x:Key="FileConversion">File Conversion</s:String>
     <s:String x:Key="General">General</s:String>
     <s:String x:Key="SavePlaylistInUniqueDirectory">Save every playlist in a different folder</s:String>
     <s:String x:Key="Playlist">Playlist</s:String>

@@ -278,7 +278,7 @@ Sorry for the long wait, im only home at weekends :(
 
 Version 1.7.3:
 - Added Español translation
-- Fixed a bug that caused the program to now show the correct amount of convertions being made
+- Fixed a bug that caused the program to now show the correct amount of conversions being made
 
 
 Version 1.7.2:
@@ -287,7 +287,7 @@ Version 1.7.2:
 
 
 Version 1.7.1:
-- Added the ability to limit file convertions count, so the program will not use 100% cpu.
+- Added the ability to limit file conversions count, so the program will not use 100% cpu.
 An explanation about this feature is available at the Help page.
 
 

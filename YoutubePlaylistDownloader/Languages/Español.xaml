@@ -23,7 +23,7 @@
     <s:String x:Key="Description">Descripción: </s:String>
     <s:String x:Key="Views">Vistas: </s:String>
     <s:String x:Key="SaveDirectory">Guardar videos en: </s:String>
-    <s:String x:Key="CurrentlyDownlading">Actualmente descargando: </s:String>
+    <s:String x:Key="CurrentlyDownloading">Actualmente descargando: </s:String>
     <s:String x:Key="TotalProgress">Descargados hasta ahora: </s:String>
     <s:String x:Key="AllDone">Operación completada.</s:String>
     <s:String x:Key="Canceling">Cancelando las descargas, por favor espere..</s:String>
@@ -74,7 +74,7 @@ Mensaje de error: </s:String>
     <s:String x:Key="UntilIndex">hasta el video número </s:String>
     <s:String x:Key="LeaveEmptyOrZeroForUntilTheEnd">(Deja este campo vacío o escribe 0 para descargar todos los videos de la lista de reproducción)</s:String>
     <s:String x:Key="NoVideosToDownload">No se encontraron videos para descargar</s:String>
-    <s:String x:Key="ThereAreNoVidoesToDownload">No hay videos para descargar con los parametros especificados</s:String>
+    <s:String x:Key="ThereAreNoVideosToDownload">No hay videos para descargar con los parametros especificados</s:String>
     <s:String x:Key="UpdateNow">Actualizar ahora</s:String>
     <s:String x:Key="Subscriptions">Suscripciones</s:String>
     <s:String x:Key="AutomaticllyDownloadSubscriptions">Descargar automáticamente los videos nuevos de estos canales</s:String>
@@ -136,10 +136,10 @@ Timofey Dedov (Русский)
     <s:String x:Key="BulkDownload">Descarga masiva</s:String>
     <s:String x:Key="LimitConverstions" >Establecer el máximo de conversiones al mismo tiempo a</s:String>
     <s:String x:Key="ValueChangeRequiresRestart">(se necesita reiniciar la aplicación para que los cambios tengan efecto)</s:String>
-    <s:String x:Key="ConvertionsLimitingExplnation">Cada video convertido necesita un procesador completo.
+    <s:String x:Key="ConversionsLimitingExplanation">Cada video convertido necesita un procesador completo.
 Por ejemplo: si tienes un CPU de 4 núcleos, limitar el programa a 3 conversiones simultaneas usará 3 de los 4 núcleos, en el administrador de tareas veras que la aplicación utiliza un poco mas del 75% del CPU. 
 Se recomienda utilizar 1 núcleo menos de los que tienes disponibles. Si tu computadora tiene 4 núcleos, usa 3 limitando la conversión a 3, si tienes 3 núcleos, usa 2 núcleos limitando la conversion a 2, etc..</s:String>
-    <s:String x:Key="FileConvertion">Conversión de videos</s:String>
+    <s:String x:Key="FileConversion">Conversión de videos</s:String>
     <s:String x:Key="General">General</s:String>
     <s:String x:Key="SavePlaylistInUniqueDirectory">Save every playlist in a different folder</s:String>
     <s:String x:Key="Playlist">Playlist</s:String>

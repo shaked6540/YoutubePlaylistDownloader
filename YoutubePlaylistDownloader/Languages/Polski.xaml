@@ -23,7 +23,7 @@
     <s:String x:Key="Description">Opis: </s:String>
     <s:String x:Key="Views">Wyświetlenia: </s:String>
     <s:String x:Key="SaveDirectory">Zapisz wideo do:</s:String>
-    <s:String x:Key="CurrentlyDownlading">Obecnie pobierane: </s:String>
+    <s:String x:Key="CurrentlyDownloading">Obecnie pobierane: </s:String>
     <s:String x:Key="TotalProgress">Dotychczas pobrane: </s:String>
     <s:String x:Key="AllDone">Ukończono.</s:String>
     <s:String x:Key="Canceling">Anulowanie pobierania, proszę czekać...</s:String>
@@ -75,7 +75,7 @@ Treść błędu: </s:String>
     <s:String x:Key="UntilIndex">do pliku number</s:String>
     <s:String x:Key="LeaveEmptyOrZeroForUntilTheEnd">(pozostaw puste lub wpisz 0 by pobrać całą playlistę)</s:String>
     <s:String x:Key="NoVideosToDownload">Nie znaleziono plików do pobrania</s:String>
-    <s:String x:Key="ThereAreNoVidoesToDownload">Nie znaleziono plików do pobrania dla zadanych parametrów</s:String>
+    <s:String x:Key="ThereAreNoVideosToDownload">Nie znaleziono plików do pobrania dla zadanych parametrów</s:String>
     <s:String x:Key="UpdateNow">Uaktualnij teraz</s:String>
     <s:String x:Key="Subscriptions">Subskrypcje</s:String>
     <s:String x:Key="AutomaticllyDownloadSubscriptions">Automatycznie pobieraj nowe filmy z tych kanałów</s:String>
@@ -138,14 +138,14 @@ Timofey Dedov (Русский)
     <s:String x:Key="LimitConverstions">Maksymalna liczba równolegle pobieranych plików</s:String>
     <s:String x:Key="ValueChangeRequiresRestart">(włączenie limitu wymaga 
 ponownego uruchomienia programu)</s:String>
-    <s:String x:Key="ConvertionsLimitingExplnation">Każda konwersja plików zajmuje całkowicie jeden rdzeń. Na przykład: jeśli masz 4
+    <s:String x:Key="ConversionsLimitingExplanation">Każda konwersja plików zajmuje całkowicie jeden rdzeń. Na przykład: jeśli masz 4
 rdzenie procesora, ograniczenie programu do konwersji plików 3 na raz spowoduje użycie 3 rdzeni z 4;
 w Menedżerze zadań zobaczysz, że program zużywa nieco więcej niż 75% procesora.
 
 Zaleca się użycie jednego rdzenia mniej niż posiada procesor. Jeśli twój procesor ma 4 rdzenie,
 użyj 3 rdzeni, ograniczając konwersję plików do 3, jeśli masz 3 rdzenie, użyj 2 rdzeni, ograniczając
 konwersja pliku do 2 itd.</s:String>
-    <s:String x:Key="FileConvertion">Konwersja plików</s:String>
+    <s:String x:Key="FileConversion">Konwersja plików</s:String>
     <s:String x:Key="General">Główne</s:String>
     <s:String x:Key="SavePlaylistInUniqueDirectory">Zapisz każdą playlistę w osobnym folderze</s:String>
     <s:String x:Key="Playlist">Playlista</s:String>

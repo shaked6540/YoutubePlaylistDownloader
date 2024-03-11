@@ -23,7 +23,7 @@
     <s:String x:Key="Description">Описание: </s:String>
     <s:String x:Key="Views">Просмотры: </s:String>
     <s:String x:Key="SaveDirectory">Сохранять видео в:</s:String>
-    <s:String x:Key="CurrentlyDownlading">Скачивается: </s:String>
+    <s:String x:Key="CurrentlyDownloading">Скачивается: </s:String>
     <s:String x:Key="TotalProgress">Уже загрузилось: </s:String>
     <s:String x:Key="AllDone">Готово.</s:String>
     <s:String x:Key="Canceling">Ваши загрузки отменяются, пожалуйста, подождите...</s:String>
@@ -75,7 +75,7 @@ YouTube Playlist Downloader v</s:String>
     <s:String x:Key="UntilIndex">по видео номер</s:String>
     <s:String x:Key="LeaveEmptyOrZeroForUntilTheEnd">(оставьте это окно пустым или введите 0, чтобы загрузить все видео до конца плейлиста)</s:String>
     <s:String x:Key="NoVideosToDownload">Не удалось найти видео для загрузки</s:String>
-    <s:String x:Key="ThereAreNoVidoesToDownload">Нет видео для загрузки с заданными вами параметрами</s:String>
+    <s:String x:Key="ThereAreNoVideosToDownload">Нет видео для загрузки с заданными вами параметрами</s:String>
     <s:String x:Key="UpdateNow">Обновить сейчас</s:String>
     <s:String x:Key="Subscriptions">Подписки</s:String>
     <s:String x:Key="AutomaticllyDownloadSubscriptions">Автоматически загружать новые видео с этих каналов</s:String>
@@ -138,13 +138,13 @@ Timofey Dedov (Русский)
     <s:String x:Key="LimitConverstions">Установить максимальное количество одновременных конвертаций</s:String>
     <s:String x:Key="ValueChangeRequiresRestart">(установка лимита требует
     перезапуск программы для вступления изменений в силу)</s:String>
-    <s:String x:Key="ConvertionsLimitingExplnation">Конвертация каждого файла занимает около одного ядра. Например, если у вас 4
+    <s:String x:Key="ConversionsLimitingExplanation">Конвертация каждого файла занимает около одного ядра. Например, если у вас 4
 ядра ЦП, лимитация программы до 3 конвертаций файлов одновременно поможет использовать 3 ядра из 4;
 в Диспетчере Задач вы увидите, что программа использует немного больше чем 75% ЦП.
 
 Рекомендовано использовать на одно ядро меньше, чем имеет ваш ЦП. Если у вашего ЦП 4 ядра,
 используйте 3 ядра, лимитируя конвертацию файлов до 3. Если у вас 3 ядра, используйте 2 ядра, лимитируя конвертацию файлов до 2, и так далее.</s:String>
-    <s:String x:Key="FileConvertion">Конвертация файлов</s:String>
+    <s:String x:Key="FileConversion">Конвертация файлов</s:String>
     <s:String x:Key="General">Основные</s:String>
     <s:String x:Key="SavePlaylistInUniqueDirectory">Сохранить каждый плейлист в свою папку</s:String>
     <s:String x:Key="Playlist">Плейлист</s:String>

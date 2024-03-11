@@ -31,20 +31,20 @@ public class Settings
     public bool SaveDownloadOptions { get; set; }
 
     [JsonProperty]
-    public int MaximumConverstionsCount { get; set; }
+    public int MaximumConversionsCount { get; set; }
 
     [JsonProperty]
-    public int ActualConvertionsLimit { get; set; }
+    public int ActualConversionsLimit { get; set; }
 
     [JsonProperty]
-    public bool LimitConvertions { get; set; }
+    public bool LimitConversions { get; set; }
 
     [DefaultValue(true)]
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public bool ConfirmExit { get; set; }
 
     [JsonConstructor]
-    public Settings(string theme, string accent, string language, string saveDirectory, bool optionExpanderIsExpanded, bool checkForSubscriptionUpdates, bool checkForProgramUpdates, TimeSpan subscriptionsDelay, bool saveDownloadOptions, int maximumConverstionsCount, int actualConvertionsLimit, bool limitConvertions, bool confirmExit)
+    public Settings(string theme, string accent, string language, string saveDirectory, bool optionExpanderIsExpanded, bool checkForSubscriptionUpdates, bool checkForProgramUpdates, TimeSpan subscriptionsDelay, bool saveDownloadOptions, int maximumConverstionsCount, int actualConversionsLimit, bool limitConversions, bool confirmExit)
     {
         Theme = theme;
         Accent = accent;
@@ -55,9 +55,9 @@ public class Settings
         CheckForProgramUpdates = checkForProgramUpdates;
         SubscriptionsDelay = subscriptionsDelay;
         SaveDownloadOptions = saveDownloadOptions;
-        MaximumConverstionsCount = maximumConverstionsCount;
-        ActualConvertionsLimit = actualConvertionsLimit;
-        LimitConvertions = limitConvertions;
+        MaximumConversionsCount = maximumConverstionsCount;
+        ActualConversionsLimit = actualConversionsLimit;
+        LimitConversions = limitConversions;
         ConfirmExit = confirmExit;
     }
 

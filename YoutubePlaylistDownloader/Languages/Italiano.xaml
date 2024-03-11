@@ -23,7 +23,7 @@
     <s:String x:Key="Description">Descrizione: </s:String>
     <s:String x:Key="Views">Visualizzazioni: </s:String>
     <s:String x:Key="SaveDirectory">Salva i video in: </s:String>
-    <s:String x:Key="CurrentlyDownlading">Sto scaricando: </s:String>
+    <s:String x:Key="CurrentlyDownloading">Sto scaricando: </s:String>
     <s:String x:Key="TotalProgress">Scaricati: </s:String>
     <s:String x:Key="AllDone">Operazione completata.</s:String>
     <s:String x:Key="Canceling">Annullo i download. Attendere...</s:String>
@@ -75,7 +75,7 @@ Messaggio d'errore: </s:String>
     <s:String x:Key="UntilIndex">fino al video numero </s:String>
     <s:String x:Key="LeaveEmptyOrZeroForUntilTheEnd">(lascia vuoto o scrivi 0 per scaricare tutti i video fino alla fine della playlist)</s:String>
     <s:String x:Key="NoVideosToDownload">Nessun video scaricabile trovato</s:String>
-    <s:String x:Key="ThereAreNoVidoesToDownload">Non ci sono video da scaricare coi parametri specificati</s:String>
+    <s:String x:Key="ThereAreNoVideosToDownload">Non ci sono video da scaricare coi parametri specificati</s:String>
     <s:String x:Key="UpdateNow">Aggiorna adesso</s:String>
     <s:String x:Key="Subscriptions">Iscrizioni</s:String>
     <s:String x:Key="AutomaticllyDownloadSubscriptions">Scarica automaticamente i video da questi canali</s:String>
@@ -136,11 +136,11 @@ Timofey Dedov (Русский)
     <s:String x:Key="LimitConverstions">Imposta il massimo numero di conversioni a </s:String>
     <s:String x:Key="ValueChangeRequiresRestart">(abilitare il limite richiede un 
 riavvio del programma per avere effetto)</s:String>
-    <s:String x:Key="ConvertionsLimitingExplnation">Ogni conversione di file utilizza circa un core intero. Per esempio, con un processore
+    <s:String x:Key="ConversionsLimitingExplanation">Ogni conversione di file utilizza circa un core intero. Per esempio, con un processore
 a quattro core, limitare il numero massimo di conversioni a tre per volta fa usare al programma al più tre core
 su quattro; in Gestione Attività si vedrà che il programma usa poco più del 75% del processore.
 È consigliato usare al più un core in meno di quelli del proprio dispositivo (tre se il dispositivo ne ha quattro ecc.).</s:String>
-    <s:String x:Key="FileConvertion">Conversione dei file</s:String>
+    <s:String x:Key="FileConversion">Conversione dei file</s:String>
     <s:String x:Key="General">Generale</s:String>
     <s:String x:Key="SavePlaylistInUniqueDirectory">Salva ogni playlist in una cartella diversa</s:String>
     <s:String x:Key="Playlist">Playlist</s:String>

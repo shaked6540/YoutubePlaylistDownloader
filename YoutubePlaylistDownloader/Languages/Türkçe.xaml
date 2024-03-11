@@ -23,7 +23,7 @@
     <s:String x:Key="Description">Açıklama: </s:String>
     <s:String x:Key="Views">Görünümler: </s:String>
     <s:String x:Key="SaveDirectory">Dosyayı kaydet: </s:String>
-    <s:String x:Key="CurrentlyDownlading">Geçerli İndirme: </s:String>
+    <s:String x:Key="CurrentlyDownloading">Geçerli İndirme: </s:String>
     <s:String x:Key="TotalProgress">Şimdiye kadar indirilen: </s:String>
     <s:String x:Key="AllDone">Hepsi Tamamlandı.</s:String>
     <s:String x:Key="Canceling">İndirme işlemi iptal ediliyor,lütfen bekleyin...</s:String>
@@ -75,7 +75,7 @@ Hata mesajı: </s:String>
     <s:String x:Key="UntilIndex">video numarasına kadar </s:String>
     <s:String x:Key="LeaveEmptyOrZeroForUntilTheEnd">(oynatma listesinin sonuna kadar tüm videoları indirmek için bunu boş bırakın veya 0 girin)</s:String>
     <s:String x:Key="NoVideosToDownload">İndirilecek video bulunamadı</s:String>
-    <s:String x:Key="ThereAreNoVidoesToDownload">Belirttiğiniz parametrelere uygun indirilecek video yok</s:String>
+    <s:String x:Key="ThereAreNoVideosToDownload">Belirttiğiniz parametrelere uygun indirilecek video yok</s:String>
     <s:String x:Key="UpdateNow">Şimdi Güncelle</s:String>
     <s:String x:Key="Subscriptions">Abonelikler</s:String>
     <s:String x:Key="AutomaticllyDownloadSubscriptions">Bu kanala eklenen videoları otomatik olarak indir</s:String>
@@ -139,14 +139,14 @@ Timofey Dedov (Русский)
     <s:String x:Key="LimitConverstions" >Eşzamanlı en çok dosya dönüşümü </s:String>
     <s:String x:Key="ValueChangeRequiresRestart">(limitin geçerli olması için
 programı yeniden başlatmalısınız)</s:String>
-    <s:String x:Key="ConvertionsLimitingExplnation">Her dosya dönüştürme işlemi yaklaşık 1 işlemci çekirdeğini kullanır. Örneğin: 4 çekirdekli işlemciniz varsa,
+    <s:String x:Key="ConversionsLimitingExplanation">Her dosya dönüştürme işlemi yaklaşık 1 işlemci çekirdeğini kullanır. Örneğin: 4 çekirdekli işlemciniz varsa,
 programı bir seferde 3 dosya dönüştürmeye izin verdiğinizde 3 işlemci çekirdeği kullanacaktır.
 Görev Yöneticisi'nde programın %75'ten biraz daha fazla CPU kullandığını göreceksiniz.
         
 CPU'nuzdan 1 çekirdek daha az kullanmanız önerilir. Eğer CPU'nuz 4 çekirdekliyse,
 dosya dönüştürmeyi 3 ile sınırlandırarak 3 çekirdek kullanın, 3 çekirdeğiniz varsa, 2 çekirdeği sınırlayarak
 2'ye dosya dönüştürmeyi seçmelisiniz.</s:String>
-    <s:String x:Key="FileConvertion">Dosya Dönüştürme</s:String>
+    <s:String x:Key="FileConversion">Dosya Dönüştürme</s:String>
     <s:String x:Key="General">Genel</s:String>
     <s:String x:Key="SavePlaylistInUniqueDirectory">Her oynatma listesini farklı klasöre kaydet</s:String>
     <s:String x:Key="Playlist">Oynatma listesi</s:String>
