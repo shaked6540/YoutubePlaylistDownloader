@@ -1,4 +1,8 @@
-﻿Version 1.9.23:
+﻿9.24:
+- Fixed videos not downloading (Thanks cristianst85)
+
+
+Version 1.9.23:
 - Fixed Cookie error
 
 

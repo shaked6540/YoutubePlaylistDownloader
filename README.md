@@ -1,13 +1,13 @@
 # YouTube Playlist Downloader
 
-# The project is on hitaus until the war in Israel is over. Stand with Israel!
+# Stand with Israel!
 
 ## If the files don't show up after you download a playlist, try running the program as administrator or change the save directory to a different drive! (C drive is usually protected by windows, save it under D or any other drive)
 
 ## What is it?
 A simple program to download whole playlists\channels or even single videos from YouTube 
 
-[Click here to download the installer](https://github.com/shaked6540/YoutubePlaylistDownloader/releases/download/1.9.23/YoutubePlaylistDownloader.exe) 
+[Click here to download the installer](https://github.com/shaked6540/YoutubePlaylistDownloader/releases/download/1.9.24/YoutubePlaylistDownloader.exe) 
 
 ## Features
 - No ads, open source and free
