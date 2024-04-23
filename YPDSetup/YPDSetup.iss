@@ -16,7 +16,7 @@ AppUpdatesURL=https://github.com/shaked6540/YoutubePlaylistDownloader
 DefaultDirName={commonpf}\YouTube Playlist Downloader
 DefaultGroupName=YouTube Playlist Downloader
 AllowNoIcons=yes
-OutputDir=D:\Inno output\1.9.24
+OutputDir=..\Installer Output\1.9.24\
 OutputBaseFilename=YoutubePlaylistDownloader
 SetupIconFile=..\YoutubePlaylistDownloader\finalIcon.ico
 Compression=lzma
@@ -32,7 +32,7 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 
 [Files]
 Source: "..\YoutubePlaylistDownloader\bin\Release\net8.0-windows\*"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\bin\bin32\ffmpeg.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\FFmpeg\ffmpeg.exe"; DestDir: "{app}"; Flags: ignoreversion
 
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files        
 
