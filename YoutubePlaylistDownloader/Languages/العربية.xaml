@@ -6,6 +6,7 @@
     <s:String x:Key="Title">YouTube Playlist Downloader</s:String>
     <FlowDirection x:Key="FlowDirection">RightToLeft</FlowDirection>
     <s:String x:Key="InsertYoutubePlaylistLinkHere">ضع رابط الفيديوالمراد تنزيله هنا </s:String>
+    <s:String x:Key="Skipping">الملف موجود بالفعل، تخطي...</s:String>
     <s:String x:Key="Exit">خروج</s:String>
     <s:String x:Key="ExitMessage">أأنت متاكد من الخروج ؟</s:String>
     <s:String x:Key="Yes">.نعم</s:String>

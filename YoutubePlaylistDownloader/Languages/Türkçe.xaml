@@ -4,6 +4,7 @@
                     xml:space="preserve">
     
     <s:String x:Key="Title">YouTube Oynatma Listesi İndirici</s:String>
+    <s:String x:Key="Skipping">Dosya Zaten Var, Atlanıyor ...</s:String>
     <FlowDirection x:Key="FlowDirection">LeftToRight</FlowDirection>
     <s:String x:Key="InsertYoutubePlaylistLinkHere">Youtube Linkini Buraya Kopyalayınız</s:String>
     <s:String x:Key="Exit">Çıkış</s:String>

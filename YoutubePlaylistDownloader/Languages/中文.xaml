@@ -5,6 +5,7 @@
     
     <s:String x:Key="Title">Youtube 歌单下载</s:String>
     <FlowDirection x:Key="FlowDirection">LeftToRight</FlowDirection>
+    <FlowDirection x:Key="Skipping">文件已存在，跳过...</FlowDirection>
     <s:String x:Key="InsertYoutubePlaylistLinkHere">插入 Youtube 连接这里</s:String>
     <s:String x:Key="Exit">退出</s:String>
     <s:String x:Key="ExitMessage">你确定你要退出吗?</s:String>
