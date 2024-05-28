@@ -4,6 +4,7 @@
                     xml:space="preserve">
     
     <s:String x:Key="Title">YouTube Playlist Downloader</s:String>
+    <s:String x:Key="Skipping">Datei ist bereits vorhanden, Überspringen...</s:String>
     <FlowDirection x:Key="FlowDirection">LeftToRight</FlowDirection>
     <s:String x:Key="InsertYoutubePlaylistLinkHere">YouTube-Link hier einfügen</s:String>
     <s:String x:Key="Exit">Beenden</s:String>

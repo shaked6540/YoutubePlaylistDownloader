@@ -23,6 +23,7 @@
     <s:String x:Key="Description">Descripción: </s:String>
     <s:String x:Key="Views">Vistas: </s:String>
     <s:String x:Key="SaveDirectory">Guardar videos en: </s:String>
+    <s:String x:Key="Skipping">El archivo ya existe, omitiendo...</s:String>    
     <s:String x:Key="CurrentlyDownloading">Actualmente descargando: </s:String>
     <s:String x:Key="TotalProgress">Descargados hasta ahora: </s:String>
     <s:String x:Key="AllDone">Operación completada.</s:String>

@@ -127,7 +127,7 @@ Timofey Dedov (Русский)
     <s:String x:Key="Search">Szukaj</s:String>
     <s:String x:Key="Queue">Kolejka</s:String>
     <s:String x:Key="Downloading">Pobieranie...</s:String>
-    <s:String x:Key="Skipping">Plik już istniej, pomijam...</s:String>
+    <s:String x:Key="Skipping">Plik już istnieje, pomijam...</s:String>
     <s:String x:Key="Converting">Konwertowanie...</s:String>
     <s:String x:Key="DownloadInBackground">Zakolejkuj</s:String>
     <s:String x:Key="Audio">Audio</s:String>
@@ -177,6 +177,6 @@ $playlist: Tytuł playlisty
 Na przykład, jeśli mój wzorzec nazwy pliku to "song: [$playlist] $artist - $songtitle ($channel) $index" nazwa pliku wynikowego to "song: [Example] Infected Mushroom - Spitfire (Monstercat) 1"
 Możesz dodać dowolny inny tekst między parametrami, tylko parametry zostaną zastąpione.
 Należy pamiętać, że nie wszystkie parametry są zawsze dostępne (na przykład podczas pobierania pojedynczego filmu zmienna $playlisttitle byłaby niedostępna), aw przypadku ich braku zostaną usunięte z nazwy plikus</s:String>
-    <s:String x:Key="CopyToClipboard">Copy to clipboard</s:String>
-    <s:String x:Key="SaveToTextFile">Save to text file</s:String>
+    <s:String x:Key="CopyToClipboard">Skopiuj do schowka</s:String>
+    <s:String x:Key="SaveToTextFile">Zapisz do pliku tekstowego</s:String>
 </ResourceDictionary> 
