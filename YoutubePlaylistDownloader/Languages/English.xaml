@@ -172,7 +172,7 @@ $artist: The name of the artist of the song (if applicable)
 $songtitle: The title of the song
 $channel: The name of the channel that uploaded the video
 $videoid: The unique ID of the video (taken from the video url)
-$playlist: The title of the plyalist
+$playlist: The title of the playlist
 
 So for example, if my file name pattern is "song: [$playlist] $artist - $songtitle ($channel) $index" the result file name would be "song: [Example] Infected Mushroom - Spitfire (Monstercat) 1"
 You can add any other text between the parameters, only the parameters will be replaced.
