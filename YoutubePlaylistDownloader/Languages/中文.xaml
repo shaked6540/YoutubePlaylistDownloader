@@ -3,106 +3,122 @@
                     xmlns:s="clr-namespace:System;assembly=mscorlib"
                     xml:space="preserve">
     
-    <s:String x:Key="Title">Youtube 歌单下载</s:String>
+    <s:String x:Key="Title">YouTube播放列表下载器</s:String>
     <FlowDirection x:Key="FlowDirection">LeftToRight</FlowDirection>
-    <FlowDirection x:Key="Skipping">文件已存在，跳过...</FlowDirection>
-    <s:String x:Key="InsertYoutubePlaylistLinkHere">插入 Youtube 连接这里</s:String>
+    <s:String x:Key="InsertYoutubePlaylistLinkHere">请输入YouTube视频链接</s:String>
     <s:String x:Key="Exit">退出</s:String>
-    <s:String x:Key="ExitMessage">你确定你要退出吗?</s:String>
-    <s:String x:Key="Yes">确定</s:String>
-    <s:String x:Key="No">取消</s:String>
+    <s:String x:Key="ExitMessage">你确定要退出吗？</s:String>
+    <s:String x:Key="Yes">是</s:String>
+    <s:String x:Key="No">否</s:String>
     <s:String x:Key="Error">错误</s:String>
-    <s:String x:Key="ErrorMessage">发生意外的错误. 请与你的管理者联系.</s:String>
-    <s:String x:Key="Settings">配置</s:String>
-    <s:String x:Key="Preferences">偏爱</s:String>
-    <s:String x:Key="Theme">重读</s:String>
+    <s:String x:Key="ErrorMessage">在执行操作时出现了错误。请联系管理员来处理。</s:String>
+    <s:String x:Key="Settings">设置</s:String>
+    <s:String x:Key="Preferences">偏好设置</s:String>
+    <s:String x:Key="Theme">Accent</s:String>
     <s:String x:Key="Language">语言</s:String>
     <s:String x:Key="Back">返回</s:String>
-    <s:String x:Key="SaveAndBackToDownload">保存,回去主菜单</s:String>
-    <s:String x:Key="DarkTheme">深色的模式</s:String>
-    <s:String x:Key="Name">视频的名称: </s:String>
-    <s:String x:Key="Description">叙述: </s:String>
-    <s:String x:Key="Views">多少人看着: </s:String>
-    <s:String x:Key="SaveDirectory">存视频到: </s:String>
-    <s:String x:Key="CurrentlyDownloading">现在下载: </s:String>
-    <s:String x:Key="TotalProgress">下载的视频: </s:String>
-    <s:String x:Key="AllDone">全做完了</s:String>
-    <s:String x:Key="Canceling">取消下载.请稍候.</s:String>
+    <s:String x:Key="SaveAndBackToDownload">保存并返回到主页</s:String>
+    <s:String x:Key="DarkTheme">暗色</s:String>
+    <s:String x:Key="Name">名称：</s:String>
+    <s:String x:Key="Description">描述：</s:String>
+    <s:String x:Key="Views">播放量：</s:String>
+    <s:String x:Key="SaveDirectory">保存视频至：</s:String>
+    <s:String x:Key="CurrentlyDownloading">正在下载：</s:String>
+    <s:String x:Key="TotalProgress">已下载：</s:String>
+    <s:String x:Key="AllDone">下载完毕。</s:String>
+    <s:String x:Key="Canceling">取消下载中，请稍后......</s:String>
     <s:String x:Key="Videos">视频</s:String>
     <s:String x:Key="Download">下载</s:String>
-    <s:String x:Key="ConvertToMp3">转换视频成 </s:String>
-    <s:String x:Key="SaveVideoFormat">Save videos as </s:String>
-    <s:String x:Key="StillConverting">还转变</s:String>
+    <s:String x:Key="ConvertToMp3">将视频转换为</s:String>
+    <s:String x:Key="SaveVideoFormat">视频另存为</s:String>
+    <s:String x:Key="StillConverting">转换中</s:String>
     <s:String x:Key="files">文件</s:String>
-    <s:String x:Key="Author">作者: </s:String>
-    <s:String x:Key="PlaylistTitle">标题: </s:String>
-    <s:String x:Key="Loading">加載..</s:String>
+    <s:String x:Key="Author">作者：</s:String>
+    <s:String x:Key="PlaylistTitle">标题：</s:String>
+    <s:String x:Key="Loading">加载中......</s:String>
     <HorizontalAlignment x:Key="LeftAlignment">Left</HorizontalAlignment>
     <s:String x:Key="About">关于</s:String>
-    <s:String x:Key="Home">主页 </s:String>
-    <s:String x:Key="Prefer">选择视频分辨率 </s:String>
-    <s:String x:Key="AreYouSureExit">你确定要离开?</s:String>
-    <s:String x:Key="TotalVideos">总数视频: </s:String>
-    <s:String x:Key="AboutTheProgram">这个计算机程序由开发 shaked6450 和免费使用.
-我不是负责的合法的困难.我所知道的 Youtube 才不是下载.源代码 https://github.com/shaked6540/YoutubePlaylistDownloader
+    <s:String x:Key="Home">首页</s:String>
+    <s:String x:Key="Prefer">更想下载的视频的分辨率</s:String>
+    <s:String x:Key="AreYouSureExit">你确定要退出吗？</s:String>
+    <s:String x:Key="TotalVideos">总视频数：</s:String>
+    <s:String x:Key="AboutTheProgram">此程序由shaked6540开发且可没有限制的随意使用。
+但是，我不会承担任何这个程序导致你得到的法律纠纷，
+据我所知，YouTube是不允许从他们的网站上下载视频的。 
+此程序完整的源代码可从 https://github.com/shaked6540/YoutubePlaylistDownloader 中获取
         
-这个安装软件成功的运用 Inno Setup (http://www.jrsoftware.org/isinfo.php)
-        
-        
-YouTube Playlist Downloader v</s:String>
-    <s:String x:Key="BitRate">分配比特率 </s:String>
-    <s:String x:Key="NewVersionAvailable">更新可用</s:String>
-    <s:String x:Key="DoYouWantToUpdate">更新可用. 你想要更新吗?
-新功能: </s:String>
-    <s:String x:Key="DownloadingUpdateSetup">目前下载:更新体系</s:String>
-    <s:String x:Key="UpdateCancelled">更新已取消</s:String>
-    <s:String x:Key="ErrorWhileUpdating">发生了错误下载更新. 确保你有网络连接 要么稍后再试. 检查问题在这里: https://github.com/shaked6540/YoutubePlaylistDownloader/issues	</s:String>
-    <s:String x:Key="UpdateComplete">下载完成</s:String>
-    <s:String x:Key="UpdateWhenIExit">退出后更新</s:String>
-    <s:String x:Key="UpdateAndExit">现在更新</s:String>
+安装程序使用Inno Setup (http://www.jrsoftware.org/isinfo.php) 制作
+    
+
+YouTube播放列表下载器 v</s:String>
+    <s:String x:Key="BitRate">且设置比特率为</s:String>
+    <s:String x:Key="NewVersionAvailable">新版本可用</s:String>
+    <s:String x:Key="DoYouWantToUpdate">新版本已可用，你想要更新吗？
+更新日志：</s:String>
+    <s:String x:Key="DownloadingUpdateSetup">正在下载：更新程序</s:String>
+    <s:String x:Key="UpdateCancelled">更新已取消。</s:String>
+    <s:String x:Key="ErrorWhileUpdating">在下载更新程序时出现了错误，请确保你已连接到互联网。
+如果你已连接到互联网，尝试稍后下载或访问 https://github.com/shaked6540/YoutubePlaylistDownloader/issues 来看看下载服务器是否有问题。</s:String>
+    <s:String x:Key="UpdateComplete">下载完成。</s:String>
+    <s:String x:Key="UpdateWhenIExit">退出时更新</s:String>
+    <s:String x:Key="UpdateAndExit">立即更新</s:String>
     <s:String x:Key="UpdateFailed">更新失败</s:String>
-    <s:String x:Key="CannotUpdate">更新失败. 重启程序和确保你有网络连接. 
-错误信息: </s:String>
-    <s:String x:Key="CouldntDownload">一些视频目前无法下载</s:String>
-    <s:String x:Key="ListOfNotDownloadedVideos">这些视频目前无法下载和理由:</s:String>
-    <s:String x:Key="Options">選項</s:String>
+    <s:String x:Key="CannotUpdate">目前无法更新，请尝试重启程序并确保你已连接到互联网。
+错误信息：</s:String>
+    <s:String x:Key="CouldntDownload">某些视频无法下载</s:String>
+    <s:String x:Key="ListOfNotDownloadedVideos">以下是无法下载的视频和其原因的列表：</s:String>
+    <s:String x:Key="Options">选项</s:String>
     <s:String x:Key="CheckForUpdates">检查更新</s:String>
-    <s:String x:Key="NoUpdates">没有可用的更新</s:String>
-    <s:String x:Key="NoUpdatesAvailable">没有可用的更新. 你有最新版本.</s:String>
-    <s:String x:Key="PlaylistIndex">从下载视频编号 </s:String>
-    <s:String x:Key="UntilIndex">直到视频编号 </s:String>
-    <s:String x:Key="LeaveEmptyOrZeroForUntilTheEnd">留着空白要么输入填写 0 全部下载视频.</s:String>
-    <s:String x:Key="NoVideosToDownload">找不到视频</s:String>
-    <s:String x:Key="ThereAreNoVideosToDownload">没有视频和你的参数</s:String>
-    <s:String x:Key="UpdateNow">现在更新</s:String>
+    <s:String x:Key="NoUpdates">已是最新版本</s:String>
+    <s:String x:Key="NoUpdatesAvailable">目前没有可用更新，你已在用最新版。</s:String>
+    <s:String x:Key="PlaylistIndex">从视频编号</s:String>
+    <s:String x:Key="UntilIndex">下载直到视频编号</s:String>
+    <s:String x:Key="LeaveEmptyOrZeroForUntilTheEnd">（留空或输入0来下载所有的视频直到播放列表结尾）</s:String>
+    <s:String x:Key="NoVideosToDownload">找不到可下载的视频</s:String>
+    <s:String x:Key="ThereAreNoVideosToDownload">通过你给的参数并未获取到可下载的视频</s:String>
+    <s:String x:Key="UpdateNow">立即更新</s:String>
     <s:String x:Key="Subscriptions">订阅</s:String>
-    <s:String x:Key="AutomaticllyDownloadSubscriptions">自动下载视频这些人</s:String>
-    <s:String x:Key="InsertChannelLink">粘贴频道连接</s:String>
-    <s:String x:Key="Remove">清除</s:String>
-    <s:String x:Key="Id">ID: </s:String>
+    <s:String x:Key="AutomaticllyDownloadSubscriptions">自动从这些频道下载新视频</s:String>
+    <s:String x:Key="InsertChannelLink">请输入频道链接</s:String>
+    <s:String x:Key="Remove">删除</s:String>
+    <s:String x:Key="Id">ID：</s:String>
     <s:String x:Key="Save">保存</s:String>
-    <s:String x:Key="PreferFPS">喜欢的视频有最高FPS</s:String>
-    <s:String x:Key="AudioOnly">下载最好的音频和转变 没有格式化</s:String>
-    <s:String x:Key="StillDownloadingSubscriptionsExit">这个算机程序正在下载您的视频. 单击是会关上电脑程序. 你确定你要退出吗?</s:String>
-    <s:String x:Key="LastVideoDownloadDate">最近更新时间: </s:String>
-    <s:String x:Key="Help">求助</s:String>
-    <s:String x:Key="SubscriptionsHelp">订阅是频道电脑程序下载自动. 例如用户添加频道9月1日. 视频上传9月2日自动下载. 以前的视频没有下载.删除的项目不会再次下载. 订阅是定制. 单击订阅然后单击配置.
+    <s:String x:Key="PreferFPS">更想要下载最高FPS的视频</s:String>
+    <s:String x:Key="AudioOnly">下载纯净的音频，不转换为任意格式</s:String>
+    <s:String x:Key="StillDownloadingSubscriptionsExit">程序正在下载你订阅的视频，点击是将会关闭程序且那些视频将不会被下载直到你重新打开程序。
+你确定要退出吗？</s:String>
+    <s:String x:Key="LastVideoDownloadDate">最后一次更新：</s:String>
+    <s:String x:Key="Help">帮助</s:String>
+    <s:String x:Key="SubscriptionsHelp">订阅频道意味着程序会在订阅被添加后自动下载任何新出的视频
+        
+例如，如果你在九月一日添加了频道"x"的订阅且频道"x"在九月二号发布了新视频，它就会被自动下载。
+        
+以前的视频将不会被下载，且如果你删除了一个特定的视频它将不会被再次下载。 
+        
+所有的订阅均可自定义且带有独自的设置，要访问订阅设置从主菜单点击订阅然后点击你想要设置的频道旁的设置即可。
+
+请注意如果程序未运行，新视频就不会被下载。
     </s:String>
-    <s:String x:Key="ContactTheDeveloper">联络我</s:String>
-    <s:String x:Key="ContactTheDeveloperHelp">有联的方法络我 (shaked6540):首先是 reddit. 我的 reddit 是 https://www.reddit.com/user/shaked6540/. 请发给我 PM 我会尽快回复您.
-我的 github 是 https://github.com/shaked6540/YoutubePlaylistDownloader/issues</s:String>
-    <s:String x:Key="AutomaticallyCheckForUpdates">自动检查更新</s:String>
-    <s:String x:Key="WhatsNew">新功能</s:String>
-    <s:String x:Key="SubscriptionsUpdateDelay">更新我的订阅 </s:String>
-    <s:String x:Key="Minutes">分钟</s:String>
-    <s:String x:Key="SaveDownloadOptions">保存我的下载配置</s:String>
-    <s:String x:Key="DownloadSpeed">下载速度 </s:String>
-    <s:String x:Key="CreditsAndContributors">Many thanks to these people for translating this software: 
+    <s:String x:Key="ContactTheDeveloper">联系我</s:String>
+    <s:String x:Key="ContactTheDeveloperHelp">有几种联系我 (shaked6540) 的方法： 
+
+首先就是通过Reddit，在Reddit上给我发送消息后我就会尽快回复你，这是我的个人资料链接：https://www.reddit.com/user/shaked6540/
+
+其次就是通过GitHub，开启一个新的issue后我就会尽快回复你，这是链接：https://github.com/shaked6540/YoutubePlaylistDownloader/issues</s:String>
+    <s:String x:Key="AutomaticallyCheckForUpdates">在程序启动时自动检测更新</s:String>
+    <s:String x:Key="WhatsNew">更新日志</s:String>
+    <s:String x:Key="SubscriptionsUpdateDelay">每</s:String>
+    <s:String x:Key="Minutes">分钟后更新订阅</s:String>
+    <s:String x:Key="SaveDownloadOptions">保存我的下载设置</s:String>
+    <s:String x:Key="DownloadSpeed">下载速度：</s:String>
+    <s:String x:Key="Changelog">更新日志</s:String>
+    <s:String x:Key="DongChunrui">Dong Cunrui (董存瑞)</s:String>
+    <s:String x:Key="CreditsAndContributors">感谢这些帮助翻译此软件的人：
 Dong Cunrui (董存瑞)
+Aruvelut-123
 RichyZ99
 Jhonatan Lima (Heremitus)
 İskender ALPSAKARYA, Alp Eren GENÇOĞLU (Türkçe)
-Luis Duenas (Español)
 Stephan Komov (Deutsch)
 Elta (Français)
 Ahmed Waaer (Arabic)
@@ -110,56 +126,57 @@ Bartlomiej Szmolke (Polski)
 Timofey Dedov (Русский)
 </s:String>
     <s:String x:Key="Search">搜索</s:String>
-    <s:String x:Key="Queue">队列</s:String>
-    <s:String x:Key="Downloading">下载..</s:String>
-    <s:String x:Key="Converting">转换..</s:String>
-    <s:String x:Key="DownloadInBackground">添加到队列</s:String>
+    <s:String x:Key="Queue">列表</s:String>
+    <s:String x:Key="Downloading">下载中......</s:String>
+    <s:String x:Key="Skipping">文件已存在，即将跳过</s:String>
+    <s:String x:Key="Converting">转换中......</s:String>
+    <s:String x:Key="DownloadInBackground">添加到列表</s:String>
     <s:String x:Key="Audio">音频</s:String>
     <s:String x:Key="Video">视频</s:String>
-    <s:String x:Key="DownloadCaptions">下载隐藏式字幕</s:String>
-    <s:String x:Key="CaptionsLanguage">隐藏式字幕语言: </s:String>
-    <s:String x:Key="BulkDownload">Bulk download</s:String>
-    <s:String x:Key="LimitConverstions" >Set the maximum concurrent file conversions to </s:String>
-    <s:String x:Key="ValueChangeRequiresRestart">(enabling the limit requires a 
-program restart to take effect)</s:String>
-    <s:String x:Key="ConversionsLimitingExplanation">Every file conversion takes about 1 core completely. For example: if you have a 4
-cores cpu, limiting the program to 3 file conversions at a time will use 3 cores
-out of 4; in Task Manager you will see that the program uses a little more than 75% cpu.
-It is recommended to use 1 less core than what your cpu have. If your cpu have 4 cores,
-use 3 cores by limiting the file conversion to 3, if you have 3 cores, use 2 cores by limiting
-the file conversion to 2, etc..</s:String>
-    <s:String x:Key="FileConversion">File conversion</s:String>
-    <s:String x:Key="General">General</s:String>
-    <s:String x:Key="SavePlaylistInUniqueDirectory">Save every playlist in a different folder</s:String>
-    <s:String x:Key="Playlist">Playlist</s:String>
-    <s:String x:Key="OpenDestinationFolder">Open destination folder</s:String>
-    <s:String x:Key="ConfirmExit">Confirmation on exit</s:String>
-    <s:String x:Key="OpenDestinationFolderOnFinish">Open destination folder when done</s:String>
-    <s:String x:Key="TagAudioFile">Add tags and cover picture to audio files</s:String>
-    <s:String x:Key="Than">than</s:String>
-    <s:String x:Key="Filter">Filter</s:String>
-    <s:String x:Key="DownloadFilter">Only download videos</s:String>
-    <s:String x:Key="Longer">longer</s:String>
-    <s:String x:Key="Shorter">shorter</s:String>
-    <s:String x:Key="FileDoesNotExist">{0} does not exist.</s:String>
-    <s:String x:Key="Retry">Retry</s:String>
-    <s:String x:Key="Of">of</s:String>
-    <s:String x:Key="FileNamePattern">File name pattern: </s:String>
-    <s:String x:Key="ResetToDefault">Reset to default</s:String>
-    <s:String x:Key="FileNamePatternTitle">File Name Pattern</s:String>
-    <s:String x:Key="SkipExisting">Skip files that already exist</s:String>
-    <s:String x:Key="FileNamePattenExplanation">The file name pattern allows you to give the downloaded files dynamic names based on these parameters:
-$title: The title of the video
-$index: The index of the video in the playlist
-$artist: The name of the artist of the song (if applicable)
-$songtitle: The title of the song
-$channel: The name of the channel that uploaded the video
-$videoid: The unique ID of the video (taken from the video url)
-$playlist: The title of the plyalist
+    <s:String x:Key="DownloadCaptions">下载封闭式字幕</s:String>
+    <s:String x:Key="CaptionsLanguage">封闭式字幕语言：</s:String>
+    <s:String x:Key="BulkDownload">批量下载</s:String>
+    <s:String x:Key="LimitConverstions">设置最大同时文件转换进程数为</s:String>
+    <s:String x:Key="ValueChangeRequiresRestart">（启用限制需重启应用生效）</s:String>
+    <s:String x:Key="ConversionsLimitingExplanation">每个文件转换进程都会占据大约一个核心。例如：如果你有一个
+4核的CPU，限制程序同时进行三个文件转换进程会使用4个核心中的3个；
+在任务管理器中能看到程序占用了略微大于75%的CPU。
 
-So for example, if my file name pattern is "song: [$playlist] $artist - $songtitle ($channel) $index" the result file name would be "song: [Example] Infected Mushroom - Spitfire (Monstercat) 1"
-You can add any other text between the parameters, only the parameters will be replaced.
-Please note that not all the parameters are always available (for example, when downloading a single video the $playlisttitle variable would not be available), and in case they are missing they will be removed from the file name</s:String>
-    <s:String x:Key="CopyToClipboard">Copy to clipboard</s:String>
-    <s:String x:Key="SaveToTextFile">Save to text file</s:String>
-</ResourceDictionary>
+建议使用比你CPU有的核心数少一的值。如果你的CPU是4核的，
+通过将同时文件转换进程限制为3来使用3个核心，如果你有三个核心，
+将同时文件转换进程限制为2来使用2个核心等。</s:String>
+    <s:String x:Key="FileConversion">文件转换</s:String>
+    <s:String x:Key="General">常规</s:String>
+    <s:String x:Key="SavePlaylistInUniqueDirectory">保存每个播放列表到不同的文件夹</s:String>
+    <s:String x:Key="Playlist">播放列表</s:String>
+    <s:String x:Key="OpenDestinationFolder">打开目标文件夹</s:String>
+    <s:String x:Key="ConfirmExit">退出时确认</s:String>
+    <s:String x:Key="OpenDestinationFolderOnFinish">完成时自动打开目标文件夹</s:String>
+    <s:String x:Key="TagAudioFile">添加标签并将封面添加到音频文件上</s:String>
+    <s:String x:Key="Than">比</s:String>
+    <s:String x:Key="Filter">过滤</s:String>
+    <s:String x:Key="DownloadFilter">只下载视频</s:String>
+    <s:String x:Key="Longer">更长</s:String>
+    <s:String x:Key="Shorter">更短</s:String>
+    <s:String x:Key="FileDoesNotExist">{0} 不存在。</s:String>
+    <s:String x:Key="Retry">重试</s:String>
+    <s:String x:Key="Of">分之</s:String>
+    <s:String x:Key="FileNamePattern">文件名样式：</s:String>
+    <s:String x:Key="SkipExisting">跳过已存在的文件</s:String>
+    <s:String x:Key="ResetToDefault">恢复默认设置</s:String>
+    <s:String x:Key="FileNamePatternTitle">文件名样式</s:String>
+    <s:String x:Key="FileNamePattenExplanation">文件名样式允许你将下载的文件通过这些参数动态命名：
+$title: 视频标题
+$index: 视频在播放列表内的索引
+$artist: 歌曲的作者的名称（如果适用）
+$songtitle: 歌曲标题
+$channel: 发布视频的频道的名称
+$videoid: 视频的唯一的ID（来自视频的URL）
+$playlist: 播放列表的名称
+
+例如，如果我的文件名样式为"歌曲：[$playlist] $artist - $songtitle ($channel) $index"最终的文件名会变为"歌曲：[例子] 受感染的蘑菇 - 喷火 (Monstercat) 1"
+你可以在参数直接添加任意字符，只有参数会被替换。
+请注意不是所有参数都一直可用（例如，当下载单个视频时$playlisttitle参数将不可用），如果它们不可用就会将其从文件名中删除</s:String>
+    <s:String x:Key="CopyToClipboard">复制到剪贴板</s:String>
+    <s:String x:Key="SaveToTextFile">保存到文本文档</s:String>
+</ResourceDictionary> 
