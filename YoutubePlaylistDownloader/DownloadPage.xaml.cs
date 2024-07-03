@@ -312,7 +312,7 @@ public partial class DownloadPage : UserControl, IDisposable, IDownload
                     var copyFileLoc = $"{SavePath}\\{cleanFileName}.{FileType}";
                     
 
-                    if (GlobalConsts.DownloadSettings.SkipExisting && await ExtensionMethods.BulkFileExists(video, indexes[video], outputFileLoc, FileType, SavePath, Playlist))
+                    if (GlobalConsts.DownloadSettings.SkipExisting && await ExtensionMethods.FileExists(video, indexes[video], outputFileLoc, FileType, SavePath, Playlist))
                     {
                         CurrentStatus = string.Concat(FindResource("Skipping"));
                         CurrentTitle = video.Title;

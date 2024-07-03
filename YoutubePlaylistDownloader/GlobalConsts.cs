@@ -386,7 +386,7 @@ static class GlobalConsts
         return $"{string.Join(", ", artists)} - {title}";
     }
 
-    public static async Task<string> TagFileBasedOnTitle(IVideo video, int vIndex, string file, FullPlaylist playlist = null, bool returnTitleOlny = false)
+    public static async Task<string> TagFileBasedOnTitle(IVideo video, int vIndex, string file, FullPlaylist playlist = null, bool returnTitleOnly = false)
     {
         var genre = video.Title.Split('[', ']').ElementAtOrDefault(1);
         if (genre == null)
@@ -406,7 +406,7 @@ static class GlobalConsts
         }
         title = title.TrimStart(' ', '-', '[', ']');
 
-        if (returnTitleOlny)
+        if (returnTitleOnly)
             return title;
 
         var t = TagLib.File.Create(file);

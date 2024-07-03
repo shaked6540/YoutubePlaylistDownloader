@@ -15,7 +15,7 @@ public static class ExtensionMethods
         await Task.WhenAll(toAwait).ConfigureAwait(false);
     }
 
-    public static async Task<bool> BulkFileExists(IVideo video, int vIndex, string file, string fileType, string savePath, FullPlaylist playlist = null)
+    public static async Task<bool> FileExists(IVideo video, int vIndex, string file, string fileType, string savePath, FullPlaylist playlist = null)
     {
         var fullVideo = await GlobalConsts.YoutubeClient.Videos.GetAsync(video.Id).ConfigureAwait(false);
         string tagged = await GlobalConsts.TagMusicFile(fullVideo, file, vIndex, returnTitleOnly: true);
