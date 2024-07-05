@@ -69,7 +69,7 @@ Fehlermeldung: </s:String>
     <s:String x:Key="ListOfNotDownloadedVideos">Dies ist eine Liste der Videos, die nicht heruntergeladen werden konnten, und der Grund, warum sie nicht heruntegeladen werden konnten: </s:String>
     <s:String x:Key="Options">Optionen</s:String>
     <s:String x:Key="CheckForUpdates">nach Aktualisierungen suchen</s:String>
-    <s:String x:Key="NoUpdates">keine Aktualisirungen verfügbar</s:String>
+    <s:String x:Key="NoUpdates">Keine Aktualisierungen verfügbar</s:String>
     <s:String x:Key="NoUpdatesAvailable">Derzeit sind keine Aktualisierungen verfügbar, Sie haben die neuste Version.</s:String>
     <s:String x:Key="PlaylistIndex">Herunterladen ab Video Nr. </s:String>
     <s:String x:Key="UntilIndex">bis Video Nr. </s:String>
