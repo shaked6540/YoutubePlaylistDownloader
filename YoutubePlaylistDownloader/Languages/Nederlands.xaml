@@ -58,10 +58,8 @@ Youtube Afspeellijst Downloader
 Hier zijn alle nieuwe veranderingen:</s:String>
     <s:String x:Key="DownloadingUpdateSetup">Aan het downloaden: Update Opstelling</s:String>
     <s:String x:Key="UpdateCancelled">Update werd geannuleerd.</s:String>
-    <s:String x:Key="ErrorWhileUpdating">An error has occurred while downloading the update setup, make sure you're connected to the Internet.
-If you are connected to the Internet, try downloading a later time or visit https://github.com/shaked6540/YoutubePlaylistDownloader/issues to see if theres an issue with the download server.</s:String>
-Een fout trad op tijdens het downloaden van de update opstelling, wees zeker dat u verbinding heeft met het internet.
-Indien u verbonden bent tot het internet, probeer de download later nog eens of bezoek https://github.com/shaked6540/YoutubePlaylistDownloader/issues om te zien of er een probleem aanwezig is met de download server.
+    <s:String x:Key="ErrorWhileUpdating">Een fout trad op tijdens het downloaden van de update opstelling, wees zeker dat u verbinding heeft met het internet.
+Indien u verbonden bent tot het internet, probeer de download later nog eens of bezoek https://github.com/shaked6540/YoutubePlaylistDownloader/issues om te zien of er een probleem aanwezig is met de download server.</s:String>
     <s:String x:Key="UpdateComplete">Download voltooid.</s:String>
     <s:String x:Key="UpdateWhenIExit">Update als ik het programma afsluit</s:String>
     <s:String x:Key="UpdateAndExit">Sluit af en update nu</s:String>
