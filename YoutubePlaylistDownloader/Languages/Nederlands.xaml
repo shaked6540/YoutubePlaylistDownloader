@@ -1,0 +1,181 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:s="clr-namespace:System;assembly=mscorlib"
+                    xml:space="preserve">
+    
+    <s:String x:Key="Title">YouTube Afspeellijst Downloader</s:String>
+    <FlowDirection x:Key="FlowDirection">LeftToRight</FlowDirection>
+    <s:String x:Key="InsertYoutubePlaylistLinkHere">Voeg hier Youtube-link in</s:String>
+    <s:String x:Key="Exit">Afsluiten</s:String>
+    <s:String x:Key="ExitMessage">Bent u zeker dat u het programma wil afsluiten?</s:String>
+    <s:String x:Key="Yes">Ja</s:String>
+    <s:String x:Key="No">Nee</s:String>
+    <s:String x:Key="Error">Fout</s:String>
+    <s:String x:Key="ErrorMessage">Een onverwachte fout trad op tijdens het uitvoeren van de actie. Contacteer uw beheerder om de fout te behandelen.</s:String>
+    <s:String x:Key="Settings">Instellingen</s:String>
+    <s:String x:Key="Preferences">Voorkeuren</s:String>
+    <s:String x:Key="Theme">Accent</s:String>
+    <s:String x:Key="Language">Taal</s:String>
+    <s:String x:Key="Back">Terug</s:String>
+    <s:String x:Key="SaveAndBackToDownload">Sla op en keer terug naar hoofdmenu</s:String>
+    <s:String x:Key="DarkTheme">Donkere Thema</s:String>
+    <s:String x:Key="Name">Naam: </s:String>
+    <s:String x:Key="Description">Omschrijving: </s:String>
+    <s:String x:Key="Views">Weergaven: </s:String>
+    <s:String x:Key="SaveDirectory">Sla videos op in:</s:String>
+    <s:String x:Key="CurrentlyDownloading">Nu aan het downloaden: </s:String>
+    <s:String x:Key="TotalProgress">Tot nu tu gedownload: </s:String>
+    <s:String x:Key="AllDone">Alles is klaar.</s:String>
+    <s:String x:Key="Canceling">Uw downloads worden geannuleerd, even geduld aub.</s:String>
+    <s:String x:Key="Videos">Videos</s:String>
+    <s:String x:Key="Download">Download</s:String>
+    <s:String x:Key="ConvertToMp3">Zet videos om tot</s:String>
+    <s:String x:Key="SaveVideoFormat">Sla videos op als </s:String>
+    <s:String x:Key="StillConverting">Nog aan het converteren, even geduld aub.</s:String>
+    <s:String x:Key="files">bestanden</s:String>
+    <s:String x:Key="Author">Auteur: </s:String>
+    <s:String x:Key="PlaylistTitle">Titel: </s:String>
+    <s:String x:Key="Loading">Aan het laden...</s:String>
+    <HorizontalAlignment x:Key="LeftAlignment">Left</HorizontalAlignment>
+    <s:String x:Key="About">Over</s:String>
+    <s:String x:Key="Home">Thuis</s:String>
+    <s:String x:Key="Prefer">Video-resolutie voorkeur: </s:String>
+    <s:String x:Key="AreYouSureExit">Bent u zeker dat u het programma wil afsluiten?</s:String>
+    <s:String x:Key="TotalVideos">Alle videos: </s:String>
+    <s:String x:Key="AboutTheProgram">Dit programma werd ontwikkeld door shaked6540 en is volledig gratis en onbeperkt te gebruiken.
+Ik ben hoewel niet verantwoordelijk voor eenderwelk legaal probleem dat zich zou optreden door dit programma,
+zover ik het weet, laat YouTube niet toe om videos te downloaden vanop hun website.
+De volledige broncode van dit programma kunt u raadplegen op https://github.com/shaked6540/YoutubePlaylistDownloader
+
+De installatie-software werd gemaakt met behulp van Inno Setup (http://www.jrsoftware.org/isinfo.php)
+
+
+Youtube Afspeellijst Downloader
+</s:String>
+    <s:String x:Key="BitRate">en zet de bitsnelheid om naar </s:String>
+    <s:String x:Key="NewVersionAvailable">Nieuwe versie beschikbaar</s:String>
+    <s:String x:Key="DoYouWantToUpdate">Een nieuwe versie is beschikbaar, wilt u er naar toe updaten?
+Hier zijn alle nieuwe veranderingen:</s:String>
+    <s:String x:Key="DownloadingUpdateSetup">Aan het downloaden: Update Opstelling</s:String>
+    <s:String x:Key="UpdateCancelled">Update werd geannuleerd.</s:String>
+    <s:String x:Key="ErrorWhileUpdating">Een fout trad op tijdens het downloaden van de update opstelling, wees zeker dat u verbinding heeft met het internet.
+Indien u verbonden bent tot het internet, probeer de download later nog eens of bezoek https://github.com/shaked6540/YoutubePlaylistDownloader/issues om te zien of er een probleem aanwezig is met de download server.</s:String>
+    <s:String x:Key="UpdateComplete">Download voltooid.</s:String>
+    <s:String x:Key="UpdateWhenIExit">Update als ik het programma afsluit</s:String>
+    <s:String x:Key="UpdateAndExit">Sluit af en update nu</s:String>
+    <s:String x:Key="UpdateFailed">Update gefaald</s:String>
+    <s:String x:Key="CannotUpdate">Kan momenteel niet updaten, probeer om het programma opnieuw op te starten en wees zeker dat u verbonden bent tot het internet.
+Foutbericht: </s:String>
+    <s:String x:Key="CouldntDownload">Sommige videos konden niet gedownload worden</s:String>
+    <s:String x:Key="ListOfNotDownloadedVideos">Hier is een lijst met de videos die niet gedownload konden worden, en de reden waarom: </s:String>
+    <s:String x:Key="Options">Opties</s:String>
+    <s:String x:Key="CheckForUpdates">Check voor updates</s:String>
+    <s:String x:Key="NoUpdates">Geen updates beschikbaar</s:String>
+    <s:String x:Key="NoUpdatesAvailable">Er zijn momenteel geen updates beschikbaar, u heeft de nieuwste versie van het programma.</s:String>
+    <s:String x:Key="PlaylistIndex">Download van video nummer</s:String>
+    <s:String x:Key="UntilIndex">tot video nummer</s:String>
+    <s:String x:Key="LeaveEmptyOrZeroForUntilTheEnd">(laat dit leeg of geef 0 in om alle videos te downloaden tot het einde van de afspeellijst)</s:String>
+    <s:String x:Key="NoVideosToDownload">Kon geen videos vinden om te downloaden</s:String>
+    <s:String x:Key="ThereAreNoVideosToDownload">Er zijn geen videos aanwezig die voldoen aan de door u gegeven parameters.</s:String>
+    <s:String x:Key="UpdateNow">Update nu</s:String>
+    <s:String x:Key="Subscriptions">Abonnementen</s:String>
+    <s:String x:Key="AutomaticllyDownloadSubscriptions">Download automatisch nieuwe videos van deze kanalen</s:String>
+    <s:String x:Key="InsertChannelLink">Geef hier link van kanaal in</s:String>
+    <s:String x:Key="Remove">Verwijder</s:String>
+    <s:String x:Key="Id">ID: </s:String>
+    <s:String x:Key="Save">Opslaan</s:String>
+    <s:String x:Key="PreferFPS">Voorkeur voor videos met meest aantal kaders per seconde (FPS)</s:String>
+    <s:String x:Key="AudioOnly">Download normale audio, zonder te converteren naar ander formaat</s:String>
+    <s:String x:Key="StillDownloadingSubscriptionsExit">Het programma is nog jouw geabonneerde videos aan het downloaden, indien u op ja klikt zal het programma afsluiten en zullen de videos niet downloaden tot u het programma weer opent.
+Bent u zeker dat u het programma wil afsluiten?</s:String>
+    <s:String x:Key="LastVideoDownloadDate">Laatste update op: </s:String>
+    <s:String x:Key="Help">Hulp</s:String>
+    <s:String x:Key="SubscriptionsHelp">Abonnementen zijn kanalen waarvan het programma ieder nieuw video zal downloaden nadat het abonnement werd toegevoegd.
+
+Bijvoorbeeld, als u een abonnement heb toegevoegd voor kanaal "x" op 1 september en kanaal "x" heeft een video op 2 september geüpload, zal die video automatisch gedownload worden.
+
+Alle vorige videos zullen niet gedownload worden, en videos zullen niet tweemaal gedownload worden indien u een bepaalde video verwijdert.
+
+Alle abonnementen zijn aan wijziging toe en hebben hun eigen instellingen, om abonnementinstellingen te wijzigen klikt u op "Abonnementen" in het hoofdmenu en dan klikt u op "Instellingen" voor het bepaalde kanaal.
+
+Let er op dat nieuwe videos niet gedownload zullen worden als het programma niet geopend is, 
+    </s:String>
+    <s:String x:Key="ContactTheDeveloper">Contact</s:String>
+    <s:String x:Key="ContactTheDeveloperHelp">Er zijn meerdere manieren om mij te contacteren (shaked6540):
+
+De eerste manier is Reddit, stuur mij een bericht op Reddit en ik zal zo snel mogelijk antwoorden, ziehier de link naar mijn profiel: https://www.reddit.com/user/shaked6540
+
+De tweede manier is om mij door GitHub te contacteren, open een nieuwe Issue-bericht en ik zal zo snel mogelijk antwoorden, ziehier de link: https://github.com/shaked6540/YoutubePlaylistDownloader/issues
+</s:String>
+    <s:String x:Key="AutomaticallyCheckForUpdates">Check automatisch voor updates als ik het programma opstart</s:String>
+    <s:String x:Key="WhatsNew">What is nieuw?</s:String>
+    <s:String x:Key="SubscriptionsUpdateDelay">Werk abonnementen bij iedere </s:String>
+    <s:String x:Key="Minutes">minuten</s:String>
+    <s:String x:Key="SaveDownloadOptions">Sla mijn download voorkeuren op</s:String>
+    <s:String x:Key="DownloadSpeed">Download snelheid: </s:String>
+    <s:String x:Key="Changelog">Lijst met veranderingen </s:String>
+    <s:String x:Key="DongChunrui">Dong Cunrui (董存瑞)</s:String>
+    <s:String x:Key="CreditsAndContributors">Van harte bedankt aan deze mensen om deze software te vertalen:
+Dong Cunrui (董存瑞)
+RichyZ99
+Jhonatan Lima (Heremitus)
+İskender ALPSAKARYA, Alp Eren GENÇOĞLU (Türkçe)
+Stephan Komov (Deutsch)
+Elta (Français)
+Ahmed Waaer (Arabic)
+Bartlomiej Szmolke (Polski)  
+Timofey Dedov (Русский)
+tdg83 (Nederlands)
+</s:String>
+    <s:String x:Key="Search">Zoeken</s:String>
+    <s:String x:Key="Queue">Wachtrij</s:String>
+    <s:String x:Key="Downloading">Aan het downloaden...</s:String>
+    <s:String x:Key="Skipping">Bestand bestaat al, bezig met overslaan...</s:String>
+    <s:String x:Key="Converting">Converteren...</s:String>
+    <s:String x:Key="DownloadInBackground">Toevoegen aan wachtrij</s:String>
+    <s:String x:Key="Audio">Geluid</s:String>
+    <s:String x:Key="Video">Video</s:String>
+    <s:String x:Key="DownloadCaptions">Download ondertitels</s:String>
+    <s:String x:Key="CaptionsLanguage">Ondertitel taal:</s:String>
+    <s:String x:Key="BulkDownload">Bulk download</s:String>
+    <s:String x:Key="LimitConverstions">Zet het maximumaantal gelijktijdige bestandsconverties naar</s:String>
+    <s:String x:Key="ValueChangeRequiresRestart">(het aan zetten van de limiet behoeft een heropstarting van het programma om in werking te treden)</s:String>
+    <s:String x:Key="ConversionsLimitingExplanation">Iedere bestandsconvertie neemt ongeveer één kern volledig in. Bijvoorbeeld: als je een computerchip (CPU) hebt met 4 kernen en het programma beperkt tot 3 gelijktijdige bestandsconverties, zal het programma iets meer dan 75% van je computerchip in nemen. Dit kun je raadplegen in Taakbeheer.
+
+Het is aangeraden om één kern minder te gebruiken dan wat je CPU heeft. Indien jouw CPU 4 kernen heeft, gebruik dan 3 kernen door het maximumaantal gelijktijdige bestandsconverties om te zetten naar 3, 2 kernen met limiet 2, enzovoort.
+</s:String>
+    <s:String x:Key="FileConversion">Bestandsconvertie</s:String>
+    <s:String x:Key="General">Algemeen</s:String>
+    <s:String x:Key="SavePlaylistInUniqueDirectory">Sla iedere afspeellijst op in een verschillende map</s:String>
+    <s:String x:Key="Playlist">Afspeellijst</s:String>
+    <s:String x:Key="OpenDestinationFolder">Open bestemmingsmap</s:String>
+    <s:String x:Key="ConfirmExit">Bevestiging bij afsluiting programma</s:String>
+    <s:String x:Key="OpenDestinationFolderOnFinish">Open bestemmingsmap indien gereed</s:String>
+    <s:String x:Key="TagAudioFile">Voeg labels en coverfoto aan audio bestanden</s:String>
+    <s:String x:Key="Than">dan</s:String>
+    <s:String x:Key="Filter">Filter</s:String>
+    <s:String x:Key="DownloadFilter">Download alleen videos</s:String>
+    <s:String x:Key="Longer">langer</s:String>
+    <s:String x:Key="Shorter">korter</s:String>
+    <s:String x:Key="FileDoesNotExist">{0} bestaat niet.</s:String>
+    <s:String x:Key="Retry">Opnieuw proberen</s:String>
+    <s:String x:Key="Of">van</s:String>
+    <s:String x:Key="FileNamePattern">Bestandsnaampatroon: </s:String>
+    <s:String x:Key="SkipExisting">Bestanden overslaan die al bestaan </s:String>
+    <s:String x:Key="ResetToDefault">Reset naar standaard</s:String>
+    <s:String x:Key="FileNamePatternTitle">Bestandsnaampatroon</s:String>
+    <s:String x:Key="FileNamePattenExplanation">Het bestandsnaampatroon laat jou toe om dynamiek te geven aan gedownloadde bestanden op basis van de volgende parameters:
+$title: titel van de video
+$index: index van de video in de playlist
+$artist: naam van het artiest van het lied (indien van toepassing)
+$songtitle: titel van het lied
+$channel: naam van het kanaal dat de video heeft geüpload
+$videoid: het unieke ID van de video (genomen uit video URL)
+$playlist: titel van de playlist
+
+Bijvoorbeeld, als mijn bestandsnaampatroon "song: [$playlist] $artist - $songtitle ($channel) $index" is, zal het bestand de volgende naam hebben: "song: [Example] Infected Mushroom - Spitfire (Monstercat) 1"
+U kunt eenderwelk ander tekst tussen de parameters zetten, alleen de parameters zullen vervangen worden.
+Let er aub op dat niet alle parameters altijd beschikbaar zijn (bijvoorbeeld, indien u slechts één video download, zou de $playlisttiel variabele niet beschikbaar zijn), en in het geval dat het ontbreekt, zal het verwijderd worden uit het bestandsnaam.</s:String>
+    <s:String x:Key="CopyToClipboard">Kopieer naar klembord</s:String>
+    <s:String x:Key="SaveToTextFile">Sla tekst op als bestand</s:String>
+</ResourceDictionary>
