@@ -1,2 +1,4 @@
-﻿Version 1.9.24:
-- Fixed videos not downloading (Thanks cristianst85)
+﻿Version 1.9.25:
+- Fixed 403 Error
+- Fixed bulk download not working
+- Updated translations

@@ -233,14 +233,9 @@ public partial class DownloadPage : UserControl, IDisposable, IDownload
                 }
                 else if (YoutubeHelpers.TryParseVideoId(link, out var videoId))
                 {
-                    IVideo video = await client.Videos.GetAsync(videoId);
-
-                    if (playlistId.HasValue)
-                    {
-                        video = new PlaylistVideo(playlistId.Value, video.Id, video.Title, video.Author, video.Duration, video.Thumbnails);
-                    }
-
-                    await Download(null, new[] { video });
+                    var video = await client.Videos.GetAsync(videoId);
+                    fullPlaylist = new FullPlaylist(null, new[] { video }, video.Title);
+                    await Download(fullPlaylist, new[] { video });
                 }
                 else
                 {
