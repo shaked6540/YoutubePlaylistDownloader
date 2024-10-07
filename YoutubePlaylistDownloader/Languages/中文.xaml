@@ -123,8 +123,9 @@ Luis Duenas (Español)
 Stephan Komov (Deutsch)
 Elta (Français)
 Ahmed Waaer (Arabic)
-Bartlomiej Szmolke (Polski)  
+Bartlomiej Szmolke (Polski)
 Timofey Dedov (Русский)
+deeaeu (Română)
 </s:String>
     <s:String x:Key="Search">搜索</s:String>
     <s:String x:Key="Queue">列表</s:String>
