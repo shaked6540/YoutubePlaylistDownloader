@@ -15,7 +15,7 @@ A simple program to download whole playlists\channels or even single videos from
 - Themes, and user friendly interface
 - Automatic tagging of artists, album, title and genre based on the video title
 - Comfortable update system
-- Multi-language support (Currently the only available translations are Hebrew, English, Chinese, Italian and Brazilian-Portuguese though)
+- Multi-language support: English, Arabic, Chinese, Dutch (NL), French, German, Hebrew, Italian, Polish, Portuguese (BR), Romanian, Russian, Spanish, and Turkish
 
 ## Screenshots
 ![Gif](https://i.imgur.com/bQw4fVm.gif "Gif")
