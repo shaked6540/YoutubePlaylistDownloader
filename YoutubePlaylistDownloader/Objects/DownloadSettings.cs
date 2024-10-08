@@ -138,52 +138,55 @@ public class DownloadSettings
         VideoSaveFormat = settings.VideoSaveFormat;
     }
 
-    public string GetFilenameByPattern(IVideo video, int vIndex, string file, FullPlaylist playlist = null)
+    public string GetFilenameByPattern(IVideo video, int index, string file, FullPlaylist playlist = null)
     {
         if (video == null)
+        {
             return file;
+        }
 
-        var genre = video.Title.Split('[', ']').ElementAtOrDefault(1);
-        string artist = "", vTitle = "";
+        var title = video.Title.Replace("—", "-");
+        var genre = title.Split('[', ']').ElementAtOrDefault(1);
+        var artist = string.Empty;
+        var songTitle = string.Empty;
 
         if (genre == null)
+        {
             genre = string.Empty;
-
-        else if (genre.Length >= video.Title.Length)
+        }
+        else if (genre.Length >= title.Length)
+        {
             genre = string.Empty;
-
-
-        var title = video.Title;
+        }
 
         if (!string.IsNullOrWhiteSpace(genre))
         {
-            title = video.Title.Replace($"[{genre}]", string.Empty);
-            var rm = title.Split('[', ']', '【', '】').ElementAtOrDefault(1);
-            if (!string.IsNullOrWhiteSpace(rm))
-                title = title.Replace($"[{rm}]", string.Empty);
-        }
-        title = title.TrimStart(' ', '-', '[', ']');
-        var lowerGenre = genre.ToLower();
-        if (new[] { "download", "out now", "mostercat", "video", "lyric", "release", "ncs" }.Any(lowerGenre.Contains))
-            genre = string.Empty;
+            title = title.Replace($"[{genre}]", string.Empty);
+            var stringToRemove = title.Split('[', ']', '【', '】').ElementAtOrDefault(1);
 
-        var index = title.LastIndexOf('-');
-        if (index > 0)
-        {
-            vTitle = title[(index + 1)..].Trim(' ', '-');
-            if (string.IsNullOrWhiteSpace(vTitle))
+            if (!string.IsNullOrWhiteSpace(stringToRemove))
             {
-                index = title.IndexOf('-');
-                if (index > 0)
-                    vTitle = title[(index + 1)..].Trim(' ', '-');
+                title = title.Replace($"[{stringToRemove}]", string.Empty);
             }
-            artist = string.Join(", ", title[..(index - 1)].Trim().Split(["&", "feat.", "feat", "ft.", " ft ", "Feat.", " x ", " X "], StringSplitOptions.RemoveEmptyEntries));
         }
+
+        title = title.TrimStart(' ', '-', '[', ']').TrimEnd();
+
+        if (GlobalConsts.IgnoredGeneres.Any(genre.ToLower().Contains))
+        {
+            genre = string.Empty;
+        }
+
+        if (GlobalConsts.TryGetSongTitleAndPerformersFromTitle(title, out songTitle, out string[] songPerformers))
+        {
+            artist = string.Join(", ", songPerformers);
+        }
+
         var result = FilenamePattern
             .Replace("$title", title)
-            .Replace("$index", (vIndex + 1).ToString())
+            .Replace("$index", (index + 1).ToString())
             .Replace("$artist", artist)
-            .Replace("$songtitle", vTitle)
+            .Replace("$songtitle", songTitle)
             .Replace("$channel", video.Author.ChannelTitle)
             .Replace("$videoid", video.Id)
             .Replace("$playlist", playlist?.Title)
@@ -193,5 +196,4 @@ public class DownloadSettings
     }
 
     public DownloadSettings Clone() => new(this);
-
 }
