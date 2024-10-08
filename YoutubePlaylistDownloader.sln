@@ -6,7 +6,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YoutubePlaylistDownloader",
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{2A76AF85-987A-41AE-8D9B-5A510CFB2455}"
 	ProjectSection(SolutionItems) = preProject
-		License.txt = License.txt
+		LICENSE = LICENSE
 		README.md = README.md
 		YPDSetup\YPDSetup.iss = YPDSetup\YPDSetup.iss
 	EndProjectSection
