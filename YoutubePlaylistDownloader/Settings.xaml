@@ -64,7 +64,7 @@
 
             </Controls:MetroTabItem>
         </Controls:MetroAnimatedTabControl>
-        <Controls:Tile Click="Exit_Click" HorizontalAlignment="Center" Title="{DynamicResource SaveAndBackToDownload}" Margin="5" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Controls:ControlsHelper.MouseOverBorderBrush="{DynamicResource BlackBrush}"  HorizontalTitleAlignment="Right" Style="{StaticResource LargeTileStyle}">
+        <Controls:Tile Click="Exit_Click" HorizontalAlignment="Center" Title="{DynamicResource SaveAndBackToDownload}" Margin="5" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" MinWidth="200" Width="Auto" HorizontalTitleAlignment="Center" Controls:ControlsHelper.MouseOverBorderBrush="{DynamicResource BlackBrush}" Style="{StaticResource LargeTileStyle}">
             <iconPacks:PackIconModern Width="40" Height="40" Kind="ArrowLeft" />
         </Controls:Tile>
     </StackPanel>

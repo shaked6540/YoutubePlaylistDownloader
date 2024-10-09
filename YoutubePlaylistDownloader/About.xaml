@@ -24,9 +24,11 @@
 
         </Controls:MetroTabControl>
 
-        <Controls:Tile Style="{DynamicResource LargeTileStyle}" x:Name="UpdateButton" Title="{DynamicResource CheckForUpdates}" Click="UpdateButton_Click">
-            <iconPacks:PackIconModern Width="40" Height="40" Kind="Inbox" />
-        </Controls:Tile>
+        <WrapPanel HorizontalAlignment="Center">
+            <Controls:Tile Style="{DynamicResource LargeTileStyle}" x:Name="UpdateButton" Title="{DynamicResource CheckForUpdates}" MinWidth="200" Width="Auto" HorizontalTitleAlignment="Center" Click="UpdateButton_Click">
+                <iconPacks:PackIconModern Width="40" Height="40" Kind="Inbox" />
+            </Controls:Tile>
+        </WrapPanel>
 
     </StackPanel>
 
