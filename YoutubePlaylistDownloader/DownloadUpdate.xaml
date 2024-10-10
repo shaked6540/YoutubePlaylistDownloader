@@ -17,10 +17,10 @@
             <Controls:Tile Click="Exit_Click" x:Name="UpdateNowButton" Visibility="Collapsed" HorizontalAlignment="Center" Title="{DynamicResource UpdateAndExit}" Margin="5" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Controls:ControlsHelper.MouseOverBorderBrush="{DynamicResource BlackBrush}"  HorizontalTitleAlignment="Right" Style="{StaticResource LargeTileStyle}">
                 <iconPacks:PackIconModern Width="40" Height="40" Kind="CabinetIn" />
             </Controls:Tile>
-            <Controls:Tile Click="Exit_Click" x:Name="BackButton" HorizontalAlignment="Center" Title="{DynamicResource Back}" Margin="5" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Controls:ControlsHelper.MouseOverBorderBrush="{DynamicResource BlackBrush}"  HorizontalTitleAlignment="Right" Style="{StaticResource LargeTileStyle}">
+            <Controls:Tile Click="Exit_Click" x:Name="BackButton" HorizontalAlignment="Center" Title="{DynamicResource Back}" Margin="5" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Controls:ControlsHelper.MouseOverBorderBrush="{DynamicResource BlackBrush}" MinWidth="200" Width="Auto" HorizontalTitleAlignment="Center" Style="{StaticResource LargeTileStyle}">
                 <iconPacks:PackIconModern Width="40" Height="40" Kind="ArrowLeft" />
             </Controls:Tile>
-            <Controls:Tile Click="ExitLater_Click" x:Name="UpdateLaterButton" Visibility="Visible" HorizontalAlignment="Center" Title="{DynamicResource UpdateWhenIExit}" Margin="5" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Controls:ControlsHelper.MouseOverBorderBrush="{DynamicResource BlackBrush}"  HorizontalTitleAlignment="Right" Style="{StaticResource LargeTileStyle}">
+            <Controls:Tile Click="ExitLater_Click" x:Name="UpdateLaterButton" Visibility="Visible" HorizontalAlignment="Center" Title="{DynamicResource UpdateWhenIExit}" Margin="5" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Controls:ControlsHelper.MouseOverBorderBrush="{DynamicResource BlackBrush}" MinWidth="200" Width="Auto" HorizontalTitleAlignment="Center" Style="{StaticResource LargeTileStyle}">
                 <iconPacks:PackIconModern Width="40" Height="40" Kind="ClipboardVariantEdit" />
             </Controls:Tile>
         </StackPanel>
