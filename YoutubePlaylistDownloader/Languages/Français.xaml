@@ -4,11 +4,11 @@
                     xml:space="preserve">
     
     <s:String x:Key="Title">YouTube Playlist Downloader</s:String>
-    <s:String x:Key="Skipping">Le fichier existe déjà, sautant...</s:String>
-    <FlowDirection x:Key="FlowDirection">LeftToRight</FlowDirection>
+    <s:String x:Key="Skipping">Le fichier existe déjà, le fichier a été ignoré...</s:String>
+    <FlowDirection x:Key="FlowDirection">GaucheàDroite</FlowDirection>
     <s:String x:Key="InsertYoutubePlaylistLinkHere">Insérez un lien Youtube ici</s:String>
     <s:String x:Key="Exit">Quitter</s:String>
-    <s:String x:Key="ExitMessage">Etes-vous sur de vouloir quitter?</s:String>
+    <s:String x:Key="ExitMessage">Êtes-vous sur de vouloir quitter?</s:String>
     <s:String x:Key="Yes">Oui</s:String>
     <s:String x:Key="No">Non</s:String>
     <s:String x:Key="Error">Erreur</s:String>
@@ -20,106 +20,106 @@
     <s:String x:Key="Back">Retour</s:String>
     <s:String x:Key="SaveAndBackToDownload">Sauvegarder et revenir au menu principal</s:String>
     <s:String x:Key="DarkTheme">Thème sombre</s:String>
-    <s:String x:Key="Name">Nom: </s:String>
-    <s:String x:Key="Description">Description: </s:String>
-    <s:String x:Key="Views">Vues: </s:String>
-    <s:String x:Key="SaveDirectory">Sauvegarder les vidéos sous: </s:String>
-    <s:String x:Key="CurrentlyDownloading">Téléchargement en cours: </s:String>
-    <s:String x:Key="TotalProgress">Téléchargé jusqu'à présent: </s:String>
+    <s:String x:Key="Name">Nom : </s:String>
+    <s:String x:Key="Description">Description : </s:String>
+    <s:String x:Key="Views">Vues : </s:String>
+    <s:String x:Key="SaveDirectory">Sauvegarder les vidéos sous : </s:String>
+    <s:String x:Key="CurrentlyDownloading">Téléchargement en cours : </s:String>
+    <s:String x:Key="TotalProgress">Téléchargé jusqu'à présent : </s:String>
     <s:String x:Key="AllDone">Terminé.</s:String>
-    <s:String x:Key="Canceling">Annulation de vos téléchargements, veuillez patienter...</s:String>
+    <s:String x:Key="Canceling">Annulation des téléchargements, veuillez patienter...</s:String>
     <s:String x:Key="Videos">Vidéos</s:String>
     <s:String x:Key="Download">Téléchargement</s:String>
-    <s:String x:Key="ConvertToMp3">Convertir des vidéos en </s:String>
-    <s:String x:Key="SaveVideoFormat">Save videos as </s:String>
+    <s:String x:Key="ConvertToMp3">Convertir les vidéos en </s:String>
+    <s:String x:Key="SaveVideoFormat">Sauvegarder les videos en </s:String>
     <s:String x:Key="StillConverting">Conversion en cours</s:String>
     <s:String x:Key="files">fichier</s:String>
-    <s:String x:Key="Author">Auteur: </s:String>
-    <s:String x:Key="PlaylistTitle">Titre: </s:String>
+    <s:String x:Key="Author">Auteur : </s:String>
+    <s:String x:Key="PlaylistTitle">Titre : </s:String>
     <s:String x:Key="Loading">Chargement...</s:String>
-    <HorizontalAlignment x:Key="LeftAlignment">Left</HorizontalAlignment>
+    <HorizontalAlignment x:Key="LeftAlignment">Gauche</HorizontalAlignment>
     <s:String x:Key="About">A propos</s:String>
-    <s:String x:Key="Home">Acceuil</s:String>
-    <s:String x:Key="Prefer">Préferer les vidéos avec une résolution de </s:String>
-    <s:String x:Key="AreYouSureExit">Etes-vous sûr de vouloir quitter?</s:String>
-    <s:String x:Key="TotalVideos">Total de vidéos: </s:String>
-    <s:String x:Key="AboutTheProgram">Ce logiciel a été développé par shaked6540 et est complétement gratuit d'utilisation sans restrictions.
-Cependant, Je ne suis pas responsable pour for n'importe quel problème juridique que ce logiciel pourrait vous causer, 
-pour autant que je sache, YouTube ne permet pas de télécharger des vidéos à partir de leur site internet. 
+    <s:String x:Key="Home">Accueil</s:String>
+    <s:String x:Key="Prefer">Préférer les vidéos avec une résolution de </s:String>
+    <s:String x:Key="AreYouSureExit">Êtes-vous sûr de vouloir quitter?</s:String>
+    <s:String x:Key="TotalVideos">Total de vidéos : </s:String>
+    <s:String x:Key="AboutTheProgram">Ce programme a été développé par shaked6540 et son utilisation est totalement gratuite et sans limitation.
+Cependant, je ne suis pas responsable des problèmes juridiques que ce programme vous causera, 
+pour autant que je sache, YouTube n'autorise pas le téléchargement de vidéos depuis son site Web. 
 Le code source complet de ce programme peut être trouvé sur https://github.com/shaked6540/YoutubePlaylistDownloader
         
-L'installeur a été créé en utilisant Inno Setup (http://www.jrsoftware.org/isinfo.php)
+Le programme d'installation a été réalisé à l'aide d'Inno Setup (http://www.jrsoftware.org/isinfo.php)
     
 
 YouTube Playlist Downloader v</s:String>
     <s:String x:Key="BitRate">et mettre le bitrate à</s:String>
     <s:String x:Key="NewVersionAvailable">Nouvelle version disponible</s:String>
-    <s:String x:Key="DoYouWantToUpdate">Une nouvelle version est disponible, voulez-vous faire la mise à jour?
+    <s:String x:Key="DoYouWantToUpdate">Une nouvelle version est disponible, voulez-vous faire la mise à jour ?
 Voici les nouveautés: </s:String>
-    <s:String x:Key="DownloadingUpdateSetup">Téléchargement en cours: Mise à jour</s:String>
+    <s:String x:Key="DownloadingUpdateSetup">Téléchargement en cours : Mise à jour</s:String>
     <s:String x:Key="UpdateCancelled">La mise à jour a été annulée.</s:String>
-    <s:String x:Key="ErrorWhileUpdating">Une erreur s'est produite lors du téléchargement de la mise à jour, assurez-vous que vous êtes connecté à Internet
-si vous êtes connectés à internet, Essayez de re-télécharger plus tard ou d'aller sur https://github.com/shaked6540/YoutubePlaylistDownloader/issues pour voir s'il y a un problème avec le serveur de téléchargement</s:String>
+    <s:String x:Key="ErrorWhileUpdating">Une erreur s'est produite lors du téléchargement de la mise à jour, assurez-vous que vous êtes connecté(e) à Internet
+si vous êtes connecté(e) à internet, Essayez de re-télécharger plus tard ou d'aller sur https://github.com/shaked6540/YoutubePlaylistDownloader/issues pour voir s'il y a un problème avec le serveur de téléchargement</s:String>
     <s:String x:Key="UpdateComplete">Téléchargement fini.</s:String>
     <s:String x:Key="UpdateWhenIExit">Mettre à jour quand je quitte</s:String>
-    <s:String x:Key="UpdateAndExit">Fermer et mettre à jour</s:String>
-    <s:String x:Key="UpdateFailed">La mise à jour a échoué</s:String>
-    <s:String x:Key="CannotUpdate">Impossible de mettre à jour pour le moment, essayez de relancer l'application et assurez-vous d'être connecté à Internet.
-Message d'erreur: </s:String>
+    <s:String x:Key="UpdateAndExit">Mettre à jour et fermer.</s:String>
+    <s:String x:Key="UpdateFailed">La mise à jour a échoué.</s:String>
+    <s:String x:Key="CannotUpdate">Impossible de mettre à jour pour le moment, essayez de relancer l'application et assurez-vous d'être connecté(e) à Internet.
+Message d'erreur : </s:String>
     <s:String x:Key="CouldntDownload">Certaines vidéos n'ont pas pu être téléchargées</s:String>
-    <s:String x:Key="ListOfNotDownloadedVideos">Voici une liste des vidéos qui n'ont pas pu être téléchargées et la raison: </s:String>
+    <s:String x:Key="ListOfNotDownloadedVideos">Voici la liste des vidéos qui n'ont pas pu être téléchargées et la raison : </s:String>
     <s:String x:Key="Options">Options</s:String>
     <s:String x:Key="CheckForUpdates">Rechercher des mises à jour</s:String>
-    <s:String x:Key="NoUpdates">Pas de mises à jour disponible</s:String>
+    <s:String x:Key="NoUpdates">Pas de mises à jour disponibles.</s:String>
     <s:String x:Key="NoUpdatesAvailable">Il n'y a pas de mise à jour disponible pour l'instant, vous avez la dernière version.</s:String>
     <s:String x:Key="PlaylistIndex">Télécharger à partir du numéro de vidéo </s:String>
-    <s:String x:Key="UntilIndex">jusqu'au numéro de vidéo </s:String>
+    <s:String x:Key="UntilIndex">jusqu'au numéro de vidéo</s:String>
     <s:String x:Key="LeaveEmptyOrZeroForUntilTheEnd">(laissez ce champ vide ou entrez 0 pour télécharger toutes les vidéos jusqu'à la fin de la playlist)</s:String>
     <s:String x:Key="NoVideosToDownload">Impossible de trouver les vidéos à télécharger</s:String>
     <s:String x:Key="ThereAreNoVideosToDownload">Il n'y a pas de vidéos à télécharger avec les paramètres que vous avez spécifiés</s:String>
-    <s:String x:Key="UpdateNow">Mettre à jour maintenant</s:String>
+    <s:String x:Key="UpdateNow">Mettre à jour maintenant.</s:String>
     <s:String x:Key="Subscriptions">Abonnements</s:String>
     <s:String x:Key="AutomaticllyDownloadSubscriptions">Télécharger automatiquement les nouvelles vidéos de ces chaines</s:String>
-    <s:String x:Key="InsertChannelLink">Insérez le lien d'une chaine ici</s:String>
+    <s:String x:Key="InsertChannelLink">Insérez le lien d'une chaine ici.</s:String>
     <s:String x:Key="Remove">Retirer</s:String>
-    <s:String x:Key="Id">ID: </s:String>
+    <s:String x:Key="Id">ID : </s:String>
     <s:String x:Key="Save">Sauvegarder</s:String>
-    <s:String x:Key="PreferFPS">Préferer les vidéos avec le taux de FPS le plus élevé</s:String>
-    <s:String x:Key="AudioOnly">Téléchargez un son propre, sans conversion vers aucun format</s:String>
+    <s:String x:Key="PreferFPS">Préférer les vidéos avec le taux de FPS le plus élevé.</s:String>
+    <s:String x:Key="AudioOnly">Téléchargez un son propre, sans conversion vers aucun format.</s:String>
     <s:String x:Key="StillDownloadingSubscriptionsExit">Le programme est toujours en train de télécharger les vidéos de vos abonnements, cliquez sur Oui pour fermer le programme et ces vidéos ne seront pas téléchargées tant que vous n'aurez pas rouvert le programme.
-Etes-vous sûr de vouloir quitter?</s:String>
-    <s:String x:Key="LastVideoDownloadDate">Dernière mise à jour à: </s:String>
+Etes-vous sûr de vouloir quitter ?</s:String>
+    <s:String x:Key="LastVideoDownloadDate">Dernière mise à jour à : </s:String>
     <s:String x:Key="Help">Aide</s:String>
-    <s:String x:Key="SubscriptionsHelp">Les abonnements sont des chaînes pour lesquelles ce logiciel téléchargera automatiquement toute vidéo qui sortira après l'ajout de l'abonnement
+    <s:String x:Key="SubscriptionsHelp">Les abonnements sont des chaînes pour lesquelles ce logiciel téléchargera automatiquement toutes les vidéos qui sortiront après l'ajout de l'abonnement.
         
 Par exemple, si vous avez ajouté un abonnement à la chaîne "x" le 1er septembre et que la chaine "x" a mis en ligne une vidéo le 2 septembre, elle sera automatiquement téléchargée. 
         
 Les vidéos précédentes ne seront pas téléchargées et les vidéos ne seront pas téléchargées deux fois même si vous supprimez une certaine vidéo.
         
-Tous les abonnements sont personnalisables et ont leurs propres paramètres, pour accéder aux paramètres d'abonnement, cliquez sur «Abonnements» dans le menu principal puis cliquez sur «Paramètres» pour la chaîne que vous souhaitez
-Veuillez noter que si le programme n'est pas en cours d'exécution, les nouvelles vidéos ne seront pas téléchargées
+Tous les abonnements sont personnalisables et ont leurs propres paramètres. Pour accéder aux paramètres d'abonnement, cliquez sur « Abonnements » dans le menu principal, puis sur « Paramètres » de la chaîne souhaitée.
+Veuillez noter que si le programme n'est pas en cours d'exécution, les nouvelles vidéos ne seront pas téléchargées.
     </s:String>
     <s:String x:Key="ContactTheDeveloper">Contact</s:String>
-    <s:String x:Key="ContactTheDeveloperHelp">Il y a plusieurs moyens de me contacter (shaked6540): 
+    <s:String x:Key="ContactTheDeveloperHelp">Il y a plusieurs moyens de me contacter (shaked6540) : 
         
 Le premier moyen est Reddit, envoyez-moi simplement un message sur Reddit et je vous répondrai dès que possible, voilà mon lien de profil: https://www.reddit.com/user/shaked6540/
         
 Le troisième moyen de me contacter est sur GitHub, créez simplement une nouvelle requête (issues) et j'essaierai de répondre dans les plus brefs délais, voici le lien: https://github.com/shaked6540/YoutubePlaylistDownloader/issues</s:String>
     <s:String x:Key="AutomaticallyCheckForUpdates">Rechercher automatiquement les mises à jour lorsque je lance le programme</s:String>
-    <s:String x:Key="WhatsNew">Quoi de neuf?</s:String>
+    <s:String x:Key="WhatsNew">Quoi de neuf ?</s:String>
     <s:String x:Key="SubscriptionsUpdateDelay">Mettre à jour les abonnements toutes les</s:String>
     <s:String x:Key="Minutes">minutes</s:String>
-    <s:String x:Key="SaveDownloadOptions">Sauvegarder mes préférences de téléchargement</s:String>
-    <s:String x:Key="DownloadSpeed">Vitesse de téléchargement: </s:String>
-    <s:String x:Key="Changelog">Changelog</s:String>
+    <s:String x:Key="SaveDownloadOptions">Sauvegarder mes préférences de téléchargement.</s:String>
+    <s:String x:Key="DownloadSpeed">Vitesse de téléchargement : </s:String>
+    <s:String x:Key="Changelog">Journal des modifications</s:String>
     <s:String x:Key="DongChunrui">Dong Cunrui (董存瑞)</s:String>
-    <s:String x:Key="CreditsAndContributors">Un grand merci à ces personnes pour la traduction de ce logiciel:
+    <s:String x:Key="CreditsAndContributors">Un grand merci à ces personnes pour la traduction de ce logiciel :
 Dong Cunrui (董存瑞)
 RichyZ99
 Jhonatan Lima (Heremitus)
 İskender ALPSAKARYA, Alp Eren GENÇOĞLU (Türkçe)
 Stephan Komov (Deutsch)
-Elta (Français)
+Elta (Français) ( + Zebre2007-2)
 Ahmed Waaer (Arabic)
 Bartlomiej Szmolke (Polski)
 Timofey Dedov (Русский)
@@ -127,23 +127,20 @@ deeaeu (Română)
 </s:String>
     <s:String x:Key="Search">Chercher</s:String>
     <s:String x:Key="Queue">Queue</s:String>
-    <s:String x:Key="Downloading">Téléchargment...</s:String>
+    <s:String x:Key="Downloading">Téléchargement...</s:String>
     <s:String x:Key="Converting">Conversion...</s:String>
     <s:String x:Key="DownloadInBackground">Ajouter à la queue</s:String>
     <s:String x:Key="Audio">Audio</s:String>
     <s:String x:Key="Video">Vidéo</s:String>
     <s:String x:Key="DownloadCaptions">Télécharger les sous-titres</s:String>
-    <s:String x:Key="CaptionsLanguage">Langue des sous-titres: </s:String>
+    <s:String x:Key="CaptionsLanguage">Langue des sous-titres : </s:String>
     <s:String x:Key="BulkDownload">Téléchargement massif</s:String>
     <s:String x:Key="LimitConverstions" >Définissez la conversion de fichier simultanée maximale à </s:String>
     <s:String x:Key="ValueChangeRequiresRestart">(l'activation de la limite nécessite un
 redémarrage du programme pour prendre effet)</s:String>
-    <s:String x:Key="ConversionsLimitingExplanation">Chaque conversion de fichier prend environ 1 cœur complétement. Par exemple: si vous avez un 4
-cœurs cpu, limiter le programme à 3 conversions de fichiers à la fois utilisera 3 cœurs
-sur 4; dans le Gestionnaire des tâches, vous verrez que le programme utilise un peu plus de 75% du processeur.
-Il est recommandé d'utiliser 1 cœur de moins que ce que possède votre processeur. Si votre processeur a 4 cœurs,
-utilisez 3 cœurs en limitant la conversion de fichier à 3, si vous avez 3 cœurs, utilisez 2 cœurs en limitant
-la conversion du fichier à 2, etc.</s:String>
+    <s:String x:Key="ConversionsLimitingExplanation">
+    Chaque conversion de fichier utilise environ 1 cœur à plein régime. Par exemple : si vous avez un processeur à 4 cœurs, limiter le programme à 3 conversions de fichiers simultanées utilisera 3 cœurs sur 4. Dans le Gestionnaire des tâches, vous verrez que le programme utilise un peu plus de 75 % du processeur.  
+    Il est recommandé de laisser 1 cœur libre. Si votre processeur a 4 cœurs, limitez les conversions à 3 ; si vous avez 3 cœurs, limitez-les à 2, etc.</s:String>
     <s:String x:Key="FileConversion">Conversion de fichiers</s:String>
     <s:String x:Key="General">Général</s:String>
     <s:String x:Key="SavePlaylistInUniqueDirectory">Enregistrer chaque playlist dans un dossier différent</s:String>
@@ -156,26 +153,28 @@ la conversion du fichier à 2, etc.</s:String>
     <s:String x:Key="Filter">Filtre</s:String>
     <s:String x:Key="DownloadFilter">Télécharger uniquement des vidéos</s:String>
     <s:String x:Key="Longer">plus longue</s:String>
-    <s:String x:Key="Shorter">plus courtes</s:String>
+    <s:String x:Key="Shorter">plus courte</s:String>
     <s:String x:Key="FileDoesNotExist">{0} n'existe pas.</s:String>
-    <s:String x:Key="Retry">Retry</s:String>
-    <s:String x:Key="Of">of</s:String>
-    <s:String x:Key="FileNamePattern">File name pattern: </s:String>
-    <s:String x:Key="ResetToDefault">Reset to default</s:String>
-    <s:String x:Key="FileNamePatternTitle">File Name Pattern</s:String>
-    <s:String x:Key="SkipExisting">Skip files that already exist</s:String>
-    <s:String x:Key="FileNamePattenExplanation">The file name pattern allows you to give the downloaded files dynamic names based on these parameters:
-$title: The title of the video
-$index: The index of the video in the playlist
-$artist: The name of the artist of the song (if applicable)
-$songtitle: The title of the song
-$channel: The name of the channel that uploaded the video
-$videoid: The unique ID of the video (taken from the video url)
-$playlist: The title of the plyalist
-
-So for example, if my file name pattern is "song: [$playlist] $artist - $songtitle ($channel) $index" the result file name would be "song: [Example] Infected Mushroom - Spitfire (Monstercat) 1"
-You can add any other text between the parameters, only the parameters will be replaced.
-Please note that not all the parameters are always available (for example, when downloading a single video the $playlisttitle variable would not be available), and in case they are missing they will be removed from the file name</s:String>
-    <s:String x:Key="CopyToClipboard">Copy to clipboard</s:String>
-    <s:String x:Key="SaveToTextFile">Save to text file</s:String>
+    <s:String x:Key="Retry">Réessayer</s:String>
+    <s:String x:Key="Of">de</s:String>
+    <s:String x:Key="FileNamePattern">Modèle de nom de fichier : </s:String>
+    <s:String x:Key="ResetToDefault">Réinitialiser par défaut</s:String>
+    <s:String x:Key="FileNamePatternTitle">Modèle de nom de fichier</s:String>
+    <s:String x:Key="SkipExisting">Ignorer les fichiers déjà existants</s:String>
+    <s:String x:Key="FileNamePattenExplanation">
+    Le modèle de nom de fichier vous permet de donner aux fichiers téléchargés des noms personnalisés basés sur ces paramètres :
+    $title : Le titre de la vidéo
+    $index : Le numéro de la vidéo dans la playlist
+    $artist : Le nom de l'artiste de la chanson (si applicable)
+    $songtitle : Le titre de la chanson
+    $channel : Le nom de la chaîne qui a uploadé la vidéo
+    $videoid : L'ID de la vidéo (provenant de l'URL de la vidéo)
+    $playlist : Le titre de la playlist
+    
+    Par exemple, si mon modèle de nom de fichier est "song: [$playlist] $artist - $songtitle ($channel) $index", le nom de fichier résultant serait "song: [Exemple] Infected Mushroom - Spitfire (Monstercat) 1".
+    Vous pouvez ajouter n'importe quel autre texte entre les paramètres, seuls les paramètres seront remplacés.
+    Veuillez noter que tous les paramètres ne sont pas toujours disponibles (par exemple, lors du téléchargement d'une vidéo unique, la variable $playlisttitle ne sera pas disponible), et s'ils manquent, ils seront supprimés du nom de fichier.
+    </s:String>
+    <s:String x:Key="CopyToClipboard">Copier dans le presse-papier</s:String>
+    <s:String x:Key="SaveToTextFile">Enregistrer dans un fichier texte</s:String>
 </ResourceDictionary> 
