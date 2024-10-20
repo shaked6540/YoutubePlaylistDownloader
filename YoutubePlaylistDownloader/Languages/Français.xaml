@@ -5,7 +5,7 @@
     
     <s:String x:Key="Title">YouTube Playlist Downloader</s:String>
     <s:String x:Key="Skipping">Le fichier existe déjà, le fichier a été ignoré...</s:String>
-    <FlowDirection x:Key="FlowDirection">GaucheàDroite</FlowDirection>
+    <FlowDirection x:Key="FlowDirection">LeftToRight</FlowDirection>
     <s:String x:Key="InsertYoutubePlaylistLinkHere">Insérez un lien Youtube ici</s:String>
     <s:String x:Key="Exit">Quitter</s:String>
     <s:String x:Key="ExitMessage">Êtes-vous sur de vouloir quitter?</s:String>
@@ -37,7 +37,7 @@
     <s:String x:Key="Author">Auteur : </s:String>
     <s:String x:Key="PlaylistTitle">Titre : </s:String>
     <s:String x:Key="Loading">Chargement...</s:String>
-    <HorizontalAlignment x:Key="LeftAlignment">Gauche</HorizontalAlignment>
+    <HorizontalAlignment x:Key="LeftAlignment">Left</HorizontalAlignment>
     <s:String x:Key="About">A propos</s:String>
     <s:String x:Key="Home">Accueil</s:String>
     <s:String x:Key="Prefer">Préférer les vidéos avec une résolution de </s:String>
