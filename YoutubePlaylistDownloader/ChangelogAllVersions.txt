@@ -1,4 +1,7 @@
-﻿Version 1.9.25:
+﻿Version 1.9.26:
+- Fixed "Please sign in" error
+
+Version 1.9.25:
 - Fixed 403 Error
 - Fixed bulk download not working
 - Updated translations
