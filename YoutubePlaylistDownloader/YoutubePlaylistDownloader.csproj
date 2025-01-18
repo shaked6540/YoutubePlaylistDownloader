@@ -93,4 +93,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="xcopy /Y /d &quot;$(SolutionDir)FFmpeg\ffmpeg.exe&quot; &quot;$(ProjectDir)bin\$(Configuration)\$(TargetFramework)\&quot;" />
+  </Target>
 </Project>
