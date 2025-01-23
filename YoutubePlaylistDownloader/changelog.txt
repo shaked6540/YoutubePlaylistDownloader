@@ -1,2 +1,3 @@
 ﻿Version 1.9.26:
-- Fixed "Please sign in" error
+- Updated libraries. 
+- There are still some problems, this update may fix some of them. 
