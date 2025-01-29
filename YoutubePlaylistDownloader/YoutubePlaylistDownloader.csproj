@@ -75,7 +75,7 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="MahApps.Metro" Version="2.4.10" />
-    <PackageReference Include="YoutubeExplode" Version="6.5.1" />
+    <PackageReference Include="YoutubeExplode" Version="6.5.2" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="Microsoft.Windows.Compatibility" Version="8.0.10" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
