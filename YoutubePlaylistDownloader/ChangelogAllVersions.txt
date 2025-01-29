@@ -1,4 +1,8 @@
-﻿Version 1.9.26:
+﻿Version 1.9.27:
+- Fixed "Please sign in" issues
+
+
+Version 1.9.26:
 - Fixed "Please sign in" error
 
 Version 1.9.25:
