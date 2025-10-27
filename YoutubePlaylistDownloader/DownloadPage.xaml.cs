@@ -298,18 +298,34 @@ public partial class DownloadPage : UserControl, IDisposable, IDownload
                     IStreamInfo bestQuality;
                     if (downloadSettings.VideoLanguage == "default")
                     {
-                        bestQuality = streamInfoSet.GetAudioOnlyStreams().Where(x => x.IsAudioLanguageDefault.Value).GetWithHighestBitrate();
+                        var defaultLangaugeVideos = streamInfoSet.GetAudioOnlyStreams().Where(x => x.IsAudioLanguageDefault.HasValue && x.IsAudioLanguageDefault.Value);
+                        if (defaultLangaugeVideos.Any())
+                        {
+                            bestQuality = defaultLangaugeVideos.GetWithHighestBitrate();
+                        }
+                        else
+                        {
+                            bestQuality = streamInfoSet.GetAudioOnlyStreams().GetWithHighestBitrate();
+                        }
                     }
                     else
                     {
-                        var videoesInRequestedLanguage = streamInfoSet.GetAudioOnlyStreams().Where(x => x.AudioLanguage.Value.Code.Contains(downloadSettings.VideoLanguage));
+                        var videoesInRequestedLanguage = streamInfoSet.GetAudioOnlyStreams().Where(x => x.AudioLanguage.HasValue && x.AudioLanguage.Value.Code.Contains(downloadSettings.VideoLanguage));
                         if (videoesInRequestedLanguage.Any())
                         {
                             bestQuality = videoesInRequestedLanguage.GetWithHighestBitrate();
                         }
                         else
                         {
-                            bestQuality = streamInfoSet.GetAudioOnlyStreams().Where(x => x.IsAudioLanguageDefault.Value).GetWithHighestBitrate();
+                            var defaultAudioStreams = streamInfoSet.GetAudioOnlyStreams().Where(x => x.IsAudioLanguageDefault.HasValue && x.IsAudioLanguageDefault.Value);
+                            if (defaultAudioStreams.Any())
+                            {
+                                bestQuality =defaultAudioStreams.GetWithHighestBitrate();
+                            }
+                            else
+                            {
+                                bestQuality = streamInfoSet.GetAudioOnlyStreams().GetWithHighestBitrate();
+                            }
                         }
                     }
                     var cleanFileNameWithID = GlobalConsts.CleanFileName(video.Title + video.Id);
@@ -641,18 +657,34 @@ public partial class DownloadPage : UserControl, IDisposable, IDownload
                 bestQuality = videoList.FirstOrDefault();
                 if (downloadSettings.VideoLanguage == "default")
                 {
-                    bestAudio = streamInfoSet.GetAudioOnlyStreams().Where(x => x.IsAudioLanguageDefault.Value).GetWithHighestBitrate();
+                    var defaultLangaugeVideos = streamInfoSet.GetAudioOnlyStreams().Where(x => x.IsAudioLanguageDefault.HasValue && x.IsAudioLanguageDefault.Value);
+                    if (defaultLangaugeVideos.Any())
+                    {
+                        bestAudio = defaultLangaugeVideos.GetWithHighestBitrate();
+                    }
+                    else
+                    {
+                        bestAudio = streamInfoSet.GetAudioOnlyStreams().GetWithHighestBitrate();
+                    }
                 }
                 else
                 {
-                    var videoesInRequestedLanguage = streamInfoSet.GetAudioOnlyStreams().Where(x => x.AudioLanguage.Value.Code.Contains(downloadSettings.VideoLanguage));
+                    var videoesInRequestedLanguage = streamInfoSet.GetAudioOnlyStreams().Where(x => x.AudioLanguage.HasValue && x.AudioLanguage.Value.Code.Contains(downloadSettings.VideoLanguage));
                     if (videoesInRequestedLanguage.Any())
                     {
                         bestAudio = videoesInRequestedLanguage.GetWithHighestBitrate();
                     }
                     else
                     {
-                        bestAudio = streamInfoSet.GetAudioOnlyStreams().Where(x => x.IsAudioLanguageDefault.Value).GetWithHighestBitrate();
+                        var defaultAudioStreams = streamInfoSet.GetAudioOnlyStreams().Where(x => x.IsAudioLanguageDefault.HasValue && x.IsAudioLanguageDefault.Value);
+                        if (defaultAudioStreams.Any())
+                        {
+                            bestAudio = defaultAudioStreams.GetWithHighestBitrate();
+                        }
+                        else
+                        {
+                            bestAudio = streamInfoSet.GetAudioOnlyStreams().GetWithHighestBitrate();
+                        }
                     }
                 }
 
