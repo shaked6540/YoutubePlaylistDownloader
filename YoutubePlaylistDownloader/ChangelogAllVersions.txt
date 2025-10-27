@@ -1,4 +1,9 @@
-﻿Version 1.9.29:
+﻿Version 1.9.30:
+- Fixed 403 forbidden errors
+- Added an option to select the video's language in the download options
+
+
+Version 1.9.29:
 - Hopefully fixed "Please sign in" issues once and for all
 
 
