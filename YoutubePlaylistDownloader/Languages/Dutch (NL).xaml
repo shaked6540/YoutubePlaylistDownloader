@@ -179,4 +179,5 @@ U kunt eenderwelk ander tekst tussen de parameters zetten, alleen de parameters 
 Let er aub op dat niet alle parameters altijd beschikbaar zijn (bijvoorbeeld, indien u slechts één video download, zou de $playlisttiel variabele niet beschikbaar zijn), en in het geval dat het ontbreekt, zal het verwijderd worden uit het bestandsnaam.</s:String>
     <s:String x:Key="CopyToClipboard">Kopieer naar klembord</s:String>
     <s:String x:Key="SaveToTextFile">Sla tekst op als bestand</s:String>
+    <s:String x:Key="VideoLanguage">Video Language: </s:String>
 </ResourceDictionary>

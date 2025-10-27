@@ -178,4 +178,5 @@ You can add any other text between the parameters, only the parameters will be r
 Please note that not all the parameters are always available (for example, when downloading a single video the $playlisttitle variable would not be available), and in case they are missing they will be removed from the file name</s:String>
     <s:String x:Key="CopyToClipboard">Copy to clipboard</s:String>
     <s:String x:Key="SaveToTextFile">Save to text file</s:String>
+    <s:String x:Key="VideoLanguage">Video Language: </s:String>
 </ResourceDictionary> 

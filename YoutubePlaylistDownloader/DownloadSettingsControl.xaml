@@ -47,6 +47,10 @@
                         <Label Content="{DynamicResource CaptionsLanguage}" Margin="7" VerticalAlignment="Center" />
                         <ComboBox Height="10" x:Name="CaptionsLanguagesComboBox" Width="Auto" />
                     </WrapPanel>
+                    <WrapPanel>
+                        <Label Content="{DynamicResource VideoLanguage}" Margin="7" VerticalAlignment="Center" />
+                        <ComboBox Height="10" x:Name="VideoLanguagesComboBox" Width="Auto" />
+                    </WrapPanel>
                 </WrapPanel>
 
                 <Label Content="{DynamicResource Audio}" Foreground="{DynamicResource MahApps.Brushes.Accent}" FontSize="26" />

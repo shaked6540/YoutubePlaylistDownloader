@@ -181,4 +181,5 @@ $playlist: 播放列表的名称
 请注意不是所有参数都一直可用（例如，当下载单个视频时$playlisttitle参数将不可用），如果它们不可用就会将其从文件名中删除</s:String>
     <s:String x:Key="CopyToClipboard">复制到剪贴板</s:String>
     <s:String x:Key="SaveToTextFile">保存到文本文档</s:String>
+    <s:String x:Key="VideoLanguage">Video Language: </s:String>
 </ResourceDictionary> 

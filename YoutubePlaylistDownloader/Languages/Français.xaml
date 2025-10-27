@@ -177,4 +177,5 @@ redémarrage du programme pour prendre effet)</s:String>
     </s:String>
     <s:String x:Key="CopyToClipboard">Copier dans le presse-papier</s:String>
     <s:String x:Key="SaveToTextFile">Enregistrer dans un fichier texte</s:String>
+    <s:String x:Key="VideoLanguage">Video Language: </s:String>
 </ResourceDictionary> 

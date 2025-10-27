@@ -179,4 +179,5 @@ $playlist: Название плейлиста
 Пожалуйста, обратите внимание, что не все параметры всегда будут доступны (например, когда вы загружаете только одно видео, переменная $playlisttitle будет недоступна), и в этом случае, они будут удалены из названия файла</s:String>
     <s:String x:Key="CopyToClipboard">Скопировать в буфер обмена</s:String>
     <s:String x:Key="SaveToTextFile">Сохранить в текстовый файл</s:String>
+    <s:String x:Key="VideoLanguage">Video Language: </s:String>
 </ResourceDictionary>

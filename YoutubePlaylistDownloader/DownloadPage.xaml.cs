@@ -295,7 +295,23 @@ public partial class DownloadPage : UserControl, IDisposable, IDownload
                     downloadSpeeds.Clear();
 
                     var streamInfoSet = await client.Videos.Streams.GetManifestAsync(video.Id, token);
-                    var bestQuality = streamInfoSet.GetAudioOnlyStreams().GetWithHighestBitrate();
+                    IStreamInfo bestQuality;
+                    if (downloadSettings.VideoLanguage == "default")
+                    {
+                        bestQuality = streamInfoSet.GetAudioOnlyStreams().Where(x => x.IsAudioLanguageDefault.Value).GetWithHighestBitrate();
+                    }
+                    else
+                    {
+                        var videoesInRequestedLanguage = streamInfoSet.GetAudioOnlyStreams().Where(x => x.AudioLanguage.Value.Code.Contains(downloadSettings.VideoLanguage));
+                        if (videoesInRequestedLanguage.Any())
+                        {
+                            bestQuality = videoesInRequestedLanguage.GetWithHighestBitrate();
+                        }
+                        else
+                        {
+                            bestQuality = streamInfoSet.GetAudioOnlyStreams().Where(x => x.IsAudioLanguageDefault.Value).GetWithHighestBitrate();
+                        }
+                    }
                     var cleanFileNameWithID = GlobalConsts.CleanFileName(video.Title + video.Id);
                     var cleanFileName = GlobalConsts.CleanFileName(downloadSettings.GetFilenameByPattern(video, i, title, Playlist));
                     var fileLoc = $"{GlobalConsts.TempFolderPath}{cleanFileNameWithID}";
@@ -623,7 +639,22 @@ public partial class DownloadPage : UserControl, IDisposable, IDownload
                     : videoList.ThenBy(x => Math.Abs(x.VideoQuality.MaxHeight - Quality.MaxHeight));
 
                 bestQuality = videoList.FirstOrDefault();
-                bestAudio = streamInfoSet.GetAudioOnlyStreams().GetWithHighestBitrate();
+                if (downloadSettings.VideoLanguage == "default")
+                {
+                    bestAudio = streamInfoSet.GetAudioOnlyStreams().Where(x => x.IsAudioLanguageDefault.Value).GetWithHighestBitrate();
+                }
+                else
+                {
+                    var videoesInRequestedLanguage = streamInfoSet.GetAudioOnlyStreams().Where(x => x.AudioLanguage.Value.Code.Contains(downloadSettings.VideoLanguage));
+                    if (videoesInRequestedLanguage.Any())
+                    {
+                        bestAudio = videoesInRequestedLanguage.GetWithHighestBitrate();
+                    }
+                    else
+                    {
+                        bestAudio = streamInfoSet.GetAudioOnlyStreams().Where(x => x.IsAudioLanguageDefault.Value).GetWithHighestBitrate();
+                    }
+                }
 
                 var cleanVideoName = GlobalConsts.CleanFileName(downloadSettings.GetFilenameByPattern(video, i, title, Playlist));
                 var fileLoc = $"{GlobalConsts.TempFolderPath}{cleanVideoName}";

@@ -181,4 +181,5 @@ Parametreler arasına istendiği gibi metin eklenebilir, sadece parametreler de�
 Bütün parametrelerin her zaman geçerli olamayabileceği dikkate alınmalıdır (örneğin, tek bir video indirirken $playlist parametresi mevcut olmayacaktır), ve geçersiz olması durumunda dosya ismine dahil edilmeyecektir.</s:String>
     <s:String x:Key="CopyToClipboard">Panoya kopyala</s:String>
     <s:String x:Key="SaveToTextFile">Metin dosyasına kaydet</s:String>
+    <s:String x:Key="VideoLanguage">Video Language: </s:String>
 </ResourceDictionary> 

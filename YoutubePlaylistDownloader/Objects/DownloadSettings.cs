@@ -79,6 +79,9 @@ public class DownloadSettings
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     [DefaultValue(false)]
     public bool SkipExisting { get; set; }
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
+    [DefaultValue("default")]
+    public string VideoLanguage { get; set; }
 
 
     [JsonConstructor]
@@ -86,7 +89,7 @@ public class DownloadSettings
     bool preferQuality, bool convert, bool setBitrate, string bitrate, bool downloadCaptions, string captionsLanguage,
     bool savePlaylistsInDifferentDirectories, bool subset, int subsetStartIndex, int subsetEndIndex, bool openDestinationFolderWhenDone,
     bool tagAudioFile, bool filterVideosByLength, bool filterMode, double filterByLengthValue, string filenamePattern, bool skipExisting,
-    string videoSaveFormat)
+    string videoSaveFormat, string videoLanguage)
     {
         SaveFormat = saveFormat;
         AudioOnly = audioOnly;
@@ -110,6 +113,7 @@ public class DownloadSettings
         FilenamePattern = filenamePattern;
         SkipExisting = skipExisting;
         VideoSaveFormat = videoSaveFormat;
+        VideoLanguage = videoLanguage;
     }
 
     public DownloadSettings(DownloadSettings settings)
@@ -136,6 +140,7 @@ public class DownloadSettings
         FilenamePattern = settings.FilenamePattern;
         SkipExisting = settings.SkipExisting;
         VideoSaveFormat = settings.VideoSaveFormat;
+        VideoLanguage = settings.VideoLanguage;
     }
 
     public string GetFilenameByPattern(IVideo video, int index, string file, FullPlaylist playlist = null)

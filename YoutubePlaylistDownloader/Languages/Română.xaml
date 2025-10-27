@@ -173,4 +173,5 @@ De exemplu, dacă modelul meu pentru fișiere este "song: [$playlist] $artist - 
 Puteți adăuga orice text între parametri, doar parametrii vor fi înlocuiți. Vă rugăm țineți cont că nu toți parametri sunt întotdeauna valabili (de exemplu, când descărcați un singur videoclip, $playlisttitle nu este disponibil), iar în cazul în care lipsesc, vor fi eliminate din numele fișierului</s:String>
     <s:String x:Key="CopyToClipboard">Copiază în clipboard</s:String>
     <s:String x:Key="SaveToTextFile">Salvează ca fișier text</s:String>
+    <s:String x:Key="VideoLanguage">Video Language: </s:String>
 </ResourceDictionary> 

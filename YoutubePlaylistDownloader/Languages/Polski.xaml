@@ -180,4 +180,5 @@ Możesz dodać dowolny inny tekst między parametrami, tylko parametry zostaną 
 Należy pamiętać, że nie wszystkie parametry są zawsze dostępne (na przykład podczas pobierania pojedynczego filmu zmienna $playlisttitle byłaby niedostępna), aw przypadku ich braku zostaną usunięte z nazwy plikus</s:String>
     <s:String x:Key="CopyToClipboard">Skopiuj do schowka</s:String>
     <s:String x:Key="SaveToTextFile">Zapisz do pliku tekstowego</s:String>
+    <s:String x:Key="VideoLanguage">Video Language: </s:String>
 </ResourceDictionary> 

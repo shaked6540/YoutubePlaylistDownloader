@@ -177,4 +177,5 @@ Du kannst beliebigen Text zwischen den Parametern hinzufügen; nur die Parameter
 wenn nur ein einzelnes Video heruntergeladen wird). In solchen Fällen werden fehlende Parameter aus dem Dateinamen entfernt.</s:String>
     <s:String x:Key="CopyToClipboard">In die Zwischenablage kopieren</s:String>
     <s:String x:Key="SaveToTextFile">Speichern in eine Textdatei</s:String>
+    <s:String x:Key="VideoLanguage">Video Language: </s:String>
 </ResourceDictionary> 
