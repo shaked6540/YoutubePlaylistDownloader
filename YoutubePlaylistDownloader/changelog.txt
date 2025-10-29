@@ -1,4 +1,7 @@
-﻿Version 1.9.31:
+﻿Version 1.9.32:
+- Fixed a crashed when opening the download options after a clean install
+
+Version 1.9.31:
 - Fixed 403 forbidden errors
 - Added an option to select the video's language in the download options
 - Fixed nullable errors
