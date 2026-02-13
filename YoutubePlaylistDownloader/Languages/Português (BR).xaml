@@ -152,7 +152,7 @@ a conversão de arquivos a 2, etc..</s:String>
     <s:String x:Key="ConfirmExit">Confirmação ao sair</s:String>
     <s:String x:Key="OpenDestinationFolderOnFinish">Abrir pasta de destino quando finalizar</s:String>
     <s:String x:Key="TagAudioFile">Adicione tags e imagens de capa para os arquivos de aúdio</s:String>
-    <s:String x:Key="Than">do que</s:String>                 !!!
+    <s:String x:Key="Than">do que</s:String>
     <s:String x:Key="Filter">Filtro</s:String>
     <s:String x:Key="DownloadFilter">Baixar apenas vídeos</s:String>
     <s:String x:Key="Longer">Duração maior</s:String>
