@@ -687,13 +687,13 @@ public partial class DownloadPage : UserControl, IDisposable, IDownload
                         }
                     }
                 }
-
+                var cleanVideoNameWithId = GlobalConsts.CleanFileName(video.Title + video.Id);
                 var cleanVideoName = GlobalConsts.CleanFileName(downloadSettings.GetFilenameByPattern(video, i, title, Playlist));
-                var fileLoc = $"{GlobalConsts.TempFolderPath}{cleanVideoName}";
-                var outputFileLoc = $"{GlobalConsts.TempFolderPath}{cleanVideoName}.{VideoSaveFormat}";
+                var fileLoc = $"{GlobalConsts.TempFolderPath}{cleanVideoNameWithId}";
+                var outputFileLoc = $"{GlobalConsts.TempFolderPath}{cleanVideoNameWithId}.{VideoSaveFormat}";
                 var copyFileLoc = $"{SavePath}\\{cleanVideoName}.{VideoSaveFormat}";
-                var audioLoc = $"{GlobalConsts.TempFolderPath}{cleanVideoName}-audio.{bestAudio.Container.Name}";
-                var captionsLoc = $"{GlobalConsts.TempFolderPath}{cleanVideoName}.srt";
+                var audioLoc = $"{GlobalConsts.TempFolderPath}{cleanVideoNameWithId}-audio.{bestAudio.Container.Name}";
+                var captionsLoc = $"{GlobalConsts.TempFolderPath}{cleanVideoNameWithId}.srt";
 
                 if (GlobalConsts.DownloadSettings.SkipExisting && File.Exists(copyFileLoc))
                 {
@@ -833,6 +833,12 @@ public partial class DownloadPage : UserControl, IDisposable, IDownload
                     {
                         ffmpegList?.Remove(ffmpeg);
                         convertingCount--;
+                        var copyFileLocCounter = 1;
+                        while (File.Exists(copyFileLoc))
+                        {
+                            copyFileLoc = $"{SavePath}\\{cleanVideoName}-{copyFileLocCounter}.{VideoSaveFormat}";
+                            copyFileLocCounter++;
+                        }
                         File.Copy(outputFileLoc, copyFileLoc, true);
 
                         File.Delete(outputFileLoc);
