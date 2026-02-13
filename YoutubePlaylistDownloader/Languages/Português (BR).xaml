@@ -1,4 +1,4 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:s="clr-namespace:System;assembly=mscorlib"
                     xml:space="preserve">
@@ -6,19 +6,19 @@
     <s:String x:Key="Title">YouTube Playlist Downloader</s:String>
     <s:String x:Key="Skipping">O arquivo já existe, pulando...</s:String>
     <FlowDirection x:Key="FlowDirection">LeftToRight</FlowDirection>
-    <s:String x:Key="InsertYoutubePlaylistLinkHere">Insira um link do youtube aqui</s:String>
+    <s:String x:Key="InsertYoutubePlaylistLinkHere">Insira um link do Youtube aqui</s:String>
     <s:String x:Key="Exit">Sair</s:String>
     <s:String x:Key="ExitMessage">Você tem certeza que deseja sair?</s:String>
     <s:String x:Key="Yes">Sim</s:String>
     <s:String x:Key="No">Não</s:String>
     <s:String x:Key="Error">Erro</s:String>
-    <s:String x:Key="ErrorMessage">Um erro inesperado ocorreu enquanto realizavamos a ação, por favor contate o seu administrador para lidar com o erro</s:String>
+    <s:String x:Key="ErrorMessage">Um erro inesperado ocorreu enquanto realizávamos a ação, por favor contate o seu administrador para lidar com o erro</s:String>
     <s:String x:Key="Settings">Configurações</s:String>
     <s:String x:Key="Preferences">Preferências</s:String>
-    <s:String x:Key="Theme">Sotaque</s:String>
+    <s:String x:Key="Theme">Tema</s:String>
     <s:String x:Key="Language">Idioma</s:String>
     <s:String x:Key="Back">Voltar</s:String>
-    <s:String x:Key="SaveAndBackToDownload">Salvar e retornar para o menu pricipal</s:String>
+    <s:String x:Key="SaveAndBackToDownload">Salvar e retornar para o menu principal</s:String>
     <s:String x:Key="DarkTheme">Tema Escuro</s:String>
     <s:String x:Key="Name">Nome: </s:String>
     <s:String x:Key="Description">Descrição: </s:String>
@@ -26,12 +26,12 @@
     <s:String x:Key="SaveDirectory">Salvar vídeos para: </s:String>
     <s:String x:Key="CurrentlyDownloading">Download em andamento: </s:String>
     <s:String x:Key="TotalProgress">Baixados até agora: </s:String>
-    <s:String x:Key="AllDone">Tudo feito.</s:String>
+    <s:String x:Key="AllDone">Tudo pronto.</s:String>
     <s:String x:Key="Canceling">Cancelando seus downloads, por favor aguarde...</s:String>
     <s:String x:Key="Videos">Vídeos</s:String>
     <s:String x:Key="Download">Download</s:String>
     <s:String x:Key="ConvertToMp3">Converter vídeos para </s:String>
-    <s:String x:Key="SaveVideoFormat">Save videos as </s:String>
+    <s:String x:Key="SaveVideoFormat">Salvar vídeo como </s:String>
     <s:String x:Key="StillConverting">Ainda convertendo</s:String>
     <s:String x:Key="files">Arquivos</s:String>
     <s:String x:Key="Author">Autor: </s:String>
@@ -44,7 +44,7 @@
     <s:String x:Key="AreYouSureExit">Você tem certeza que deseja sair?</s:String>
     <s:String x:Key="TotalVideos">Total de vídeos: </s:String>
     <s:String x:Key="AboutTheProgram">Esse programa foi desenvolvido por shaked6540 e é completamente gratuito para uso sem limitações.
-Contudo, eu não sou responsável por qualquer problema legal que esse programa causará a voce, até onde eu sei, o Youtube não permite baixar vídeos do seu site.
+Contudo, eu não sou responsável por qualquer problema legal que esse programa causará a você, até onde eu sei, o Youtube não permite baixar vídeos do seu site.
 O código-fonte completo desse programa pode ser encontrado em:
 https://github.com/shaked6540/YoutubePlaylistDownloader
 
@@ -57,7 +57,7 @@ Youtube Playlist Downloader v</s:String>
 Aqui está o que tem de novo: </s:String>
     <s:String x:Key="DownloadingUpdateSetup">Download em andamento: Update Setup</s:String>
     <s:String x:Key="UpdateCancelled">Atualização em andamento.</s:String>
-    <s:String x:Key="ErrorWhileUpdating">Um erro ocorreu enquanto baixavamos o Update Setup, certifique-se de que você está conectado a internet, se você está conectado a internet, tenta baixar mais tarde ou visite:
+    <s:String x:Key="ErrorWhileUpdating">Um erro ocorreu enquanto baixávamos o Update Setup, certifique-se de que você está conectado a internet, se você está conectado a internet, tente baixar mais tarde ou visite:
  https://github.com/shaked6540/YoutubePlaylistDownloader/issues to see if theres an issue with the download server</s:String>
     <s:String x:Key="UpdateComplete">Download Completo</s:String>
     <s:String x:Key="UpdateWhenIExit">Atualizar quando eu sair</s:String>
@@ -65,8 +65,8 @@ Aqui está o que tem de novo: </s:String>
     <s:String x:Key="UpdateFailed">A atualização falhou</s:String>
     <s:String x:Key="CannotUpdate">Não foi possível atualizar agora, tente reiniciar o programa e certifique-se de estar conectado a internet.
 Mensagem de erro: </s:String>
-    <s:String x:Key="CouldntDownload">Alguns vídeos não podem ser baixados</s:String>
-    <s:String x:Key="ListOfNotDownloadedVideos">Aqui uma lista dos vídeos que não podem ser baixados, e o porquê: </s:String>
+    <s:String x:Key="CouldntDownload">Alguns vídeos não puderam ser baixados</s:String>
+    <s:String x:Key="ListOfNotDownloadedVideos">Aqui uma lista dos vídeos que não puderam ser baixados, e o porquê: </s:String>
     <s:String x:Key="Options">Opções</s:String>
     <s:String x:Key="CheckForUpdates">Checar por atualizações</s:String>
     <s:String x:Key="NoUpdates">Sem atualizações disponíveis</s:String>
@@ -84,7 +84,7 @@ Mensagem de erro: </s:String>
     <s:String x:Key="Id">ID: </s:String>
     <s:String x:Key="Save">Salvar</s:String>
     <s:String x:Key="PreferFPS">Preferir vídeos com a maior taxa de FPS</s:String>
-    <s:String x:Key="AudioOnly">Baixar o aúdio puro, sem converter para nenhum formato</s:String>
+    <s:String x:Key="AudioOnly">Baixar o áudio puro, sem converter para nenhum formato</s:String>
     <s:String x:Key="StillDownloadingSubscriptionsExit">O programa ainda está baixando os vídeos das suas incrições, clicar em SIM irá fechar o programa e esses vídeos não serão baixados até que você inicie o programa novamente.
 Você tem certeza que deseja sair?</s:String>
     <s:String x:Key="LastVideoDownloadDate">Última atualização em: </s:String>
@@ -102,9 +102,9 @@ Por favor note que se o programa não estiver sendo executado, novos vídeos nã
     <s:String x:Key="ContactTheDeveloper">Contato</s:String>
     <s:String x:Key="ContactTheDeveloperHelp">Há muitas formas de entrar em contato comigo (shaked65400):
 
-A primeira delas é pelo Reddit, simplesmente me mande uma mensagem pelo Reddit e eu irei responder o mais rápido que poder, esse é o link do meu perfil: https://www.reddit.com/user/shaked6540/ 
+A primeira delas é pelo Reddit, simplesmente me mande uma mensagem pelo Reddit e eu irei responder o mais rápido que puder, esse é o link do meu perfil: https://www.reddit.com/user/shaked6540/ 
 
-A terceira forma de falar comigo é através do GitHub, simplesmente abra uma nova questão e eu vou tentar responder o mais rápido que poder, esse é o link: https://github.com/shaked6540/YoutubePlaylistDownloader/issues</s:String>
+A outra forma de falar comigo é através do GitHub, simplesmente abra uma nova questão e eu vou tentar responder o mais rápido que poder, esse é o link: https://github.com/shaked6540/YoutubePlaylistDownloader/issues</s:String>
     <s:String x:Key="AutomaticallyCheckForUpdates">Automaticamente checar novas atualizações quando iniciar o programa</s:String>
     <s:String x:Key="WhatsNew">O que tem de novo?</s:String>
     <s:String x:Key="SubscriptionsUpdateDelay">Atualizar inscrições a cada minuto</s:String>
@@ -125,6 +125,7 @@ Ahmed Waaer (Arabic)
 Bartlomiej Szmolke (Polski)  
 Timofey Dedov (Русский)
 deeaeu (Română)
+rafaelpessoa21 (Português Brasileiro)
 </s:String>
     <s:String x:Key="Search">Pesquisar</s:String>
     <s:String x:Key="Queue">Fila</s:String>
@@ -135,49 +136,47 @@ deeaeu (Română)
     <s:String x:Key="Video">Vídeo</s:String>
     <s:String x:Key="DownloadCaptions">Faça o download de legendas ocultas</s:String>
     <s:String x:Key="CaptionsLanguage">Idioma das legendas ocultas: </s:String>
-    <s:String x:Key="BulkDownload">Bulk download</s:String>
-    <s:String x:Key="LimitConverstions" >Set the maximum concurrent file conversions to </s:String>
-    <s:String x:Key="ValueChangeRequiresRestart">(enabling the limit requires a 
-program restart to take effect)</s:String>
-    <s:String x:Key="ConversionsLimitingExplanation">Every file conversion takes about 1 core completely. For example: if you have a 4
-cores cpu, limiting the program to 3 file conversions at a time will use 3 cores
-out of 4; in Task Manager you will see that the program uses a little more than 75% cpu.
-It is recommended to use 1 less core than what your cpu have. If your cpu have 4 cores,
-use 3 cores by limiting the file conversion to 3, if you have 3 cores, use 2 cores by limiting
-the file conversion to 2, etc..</s:String>
-    <s:String x:Key="FileConversion">File conversion</s:String>
-    <s:String x:Key="General">General</s:String>
-    <s:String x:Key="SavePlaylistInUniqueDirectory">Save every playlist in a different folder</s:String>
+    <s:String x:Key="BulkDownload">Download em massa</s:String>
+    <s:String x:Key="LimitConverstions" >Limitar o máximo de conversões simultâneas para </s:String>
+    <s:String x:Key="ValueChangeRequiresRestart">(Alterar este limite requer a reinicialização do programa para surtir efeito)</s:String>
+    <s:String x:Key="ConversionsLimitingExplanation">Cada conversão de arquivo utiliza cerca de 1 núcleo (core) completo da CPU. Por exemplo: se você possui 4 núcleos de CPU, limitar o programa a 3 conversoes de arquivos ao mesmo tempo usará 3 núcleos de 4
+; no Gerenciador de Tarefas você verá que o programa utiliza um pouco mais de 75% da CPU.
+É receomendado usar 1 núcleo a menos do que sua CPU possui. Se sua CPU possui 4 núcleos,
+use 3 núcleos limitando a conversão de arquivos a 3, se possuir 3 núcleos, use 2 núcleos limitando
+a conversão de arquivos a 2, etc..</s:String>
+    <s:String x:Key="FileConversion">Conversão de arquivo</s:String>
+    <s:String x:Key="General">Geral</s:String>
+    <s:String x:Key="SavePlaylistInUniqueDirectory">Salvar a playlist completa em outra pasta</s:String>
     <s:String x:Key="Playlist">Playlist</s:String>
-    <s:String x:Key="OpenDestinationFolder">Open destination folder</s:String>
-    <s:String x:Key="ConfirmExit">Confirmation on exit</s:String>
-    <s:String x:Key="OpenDestinationFolderOnFinish">Open destination folder when done</s:String>
-    <s:String x:Key="TagAudioFile">Add tags and cover picture to audio files</s:String>
-    <s:String x:Key="Than">than</s:String>
-    <s:String x:Key="Filter">Filter</s:String>
-    <s:String x:Key="DownloadFilter">Only download videos</s:String>
-    <s:String x:Key="Longer">longer</s:String>
-    <s:String x:Key="Shorter">shorter</s:String>
-    <s:String x:Key="FileDoesNotExist">{0} does not exist.</s:String>
-    <s:String x:Key="Retry">Retry</s:String>
-    <s:String x:Key="Of">of</s:String>
-    <s:String x:Key="FileNamePattern">File name pattern: </s:String>
-    <s:String x:Key="ResetToDefault">Reset to default</s:String>
-    <s:String x:Key="FileNamePatternTitle">File Name Pattern</s:String>
-    <s:String x:Key="SkipExisting">Skip files that already exist</s:String>
-    <s:String x:Key="FileNamePattenExplanation">The file name pattern allows you to give the downloaded files dynamic names based on these parameters:
-$title: The title of the video
-$index: The index of the video in the playlist
-$artist: The name of the artist of the song (if applicable)
-$songtitle: The title of the song
-$channel: The name of the channel that uploaded the video
-$videoid: The unique ID of the video (taken from the video url)
-$playlist: The title of the plyalist
+    <s:String x:Key="OpenDestinationFolder">Abrir a pasta de destino</s:String>
+    <s:String x:Key="ConfirmExit">Confirmação ao sair</s:String>
+    <s:String x:Key="OpenDestinationFolderOnFinish">Abrir pasta de destino quando finalizar</s:String>
+    <s:String x:Key="TagAudioFile">Adicione tags e imagens de capa para os arquivos de aúdio</s:String>
+    <s:String x:Key="Than">do que</s:String>                 !!!
+    <s:String x:Key="Filter">Filtro</s:String>
+    <s:String x:Key="DownloadFilter">Baixar apenas vídeos</s:String>
+    <s:String x:Key="Longer">Duração maior</s:String>
+    <s:String x:Key="Shorter">Duração menor</s:String>
+    <s:String x:Key="FileDoesNotExist">{0} não existe.</s:String>
+    <s:String x:Key="Retry">Tentar novamente</s:String>
+    <s:String x:Key="Of">de</s:String>
+    <s:String x:Key="FileNamePattern">Padrão de nome de arquivo: </s:String>
+    <s:String x:Key="ResetToDefault">Restaurar padrão</s:String>
+    <s:String x:Key="FileNamePatternTitle">Nome padrao de arquivo</s:String>
+    <s:String x:Key="SkipExisting">Pular arquivos que já existem</s:String>
+    <s:String x:Key="FileNamePattenExplanation">O padrão de nome permite que você dê aos arquivos baixados nomes dinâmicos baseados nestes parâmetros:
+$title: O título do vídeo
+$index: O número do vídeo na playlist
+$artist: O nome dos artistas da música (se disponível)
+$songtitle: O título da música
+$channel: O nome do canal que fez o envio do vídeo
+$videoid: O ID único do vídeo (retirado da url do vídeo)
+$playlist: O título do playlist
 
-So for example, if my file name pattern is "song: [$playlist] $artist - $songtitle ($channel) $index" the result file name would be "song: [Example] Infected Mushroom - Spitfire (Monstercat) 1"
-You can add any other text between the parameters, only the parameters will be replaced.
-Please note that not all the parameters are always available (for example, when downloading a single video the $playlisttitle variable would not be available), and in case they are missing they will be removed from the file name</s:String>
-    <s:String x:Key="CopyToClipboard">Copy to clipboard</s:String>
-    <s:String x:Key="SaveToTextFile">Save to text file</s:String>
-    <s:String x:Key="VideoLanguage">Video Language: </s:String>
+Então, por exemplo, se o padrão de nome de arquivo for: "song: [$playlist] $artist - $songtitle ($channel) $index" o nome do arquivo final será "song: [Examplo] Infected Mushroom - Spitfire (Monstercat) 1"
+Você pode adicionar qualquer outro texto dentro dos parâmetros, apenas os parâmetros serão substituídos.
+Por favor, note que nem todos os parâmetros estarão sempre disponíveis (por exemplo, quando baixar um único vídeo a variável $playlisttitle não estará disponível), e em caso de estiver faltando, elas serão removidas do nome do arquivo</s:String>
+    <s:String x:Key="CopyToClipboard">Copiar para a área de transferencia</s:String>
+    <s:String x:Key="SaveToTextFile">Salvar em arquivo de texto</s:String>
+    <s:String x:Key="VideoLanguage">Idioma do vídeo: </s:String>
 </ResourceDictionary>
