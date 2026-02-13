@@ -1,4 +1,4 @@
-﻿1.9.32:
+﻿1.9.33:
 - Fixed 403 forbidden errors
 - Updated Português (BR) translation (thanks bolhadechiclete)
 - When downloading 2 videos with the same name, instead of overwriting the previous file, the new file will be numbered (_1, _2 etc) 
