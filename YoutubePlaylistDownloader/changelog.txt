@@ -1,7 +1,4 @@
-﻿Version 1.9.32:
-- Fixed a crashed when opening the download options after a clean install
-
-Version 1.9.31:
+﻿1.9.32:
 - Fixed 403 forbidden errors
-- Added an option to select the video's language in the download options
-- Fixed nullable errors
+- Updated Português (BR) translation (thanks bolhadechiclete)
+- When downloading 2 videos with the same name, instead of overwriting the previous file, the new file will be numbered (_1, _2 etc) 
