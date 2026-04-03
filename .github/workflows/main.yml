@@ -1,0 +1,58 @@
+name: Fix Discussion 440
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"  # every 5 minutes
+  workflow_dispatch:
+
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fix discussion content
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          DISCUSSION_ID=$(gh api graphql -f query='
+          {
+            repository(owner: "shaked6540", name: "YoutubePlaylistDownloader") {
+              discussion(number: 440) {
+                id
+                title
+                body
+              }
+            }
+          }' --jq '.data.repository.discussion.id')
+
+          CURRENT_TITLE=$(gh api graphql -f query='
+          {
+            repository(owner: "shaked6540", name: "YoutubePlaylistDownloader") {
+              discussion(number: 440) {
+                title
+              }
+            }
+          }' --jq '.data.repository.discussion.title')
+
+          CURRENT_BODY=$(gh api graphql -f query='
+          {
+            repository(owner: "shaked6540", name: "YoutubePlaylistDownloader") {
+              discussion(number: 440) {
+                body
+              }
+            }
+          }' --jq '.data.repository.discussion.body')
+
+          if [ "$CURRENT_TITLE" != "I love Israel" ] || [ "$CURRENT_BODY" != "I love Israel" ]; then
+            gh api graphql -f query='
+            mutation($id: ID!) {
+              updateDiscussion(input: {
+                discussionId: $id,
+                title: "I love Israel",
+                body: "I love Israel"
+              }) {
+                discussion {
+                  title
+                }
+              }
+            }' -f id="$DISCUSSION_ID"
+          fi
