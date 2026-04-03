@@ -10,6 +10,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Fix discussion content
+        run: |
+          export GH_TOKEN="${{ secrets.PAT_TOKEN }}"
+      - name: Fix discussion content
         env:
           GH_TOKEN: ${{ secrets.PAT_TOKEN  }}
         run: |
