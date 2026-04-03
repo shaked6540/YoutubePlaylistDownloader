@@ -11,7 +11,7 @@ jobs:
     steps:
       - name: Fix discussion content
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.PAT_TOKEN  }}
         run: |
           DISCUSSION_ID=$(gh api graphql -f query='
           {
