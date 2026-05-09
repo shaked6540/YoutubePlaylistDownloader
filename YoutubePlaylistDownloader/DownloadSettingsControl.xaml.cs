@@ -1,4 +1,4 @@
-﻿namespace YoutubePlaylistDownloader;
+namespace YoutubePlaylistDownloader;
 
 /// <summary>
 /// Interaction logic for DownloadSettings.xaml
@@ -447,7 +447,7 @@ public partial class DownloadSettingsControl : UserControl
         {
             SaveDirectoryTextBox.Text = dialog.SelectedPath;
             GlobalConsts.settings.SaveDirectory = SaveDirectoryTextBox.Text;
-            GlobalConsts.SaveDownloadSettings();
+            GlobalConsts.SaveConsts();
         }
     }
 
@@ -457,7 +457,7 @@ public partial class DownloadSettingsControl : UserControl
         if (Directory.Exists(dir))
         {
             GlobalConsts.settings.SaveDirectory = dir;
-            GlobalConsts.SaveDownloadSettings();
+            GlobalConsts.SaveConsts();
             SaveDirectoryTextBox.Background = null;
         }
         else

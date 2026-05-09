@@ -1,4 +1,4 @@
-﻿namespace YoutubePlaylistDownloader.Objects;
+namespace YoutubePlaylistDownloader.Objects;
 
 [JsonObject]
 public class DownloadSettings
@@ -7,7 +7,7 @@ public class DownloadSettings
     public string SavePath { get; set; }
 
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
-    [DefaultValue("mkv")]
+    [DefaultValue("mp4")]
     public string VideoSaveFormat { get; set; }
 
     [JsonProperty]

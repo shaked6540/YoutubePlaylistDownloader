@@ -1,4 +1,4 @@
-﻿namespace YoutubePlaylistDownloader;
+namespace YoutubePlaylistDownloader;
 
 /// <summary>
 /// Interaction logic for DownloadPage.xaml
@@ -283,6 +283,10 @@ public partial class DownloadPage : UserControl, IDisposable, IDownload
                 if (video == default(IVideo))
                     goto exit;
 
+                // Throttle requests to avoid YouTube rate limiting on large playlists
+                if (i > StartIndex)
+                    await Task.Delay(1000, token);
+
                 indexes.Add(video, i + 1);
                 try
                 {
@@ -294,7 +298,7 @@ public partial class DownloadPage : UserControl, IDisposable, IDownload
 
                     downloadSpeeds.Clear();
 
-                    var streamInfoSet = await client.Videos.Streams.GetManifestAsync(video.Id, token);
+                    var streamInfoSet = await GetManifestWithRetryAsync(client, video.Id, token);
                     IStreamInfo bestQuality;
                     if (downloadSettings.VideoLanguage == "default")
                     {
@@ -634,6 +638,10 @@ public partial class DownloadPage : UserControl, IDisposable, IDownload
             if (video == default(IVideo))
                 goto exit;
 
+            // Throttle requests to avoid YouTube rate limiting on large playlists
+            if (i > StartIndex)
+                await Task.Delay(1000, token);
+
             try
             {
                 await Dispatcher.InvokeAsync(() =>
@@ -644,7 +652,7 @@ public partial class DownloadPage : UserControl, IDisposable, IDownload
 
                 downloadSpeeds.Clear();
 
-                var streamInfoSet = await client.Videos.Streams.GetManifestAsync(video.Id, token);
+                var streamInfoSet = await GetManifestWithRetryAsync(client, video.Id, token);
                 IVideoStreamInfo bestQuality = null;
                 IStreamInfo bestAudio = null;
 
@@ -1025,6 +1033,43 @@ public partial class DownloadPage : UserControl, IDisposable, IDownload
             return ExitAsync();
 
         return Task.FromResult(true);
+    }
+
+    /// <summary>
+    /// Retries GetManifestAsync with exponential backoff to handle YouTube rate limiting.
+    /// When downloading large playlists, YouTube throttles rapid successive requests and
+    /// returns "video is not available" errors for videos that are actually available.
+    /// </summary>
+    private static async Task<StreamManifest> GetManifestWithRetryAsync(
+        YoutubeClient client, VideoId videoId, CancellationToken token, int maxRetries = 3)
+    {
+        Exception lastException = null;
+        for (int attempt = 0; attempt <= maxRetries; attempt++)
+        {
+            try
+            {
+                if (attempt > 0)
+                {
+                    // Exponential backoff with jitter: ~2s, ~4s, ~8s
+                    var baseDelay = (int)(Math.Pow(2, attempt) * 1000);
+                    var jitter = Random.Shared.Next(500, 1500);
+                    await GlobalConsts.Log(
+                        $"Rate limited for video {videoId}, retry {attempt}/{maxRetries} after {baseDelay + jitter}ms",
+                        "GetManifestWithRetryAsync");
+                    await Task.Delay(baseDelay + jitter, token).ConfigureAwait(false);
+                }
+                return await client.Videos.Streams.GetManifestAsync(videoId, token).ConfigureAwait(false);
+            }
+            catch (OperationCanceledException)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                lastException = ex;
+            }
+        }
+        throw lastException!;
     }
 
     #region IDisposable Support

@@ -1,4 +1,4 @@
-﻿namespace YoutubePlaylistDownloader;
+namespace YoutubePlaylistDownloader;
 
 static class GlobalConsts
 {
@@ -27,13 +27,14 @@ static class GlobalConsts
     public static Objects.Settings settings;
 
     public static string OppositeTheme => settings.Theme == "Light" ? "Dark" : "Light";
-    public static YoutubeClient YoutubeClient => new();
+    private static readonly Lazy<YoutubeClient> _youtubeClient = new(() => new YoutubeClient());
+    public static YoutubeClient YoutubeClient => _youtubeClient.Value;
     public static SemaphoreSlim ConversionsLocker { get => conversionLocker; set => conversionLocker ??= value; }
     public static DownloadSettings DownloadSettings
     {
         get
         {
-            downloadSettings ??= new DownloadSettings("mp3", false, YoutubeHelpers.High720, false, false, false, false, "192", false, "en", false, false, 0, 0, false, true, false, true, 4, "$title", false, "mkv", "default");
+            downloadSettings ??= new DownloadSettings("mp3", false, YoutubeHelpers.High720, false, false, false, false, "192", false, "en", false, false, 0, 0, false, true, false, true, 4, "$title", false, "mp4", "default");
             return downloadSettings;
         }
         set
@@ -155,8 +156,8 @@ static class GlobalConsts
     public static void RestoreDefualts()
     {
         Log("Restoring defaults", "RestoreDefaults at GlobalConsts").Wait();
-        settings = new Objects.Settings("Dark", "Red", "English", Environment.GetFolderPath(Environment.SpecialFolder.MyVideos), false, false, true, TimeSpan.FromMinutes(1), true, 20, 2, true, true);
-        DownloadSettings = new DownloadSettings("mp3", false, YoutubeHelpers.High720, false, false, false, false, "192", false, "en", false, false, 0, 0, false, true, false, true, 4, "$title", false, "mkv", "default");
+        settings = new Objects.Settings("Dark", "Red", "English", Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads"), false, false, true, TimeSpan.FromMinutes(1), true, 20, 2, true, true);
+        DownloadSettings = new DownloadSettings("mp3", false, YoutubeHelpers.High720, false, false, false, false, "192", false, "en", false, false, 0, 0, false, true, false, true, 4, "$title", false, "mp4", "default");
         SaveConsts();
     }
     public static void LoadConsts()
@@ -556,12 +557,12 @@ static class GlobalConsts
                 {
                     Log(ex2.ToString(), "Delete download settings file path").Wait();
                 }
-                downloadSettings = new DownloadSettings("mp3", false, YoutubeHelpers.High720, false, false, false, false, "192", false, "en", false, false, 0, 0, false, true, false, true, 4, "$title", false, "mkv", "default");
+                downloadSettings = new DownloadSettings("mp3", false, YoutubeHelpers.High720, false, false, false, false, "192", false, "en", false, false, 0, 0, false, true, false, true, 4, "$title", false, "mp4", "default");
             }
         }
         else
         {
-            downloadSettings = new DownloadSettings("mp3", false, YoutubeHelpers.High720, false, false, false, false, "192", false, "en", false, false, 0, 0, false, true, false, true, 4, "$title", false, "mkv", "default");
+            downloadSettings = new DownloadSettings("mp3", false, YoutubeHelpers.High720, false, false, false, false, "192", false, "en", false, false, 0, 0, false, true, false, true, 4, "$title", false, "mp4", "default");
         }
     }
 
