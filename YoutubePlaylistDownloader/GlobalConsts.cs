@@ -144,7 +144,7 @@ static class GlobalConsts
     {
         try
         {
-            File.WriteAllText(ConfigFilePath, JsonConvert.SerializeObject(settings));
+            AtomicFile.WriteAllText(ConfigFilePath, JsonConvert.SerializeObject(settings));
             SaveDownloadSettings();
         }
         catch (Exception ex)
@@ -173,6 +173,7 @@ static class GlobalConsts
         try
         {
             settings = JsonConvert.DeserializeObject<Objects.Settings>(File.ReadAllText(ConfigFilePath));
+            NormalizeSettings();
             ConversionsLocker = new SemaphoreSlim(settings.ActualConversionsLimit, settings.MaximumConversionsCount);
 
             LoadDownloadSettings();
@@ -543,6 +544,7 @@ static class GlobalConsts
             try
             {
                 downloadSettings = JsonConvert.DeserializeObject<DownloadSettings>(File.ReadAllText(DownloadSettingsFilePath));
+                NormalizeDownloadSettings();
             }
             catch (Exception ex)
             {
@@ -569,12 +571,63 @@ static class GlobalConsts
     {
         try
         {
-            File.WriteAllText(DownloadSettingsFilePath, JsonConvert.SerializeObject(downloadSettings));
+            AtomicFile.WriteAllText(DownloadSettingsFilePath, JsonConvert.SerializeObject(downloadSettings));
         }
         catch (Exception ex)
         {
             Log(ex.ToString(), "SaveDownloadSettings at GlobalConsts").Wait();
         }
+    }
+
+    private static void NormalizeSettings()
+    {
+        settings ??= new Objects.Settings();
+        settings.SchemaVersion = 1;
+        settings.Theme = settings.Theme is "Light" or "Dark" ? settings.Theme : "Dark";
+        settings.Accent = string.IsNullOrWhiteSpace(settings.Accent) ? "Red" : settings.Accent;
+        settings.Language = string.IsNullOrWhiteSpace(settings.Language) ? "English" : settings.Language;
+        settings.SaveDirectory = GetValidSaveDirectory(settings.SaveDirectory);
+        settings.SubscriptionsDelay = settings.SubscriptionsDelay > TimeSpan.Zero
+            ? settings.SubscriptionsDelay
+            : TimeSpan.FromMinutes(1);
+        settings.MaximumConversionsCount = Math.Max(2, settings.MaximumConversionsCount);
+        settings.ActualConversionsLimit = Math.Clamp(settings.ActualConversionsLimit, 1, settings.MaximumConversionsCount - 1);
+    }
+
+    private static string GetValidSaveDirectory(string path)
+    {
+        if (string.IsNullOrWhiteSpace(path))
+            return Environment.GetFolderPath(Environment.SpecialFolder.MyVideos);
+
+        try
+        {
+            return Path.GetFullPath(path);
+        }
+        catch (Exception ex) when (ex is ArgumentException or NotSupportedException)
+        {
+            return Environment.GetFolderPath(Environment.SpecialFolder.MyVideos);
+        }
+    }
+
+    private static void NormalizeDownloadSettings()
+    {
+        downloadSettings ??= DownloadSettings;
+        downloadSettings.SchemaVersion = 1;
+        downloadSettings.SaveFormat = downloadSettings.SaveFormat?.ToLowerInvariant();
+        if (!DownloadSettings.AudioFormats.Contains(downloadSettings.SaveFormat))
+            downloadSettings.SaveFormat = "mp3";
+        downloadSettings.VideoSaveFormat = downloadSettings.VideoSaveFormat?.ToLowerInvariant();
+        if (!DownloadSettings.VideoFormats.Contains(downloadSettings.VideoSaveFormat))
+            downloadSettings.VideoSaveFormat = "mkv";
+        downloadSettings.Bitrate = string.IsNullOrWhiteSpace(downloadSettings.Bitrate) || !downloadSettings.Bitrate.All(char.IsDigit) ? "192" : downloadSettings.Bitrate;
+        downloadSettings.CaptionsLanguage = string.IsNullOrWhiteSpace(downloadSettings.CaptionsLanguage) ? "en" : downloadSettings.CaptionsLanguage;
+        downloadSettings.VideoLanguage = string.IsNullOrWhiteSpace(downloadSettings.VideoLanguage) ? "default" : downloadSettings.VideoLanguage;
+        downloadSettings.FilenamePattern = string.IsNullOrWhiteSpace(downloadSettings.FilenamePattern) ? "$title" : downloadSettings.FilenamePattern;
+        downloadSettings.SubsetStartIndex = Math.Max(0, downloadSettings.SubsetStartIndex);
+        downloadSettings.SubsetEndIndex = Math.Max(0, downloadSettings.SubsetEndIndex);
+        downloadSettings.FilterByLengthValue = double.IsFinite(downloadSettings.FilterByLengthValue) && downloadSettings.FilterByLengthValue > 0
+            ? downloadSettings.FilterByLengthValue
+            : 4;
     }
 
     private static void Downloads_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)

@@ -7,6 +7,18 @@
 ## What is it?
 A simple program to download whole playlists\channels or even single videos from YouTube 
 
+## Building locally
+
+The application targets Windows and .NET 8 because it uses WPF. Install Visual Studio 2022 with the Desktop development with .NET workload, then run:
+
+```powershell
+dotnet restore YoutubePlaylistDownloader.sln
+dotnet build YoutubePlaylistDownloader.sln -c Debug
+dotnet run --project YoutubePlaylistDownloader/YoutubePlaylistDownloader.csproj
+```
+
+For video downloads and conversions, place `ffmpeg.exe` beside the generated executable in `YoutubePlaylistDownloader\\bin\\Debug\\net8.0-windows\\`.
+
 [Click here to download the installer](https://github.com/shaked6540/YoutubePlaylistDownloader/releases/download/1.9.34/YoutubePlaylistDownloader.exe) 
 
 ## Features

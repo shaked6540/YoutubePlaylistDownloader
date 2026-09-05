@@ -136,7 +136,7 @@ rafaelpessoa21 (Português Brasileiro)
     <s:String x:Key="Video">Vídeo</s:String>
     <s:String x:Key="DownloadCaptions">Faça o download de legendas ocultas</s:String>
     <s:String x:Key="CaptionsLanguage">Idioma das legendas ocultas: </s:String>
-    <s:String x:Key="BulkDownload">Download em massa</s:String>
+    <s:String x:Key="BulkDownload">Download em lote</s:String>
     <s:String x:Key="LimitConverstions" >Limitar o máximo de conversões simultâneas para </s:String>
     <s:String x:Key="ValueChangeRequiresRestart">(Alterar este limite requer a reinicialização do programa para surtir efeito)</s:String>
     <s:String x:Key="ConversionsLimitingExplanation">Cada conversão de arquivo utiliza cerca de 1 núcleo (core) completo da CPU. Por exemplo: se você possui 4 núcleos de CPU, limitar o programa a 3 conversoes de arquivos ao mesmo tempo usará 3 núcleos de 4

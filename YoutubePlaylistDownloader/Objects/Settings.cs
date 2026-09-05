@@ -4,6 +4,8 @@
 public class Settings
 {
     [JsonProperty]
+    public int SchemaVersion { get; set; } = 1;
+    [JsonProperty]
     public string Theme { get; set; }
 
     [JsonProperty]

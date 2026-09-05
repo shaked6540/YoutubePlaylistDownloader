@@ -122,8 +122,9 @@ public partial class DownloadPage : UserControl, IDisposable, IDownload
                 Videos.Where(video => video.Duration.Value.TotalMinutes < settings.FilterByLengthValue);
         }
 
-        var startIndex = settings.SubsetStartIndex <= 0 ? 0 : settings.SubsetStartIndex;
-        var endIndex = settings.SubsetEndIndex <= 0 ? Videos.Count() - 1 : settings.SubsetEndIndex;
+        var videoCount = Videos.Count();
+        var startIndex = videoCount == 0 ? 0 : Math.Clamp(settings.SubsetStartIndex, 0, videoCount - 1);
+        var endIndex = videoCount == 0 ? -1 : Math.Clamp(settings.SubsetEndIndex <= 0 ? videoCount - 1 : settings.SubsetEndIndex, startIndex, videoCount - 1);
 
         this.silent = silent;
 
@@ -143,29 +144,28 @@ public partial class DownloadPage : UserControl, IDisposable, IDownload
         Maximum = EndIndex - StartIndex + 1;
         DownloadedVideosProgressBar.Maximum = Maximum;
         Playlist = playlist;
-        FileType = settings.SaveFormat;
-        VideoSaveFormat = settings.VideoSaveFormat;
+        FileType = DownloadSettings.AudioFormats.Contains(settings.SaveFormat?.ToLowerInvariant()) ? settings.SaveFormat.ToLowerInvariant() : "mp3";
+        VideoSaveFormat = DownloadSettings.VideoFormats.Contains(settings.VideoSaveFormat?.ToLowerInvariant()) ? settings.VideoSaveFormat.ToLowerInvariant() : "mkv";
         DownloadedCount = 0;
         Quality = settings.Quality;
         DownloadCaptions = settings.DownloadCaptions;
         CaptionsLanguage = settings.CaptionsLanguage;
-        SavePath = string.IsNullOrWhiteSpace(savePath) ? GlobalConsts.settings.SaveDirectory : savePath;
+        var resolvedSavePath = string.IsNullOrWhiteSpace(savePath) ? GlobalConsts.settings.SaveDirectory : savePath;
 
         if (settings.SavePlaylistsInDifferentDirectories && playlist != null)
         {
             if (!string.IsNullOrWhiteSpace(playlist.Title))
             {
-                SavePath += $"\\{GlobalConsts.CleanFileName(playlist.Title)}";
+                resolvedSavePath += $"\\{GlobalConsts.CleanFileName(playlist.Title)}";
             }
             else if (!string.IsNullOrWhiteSpace(playlist.BasePlaylist?.Title))
             {
-                SavePath += $"\\{GlobalConsts.CleanFileName(playlist?.BasePlaylist?.Title)}";
+                resolvedSavePath += $"\\{GlobalConsts.CleanFileName(playlist?.BasePlaylist?.Title)}";
             }
 
         }
 
-        if (!Directory.Exists(SavePath))
-            Directory.CreateDirectory(SavePath);
+        SavePath = EnsureSaveDirectory(resolvedSavePath);
 
         AudioOnly = settings.AudioOnly;
         TagAudioFile = settings.TagAudioFile;
@@ -190,6 +190,26 @@ public partial class DownloadPage : UserControl, IDisposable, IDownload
             StartDownloading(cts.Token).ConfigureAwait(false);
 
         GlobalConsts.Downloads.Add(new QueuedDownload(this));
+    }
+
+    private static string EnsureSaveDirectory(string path)
+    {
+        var fallback = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos);
+        foreach (var candidate in new[] { path, fallback, GlobalConsts.TempFolderPath })
+        {
+            try
+            {
+                if (!string.IsNullOrWhiteSpace(candidate))
+                    Directory.CreateDirectory(candidate);
+                if (Directory.Exists(candidate))
+                    return candidate;
+            }
+            catch (Exception ex) when (ex is ArgumentException or IOException or UnauthorizedAccessException or NotSupportedException)
+            {
+            }
+        }
+
+        throw new IOException("Unable to create a usable download directory.");
     }
 
     public static async Task SequenceDownload(IEnumerable<string> links, DownloadSettings settings, bool silent = false)
@@ -330,13 +350,14 @@ public partial class DownloadPage : UserControl, IDisposable, IDownload
                     }
                     var cleanFileNameWithID = GlobalConsts.CleanFileName(video.Title + video.Id);
                     var cleanFileName = GlobalConsts.CleanFileName(downloadSettings.GetFilenameByPattern(video, i, title, Playlist));
-                    var fileLoc = $"{GlobalConsts.TempFolderPath}{cleanFileNameWithID}";
-
                     if (AudioOnly)
                         FileType = bestQuality.Container.Name;
 
-                    var outputFileLoc = $"{GlobalConsts.TempFolderPath}{cleanFileNameWithID}.{FileType}";
-                    var copyFileLoc = $"{SavePath}\\{cleanFileName}.{FileType}";
+                    var paths = DownloadPaths.Create(GlobalConsts.TempFolderPath, cleanFileNameWithID, FileType)
+                        .WithDestination($"{SavePath}\\{cleanFileName}.{FileType}");
+                    var fileLoc = paths.Input;
+                    var outputFileLoc = paths.Output;
+                    var copyFileLoc = paths.Destination;
 
                     if (GlobalConsts.DownloadSettings.SkipExisting && File.Exists(copyFileLoc))
                     {
@@ -361,6 +382,7 @@ public partial class DownloadPage : UserControl, IDisposable, IDownload
                         Stopwatch sw = new();
                         TimeSpan ts = new(0);
                         var seconds = 1;
+                        var lastProgressUpdate = TimeSpan.MinValue;
                         var downloadSpeedText = (string)FindResource("DownloadSpeed");
 
                         stream.BytesWritten += async (sender, args) =>
@@ -368,7 +390,6 @@ public partial class DownloadPage : UserControl, IDisposable, IDownload
                             try
                             {
                                 var percent = Convert.ToInt32(args.StreamLength * 100 / bestQuality.Size.Bytes);
-                                CurrentProgressPercent = percent;
                                 double speedInMB = 0;
                                 var delta = sw.Elapsed - ts;
                                 ts = sw.Elapsed;
@@ -385,6 +406,11 @@ public partial class DownloadPage : UserControl, IDisposable, IDownload
 
                                 if (!sw.IsRunning)
                                     sw.Start();
+
+                                if (percent < 100 && sw.Elapsed - lastProgressUpdate < TimeSpan.FromMilliseconds(100))
+                                    return;
+                                lastProgressUpdate = sw.Elapsed;
+                                CurrentProgressPercent = percent;
 
                                 await Dispatcher.InvokeAsync(() =>
                                 {
@@ -434,13 +460,18 @@ public partial class DownloadPage : UserControl, IDisposable, IDownload
                         };
 
                         token.ThrowIfCancellationRequested();
-                        ffmpeg.Exited += async (x, y) =>
+                        async Task ConvertAsync()
                         {
+                            var lockTaken = false;
                             try
                             {
-                                ffmpegList?.Remove(ffmpeg);
-                                convertingCount--;
-
+                                if (GlobalConsts.settings.LimitConversions)
+                                {
+                                    await GlobalConsts.ConversionsLocker.WaitAsync(token);
+                                    lockTaken = true;
+                                }
+                                convertingCount++;
+                                await RunFfmpegAsync(ffmpeg, outputFileLoc, token);
                                 if (TagAudioFile)
                                 {
                                     var videoIndex = indexes[video];
@@ -449,61 +480,34 @@ public partial class DownloadPage : UserControl, IDisposable, IDownload
                                     if (afterTagName != outputFileLoc)
                                     {
                                         if (playlistId.HasValue)
-                                        {
                                             video = new PlaylistVideo(playlistId.Value, video.Id, afterTagName, video.Author, video.Duration, video.Thumbnails);
-                                        }
-
                                         cleanFileName = GlobalConsts.CleanFileName(downloadSettings.GetFilenameByPattern(video, videoIndex - 1, title, Playlist));
                                         copyFileLoc = $"{SavePath}\\{cleanFileName}.{FileType}";
                                     }
                                 }
                                 var copyFileLocCounter = 1;
                                 while (File.Exists(copyFileLoc))
-                                {
-                                    copyFileLoc = $"{SavePath}\\{cleanFileName}-{copyFileLocCounter}.{FileType}";
-                                    copyFileLocCounter++;
-                                }
-                                File.Copy(outputFileLoc, copyFileLoc, true);
+                                    copyFileLoc = $"{SavePath}\\{cleanFileName}-{copyFileLocCounter++}.{FileType}";
+                                AtomicFile.CopyAndReplace(outputFileLoc, copyFileLoc);
                                 File.Delete(outputFileLoc);
-
                             }
                             catch (Exception ex)
                             {
                                 await GlobalConsts.Log(ex.ToString(), "DownloadPage with convert");
                             }
-                        };
-                        if (!GlobalConsts.settings.LimitConversions)
-                        {
-                            ffmpeg.Start();
-                            convertingCount++;
-                            ffmpegList.Add(ffmpeg);
-                        }
-                        else
-                        {
-                            conversionTasks.Add(Task.Run(async () =>
+                            finally
                             {
-                                try
-                                {
-                                    convertingCount++;
-                                    await GlobalConsts.ConversionsLocker.WaitAsync(cts.Token);
-                                    ffmpeg.Start();
-                                    ffmpeg.Exited += (x, y) => GlobalConsts.ConversionsLocker.Release();
-                                    ffmpegList.Add(ffmpeg);
-                                }
-                                catch (OperationCanceledException)
-                                {
-                                    GlobalConsts.ConversionsLocker.Release();
-                                }
-                                catch (Exception ex)
-                                {
-                                    await GlobalConsts.Log(ex.ToString(), "ConversionsLocker at StartDownloadingWithConverting at DownloadPage.xaml.cs");
-                                }
-                            }, token));
+                                if (lockTaken) GlobalConsts.ConversionsLocker.Release();
+                                convertingCount--;
+                                File.Delete(fileLoc);
+                                File.Delete(outputFileLoc);
+                            }
                         }
+                        conversionTasks.Add(ConvertAsync());
                     }
                     else
                     {
-                        File.Copy(fileLoc, copyFileLoc, true);
+                        AtomicFile.CopyAndReplace(fileLoc, copyFileLoc);
 
                         File.Delete(fileLoc);
                         try
@@ -689,11 +693,13 @@ public partial class DownloadPage : UserControl, IDisposable, IDownload
                 }
                 var cleanVideoNameWithId = GlobalConsts.CleanFileName(video.Title + video.Id);
                 var cleanVideoName = GlobalConsts.CleanFileName(downloadSettings.GetFilenameByPattern(video, i, title, Playlist));
-                var fileLoc = $"{GlobalConsts.TempFolderPath}{cleanVideoNameWithId}";
-                var outputFileLoc = $"{GlobalConsts.TempFolderPath}{cleanVideoNameWithId}.{VideoSaveFormat}";
-                var copyFileLoc = $"{SavePath}\\{cleanVideoName}.{VideoSaveFormat}";
-                var audioLoc = $"{GlobalConsts.TempFolderPath}{cleanVideoNameWithId}-audio.{bestAudio.Container.Name}";
-                var captionsLoc = $"{GlobalConsts.TempFolderPath}{cleanVideoNameWithId}.srt";
+                var paths = DownloadPaths.Create(GlobalConsts.TempFolderPath, cleanVideoNameWithId, VideoSaveFormat, bestAudio.Container.Name)
+                    .WithDestination($"{SavePath}\\{cleanVideoName}.{VideoSaveFormat}");
+                var fileLoc = paths.Input;
+                var outputFileLoc = paths.Output;
+                var copyFileLoc = paths.Destination;
+                var audioLoc = paths.Audio;
+                var captionsLoc = paths.Captions;
 
                 if (GlobalConsts.DownloadSettings.SkipExisting && File.Exists(copyFileLoc))
                 {
@@ -720,6 +726,7 @@ public partial class DownloadPage : UserControl, IDisposable, IDownload
                     Stopwatch sw = new();
                     TimeSpan ts = new(0);
                     var seconds = 1;
+                    var lastProgressUpdate = TimeSpan.MinValue;
                     var downloadSpeedText = (string)FindResource("DownloadSpeed");
 
                     stream.BytesWritten += async (sender, args) =>
@@ -727,7 +734,6 @@ public partial class DownloadPage : UserControl, IDisposable, IDownload
                         try
                         {
                             var percent = Convert.ToInt32(args.StreamLength * 100 / bestQuality.Size.Bytes);
-                            CurrentProgressPercent = percent;
                             double speedInMB = 0;
                             var delta = sw.Elapsed - ts;
                             ts = sw.Elapsed;
@@ -743,6 +749,11 @@ public partial class DownloadPage : UserControl, IDisposable, IDownload
                             }
                             if (!sw.IsRunning)
                                 sw.Start();
+
+                            if (percent < 100 && sw.Elapsed - lastProgressUpdate < TimeSpan.FromMilliseconds(100))
+                                return;
+                            lastProgressUpdate = sw.Elapsed;
+                            CurrentProgressPercent = percent;
 
                             await Dispatcher.InvokeAsync(() =>
                             {
@@ -798,7 +809,7 @@ public partial class DownloadPage : UserControl, IDisposable, IDownload
                             if (VideoSaveFormat != "mkv")
                             {
                                 ffmpegArguments = $"-i \"{fileLoc}\" -i \"{audioLoc}\" -y -c copy \"{outputFileLoc}\"";
-                                File.Copy(captionsLoc, $"{SavePath}\\{cleanVideoName}.srt");
+                                AtomicFile.CopyAndReplace(captionsLoc, $"{SavePath}\\{cleanVideoName}.srt");
                             }
                             else
                             {
@@ -827,20 +838,22 @@ public partial class DownloadPage : UserControl, IDisposable, IDownload
                 };
 
                 token.ThrowIfCancellationRequested();
-                ffmpeg.Exited += async (x, y) =>
+                async Task ConvertAsync()
                 {
+                    var lockTaken = false;
                     try
                     {
-                        ffmpegList?.Remove(ffmpeg);
-                        convertingCount--;
+                        if (GlobalConsts.settings.LimitConversions)
+                        {
+                            await GlobalConsts.ConversionsLocker.WaitAsync(token);
+                            lockTaken = true;
+                        }
+                        convertingCount++;
+                        await RunFfmpegAsync(ffmpeg, outputFileLoc, token);
                         var copyFileLocCounter = 1;
                         while (File.Exists(copyFileLoc))
-                        {
-                            copyFileLoc = $"{SavePath}\\{cleanVideoName}-{copyFileLocCounter}.{VideoSaveFormat}";
-                            copyFileLocCounter++;
-                        }
+                            copyFileLoc = $"{SavePath}\\{cleanVideoName}-{copyFileLocCounter++}.{VideoSaveFormat}";
                         File.Copy(outputFileLoc, copyFileLoc, true);
-
                         File.Delete(outputFileLoc);
                         File.Delete(audioLoc);
                         File.Delete(fileLoc);
@@ -849,36 +862,17 @@ public partial class DownloadPage : UserControl, IDisposable, IDownload
                     {
                         await GlobalConsts.Log(ex.ToString(), "DownloadPage without convert");
                     }
-                };
-
-                if (!GlobalConsts.settings.LimitConversions)
-                {
-                    ffmpeg.Start();
-                    convertingCount++;
-                    ffmpegList.Add(ffmpeg);
-                }
-                else
-                {
-                    conversionTasks.Add(Task.Run(async () =>
+                    finally
                     {
-                        try
-                        {
-                            convertingCount++;
-                            await GlobalConsts.ConversionsLocker.WaitAsync(cts.Token);
-                            ffmpeg.Start();
-                            ffmpeg.Exited += (x, y) => GlobalConsts.ConversionsLocker.Release();
-                            ffmpegList.Add(ffmpeg);
-                        }
-                        catch (OperationCanceledException)
-                        {
-                            GlobalConsts.ConversionsLocker.Release();
-                        }
-                        catch (Exception ex)
-                        {
-                            await GlobalConsts.Log(ex.ToString(), "ConversionsLocker at StartDownloading at DownloadPage.xaml.cs");
-                        }
-                    }, token));
+                        if (lockTaken) GlobalConsts.ConversionsLocker.Release();
+                        convertingCount--;
+                        File.Delete(fileLoc);
+                        File.Delete(outputFileLoc);
+                        File.Delete(audioLoc);
+                        File.Delete(captionsLoc);
+                    }
                 }
+                conversionTasks.Add(ConvertAsync());
 
                 DownloadedCount++;
                 TotalDownloaded = $"({DownloadedCount}/{Maximum})";
@@ -956,6 +950,31 @@ public partial class DownloadPage : UserControl, IDisposable, IDownload
             OpenFolder_Click(null, null);
 
         Dispose();
+    }
+
+    private async Task RunFfmpegAsync(Process ffmpeg, string outputFilePath, CancellationToken token)
+    {
+        ffmpeg.Start();
+        ffmpegList.Add(ffmpeg);
+        try
+        {
+            await ffmpeg.WaitForExitAsync(token);
+            if (ffmpeg.ExitCode != 0)
+                throw new InvalidOperationException($"FFmpeg exited with code {ffmpeg.ExitCode}.");
+            if (!File.Exists(outputFilePath))
+                throw new InvalidOperationException("FFmpeg did not create the output file.");
+        }
+        catch (OperationCanceledException)
+        {
+            if (!ffmpeg.HasExited)
+                ffmpeg.Kill();
+            throw;
+        }
+        finally
+        {
+            ffmpegList.Remove(ffmpeg);
+            ffmpeg.Dispose();
+        }
     }
 
     private void Background_Exit(object sender, RoutedEventArgs e)
