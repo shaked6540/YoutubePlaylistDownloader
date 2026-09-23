@@ -33,7 +33,6 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 
 [Files]
 Source: "..\YoutubePlaylistDownloader\bin\Release\net8.0-windows\*"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\bin\bin32\ffmpeg.exe"; DestDir: "{app}"; Flags: ignoreversion
 
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files        
 
