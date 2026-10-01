@@ -107,21 +107,23 @@ public partial class Settings : UserControl
 
     private void ActualConversionTextBox_TextChanged(object sender, TextChangedEventArgs e)
     {
-        if (int.TryParse(ActualConversionTextBox.Text, out var actual) && actual > 0 && actual < GlobalConsts.settings.MaximumConversionsCount)
+        if (int.TryParse(ActualConversionTextBox.Text, out var actual) && actual > 0 && actual <= GlobalConsts.settings.MaximumConversionsCount)
         {
             ActualConversionTextBox.Background = null;
-            var delta = actual - GlobalConsts.ConversionsLocker.CurrentCount;
-            if (delta > 0)
-                GlobalConsts.ConversionsLocker.Release(delta);
-            else
-            {
-                delta = Math.Abs(delta);
-                for (var i = 0; i < delta; i++)
-                {
-                    GlobalConsts.ConversionsLocker.Wait();
-                }
-            }
+            var locker = GlobalConsts.ConversionsLocker;
+            var delta = actual - GlobalConsts.settings.ActualConversionsLimit;
             GlobalConsts.settings.ActualConversionsLimit = actual;
+            if (delta > 0)
+                locker.Release(delta);
+            else if (delta < 0)
+            {
+                // Permits held by running conversions are taken back as they are released.
+                _ = Task.Run(async () =>
+                {
+                    for (var i = 0; i < -delta; i++)
+                        await locker.WaitAsync().ConfigureAwait(false);
+                });
+            }
         }
         else
         {

@@ -159,6 +159,7 @@ Het is aangeraden om één kern minder te gebruiken dan wat je CPU heeft. Indien
     <s:String x:Key="Longer">langer</s:String>
     <s:String x:Key="Shorter">korter</s:String>
     <s:String x:Key="FileDoesNotExist">{0} bestaat niet.</s:String>
+    <s:String x:Key="SaveDirectoryNotWritable">Kan niet schrijven naar de opslagmap "{0}": {1} Kies een andere opslagmap.</s:String>
     <s:String x:Key="Retry">Opnieuw proberen</s:String>
     <s:String x:Key="Of">van</s:String>
     <s:String x:Key="FileNamePattern">Bestandsnaampatroon: </s:String>

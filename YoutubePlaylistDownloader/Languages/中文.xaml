@@ -161,6 +161,7 @@ deeaeu (Română)
     <s:String x:Key="Longer">更长</s:String>
     <s:String x:Key="Shorter">更短</s:String>
     <s:String x:Key="FileDoesNotExist">{0} 不存在。</s:String>
+    <s:String x:Key="SaveDirectoryNotWritable">无法写入保存目录“{0}”：{1} 请选择其他保存目录。</s:String>
     <s:String x:Key="Retry">重试</s:String>
     <s:String x:Key="Of">分之</s:String>
     <s:String x:Key="FileNamePattern">文件名样式：</s:String>

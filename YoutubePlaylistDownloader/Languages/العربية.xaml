@@ -158,6 +158,7 @@ the file conversion to 2, etc..</s:String>
     <s:String x:Key="Longer">أكبر </s:String>
     <s:String x:Key="Shorter">أقل </s:String>
     <s:String x:Key="FileDoesNotExist">غير موجود{0}</s:String>
+    <s:String x:Key="SaveDirectoryNotWritable">لا يمكن الكتابة في مجلد الحفظ "{0}": {1} يرجى اختيار مجلد حفظ آخر.</s:String>
     <s:String x:Key="Retry">Retry</s:String>
     <s:String x:Key="Of">of</s:String>
     <s:String x:Key="FileNamePattern">File name pattern: </s:String>

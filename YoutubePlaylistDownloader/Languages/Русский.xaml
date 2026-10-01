@@ -159,6 +159,7 @@ deeaeu (Română)
     <s:String x:Key="Longer">длиннее</s:String>
     <s:String x:Key="Shorter">короче</s:String>
     <s:String x:Key="FileDoesNotExist">{0} не существует.</s:String>
+    <s:String x:Key="SaveDirectoryNotWritable">Не удаётся записать в папку сохранения "{0}": {1} Выберите другую папку сохранения.</s:String>
     <s:String x:Key="Retry">Повторить</s:String>
     <s:String x:Key="Of">из</s:String>
     <s:String x:Key="FileNamePattern">Формат имени файла: </s:String>

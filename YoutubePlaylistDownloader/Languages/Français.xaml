@@ -155,6 +155,7 @@ redémarrage du programme pour prendre effet)</s:String>
     <s:String x:Key="Longer">plus longue</s:String>
     <s:String x:Key="Shorter">plus courte</s:String>
     <s:String x:Key="FileDoesNotExist">{0} n'existe pas.</s:String>
+    <s:String x:Key="SaveDirectoryNotWritable">Impossible d'écrire dans le dossier d'enregistrement "{0}" : {1} Veuillez choisir un autre dossier d'enregistrement.</s:String>
     <s:String x:Key="Retry">Réessayer</s:String>
     <s:String x:Key="Of">de</s:String>
     <s:String x:Key="FileNamePattern">Modèle de nom de fichier : </s:String>

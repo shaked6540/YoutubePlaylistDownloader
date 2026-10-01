@@ -125,6 +125,9 @@ public partial class MainPage : UserControl
                 return;
             }
 
+            if (!SaveDirectoryIsWritable())
+                return;
+
             GlobalConsts.LoadPage(new DownloadPage(list, GlobalConsts.DownloadSettings.Clone(), videos: VideoList));
             VideoList = new List<IVideo>();
             PlaylistLinkTextBox.Text = string.Empty;
@@ -174,6 +177,9 @@ public partial class MainPage : UserControl
                 return;
             }
 
+            if (!SaveDirectoryIsWritable())
+                return;
+
             _ = new DownloadPage(list, GlobalConsts.DownloadSettings.Clone(), silent: true, videos: VideoList);
             VideoList = new List<IVideo>();
             PlaylistLinkTextBox.Text = string.Empty;
@@ -195,6 +201,9 @@ public partial class MainPage : UserControl
             return;
         }
 
+        if (!SaveDirectoryIsWritable())
+            return;
+
         _ = DownloadPage.SequenceDownload(links, GlobalConsts.DownloadSettings.Clone(), silent: true);
         BulkLinksTextBox.Text = string.Empty;
         MetroAnimatedTabControl.SelectedItem = QueueMetroTabItem;
@@ -213,6 +222,17 @@ public partial class MainPage : UserControl
     private static bool CanDownload()
     {
         return GlobalConsts.DownloadSettings.AudioOnly || File.Exists(GlobalConsts.FFmpegFilePath);
+    }
+
+    private bool SaveDirectoryIsWritable()
+    {
+        var directory = GlobalConsts.settings.SaveDirectory;
+        var error = GlobalConsts.GetSaveDirectoryError(directory);
+        if (error == null)
+            return true;
+
+        GlobalConsts.ShowMessage((string)FindResource("Error"), string.Format((string)FindResource("SaveDirectoryNotWritable"), directory, error)).ConfigureAwait(false);
+        return false;
     }
 
     private void BulkLinksTextBox_PreviewDrop(object sender, DragEventArgs e)

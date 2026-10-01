@@ -154,6 +154,7 @@ Este recomandat să utilizați un nucleu mai puțin decât are procesorul dvs. D
     <s:String x:Key="Longer">mai lungi</s:String>
     <s:String x:Key="Shorter">mai scurte</s:String>
     <s:String x:Key="FileDoesNotExist">Fișierul {0} nu există.</s:String>
+    <s:String x:Key="SaveDirectoryNotWritable">Nu se poate scrie în folderul de salvare "{0}": {1} Alege un alt folder de salvare.</s:String>
     <s:String x:Key="Retry">Reîncearcă</s:String>
     <s:String x:Key="Of">din</s:String>
     <s:String x:Key="FileNamePattern">Modelul numelui fișierelor: </s:String>

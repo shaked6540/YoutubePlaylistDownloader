@@ -43,7 +43,14 @@ public class Settings
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public bool ConfirmExit { get; set; }
 
+    [JsonProperty("ActualConvertionsLimit")]
+    private int LegacyActualConversionsLimit { set => ActualConversionsLimit = value; }
+
+    [JsonProperty("LimitConvertions")]
+    private bool LegacyLimitConversions { set => LimitConversions = value; }
+
     [JsonConstructor]
+    // The parameter keeps the old misspelling so Settings.json files written by older versions still bind.
     public Settings(string theme, string accent, string language, string saveDirectory, bool optionExpanderIsExpanded, bool checkForSubscriptionUpdates, bool checkForProgramUpdates, TimeSpan subscriptionsDelay, bool saveDownloadOptions, int maximumConverstionsCount, int actualConversionsLimit, bool limitConversions, bool confirmExit)
     {
         Theme = theme;

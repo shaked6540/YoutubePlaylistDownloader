@@ -160,6 +160,7 @@ konwersja pliku do 2 itd.</s:String>
     <s:String x:Key="Longer">dłuższe</s:String>
     <s:String x:Key="Shorter">krótsze</s:String>
     <s:String x:Key="FileDoesNotExist">{0} nie istnieje.</s:String>
+    <s:String x:Key="SaveDirectoryNotWritable">Nie można zapisać w folderze docelowym "{0}": {1} Wybierz inny folder docelowy.</s:String>
     <s:String x:Key="Retry">Ponów</s:String>
     <s:String x:Key="Of">z</s:String>
     <s:String x:Key="FileNamePattern">Wzorzec nazw plików: </s:String>

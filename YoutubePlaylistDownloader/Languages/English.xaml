@@ -160,6 +160,7 @@ the file conversion to 2, etc.</s:String>
     <s:String x:Key="Longer">longer</s:String>
     <s:String x:Key="Shorter">shorter</s:String>
     <s:String x:Key="FileDoesNotExist">{0} does not exist.</s:String>
+    <s:String x:Key="SaveDirectoryNotWritable">Cannot write to the save directory "{0}": {1} Please choose a different save directory.</s:String>
     <s:String x:Key="Retry">Retry</s:String>
     <s:String x:Key="Of">of</s:String>
     <s:String x:Key="FileNamePattern">File name pattern: </s:String>

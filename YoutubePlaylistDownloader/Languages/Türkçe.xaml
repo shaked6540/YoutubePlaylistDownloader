@@ -161,6 +161,7 @@ dosya dönüştürmeyi 3 ile sınırlandırarak 3 çekirdek kullanın, 3 çekird
     <s:String x:Key="Longer">daha uzun</s:String>
     <s:String x:Key="Shorter">daha kısa</s:String>
     <s:String x:Key="FileDoesNotExist">{0} mevcut değil.</s:String>
+    <s:String x:Key="SaveDirectoryNotWritable">"{0}" kaydetme klasörüne yazılamıyor: {1} Lütfen başka bir kaydetme klasörü seçin.</s:String>
     <s:String x:Key="Retry">Yeniden dene</s:String>
     <s:String x:Key="Of">/</s:String>
     <s:String x:Key="FileNamePattern">Dosya adı paterni: </s:String>

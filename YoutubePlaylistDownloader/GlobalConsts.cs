@@ -28,7 +28,7 @@ static class GlobalConsts
 
     public static string OppositeTheme => settings.Theme == "Light" ? "Dark" : "Light";
     public static YoutubeClient YoutubeClient => new();
-    public static SemaphoreSlim ConversionsLocker { get => conversionLocker; set => conversionLocker ??= value; }
+    public static SemaphoreSlim ConversionsLocker => LazyInitializer.EnsureInitialized(ref conversionLocker, CreateConversionsLocker);
     public static DownloadSettings DownloadSettings
     {
         get
@@ -81,6 +81,10 @@ static class GlobalConsts
         UpdateSetupLocation = string.Empty;
         SubscriptionsUpdateDelay = TimeSpan.FromMinutes(1);
         Downloads.CollectionChanged += Downloads_CollectionChanged;
+
+        // ID3v2.4 (TagLib's default) isn't recognized by some devices (e.g. older iPods), so force ID3v2.3 for compatibility.
+        TagLib.Id3v2.Tag.DefaultVersion = 3;
+        TagLib.Id3v2.Tag.ForceDefaultVersion = true;
     }
 
     //The const methods are used mainly for saving/loading consts, and handling page\menu management.
@@ -159,32 +163,61 @@ static class GlobalConsts
         DownloadSettings = new DownloadSettings("mp3", false, YoutubeHelpers.High720, false, false, false, false, "192", false, "en", false, false, 0, 0, false, true, false, true, 4, "$title", false, "mkv", "default");
         SaveConsts();
     }
+    private static SemaphoreSlim CreateConversionsLocker()
+    {
+        NormalizeConversionsLimits();
+        return new SemaphoreSlim(settings.ActualConversionsLimit, settings.MaximumConversionsCount);
+    }
+    private static void NormalizeConversionsLimits()
+    {
+        if (settings.MaximumConversionsCount <= 0)
+            settings.MaximumConversionsCount = 20;
+        if (settings.ActualConversionsLimit <= 0)
+            settings.ActualConversionsLimit = 2;
+        if (settings.ActualConversionsLimit > settings.MaximumConversionsCount)
+            settings.ActualConversionsLimit = settings.MaximumConversionsCount;
+    }
     public static void LoadConsts()
     {
-
         if (!File.Exists(ConfigFilePath))
         {
             Log("Config file does not exist, restoring defaults", "LoadConsts at GlobalConsts").Wait();
-
             RestoreDefualts();
-            return;
+        }
+        else
+        {
+            try
+            {
+                settings = JsonConvert.DeserializeObject<Objects.Settings>(File.ReadAllText(ConfigFilePath));
+                NormalizeConversionsLimits();
+                LoadDownloadSettings();
+            }
+            catch (Exception ex)
+            {
+                Log(ex.ToString(), "LoadConsts at GlobalConsts").Wait();
+                RestoreDefualts();
+            }
         }
 
+        _ = ConversionsLocker;
+        UpdateTheme();
+        UpdateLanguage();
+    }
+    public static string GetSaveDirectoryError(string directory)
+    {
         try
         {
-            settings = JsonConvert.DeserializeObject<Objects.Settings>(File.ReadAllText(ConfigFilePath));
-            ConversionsLocker = new SemaphoreSlim(settings.ActualConversionsLimit, settings.MaximumConversionsCount);
-
-            LoadDownloadSettings();
+            Directory.CreateDirectory(directory);
+            var probe = Path.Combine(directory, $".ypd-write-test-{Guid.NewGuid():N}");
+            File.WriteAllBytes(probe, Array.Empty<byte>());
+            File.Delete(probe);
+            return null;
         }
         catch (Exception ex)
         {
-            Log(ex.ToString(), "LoadConsts at GlobalConsts").Wait();
-            RestoreDefualts();
+            Log($"Save directory '{directory}' is not writable: {ex}", "GetSaveDirectoryError at GlobalConsts").Wait();
+            return ex.Message;
         }
-        UpdateTheme();
-        UpdateLanguage();
-
     }
     public static void CreateTempFolder()
     {

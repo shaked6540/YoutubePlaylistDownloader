@@ -30,6 +30,8 @@ public partial class DownloadPage : UserControl, IDisposable, IDownload
     private FixedQueue<double> downloadSpeeds;
     private readonly Dictionary<IVideo, int> indexes = [];
     private readonly List<Task> conversionTasks = [];
+    private readonly object ffmpegLock = new();
+    private int convertingCount;
 
     public bool StillDownloading;
 
@@ -274,7 +276,7 @@ public partial class DownloadPage : UserControl, IDisposable, IDownload
             }
 
             var client = GlobalConsts.YoutubeClient;
-            var convertingCount = 0;
+            var shownFailures = 0;
             conversionTasks.Clear();
             for (var i = StartIndex; i <= EndIndex; i++)
             {
@@ -438,23 +440,37 @@ public partial class DownloadPage : UserControl, IDisposable, IDownload
                         {
                             try
                             {
-                                ffmpegList?.Remove(ffmpeg);
-                                convertingCount--;
+                                if (token.IsCancellationRequested)
+                                    return;
+
+                                if (!File.Exists(outputFileLoc))
+                                {
+                                    await GlobalConsts.Log($"ffmpeg exited with code {ffmpeg.ExitCode} and did not produce {outputFileLoc}", "DownloadPage with convert");
+                                    ReportPostProcessingFailure(video, $"ffmpeg failed to convert the file (exit code {ffmpeg.ExitCode})");
+                                    return;
+                                }
 
                                 if (TagAudioFile)
                                 {
-                                    var videoIndex = indexes[video];
-                                    var afterTagName = await GlobalConsts.TagFile(video, videoIndex, outputFileLoc, Playlist);
-                                    FileType = new string(copyFileLoc.Skip(copyFileLoc.LastIndexOf('.') + 1).ToArray());
-                                    if (afterTagName != outputFileLoc)
+                                    try
                                     {
-                                        if (playlistId.HasValue)
+                                        var videoIndex = indexes[video];
+                                        var afterTagName = await GlobalConsts.TagFile(video, videoIndex, outputFileLoc, Playlist);
+                                        FileType = new string(copyFileLoc.Skip(copyFileLoc.LastIndexOf('.') + 1).ToArray());
+                                        if (afterTagName != outputFileLoc)
                                         {
-                                            video = new PlaylistVideo(playlistId.Value, video.Id, afterTagName, video.Author, video.Duration, video.Thumbnails);
-                                        }
+                                            if (playlistId.HasValue)
+                                            {
+                                                video = new PlaylistVideo(playlistId.Value, video.Id, afterTagName, video.Author, video.Duration, video.Thumbnails);
+                                            }
 
-                                        cleanFileName = GlobalConsts.CleanFileName(downloadSettings.GetFilenameByPattern(video, videoIndex - 1, title, Playlist));
-                                        copyFileLoc = $"{SavePath}\\{cleanFileName}.{FileType}";
+                                            cleanFileName = GlobalConsts.CleanFileName(downloadSettings.GetFilenameByPattern(video, videoIndex - 1, title, Playlist));
+                                            copyFileLoc = $"{SavePath}\\{cleanFileName}.{FileType}";
+                                        }
+                                    }
+                                    catch (Exception tagEx)
+                                    {
+                                        await GlobalConsts.Log(tagEx.ToString(), "TagFile at DownloadPage with convert");
                                     }
                                 }
                                 var copyFileLocCounter = 1;
@@ -464,42 +480,23 @@ public partial class DownloadPage : UserControl, IDisposable, IDownload
                                     copyFileLocCounter++;
                                 }
                                 File.Copy(outputFileLoc, copyFileLoc, true);
-                                File.Delete(outputFileLoc);
-
+                                TryDelete(outputFileLoc, fileLoc);
                             }
                             catch (Exception ex)
                             {
                                 await GlobalConsts.Log(ex.ToString(), "DownloadPage with convert");
+                                ReportPostProcessingFailure(video, ex.Message);
+                            }
+                            finally
+                            {
+                                UntrackFfmpeg(ffmpeg);
+                                Interlocked.Decrement(ref convertingCount);
                             }
                         };
-                        if (!GlobalConsts.settings.LimitConversions)
-                        {
-                            ffmpeg.Start();
-                            convertingCount++;
-                            ffmpegList.Add(ffmpeg);
-                        }
+                        if (GlobalConsts.settings.LimitConversions)
+                            conversionTasks.Add(Task.Run(() => RunFfmpegAsync(ffmpeg, video, token)));
                         else
-                        {
-                            conversionTasks.Add(Task.Run(async () =>
-                            {
-                                try
-                                {
-                                    convertingCount++;
-                                    await GlobalConsts.ConversionsLocker.WaitAsync(cts.Token);
-                                    ffmpeg.Start();
-                                    ffmpeg.Exited += (x, y) => GlobalConsts.ConversionsLocker.Release();
-                                    ffmpegList.Add(ffmpeg);
-                                }
-                                catch (OperationCanceledException)
-                                {
-                                    GlobalConsts.ConversionsLocker.Release();
-                                }
-                                catch (Exception ex)
-                                {
-                                    await GlobalConsts.Log(ex.ToString(), "ConversionsLocker at StartDownloadingWithConverting at DownloadPage.xaml.cs");
-                                }
-                            }, token));
-                        }
+                            await RunFfmpegAsync(ffmpeg, video, token);
                     }
                     else
                     {
@@ -546,17 +543,7 @@ public partial class DownloadPage : UserControl, IDisposable, IDownload
 
         exit:
 
-            if (NotDownloaded.Any())
-            {
-                await GlobalConsts.ShowSelectableDialog($"{FindResource("CouldntDownload")}",
-                      string.Concat($"{FindResource("ListOfNotDownloadedVideos")}\n", string.Join("\n", NotDownloaded.Select(x => string.Concat(x.Item1.Title, " Reason: ", x.Item2)))),
-                      () =>
-                      {
-                          _ = SequenceDownload(NotDownloaded.Select(x => x.Item1.Url), downloadSettings).ConfigureAwait(false);
-                          GlobalConsts.MainPage.ChangeToQueueTab();
-                          GlobalConsts.LoadPage(GlobalConsts.MainPage.Load());
-                      });
-            }
+            shownFailures = await ShowNotDownloadedAsync(0);
 
             while (ffmpegList.Count > 0 || conversionTasks?.Count(x => !x.IsCompleted) > 0)
             {
@@ -580,6 +567,8 @@ public partial class DownloadPage : UserControl, IDisposable, IDownload
                 });
                 await Task.Delay(1000, token);
             }
+
+            await ShowNotDownloadedAsync(shownFailures);
 
             await Dispatcher.InvokeAsync(() =>
             {
@@ -625,7 +614,7 @@ public partial class DownloadPage : UserControl, IDisposable, IDownload
         }
 
         var client = GlobalConsts.YoutubeClient;
-        var convertingCount = 0;
+        var shownFailures = 0;
         conversionTasks.Clear();
         for (var i = StartIndex; i <= EndIndex; i++)
         {
@@ -831,8 +820,16 @@ public partial class DownloadPage : UserControl, IDisposable, IDownload
                 {
                     try
                     {
-                        ffmpegList?.Remove(ffmpeg);
-                        convertingCount--;
+                        if (token.IsCancellationRequested)
+                            return;
+
+                        if (!File.Exists(outputFileLoc))
+                        {
+                            await GlobalConsts.Log($"ffmpeg exited with code {ffmpeg.ExitCode} and did not produce {outputFileLoc}", "DownloadPage without convert");
+                            ReportPostProcessingFailure(video, $"ffmpeg failed to merge the streams (exit code {ffmpeg.ExitCode})");
+                            return;
+                        }
+
                         var copyFileLocCounter = 1;
                         while (File.Exists(copyFileLoc))
                         {
@@ -840,45 +837,24 @@ public partial class DownloadPage : UserControl, IDisposable, IDownload
                             copyFileLocCounter++;
                         }
                         File.Copy(outputFileLoc, copyFileLoc, true);
-
-                        File.Delete(outputFileLoc);
-                        File.Delete(audioLoc);
-                        File.Delete(fileLoc);
+                        TryDelete(outputFileLoc, audioLoc, fileLoc);
                     }
                     catch (Exception ex)
                     {
                         await GlobalConsts.Log(ex.ToString(), "DownloadPage without convert");
+                        ReportPostProcessingFailure(video, ex.Message);
+                    }
+                    finally
+                    {
+                        UntrackFfmpeg(ffmpeg);
+                        Interlocked.Decrement(ref convertingCount);
                     }
                 };
 
-                if (!GlobalConsts.settings.LimitConversions)
-                {
-                    ffmpeg.Start();
-                    convertingCount++;
-                    ffmpegList.Add(ffmpeg);
-                }
+                if (GlobalConsts.settings.LimitConversions)
+                    conversionTasks.Add(Task.Run(() => RunFfmpegAsync(ffmpeg, video, token)));
                 else
-                {
-                    conversionTasks.Add(Task.Run(async () =>
-                    {
-                        try
-                        {
-                            convertingCount++;
-                            await GlobalConsts.ConversionsLocker.WaitAsync(cts.Token);
-                            ffmpeg.Start();
-                            ffmpeg.Exited += (x, y) => GlobalConsts.ConversionsLocker.Release();
-                            ffmpegList.Add(ffmpeg);
-                        }
-                        catch (OperationCanceledException)
-                        {
-                            GlobalConsts.ConversionsLocker.Release();
-                        }
-                        catch (Exception ex)
-                        {
-                            await GlobalConsts.Log(ex.ToString(), "ConversionsLocker at StartDownloading at DownloadPage.xaml.cs");
-                        }
-                    }, token));
-                }
+                    await RunFfmpegAsync(ffmpeg, video, token);
 
                 DownloadedCount++;
                 TotalDownloaded = $"({DownloadedCount}/{Maximum})";
@@ -897,17 +873,7 @@ public partial class DownloadPage : UserControl, IDisposable, IDownload
 
     exit:
 
-        if (NotDownloaded.Any())
-        {
-            await GlobalConsts.ShowSelectableDialog($"{FindResource("CouldntDownload")}",
-                  string.Concat($"{FindResource("ListOfNotDownloadedVideos")}\n", string.Join("\n", NotDownloaded.Select(x => string.Concat(x.Item1.Title, " Reason: ", x.Item2)))),
-                  () =>
-                  {
-                      _ = SequenceDownload(NotDownloaded.Select(x => x.Item1.Url), downloadSettings).ConfigureAwait(false);
-                      GlobalConsts.MainPage.ChangeToQueueTab();
-                      GlobalConsts.LoadPage(GlobalConsts.MainPage.Load());
-                  });
-        }
+        shownFailures = await ShowNotDownloadedAsync(0);
 
         while (ffmpegList.Count > 0 || conversionTasks?.Count(x => !x.IsCompleted) > 0)
         {
@@ -930,6 +896,8 @@ public partial class DownloadPage : UserControl, IDisposable, IDownload
             });
             await Task.Delay(1000, token);
         }
+
+        await ShowNotDownloadedAsync(shownFailures);
 
         StillDownloading = false;
 
@@ -956,6 +924,93 @@ public partial class DownloadPage : UserControl, IDisposable, IDownload
             OpenFolder_Click(null, null);
 
         Dispose();
+    }
+
+    private async Task RunFfmpegAsync(Process ffmpeg, IVideo video, CancellationToken token)
+    {
+        var locker = GlobalConsts.settings.LimitConversions ? GlobalConsts.ConversionsLocker : null;
+        var acquired = false;
+        Interlocked.Increment(ref convertingCount);
+        try
+        {
+            if (locker != null)
+            {
+                await locker.WaitAsync(token);
+                acquired = true;
+                ffmpeg.Exited += (x, y) => locker.Release();
+            }
+
+            // Tracked before Start so a fast exit can't run its cleanup before the process is in the list.
+            lock (ffmpegLock)
+                ffmpegList?.Add(ffmpeg);
+            ffmpeg.Start();
+        }
+        catch (Exception ex)
+        {
+            UntrackFfmpeg(ffmpeg);
+            Interlocked.Decrement(ref convertingCount);
+            if (acquired)
+                locker.Release();
+
+            if (ex is not OperationCanceledException)
+            {
+                await GlobalConsts.Log(ex.ToString(), "RunFfmpegAsync at DownloadPage.xaml.cs");
+                ReportPostProcessingFailure(video, $"Could not start ffmpeg: {ex.Message}");
+            }
+        }
+    }
+
+    private void UntrackFfmpeg(Process ffmpeg)
+    {
+        lock (ffmpegLock)
+            ffmpegList?.Remove(ffmpeg);
+    }
+
+    private void ReportPostProcessingFailure(IVideo video, string reason)
+    {
+        var failures = NotDownloaded;
+        if (failures == null)
+            return;
+
+        lock (failures)
+            failures.Add(new Tuple<IVideo, string>(video, reason));
+        Interlocked.Decrement(ref DownloadedCount);
+    }
+
+    private static void TryDelete(params string[] paths)
+    {
+        foreach (var path in paths)
+        {
+            try { File.Delete(path); } catch { }
+        }
+    }
+
+    private async Task<int> ShowNotDownloadedAsync(int alreadyShown)
+    {
+        var all = NotDownloaded;
+        if (all == null)
+            return alreadyShown;
+
+        List<Tuple<IVideo, string>> failed;
+        lock (all)
+        {
+            failed = all.Skip(alreadyShown).ToList();
+            alreadyShown = all.Count;
+        }
+
+        if (failed.Count > 0)
+        {
+            await GlobalConsts.ShowSelectableDialog($"{FindResource("CouldntDownload")}",
+                  string.Concat($"{FindResource("ListOfNotDownloadedVideos")}\n", string.Join("\n", failed.Select(x => string.Concat(x.Item1.Title, " Reason: ", x.Item2)))),
+                  () =>
+                  {
+                      _ = SequenceDownload(failed.Select(x => x.Item1.Url), downloadSettings).ConfigureAwait(false);
+                      GlobalConsts.MainPage.ChangeToQueueTab();
+                      GlobalConsts.LoadPage(GlobalConsts.MainPage.Load());
+                  });
+        }
+
+        return alreadyShown;
     }
 
     private void Background_Exit(object sender, RoutedEventArgs e)

@@ -156,6 +156,7 @@ Beispiel: Hat Ihre CPU hat vier Kerne, so stellen Sie drei gleichzeitge Konverti
     <s:String x:Key="Longer">länger</s:String>
     <s:String x:Key="Shorter">kürzer</s:String>
     <s:String x:Key="FileDoesNotExist">{0} existiert nicht.</s:String>
+    <s:String x:Key="SaveDirectoryNotWritable">In das Speicherverzeichnis "{0}" kann nicht geschrieben werden: {1} Bitte wähle ein anderes Speicherverzeichnis.</s:String>
     <s:String x:Key="Retry">Erneut versuchen</s:String>
     <s:String x:Key="Of">von</s:String>
     <s:String x:Key="FileNamePattern">Dateinamensmuster: </s:String>
