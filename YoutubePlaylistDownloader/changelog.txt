@@ -1,2 +1,4 @@
-﻿1.9.34:
-- Fixed "Video not available" issues
+﻿1.9.35:
+- Fixed permission problems, if the program is missing permission now you will get a message saying so
+- No need to run as administrator by default anymore
+- Updated libraries and increased stability
