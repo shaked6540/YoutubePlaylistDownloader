@@ -2,7 +2,7 @@
 
 # Stand with Israel!
 
-## If the files don't show up after you download a playlist, try running the program as administrator or change the save directory to a different drive! (C drive is usually protected by windows, save it under D or any other drive)
+## If the files don't show up after you download a playlist, close and reopen the program (older versions had a first-run bug) and make sure the save directory is writable. Running as administrator is not required. If it still fails, check `%APPDATA%\Youtube Playlist Downloader\Errors.txt` and attach it to an issue.
 
 ## What is it?
 A simple program to download whole playlists\channels or even single videos from YouTube 

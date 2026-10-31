@@ -301,3 +301,4 @@ __pycache__/
 YoutubePlaylistDownloader/ffmpeg.exe
 /Installer Output/
 /FFmpeg/
+.github/copilot-instructions.md
