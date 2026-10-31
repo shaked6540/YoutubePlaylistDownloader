@@ -1,45 +1,50 @@
-﻿namespace YoutubePlaylistDownloader;
+﻿using System.Diagnostics;
+using System.Windows;
+using System.Windows.Threading;
 
-/// <summary>
-/// Interaction logic for App.xaml
-/// </summary>
-public partial class App : Application
+namespace YoutubePlaylistDownloader
 {
-
-    public App()
+    /// <summary>
+    /// Interaction logic for App.xaml
+    /// </summary>
+    public partial class App : Application
     {
-        DispatcherUnhandledException += App_DispatcherUnhandledException;
-    }
 
-    protected override void OnStartup(StartupEventArgs e)
-    {
-        base.OnStartup(e);
-        GlobalConsts.LoadConsts();
-        GlobalConsts.CreateTempFolder();
-    }
-
-    protected override void OnExit(ExitEventArgs e)
-    {
-        GlobalConsts.SaveConsts();
-        if (GlobalConsts.UpdateOnExit && !string.IsNullOrWhiteSpace(GlobalConsts.UpdateSetupLocation) && GlobalConsts.UpdateFinishedDownloading)
+        public App()
         {
-            Process.Start(GlobalConsts.UpdateSetupLocation);
+            DispatcherUnhandledException += App_DispatcherUnhandledException;
         }
-        else
+
+        protected override void OnStartup(StartupEventArgs e)
         {
-            GlobalConsts.CleanTempFolder();
+            base.OnStartup(e);
+            GlobalConsts.LoadConsts();
+            GlobalConsts.CreateTempFolder();
         }
-        base.OnExit(e);
-    }
 
-    async void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
-    {
-        await GlobalConsts.ShowMessage((string)FindResource("Error"), (string)FindResource("ErrorMessage"));
-        await GlobalConsts.Log($"{e.Exception}", "Unhandled exception");
+        protected override void OnExit(ExitEventArgs e)
+        {
+            GlobalConsts.SaveConsts();
+            if (GlobalConsts.UpdateOnExit && !string.IsNullOrWhiteSpace(GlobalConsts.UpdateSetupLocation) && GlobalConsts.UpdateFinishedDownloading)
+            {
+                Process.Start(GlobalConsts.UpdateSetupLocation);
+            }
+            else
+            {
+                GlobalConsts.CleanTempFolder();
+            }
+            base.OnExit(e);
+        }
 
-        // Don't crash at the moment of truth >.<
+        async void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
+        {   
+            await GlobalConsts.ShowMessage((string)FindResource("Error"), (string)FindResource("ErrorMessage"));
+            await GlobalConsts.Log($"{e.Exception}", "Unhandled exception");
+
+            // Don't crash at the moment of truth >.<
 #if !DEBUG
-            e.Handled = true;
+                e.Handled = true;
 #endif
+        }
     }
 }

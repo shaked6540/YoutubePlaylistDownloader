@@ -1,60 +1,66 @@
-﻿namespace YoutubePlaylistDownloader;
+﻿using MahApps.Metro.Controls.Dialogs;
+using System;
+using System.Net.Http;
+using System.Windows.Controls;
 
-/// <summary>
-/// Interaction logic for About.xaml
-/// </summary>
-public partial class About : UserControl
+namespace YoutubePlaylistDownloader
 {
-    public About()
+    /// <summary>
+    /// Interaction logic for About.xaml
+    /// </summary>
+    public partial class About : UserControl
     {
-        InitializeComponent();
-        GlobalConsts.HideAboutButton();
-        GlobalConsts.ShowHomeButton();
-        GlobalConsts.ShowSettingsButton();
-        GlobalConsts.ShowHelpButton();
-
-        AboutRun.Text += GlobalConsts.VERSION;
-    }
-
-    private async void UpdateButton_Click(object sender, RoutedEventArgs e)
-    {
-        try
+        public About()
         {
-            using var client = new HttpClient();
-            client.DefaultRequestHeaders.CacheControl = new CacheControlHeaderValue() { NoCache = true };
-            var response = await client.GetStringAsync("https://raw.githubusercontent.com/shaked6540/YoutubePlaylistDownloader/master/YoutubePlaylistDownloader/latestVersionWithRevision.txt");
-            var latestVersion = Version.Parse(response);
+            InitializeComponent();
+            GlobalConsts.HideAboutButton();
+            GlobalConsts.ShowHomeButton();
+            GlobalConsts.ShowSettingsButton();
+            GlobalConsts.ShowHelpButton();
 
-            if (latestVersion > GlobalConsts.VERSION)
+            AboutRun.Text += GlobalConsts.VERSION;
+        }
+
+        private async void UpdateButton_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            try
             {
-                var changelog = await client.GetStringAsync("https://raw.githubusercontent.com/shaked6540/YoutubePlaylistDownloader/master/YoutubePlaylistDownloader/changelog.txt");
-                var dialogSettings = new MetroDialogSettings()
-                {
-                    AffirmativeButtonText = $"{FindResource("UpdateNow")}",
-                    NegativeButtonText = $"{FindResource("No")}",
-                    FirstAuxiliaryButtonText = $"{FindResource("UpdateWhenIExit")}",
-                    ColorScheme = MetroDialogColorScheme.Theme,
-                    DefaultButtonFocus = MessageDialogResult.Affirmative,
-                };
-                var update = await GlobalConsts.Current.ShowMessageAsync($"{FindResource("NewVersionAvailable")}", $"{FindResource("DoYouWantToUpdate")}\n{changelog}",
-                    MessageDialogStyle.AffirmativeAndNegativeAndSingleAuxiliary, dialogSettings);
-                if (update == MessageDialogResult.Affirmative)
-                    GlobalConsts.LoadPage(new DownloadUpdate(latestVersion, changelog));
+                using var client = new HttpClient();
+                client.DefaultRequestHeaders.CacheControl = new System.Net.Http.Headers.CacheControlHeaderValue() { NoCache = true };
+                var response = await client.GetStringAsync("https://raw.githubusercontent.com/shaked6540/YoutubePlaylistDownloader/master/YoutubePlaylistDownloader/latestVersionWithRevision.txt");
+                var latestVersion = Version.Parse(response);
 
-                else if (update == MessageDialogResult.FirstAuxiliary)
+                if (latestVersion > GlobalConsts.VERSION)
                 {
-                    GlobalConsts.UpdateControl = new DownloadUpdate(latestVersion, changelog, true).UpdateLaterStillDownloading();
+                    var changelog = await client.GetStringAsync("https://raw.githubusercontent.com/shaked6540/YoutubePlaylistDownloader/master/YoutubePlaylistDownloader/changelog.txt");
+                    var dialogSettings = new MetroDialogSettings()
+                    {
+                        AffirmativeButtonText = $"{FindResource("UpdateNow")}",
+                        NegativeButtonText = $"{FindResource("No")}",
+                        FirstAuxiliaryButtonText = $"{FindResource("UpdateWhenIExit")}",
+                        ColorScheme = MetroDialogColorScheme.Theme,
+                        DefaultButtonFocus = MessageDialogResult.Affirmative,
+                    };
+                    var update = await GlobalConsts.Current.ShowMessageAsync($"{FindResource("NewVersionAvailable")}", $"{FindResource("DoYouWantToUpdate")}\n{changelog}",
+                        MessageDialogStyle.AffirmativeAndNegativeAndSingleAuxiliary, dialogSettings);
+                    if (update == MessageDialogResult.Affirmative)
+                        GlobalConsts.LoadPage(new DownloadUpdate(latestVersion, changelog));
+
+                    else if (update == MessageDialogResult.FirstAuxiliary)
+                    {
+                        GlobalConsts.UpdateControl = new DownloadUpdate(latestVersion, changelog, true).UpdateLaterStillDownloading();
+                    }
+                }
+                else
+                {
+                    await GlobalConsts.ShowMessage($"{FindResource("NoUpdates")}", $"{FindResource("NoUpdatesAvailable")}");
                 }
             }
-            else
+            catch (Exception ex)
             {
-                await GlobalConsts.ShowMessage($"{FindResource("NoUpdates")}", $"{FindResource("NoUpdatesAvailable")}");
+                await GlobalConsts.Log(ex.ToString(), "About UpdateButton_Click");
+                await GlobalConsts.ShowMessage($"{FindResource("Error")}", $"{FindResource("CannotUpdate")} {ex.Message}");
             }
-        }
-        catch (Exception ex)
-        {
-            await GlobalConsts.Log(ex.ToString(), "About UpdateButton_Click");
-            await GlobalConsts.ShowMessage($"{FindResource("Error")}", $"{FindResource("CannotUpdate")} {ex.Message}");
         }
     }
 }

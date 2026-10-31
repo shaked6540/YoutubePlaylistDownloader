@@ -1,43 +1,48 @@
-﻿namespace YoutubePlaylistDownloader.Objects;
+﻿using Newtonsoft.Json;
+using System;
+using YoutubeExplode.Videos.Streams;
 
-public class VideoQualityConverter : JsonConverter
+namespace YoutubePlaylistDownloader.Objects
 {
-    public override bool CanConvert(Type objectType)
+    public class VideoQualityConverter : JsonConverter
     {
-        return objectType == typeof(VideoQuality) || objectType == typeof(VideoQuality?);
-    }
-
-    public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
-    {
-        var label = "";
-        while (reader.Read())
+        public override bool CanConvert(Type objectType)
         {
-            if (reader.TokenType != JsonToken.PropertyName)
-                break;
+            return objectType == typeof(VideoQuality) || objectType == typeof(VideoQuality?);
+        }
 
-            var propertyName = (string)reader.Value;
-            if (!reader.Read())
-                continue;
-
-            if (propertyName == "Label")
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        {
+            string label = "";
+            while (reader.Read())
             {
-                label = serializer.Deserialize<string>(reader);
+                if (reader.TokenType != JsonToken.PropertyName)
+                    break;
+
+                var propertyName = (string)reader.Value;
+                if (!reader.Read())
+                    continue;
+
+                if (propertyName == "Label")
+                {
+                    label = serializer.Deserialize<string>(reader);
+                }
             }
+            if (label != "")
+            {
+                return Utilities.YoutubeHelpers.FromLabel(label, 30);
+            }
+            return Utilities.YoutubeHelpers.High720;
         }
-        if (label != "")
+
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            return YoutubeHelpers.FromLabel(label, 30);
+            var quality = (VideoQuality)value;
+
+            writer.WriteStartObject();
+            writer.WritePropertyName("Label");
+            serializer.Serialize(writer, quality.Label);
+            writer.WriteEndObject();
         }
-        return YoutubeHelpers.High720;
-    }
-
-    public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-    {
-        var quality = (VideoQuality)value;
-
-        writer.WriteStartObject();
-        writer.WritePropertyName("Label");
-        serializer.Serialize(writer, quality.Label);
-        writer.WriteEndObject();
     }
 }

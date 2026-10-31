@@ -1,17 +1,21 @@
-﻿namespace YoutubePlaylistDownloader.Utilities;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
-public static class ExtensionMethods
+namespace YoutubePlaylistDownloader.Utilities
 {
-    public static async Task WhenAll(params ValueTask[] tasks)
+    public static class ExtensionMethods
     {
-        var toAwait = new List<Task>();
-
-        foreach (var valueTask in tasks)
+        public static async Task WhenAll(params ValueTask[] tasks)
         {
-            if (!valueTask.IsCompletedSuccessfully)
-                toAwait.Add(valueTask.AsTask());
-        }
+            var toAwait = new List<Task>();
 
-        await Task.WhenAll(toAwait).ConfigureAwait(false);
+            foreach (var valueTask in tasks)
+            {
+                if (!valueTask.IsCompletedSuccessfully)
+                    toAwait.Add(valueTask.AsTask());
+            }
+
+            await Task.WhenAll(toAwait).ConfigureAwait(false);
+        }
     }
 }
