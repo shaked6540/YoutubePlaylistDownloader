@@ -242,7 +242,11 @@ namespace YoutubePlaylistDownloader
                     if (YoutubeHelpers.TryParsePlaylistId(link, out var playlistId))
                     {
                         basePlaylist = await client.Playlists.GetAsync(playlistId.Value).ConfigureAwait(false);
-                        fullPlaylist = new FullPlaylist(basePlaylist, await client.Playlists.GetVideosAsync(basePlaylist.Id).CollectAsync().ConfigureAwait(false));
+                        var dlVideoSource = client.Playlists.GetVideosAsync(basePlaylist.Id);
+                        var dlVideos = YoutubeHelpers.IsMixPlaylist(playlistId)
+                            ? await dlVideoSource.CollectAsync(GlobalConsts.MaxMixPlaylistVideos).ConfigureAwait(false)
+                            : await dlVideoSource.CollectAsync().ConfigureAwait(false);
+                        fullPlaylist = new FullPlaylist(basePlaylist, dlVideos);
                         await Download(fullPlaylist, new List<IVideo>());
                     }
                     else if (YoutubeHelpers.TryParseChannelId(link, out string channelId))

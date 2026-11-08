@@ -73,7 +73,11 @@ namespace YoutubePlaylistDownloader
                     _ = Task.Run(async () =>
                     {
                         Playlist basePlaylist = await client.Playlists.GetAsync(playlistId.Value).ConfigureAwait(false);
-                        list = new FullPlaylist(basePlaylist, await client.Playlists.GetVideosAsync(basePlaylist.Id).CollectAsync().ConfigureAwait(false));
+                        var playlistVideoSource = client.Playlists.GetVideosAsync(basePlaylist.Id);
+                        var playlistVideos = YoutubeHelpers.IsMixPlaylist(playlistId)
+                            ? await playlistVideoSource.CollectAsync(GlobalConsts.MaxMixPlaylistVideos).ConfigureAwait(false)
+                            : await playlistVideoSource.CollectAsync().ConfigureAwait(false);
+                        list = new FullPlaylist(basePlaylist, playlistVideos);
                         VideoList = new List<PlaylistVideo>();
                         await UpdatePlaylistInfo(Visibility.Visible, list.BasePlaylist.Title, list.BasePlaylist.Author?.ChannelTitle ?? "", "", list.Videos.Count().ToString(), $"https://img.youtube.com/vi/{list?.Videos?.FirstOrDefault()?.Id}/maxresdefault.jpg", true, true);
                     }).ConfigureAwait(false);

@@ -118,6 +118,18 @@ namespace YoutubePlaylistDownloader.Utilities
                 : throw new FormatException($"Could not parse playlist ID from given string [{playlistUrl}].");
 
         /// <summary>
+        /// Whether the given playlist ID is an auto-generated mix (RD prefix, excluding
+        /// finite curated RDCLAK charts), which is effectively infinite and must be capped.
+        /// </summary>
+        public static bool IsMixPlaylist(PlaylistId? id)
+        {
+            if (id is null) return false;
+            var s = id.Value.ToString();
+            return s.StartsWith("RD", StringComparison.Ordinal)
+                && !s.StartsWith("RDCLAK", StringComparison.Ordinal);
+        }
+
+        /// <summary>
         /// Verifies that the given string is syntactically a valid YouTube username.
         /// </summary>
         public static bool ValidateUsername(string username)

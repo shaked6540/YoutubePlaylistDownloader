@@ -37,6 +37,7 @@ namespace YoutubePlaylistDownloader
         private static readonly string ConfigFilePath;
         private static readonly string ErrorFilePath;
         public static readonly Version VERSION = new(1, 9, 35);
+        public const int MaxMixPlaylistVideos = 50;
         public static bool UpdateOnExit;
         public static string UpdateSetupLocation;
         public static bool UpdateFinishedDownloading;
